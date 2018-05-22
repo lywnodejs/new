@@ -1,0 +1,157 @@
+﻿配置文件 webpack.config.js
+
+//打包多个
+const path=require('path');
+module.exports={
+	entry:{
+		index:path.join(__dirname,'src/scripts/index.js'),
+		index2:path.join(__dirname,'src/scripts/index2.js')
+	},
+	output:{
+		path:path.join(__dirname,'dist/js'),
+		filename:'[name]-[chunkhash].js'  //hash为本次打包的hash值  [chunkhash] 为保证文件唯一性，可以认为是文件的版本号
+	}
+}
+//打包单个
+ 	entry:{
+	 	index:"./src/scripts/index.js",
+	 	index2:"./src/scripts/index2.js"
+	}
+  或者：entry:["src/script/index.js"."src/script/index2.js"]
+	 output:{
+	 	filename:'dist/js/index.js'
+	 }
+
+执行webpack
+不想用webpack.config.js作为配置文件  可以webapck --config webpack.dev.config.js 此处webpack.dev.config.js为文件名  
+配合npm 执行webpack ：在package.json中的scripts对象中添加“build”：“webpack --config webpack.config.js --progress --display-module --colors --display-reason”
+------------------------------------------------------------------------------------------------------------
+html-webpack-plugin
+打包之后的HTML文件会自动插入打包后的js文件。如果html文件地址不对，请把output改为path:path.join(__dirname,'dist/')
+想要使src下的HTML与打包后的HTML文件相关联  html-webpack-plugin中传参数
+								new htmlWebpackPlugin({
+									template:'./src/index.html',//模板文件
+									filename:'index.html',//同样可以指定文件名，设置hash值
+									inject:false,//将脚本放入head还是body
+									title:"webpack-app",//html的标题 同时要在hmtl模板中的title中加入<%= htmlWebpackpligin.options.title %>此处必须是驼峰式命名，不然会报错
+									date:new Date(),
+									minify:{
+										removeComments:true,//删除注释
+										collapseWhitespace:true //删除空格
+									}
+								})
+使打包过后的html中的js脚本放分别在head和body中 
+
+		 1. htmlWebpackPlugin（{
+			inject:false
+		  }）
+		2.<script src="<%= htmlWebpackPlugin.files.chunks.index.entry %>"></script>
+
+多页面时 要分别引入不同的js文件 :
+	new htmlWebpackPlugin({
+			template:'./src/index2.html',//模板文件
+			filename:'index2.html',//同样可以指定文件名，设置hash值
+			inject:'body',//将脚本放入head还是body
+			title:"webpack-app2",//html的标题 同时要在hmtl模板中的title中加入<%= htmlWebpackpligin.options.title %>此处必须是驼峰式命名，不然会报错
+			chunks:['index'],//引入不同的脚本
+			//excluedChunks:[a,c]排除不引用的脚本
+		})
+将脚本直接写入html中
+	<script type="text/javascript">
+		<%= compilation.assets[htmlWebpackPlugin.files.chunks.index2.entry.substr(htmlWebpackPlugin.files.publicPath.length)].source() %>
+	</script>
+-----------------------------------------------------------------------------------------------------------------------------------------------
+具体查看babel官网：https://babeljs.io.com;
+es6语法转es5  bable
+安装：npm install --save-dev babel-loader babel-core
+module:{
+         rules: [
+            {
+                test: /\.js$/,
+                use: 'babel-loader',
+ 		include: path.resolve(__dirname,'src'),//加载那个文件夹
+                exclude: path.resolve(__dirname,'node_modules')//排除那个文件夹
+            }
+        ]
+    }
+----------------------------------------------------------------------------------------------------------------------------------------------------
+打包css文件 npm instrall style-loader css-loader  --save-dev
+
+	    {
+                test: /\.css$/,
+                use:[
+                    {loader:'style-loader'},
+                    {loader:'css-loader',options:{improtLoaders:1}},
+                    {loader: "postcss-loader",options:{ plugins:[require('autoprefixer')]}},                    
+                ]
+            }
+
+自动加浏览器前缀 postcss-loader >autoprefixer :    loader: 'style-loader!css-loader!postcss-loader',
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+打包less文件  npm install less less-loader --save-dev
+	    {
+                test:/\.less$/,
+                use: [
+                    {loader: "style-loader"},
+                    {loader: "css-loader"},
+                    {loader: "postcss-loader",options:{ plugins:[require('autoprefixer')]}},
+                    {loader: "less-loader"}
+                ]
+             }
+打包sass和less一样
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+打包html模板文件 npm install html-loader --save-dev
+	    {
+                test:/\.html$/,
+                use:[
+                    {loader:'html-loader'}
+                ]
+            }
+-----------------------------------------------------------------------------------------------------------------------------------------------
+处理图片文件 npm install file-loader url-loader --save-dev
+	    {
+                test:/\.(png|gif|svg|jpg)$/i,
+                use:[
+                    {loader:'url-loader',options:{limit:2048}} // limit控制图片大小  超过2048 通过file-loader编译没有超过则通过url-loader 编译成base64
+                ]
+            },
+		use下的参数还有  name :'images/[name].[ext]'//ext为图片的默认后缀名
+-------------------------------------------------------------------------------------------------
+打包之前压缩图片   npm install image-webpack-loader img-loader fi --save-dev
+	   {
+                test:/\.(png|gif|svg|jpg)$/i,
+                use:[
+                    {
+                        loader:'url-loader',
+                        options:{
+                            limit:10000,
+                            name:'images/[name].[ext]'
+                        }
+                    },
+                    {
+                        loader:'image-webpack-loader',
+                        options:{
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                              },
+                              optipng: {
+                                enabled: false,
+                              },
+                              pngquant: {
+                                quality: '65-90',
+                                speed: 4
+                              },
+                              gifsicle: {
+                                interlaced: false,
+                              },
+                              webp: {
+                                quality: 75
+                              }
+                        }
+                    }  
+                ]
+            },
+
+
+

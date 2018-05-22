@@ -1,0 +1,12 @@
+@import  './index.css';
+*{
+    padding: 0;
+    margin: 0;
+}
+html,body{
+    background: red;
+}
+div{
+    display: flex;
+    transform: rotateX(360deg);
+}
