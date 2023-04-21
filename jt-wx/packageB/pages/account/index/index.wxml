@@ -1,0 +1,87 @@
+<!--pages/account/index/index.wxml-->
+<wxs module="refresh">
+  module.exports = {
+    onPulling: function (evt, instance) {
+      var p = Math.min(evt.detail.dy / 80, 1)
+      var view = instance.selectComponent('.refresh-container')
+      view.setStyle({
+        opacity: p,
+        transform: "scale(" + p + ")"
+      })
+    }
+  }
+</wxs>
+<scroll-view scroll-y style="width: 100%; height: calc(100%);" refresher-enabled="{{true}}"
+  refresher-threshold="{{100}}" refresher-default-style="black" refresher-background="#F7F7F7"
+  refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore"
+  bindrefresherabort="onAbort">
+  <view class="account-index">
+    <view class="empty" wx:if="{{isEmpty}}">
+      <view>
+        <image src="/image/account_empty.png" />
+      </view>
+      <text class="title">您暂未开通电子账户</text>
+      <text bindtap="onOpen" class="btn">去开通</text>
+    </view>
+
+    <view wx:else class="content">
+      <view class="contentB">
+        <account-card url="/pages/account/list/index" data="{{homeSecEleAccVO}}" detail="交易明细" />
+
+        <view class="header">
+          <text class="title">绑定银行卡</text>
+          <view>
+            <navigator hover-class="none" url="/pages/account/card/index?bindType=3">
+              <text style="color: #337EFE;" wx:if="{{bindCardVOList&&bindCardVOList.length<maxCardAmount}}">添加卡</text>
+              <!-- <image src="/image/triangle.png" /> -->
+            </navigator>
+          </view>
+        </view>
+      </view>
+
+
+
+      <van-swipe-cell right-width="{{ 78 }}" wx:for="{{bindCardVOList}}">
+        <view class="card">
+          <image src="{{item.bankCardIconUrl}}" />
+          <view>
+            <text>{{item.bankName}}</text>
+            <text>{{item.cardNo}}</text>
+          </view>
+        </view>
+        <view slot="right" data-item="{{item}}" bindtap="deleteCard" class="van-swipe-cell-right">删除</view>
+      </van-swipe-cell>
+    </view>
+    <view class="setPassword" wx:if="{{!isEmpty}}">
+      <view style="margin-bottom:20rpx;">密码设置</view>
+      <cell bindtap="toPassword" height="48" color="#333333" title="忘记交易密码"/>
+      <cell bindtap="toChangePassword" height="48" color="#333333" title="修改交易密码"/>
+      <view class="xy" style="display: none;">
+      开户协议<text>《开户协议》、《告客户书》</text>
+    </view>
+    </view>
+  </view>
+</scroll-view>
+
+<van-popup class="account-index-alter" show="{{isShow}}">
+  <view class="content">
+    <text>开通电子账户前，请先完成身份认证</text>
+  </view>
+  <view class="footer">
+    <text bindtap="onClose">取消</text>
+    <text bindtap="onDefine">去认证</text>
+  </view>
+</van-popup>
+  <password-popup 
+    show="{{popShow}}"
+    isError="{{isError}}"
+    isForget="{{isForget}}"
+    error="{{errorText}}"
+    bind:getCode="getCode"
+  />
+  <xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+show="{{showOpenServices}}" />
+
+
+<xy-confirm leftText='取消' rightText='去重置' contentText="{{passworddesc}}" bind:ok="toPassword" bind:cancel='onCloseServer'
+show="{{passwordNumErr}}" />

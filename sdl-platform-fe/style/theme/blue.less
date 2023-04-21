@@ -1,0 +1,122 @@
+.app-container.blue {
+  background-color: @blue-container-bg;
+  .app-container__header__logo {
+    background-color: @blue-logo-bg;
+    // background-image: linear-gradient(to bottom, @blue-primary-bg, @blue-header-bg);
+    border-right: 1px solid @blue-logo-border;
+  }
+  .app-container__header__nav {
+    color: @blue-minor-color;
+    // background-color: @blue-header-bg;
+    background-image: linear-gradient(to bottom, @blue-primary-bg, @blue-header-bg);
+    border-bottom: none;
+    a {
+      color: @blue-minor-color;
+    }
+    a:link {
+      color: @blue-minor-color;
+    }
+    a:visited {
+      color: @blue-minor-color;
+    }
+    a:hover {
+      color: @blue-minor-color;
+    }
+    a:active {
+      color: @blue-minor-color;
+    }
+
+    .header-nav__bar {
+      input {
+        color: @blue-minor-color;
+        background: transparent;
+        border-bottom-color: @blue-minor-color;
+      }
+    }
+  }
+  .app-container__side {
+    background-color: @blue-side-bg;
+    &__menu {
+      color: @blue-menu-color;
+      border-right: 1px solid @blue-border;
+    }
+  }
+  .app-container__main {
+    &__crumbs {
+      background-color: @blue-crumbs-bg;
+      border-bottom-color: @blue-crumbs-border;
+    }
+  }
+  .app-section {
+    background-color: @blue-bg;
+    border-color: @blue-border;
+  }
+  .app-bg {
+    background-color: @blue-container-bg;
+  }
+  .app-normal-bg {
+     background-color: @blue-bg;
+  }
+  .app-primary-bg {
+    background-color: @blue-primary-bg;
+  }
+  .app-minor-bg {
+    color: @blue-minor-color;
+    background-color: @blue-minor-bg
+  }
+  .app-minor-light-bg{
+    background-color: @blue-minor-light-bg;
+  }
+  .app-border {
+    border-color: @blue-border;
+  }
+  ~ .app-border {
+    border-color: @blue-border;
+  }
+  .app-border--bottom {
+    border-color: @blue-border;
+  }
+  .app-table {
+    th {
+      background-color: @blue-table-th;
+    }
+  }
+
+  a {
+    color: @blue-primary-bg;
+  }
+  a:link {
+    color: @blue-primary-bg;
+  }
+  a:visited {
+    color: @blue-primary-bg;
+  }
+  a:hover {
+    color: @blue-primary-bg;
+    cursor: pointer;
+  }
+  a:active {
+    color: @blue-primary-bg;
+  }
+
+  .el-menu-item.is-active {
+    background-color: @blue-minor-light-bg;
+  }
+
+  // 颜色
+  .app-color--primary {
+    color: @blue-color-primary;
+  }
+  .app-color--success {
+    color: @blue-color-success;
+  }
+  .app-color--warning {
+    color: @blue-color-warning;
+  }
+  .app-color--danger {
+    color: @blue-color-danger;
+  }
+  .app-color--info {
+    color: @blue-color-info;
+  }
+}

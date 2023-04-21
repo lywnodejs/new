@@ -1,0 +1,13 @@
+<!--pages/withdraw/face/index.wxml-->
+<view class="account-face">
+  <view class="title">
+    <text>为了您的账户安全</text>
+    <text>请先进行身份验证</text>
+  </view>
+  
+  <view>
+    <image src="/image/face.png"/>
+  </view>
+  <text>拍摄您本人人脸，请确保正对手机，光线充足</text>
+  <button type="primary" bindtap="takePhoto">开始验证</button>
+</view>

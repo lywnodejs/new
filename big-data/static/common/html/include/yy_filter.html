@@ -1,0 +1,91 @@
+<!-- 过滤 -->
+
+<div class="rxhBD_filter">
+
+  <!-- 过滤全部 -->
+  <div class="rxhBD_all">
+    <ul class="rxhBD_all_hd">
+      <li>相关股票：</li>
+      <li>相关人物：</li>
+      <li>相关产业：</li>
+    </ul>
+    <ul class="rxhBD_all_bd">
+      <li><a class="rxhBD_on">五粮液</a><a>泸州老窖</a><a>招商银行</a><a>五粮液</a><a>泸州老窖</a><a>招商银行</a></li>
+      <li><a>五粮液</a><a>泸州老窖</a><a>招商银行</a><a>五粮液</a><a>泸州老窖</a><a>招商银行</a></li>
+      <li><a>白酒</a><a>消费</a></li>
+    </ul>
+  </div>
+
+  <!-- 过滤结果 -->
+  <div class="rxhBD_result">
+    <span>全部股票</span>·
+    <span>全部人物</span>·
+    <span>全部产业</span>
+    <i class="icon-arrow_D"></i>
+  </div>
+</div>
+
+<script>
+  $(function () {
+
+    // 切换选项
+    $(".rxhBD_filter li a").click(function () {
+      if( $(this).hasClass("rxhBD_on")){
+        $(this).removeClass();
+      }else{
+        $(this).addClass("rxhBD_on").siblings().removeClass();
+      }
+    });
+
+
+    // 页面滚动展开收起 过滤栏
+    $(window).scroll(function(){
+      var rxh_scrollT = $(this).scrollTop();
+      // console.log(rxh_scrollT);
+
+      if (rxh_scrollT > 95){
+        $(".rxhBD_filter .rxhBD_all").slideUp(200);
+        $(".rxhBD_filter .rxhBD_all .rxhBD_all_hd").slideUp(200);
+        $(".rxhBD_filter .rxhBD_result").slideDown(200);
+      }else{
+        $(".rxhBD_filter .rxhBD_all").slideDown(200);
+        $(".rxhBD_filter .rxhBD_all .rxhBD_all_hd").slideDown(200);
+        $(".rxhBD_filter .rxhBD_result").slideUp(200);
+      }
+
+    });
+
+
+    // 点击过滤结果，显示过滤全部
+    $(".rxhBD_filter .rxhBD_result").click(function () {
+      $(".rxhBD_filter .rxhBD_all").slideDown(200);
+      $(".rxhBD_filter .rxhBD_all .rxhBD_all_hd").slideDown(200);
+      $(".rxhBD_filter .rxhBD_result").slideUp(200);
+    });
+
+
+    // 滑动时
+    var $rxhBD_all_li = $(".rxhBD_filter .rxhBD_all li");
+    $rxhBD_all_li.scroll(function(){
+
+      var $rxhBD_all_hd = $(".rxhBD_filter .rxhBD_all .rxhBD_all_hd");
+
+      var _rxhBD_sL = 0;
+      $rxhBD_all_li.each(function () {
+        _rxhBD_sL = _rxhBD_sL + $(this).scrollLeft();
+      });
+      console.log(_rxhBD_sL);
+
+      if( _rxhBD_sL > 0){
+        if( $(".rxhBD_filter .rxhBD_all").hasClass("rxhBD_shadow") == false){
+          $rxhBD_all_hd.addClass("rxhBD_shadow");
+        }
+      }else{
+        $rxhBD_all_hd.removeClass("rxhBD_shadow");
+      }
+    });
+
+  });
+</script>
+
+

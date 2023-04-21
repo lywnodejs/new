@@ -1,0 +1,27 @@
+.upm-carousel {
+  display: none;
+  position: relative;
+  &__button {
+    width: 50px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    .ant-btn {
+      background-color: transparent;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .ant-btn:not(:hover) {
+      border-color: transparent;
+      color: #9e9e9e;
+    }
+    &--left {
+      left: 0;
+    }
+    &--right {
+      right: 0;
+    }
+  }
+}

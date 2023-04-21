@@ -1,0 +1,70 @@
+/* pages/account/card/index.wxss */
+.account-card .header{
+  padding: 15px 15px 25px;
+}
+.account-card .captcha{
+  padding-left: 20px;
+  margin-top: 35px;
+}
+.account-card .captcha .title{
+  font-size: 15px;
+  color: #49525C;
+}
+
+.account-card .captcha>view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px 10px 0;
+  border-bottom: 1px solid #E6E6E6;
+}
+.account-card input{
+  flex: 2;
+  margin-right: 20px;
+  font-size: 18px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color: rgba(51,51,51,1);
+}
+.account-card .captcha .info{
+  font-size: 13px;
+  color: #808080;
+}
+.account-card .placeholder{
+  font-size:18px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(205,209,214,1);
+}
+
+.account-card>view:last-child {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-card button::after{
+  display: none;
+}
+.account-card>view:last-child button{
+  width: 650rpx;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 25px;
+  color: white;
+  background-color: #EEA900;
+}
+
+.account-card>view:last-child .ccc{
+  background-color: #ccc;
+}
+
+.account-card>view:last-child button[disabled]{
+  background-color: #D9D9D9;
+  color: white;
+}

@@ -1,0 +1,30 @@
+<% include ../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="<%= config %>/static/css/lywscreenList.css">
+<% }%>
+<div class="lyweventEvolveBox">
+    <ul>
+        <li>
+            <i></i>
+            <span>08-14 11:08</span>
+            <p>最强台风“利奇马”过境山东</p>
+        </li>
+    </ul>
+</div>
+<script>
+
+    var eventEvolve = {
+        onViewReady: function () {
+            // callback();
+        },
+        openDetail:function (id) {
+
+        }
+    }
+
+
+    <% if(!params.noSource) { %>
+    loadJs(jsSource, eventEvolve.onViewReady);
+    <% } %>
+</script>
+

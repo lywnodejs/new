@@ -1,0 +1,16 @@
+<van-nav-bar
+        fixed
+        placeholder
+        z-index="9999"
+        bind:click-left="onClickLeft"
+>
+    <view class="xy-nav-left" slot="left" >
+        <image src="/image/arrow-left.png"></image>
+        <text wx:if="{{platform != 'ios'}}">{{title}}</text>
+    </view>
+    <view slot="title" wx:if="{{platform == 'ios'}}">
+        {{title}}
+    </view>
+</van-nav-bar>
+
+

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <meta name="application-name" content="">
+  <title><%= robotName || '智能小E 股票问答' %></title>
+  <link rel="stylesheet" href="/static/css/yy_robot_web.css">
+<body class="body_e_web <%= appKey === 'appHcVtm' ? 'oneMachine' : ''%>" onload="onHomeLoad()">
+
+<!-- 导航 -->
+<div class="rxhE_web_header">
+  <div class="rxhE_web_warp">
+    <div class="rxhE_web_wl">
+        <img  class="rxh_logo_e" src="<%= logoUrl ? assetsUrl+logoUrl : '/static/images/guide_avatar-min.png'%>" alt="<%= robotName %>">
+      <h2><%= robotName || '智能小E 股票问答' %></h2>
+      <ul>
+        <li class="rxhE_web_on rxh_geekBlue5">问答首页<b class="rxh_bg_geekBlue5"></b></li>
+      </ul>
+    </div>
+    <div class="rxhE_web_wr">
+    </div>
+  </div>
+</div>
+
+<!-- 内容区域 -->
+<div class="rxhE_web_main">
+  <div class="rxhE_web_warp">
+
+    <!-- 左侧 -->
+    <div class="rxhE_web_wl">
+      <div class="rxhE_web_scroll">
+        <!--
+        iframe中body的背景颜色改成： background: #EDEDED;
+        -->
+        <script>
+          var search = location.search;
+          var symbol = search.indexOf('?') === -1 ? '?' : '&';
+          search = search + symbol + 'hideBottom=true';
+          document.write('<iframe id="ifRobot" src="<%= iframeSrc %>'+search+'" frameborder="0" height="100%" width="100%" onload="onIframeLoad()"></iframe>')
+        </script>
+      </div>
+    </div>
+
+    <!-- 右侧-->
+    <div class="rxhE_web_wr">
+
+      <!-- 基本信息 -->
+      <div class="rxhE_web_md rxhE_web_info">
+        <i><img src="<%= logoUrl ? assetsUrl+logoUrl : '/static/images/guide_avatar-min.png'%>" alt="智能问答"></i>
+        <div class="rxhE_web_bd">
+          <h6>智能小e依托大数据技术背景，结合市场知识、历史数据、舆情等信息，运用AI技术分析、智能匹配等技术手段，引入数据可视化概念，进行智能化精准服务。为用户提供 “智能投顾”、“海量数据”、“精准研判”为一体的全场景智能服务体系。其海量的数据储备、个性的运算模型及精准的语义分析功能处于业内领先水平。</h6>
+        </div>
+      </div>
+
+      <!-- 版权 -->
+      <% if (appKey === 'appEzt' || appKey === 'appHcVtm') { %>
+      <div class="rxhE_web_copyright">
+        <h6><a href="//www.hczq.com" target="_blank">华创证券</a></h6>
+        <h6>客服热线（交易日8:30-21:00）</h6>
+        <h6>4008-6666-89</h6>
+      </div>
+      <% } else { %>
+      <div class="rxhE_web_copyright">
+        <h6><a href="//www.rxhui.com" target="_blank">北京融汇金信信息技术有限公司</a></h6>
+        <h6> Copyright &#169 2016 </h6>
+        <h6>rxhui.com版权所有</h6>
+        <h6>京ICP备11003964号-5</h6>
+      </div>
+      <% } %>
+
+    </div>
+    <div class="rxh_clear_float"></div>
+  </div>
+</div>
+
+<% if (appKey !== 'appHcVtm') { %>
+<!-- 底部（VTM渠道不显示，用财人汇原生输入框） -->
+<div class="rxhE_web_footer">
+    <div class="rxhE_web_warp">
+        <div class="box_input">
+            <i class="rxh-icon-search"></i>
+            <input id="bottomInput" onkeydown="keydownHandler(event)"/>
+        </div>
+        <a class="icon-Send" onclick="sendQuestion()">提问</a>
+    </div>
+</div>
+<% } %>
+
+<script src="/static/js/libs/jquery-1.11.2.min.js"></script>
+
+<script>
+  // main的高度
+  function _rxhE_web_main_h() {
+    var _rxhE_web_winH = $(window).height();
+    var _rxhE_web_headH = $(".rxhE_web_header").height();
+    var _rxhE_web_footH = $(".rxhE_web_footer").height();
+    var _rxhE_web_mainH;
+
+    <% if (appKey === 'appHcVtm') { %>
+    // VTM渠道页面字要放大
+    _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_footH - 30;
+    _rxhE_web_mainH = _rxhE_web_mainH / 1.6;
+    // console.log(_rxhE_web_mainH +"     "+oneMachine_H);
+    <% } else { %>
+    _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_headH - _rxhE_web_footH;
+    // console.log(_rxhE_web_mainH);
+    <% } %>
+
+    $(".rxhE_web_main .rxhE_web_wl").height(_rxhE_web_mainH);
+  }
+
+  _rxhE_web_main_h();
+
+  $(window).resize(function () {
+    _rxhE_web_main_h();
+  });
+
+  // 供小E调用
+  function callFromRobot(params) {
+    try {
+      // window.parent.postMessage(params, 'http://wuhan.cairenhui.com:44107')
+      window.parent.postMessage(params, 'http://znzs.hczqtest.com:82')
+    } catch (e) {
+    }
+    // window.parent.postMessage(params, 'http://localhost:60010')
+  }
+
+  // 供父页面iframe嵌入调用
+  window.addEventListener('message', function (e) {
+    console.log(e)
+    try {
+      if (e.data) {
+        var question = e.data.msg || '';
+        if (question) {
+          sendQuestion(question);
+        }
+      }
+    } catch (e) {
+    }
+  }, false)
+
+  /**
+   * 输入框内回车
+   * @param event
+   */
+  function keydownHandler(event) {
+    if (event.keyCode === 13) {
+      sendQuestion();
+    }
+  }
+
+  /**
+   * 点击提问按钮
+   * @param question
+   */
+  function sendQuestion(question) {
+    if (!question) {
+      question = $('#bottomInput').val();
+    }
+
+    if (question) {
+      document.getElementById('ifRobot').contentWindow.window.sendQuestionToRobot(question);
+      $('#bottomInput').val('').focus();
+    }
+  }
+
+  function onHomeLoad() {
+    // console.log('onHomeLoad')
+  }
+
+  function onIframeLoad() {
+    // console.log('onIframeLoad')
+  }
+</script>
+
+</body>
+</html>

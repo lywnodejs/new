@@ -1,0 +1,11 @@
+/* pages/my/secureCenter/idCancel/index.wxss */
+page{
+  background-color: #f3f3f3;
+}
+.cell-item{
+  width: 100%;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  padding:0 30rpx;
+  margin-top: 20rpx;
+}

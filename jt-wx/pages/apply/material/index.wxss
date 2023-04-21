@@ -1,0 +1,52 @@
+/* pages/apply/material/index.wxss */
+page {
+  background: #FFFFFF;
+  box-sizing: border-box;
+  padding: 0 20px 40px;
+  font-family: PingFangSC-Medium, PingFang SC;
+}
+
+
+
+.top-tips {
+  display: flex;
+  margin: 10px 0 5px;
+  font-size: 13px;
+  color: #6e6767;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+.top-tips image {
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin-right: 3px;
+}
+
+
+.btn-box {
+  padding: 0 0 50px 0;
+  margin-bottom: 30px;
+}
+
+
+.btn-box .submit-btn {
+  width: 650rpx;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 25px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #fff;
+  background: #ff2c43;
+  margin-top: 30px;
+}
+
+.btn-box .submit-btn:after {
+  border: none;
+}
+
+.btn-box .submit-btn[disabled] {
+  background-color: #ffd2d7;
+  color: #fff;
+}

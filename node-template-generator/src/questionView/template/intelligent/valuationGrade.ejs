@@ -1,0 +1,47 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+<link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+<div class="rxh_chart rxh_chart_barGraph">
+<!--    <h5 class="hd rating">机构评级</h5>-->
+    <h6 class="hd"><%= ratingPaint %></h6>
+
+    <div>
+        <div class="rxh_chart" id="chart<%= sn %>">
+        </div>
+    </div>
+</div>
+
+<script>
+    var sn = '<%= sn %>'
+
+    var valuationGrade<%- sn %> = {
+        onViewReady: function () {
+            let datas = JSON.parse('<%- JSON.stringify(datas) %>');
+            let chartData = datas.chartData;
+            let chart = new SplineAndColumnChart();
+            chart.categories = chartData.xRatingName;
+            chart.containerId = "chart<%= sn %>";
+            chart.series = chartData.yRatingArr;
+            chart.yEnabled = false;
+            chart.legendEnabled = false;
+            chart.yGridLineWidth = 1;
+            chart.showDataLabels = true;
+            chart.tooltipEnabled = false;
+            chart.initialize();
+        }
+    }
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, valuationGrade<%- sn %>.onViewReady);
+    <% } %>
+
+</script>
+
+
+
+
+

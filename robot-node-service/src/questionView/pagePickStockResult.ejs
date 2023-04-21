@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>结果详情</title>
+    <link rel="stylesheet" href="/static/css/pick-result.css">
+    <script src="/static/js/libs/jBaidu.js"></script>
+</head>
+<body style="background-color: #FFFFFF">
+
+<div class="content" style="background-color: #FFFFFF">
+</div>
+
+<!--遮罩-->
+<div class="bg">
+</div>
+
+<div class="fullScreenFixed">
+    <!--选股条件-->
+    <div class="fullScreen" onclick="hidePopUp(event)">
+        <div class="choosePanel">
+            <div class="chooseTitle clearfix">
+                <div>
+                    <div class="closeTitle fl">保存策略</div>
+                    <!--<div class="close fr" onclick="closeSaveBox()"><img src="images/close.png" alt=""></div>-->
+                    <i class="icon-pop_close fr" onclick="closeSaveBox()"></i>
+                </div>
+                <h5></h5>
+            </div>
+            <div>
+                <input id="txtStrategyName" type="text" placeholder="请输入策略名称" maxlength="7" oninput="strategyChange()">
+            </div>
+            <div class="length">
+                <h5>* 条件名称长度不超过7个字</h5>
+                <!--
+                    错误提示文字：
+                    1. 隐藏：样式名：hide
+                    2. 显示：无样式名
+                -->
+                <h5 id="strategyErrMsg" style="display: none">策略名称已存在</h5>
+            </div>
+            <p id="btnSaveCondition" class="buttonNo" onclick="saveCustomConditions(event)">确认</p>
+        </div>
+        <div class="moreStategy">
+            <div class="wordPanel reason">
+                <b></b>
+            </div>
+            <p class="button" onclick="hideWordPanel()">关闭</p>
+        </div>
+    </div>
+</div>
+
+<footer style="display: none" onclick="showSaveBox()">
+    保存为我的自选策略
+</footer>
+</body>
+</html>
+<script src="/static/js/libs/jquery-1.11.2.min.js"></script>
+<script src="/static/client/js/utils/UrlConfig.js"></script>
+<script src="/static/client/js/utils/logUtil.js"></script>
+<script src="/static/client/js/utils/commonUtil.js"></script>
+<script src="/static/client/js/utils/functionForApp.js"></script>
+<script src="/static/client/js/robots/changeRem.js"></script>
+<script src="/static/client/js/robots/jCommon.js"></script>
+<script src="/static/client/js/robots/jUrlParams.js"></script>
+<script src="/static/client/js/robots/jPickResult.js"></script>
+<script>
+  var ul_num = $(".box_conStock .conStock ul").length,ul_total = 50 * ul_num + "%",
+    ul_w = 100 / ul_num + "%";
+  //表格
+  $(".box_conStock .conStock .box").css("width",ul_total);
+  $(".box_conStock .conStock ul").css("width",ul_w);
+
+  /* 条件选股 */
+  $(".box_conStock .conStock").scroll(function(){
+    if ($(this).scrollLeft() > 20){
+      $(this).siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      $(this).siblings(".icon-arrow_shape_left").show();
+    }
+  });
+
+  /* 筛选条件 表格内只显示最新价 */
+  $(".box_conStock .conStock").each(function() {
+    var ul_num = $(this).find("ul").length;
+    if( ul_num == 1){
+      $(this).find("ul").addClass("ul_1");
+      $(this).parents(".box_conStock").children(".icon-arrow_shape_left").hide();
+    }
+  });
+
+
+</script>

@@ -1,0 +1,43 @@
+<!--pages/my/ticket/index.wxml-->
+<!--pages/order/index/index.wxml-->
+<wxs module="refresh">
+module.exports = {
+  onPulling: function(evt, instance) {
+    var p = Math.min(evt.detail.dy / 80, 1)
+    console.log(p)
+    var view = instance.selectComponent('.refresh-container')
+    view.setStyle({
+      opacity: p,
+      transform: "scale(" + p + ")"
+    })
+  }
+}
+</wxs>
+
+<view class="ticket">
+  <view class="tab">
+    <block wx:for="{{titles}}" wx:key="*this" wx:for-index="idx">
+      <text bindtap="onChange" data-index="{{idx}}" class="{{idx === active && 'active'}}">{{item}}</text>
+    </block>
+  </view>
+  <block wx:for="{{titles}}" wx:key="idx" wx:for-index="idx">
+    <scroll-view
+        wx:if="{{active === idx}}" 
+        scroll-y style="width: 100%; height: calc(100% - 48px);"
+        refresher-enabled="{{true}}" 
+        refresher-threshold="{{100}}"
+        refresher-default-style="black"
+        refresher-background="#F7F7F7"
+        refresher-triggered="{{triggered}}"
+        bindrefresherrefresh="onRefresh"
+        bindrefresherrestore="onRestore"
+        bindrefresherabort="onAbort">
+        <view class="container">
+          <block wx:for="{{list[idx]}}" wx:key="id">
+            <ticket-cell data="{{item}}" />
+          </block> 
+        </view>
+    </scroll-view>
+  </block>
+</view>
+

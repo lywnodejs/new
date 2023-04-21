@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "cell": "/components/cell/index",
+    "van-popup": "@vant/weapp/popup/index"
+  },
+  "navigationBarTitleText": "设置"
+}

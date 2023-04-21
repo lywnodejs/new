@@ -1,0 +1,1 @@
+define("js/common/factory/debounce",["require","exports","module"],function(n,e,o){return function(n){n.factory("$$uisDebounce",["$timeout",function(n){return function(e,o){var t;return function(){var r=this,c=Array.prototype.slice.call(arguments);t&&n.cancel(t),t=n(function(){e.apply(r,c)},o)}}}])}});

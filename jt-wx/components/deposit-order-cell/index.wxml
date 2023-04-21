@@ -1,0 +1,39 @@
+<!--components/repayment-cell/index.wxml-->
+<view class="repayment-cell" bindtap="onDetail" data-order="{{order}}">
+  <view class="period-view">
+    <view>
+      <text class="name">{{order.productName || '暂无'}}</text>
+    </view>
+    <view class="right-text {{!order.status?'':'end'}}">{{order.statusMsg || '状态读取失败'}}</view>
+  </view>
+  <view class="content">
+    <view class="amount-view">
+      <view>
+        <text class="amount">{{order.depositAmount || '0.00'}}</text>
+      </view>
+      <text>购买金额</text>
+    </view>
+    <view class="amount-view">
+      <view>
+        <text class="amount">{{order.prospectiveYield || '0.00'}}</text>
+      </view>
+      <text>预期收益</text>
+    </view>
+    <view></view>
+  </view>
+  <view class="period">
+    <text>到期日：{{order.expireTime || '暂无'}}</text>
+  </view>
+</view>
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+

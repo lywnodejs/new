@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "captcha-popup": "/components/captcha-popup/index"
+  },
+  "navigationBarTitleText": "还款"
+}

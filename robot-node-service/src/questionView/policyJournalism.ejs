@@ -1,0 +1,142 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+<div class="mb" id="<%= random %>">
+    <div class="box_tl02">
+        <% for(var l in info.data.data){
+            var item = ['学习之旅', '最高党政机关', '各部委', '地方党政机关', '其他']; %>
+        <% for(var i = 0;i < info.data.data[l][item[l]].list.length;i++){
+            function date_info(val) {
+                var now = new Date(val);
+                var year = now.getFullYear(); //年
+                var month = now.getMonth() + 1; //月
+                var day = now.getDate(); //日
+                var hh = now.getHours(); //时
+                var mm = now.getMinutes(); //分
+                var clock = year + "-";
+                if (month < 10)
+                    clock += "0";
+                clock += month + "-";
+                if (day < 10)
+                    clock += "0";
+                clock += day;
+                return (clock);
+            }
+            var shijian = date_info(info.data.data[l][item[l]].list[i].publishAt) %>
+        <li onclick="openPolicyDetail('<%= info.data.data[l][item[l]].list[i].id %>')">
+            <a><%- info.data.data[l][item[l]].list[i].title %></a>
+            <h6 class="t_gray"><%= shijian %></h6>
+        </li>
+        <% } %>
+        <% } %>
+        <!--点评-->
+        <% if(req.query.appKey != 'guoxin'){ %>
+            <div class="box_appraisal">
+                <% if(req.query.appKey == 'appZxcxHide'){ %>
+                    <a class="a_search">
+                        <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                        <span>精准查找政策</span>
+                        <i class="icon-arrow2_R_small"></i>
+                    </a>
+                <% } %>
+                <a><i id="up<%= random %>" class="icon-good"></i></a>
+                <a><i id="down<%= random %>" class="icon-bad"></i></a>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+</style>
+
+
+<script>
+  var policyJournalism = {
+    onViewReady: function () {
+
+      reportInit();
+
+      var num = '<%= random %>',
+        urlParams = '<%- info.data.urlParams %>';
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+
+      //点赞或踩
+      function feedback(num) {
+        var id = '<%- info.spanId %>';
+        var data_ = {
+          spanId: id,
+          commentFeedback: num
+        }
+        $.ajax({
+          url: '<%= host %>' + '/api/feedback?',
+          type: 'get',
+          dataType: 'json',
+          data: data_,
+          success: function (data) {
+            if (data.message.code == 0) {
+              try {
+                if (num == 1) {
+                  thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+                } else {
+                  thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+                }
+                ;
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+        })
+      }
+
+      var num = '<%= random %>';
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, policyJournalism.onViewReady)
+</script>
+
+
+<% include ./component/reportDetail %>

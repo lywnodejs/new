@@ -1,0 +1,86 @@
+/* components/loans-card/index.wxss */
+.loans-card {
+  width: 630rpx;
+  padding:30rpx 0rpx;
+  box-sizing: border-box;
+  position: relative;
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
+}
+.loans-card:nth-last-of-type(1){
+  border: none;
+}
+
+.loans-card .title {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 400;
+  line-height: 40rpx;
+}
+
+.loans-card .num {
+  margin-top: 20rpx;
+  margin-bottom: 10rpx;
+  font-size: 60rpx;
+  color: #F65348;
+  font-weight: bold;
+  line-height: 66rpx;
+}
+
+.loans-card .info {
+  font-size: 24rpx;
+  color: #B7BED0;
+}
+
+.loans-card .tag {
+  display: flex;
+  justify-content: space-around;
+  margin: 28rpx auto 0;
+  border-radius: 4rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  width: 622rpx;
+  height: 82rpx;
+  background-color: #F8F9FB;
+  font-size: 24rpx;
+  color: #6E7793;
+  line-height: 82rpx;
+  border: 2rpx solid #F3F3F5;
+}
+
+.loans-card .tag view {
+  display: flex;
+  align-items: center;
+  /* margin-left: 50rpx; */
+}
+
+.loans-card .tag view:nth-of-type(1) {
+  margin-left: 0;
+}
+
+.loans-card .tag image {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+
+.loans-card button {
+  position: absolute;
+  top: 84rpx;
+  right: 0rpx;
+  height: 80rpx;
+  background-color: #3E872B;
+  font-size: 28rpx;
+  color: #ffffff;
+  padding: 0 44rpx;
+  box-shadow: 0px 8rpx 24rpx -4rpx rgba(114,175,45,0.5);
+  border-radius: 40rpx;
+  line-height: 80rpx;
+}
+.loans-card button.disabled{
+  background-color: #D9D9D9;
+  color: #ffffff;
+  box-shadow: none;
+}
+.loans-card button::after{
+  display: none;
+}

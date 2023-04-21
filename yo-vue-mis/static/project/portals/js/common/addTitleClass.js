@@ -1,0 +1,1 @@
+"use strict";define("js/common/addTitleClass",["require","exports","module"],function(e,t,r){return function(e){Array.prototype.slice.call(document.querySelector(e||"#js-spec-content").querySelectorAll("h1")).forEach(function(e){angular.element(e).addClass("p-title")})}});

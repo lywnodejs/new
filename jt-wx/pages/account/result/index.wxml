@@ -1,0 +1,9 @@
+<!--pages/account/result/index.wxml-->
+<view class="account-result" wx:if="{{show}}">
+  <image src="/image/{{success ? 'right' : 'error'}}.png"/>
+  <text class="title" wx:if="{{success}}">成功转{{type === 'in' ? '入' : '出'}}￥{{amount}}</text>
+  <text class="title" wx:if="{{!success}}">转{{type === 'in' ? '入' : '出'}}失败</text>
+  <text class="info">{{success ? '预计2小时到账，实际时间取决于对方银行' : msg}}</text>
+  <button class="fill" wx:if="{{!success}}" bindtap="onAgain">重新转{{type === 'in' ? '入' : '出'}}</button>
+  <button wx:else bindtap="onComplete">完成</button>
+</view>

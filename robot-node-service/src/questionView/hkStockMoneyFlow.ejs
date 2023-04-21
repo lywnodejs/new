@@ -1,0 +1,125 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 港股通资金流向 赵波 2019.10.22 -->
+<%
+var inStocks = info.data.inStocks || [];
+var outStocks = info.data.outStocks || [];
+var tMarHkshscTop10Stocks = info.data.tMarHkshscTop10Stocks;
+
+var item;
+var strInOut = tMarHkshscTop10Stocks.netFlowValue>0 ? '入' : '出';
+
+var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_marginBalance">
+            <ul id="<%= quotaContainerId %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <h6 class="note">数据更新时间：<%= commonUtil.generateDate(tMarHkshscTop10Stocks.tradeDt) %></h6>
+
+            <div class="tlBox_signal">
+                <ol>
+                    <li>资金净流<%= strInOut %></li>
+                    <li>总成交额</li>
+                    <li>净流<%= strInOut %>排名</li>
+                </ol>
+                <ul class="line1">
+                    <li><%= commonUtil.formatAmount(Math.abs(tMarHkshscTop10Stocks.netFlowValue)*1e4) %></li>
+                    <li><%= commonUtil.formatAmount(tMarHkshscTop10Stocks.totalValue*1e4) %></li>
+                    <li><%= tMarHkshscTop10Stocks.netFlowRank %></li>
+                </ul>
+            </div>
+
+            <div class="tab TAB2">
+                <ul>
+                    <li class="on" onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>北上资金净流入<b></b></span>
+                    </li>
+                    <li onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>北上资金净流出<b></b></span>
+                    </li>
+                </ul>
+                <div class="bottom"></div>
+            </div>
+            <div id="<%= tableContainerId %>" class="content">
+                <div class="item show">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>资金净流入<i class="icon-arrow_sequentB"></i></li>
+                        <li>总成交额</li>
+                    </ol>
+                    <%
+                    for (var i=0; i<inStocks.length; i++) {
+                        item = inStocks[i];
+                    %>
+                    <ul>
+                       <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                           <h4><%= item.secName %></h4>
+                           <h6><%= item.secCode %></h6>
+                       </li>
+                       <li><%= commonUtil.formatAmount(item.netFlowValue*1e4) %></li>
+                       <li><%= commonUtil.formatAmount(item.totalValue*1e4) %></li>
+                    </ul>
+                    <% } %>
+                </div>
+                <div class="item">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>资金净流出<i class="icon-arrow_sequentB"></i></li>
+                        <li>总成交额</li>
+                    </ol>
+                    <%
+                    for (var j=0; j<outStocks.length; j++) {
+                        item = outStocks[j];
+                    %>
+                    <ul>
+                        <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                            <h4><%= item.secName %></h4>
+                            <h6><%= item.secCode %></h6>
+                        </li>
+                        <li><%= commonUtil.formatAmount(Math.abs(item.netFlowValue)*1e4) %></li>
+                        <li><%= commonUtil.formatAmount(item.totalValue*1e4) %></li>
+                    </ul>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var hkStockMoneyFlow = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+  ];
+  loadJs(jsArr, hkStockMoneyFlow.onViewReady)
+
+
+  /**
+   * tab 切换
+   * @param event
+   * @param tableContainerId
+   */
+  function marginSubTabClick(event, tableContainerId) {
+    // console.log($(event.currentTarget).index())
+    var curTarget = $(event.currentTarget);
+    var index = curTarget.index();
+    curTarget.addClass('on').siblings().removeClass('on');
+    $('#'+tableContainerId).find('> div').eq(index).addClass('show').siblings().removeClass('show');
+    // $('#'+tableContainerId).children().eq(index).addClass('show').siblings().removeClass('show');
+  }
+</script>

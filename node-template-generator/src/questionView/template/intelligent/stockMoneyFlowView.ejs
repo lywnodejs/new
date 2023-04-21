@@ -1,0 +1,66 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 港股通资金流向 赵波 2019.10.22 -->
+<%if(info.data){%>
+<%
+var inStocks = info.data || [];
+
+
+// var len = inStocks.length;
+// for(var i=0;i<len;i++){
+//
+// }
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_equal"><span>个股名称/代码</span></li>
+            <li class="rxh_li_equal"><span class="rxh_right">资金净流入</span></li>
+            <li class="rxh_li_equal"><span>总成交额</span></li>
+        </ol>
+        <%
+        for (var i=0; i<inStocks.length; i++) {
+            item = inStocks[i];
+        %>
+        <ul>
+            <li class="rxh_li_equal">
+                <p><%= item.secName %></p>
+                <h6 class="rxh_gray"><%= item.secCode %></h6>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatAmount(item.netFlowValue*1e4) %></p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatAmount(item.totalValue*1e4) %></p>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var stockMoneyFlowView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, stockMoneyFlowView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

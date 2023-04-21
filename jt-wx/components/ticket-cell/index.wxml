@@ -1,0 +1,23 @@
+<!--components/ticket-cell/index.wxml-->
+<view class="ticket-cell {{data.status === 2 && 'expired'}} {{data.status === 1 && 'disabled'}}">
+  <view class="container">
+    <view class="header">
+      <text class="unit">￥</text>
+      <view>
+        <text class="amount">{{data.marketingAmt}}</text>
+        <text class="name">{{data.marketingType === 'coupon' ? '免息卷' : ''}}</text>
+      </view>
+    </view>
+    <view class="content">
+      <text class="title">{{data.marketingType === 'coupon' ? '通用免息券' : ''}}</text>
+      <text>{{data.endTimeText}}到期</text>
+      <view>
+        <text bindtap="onClick">详情信息</text>
+        <image src="/image/arrow_{{show ? 'up' : 'down'}}.png"/>
+      </view>
+    </view>
+  </view>
+  <view class="detail" wx-if="{{show}}">
+   <text>{{data.source}}</text>
+  </view>
+</view>

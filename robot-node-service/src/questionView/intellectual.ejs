@@ -1,0 +1,37 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var intellectual = {
+    onViewReady: function () {
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil'];
+  loadJs(jsArr, intellectual.onViewReady)
+
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  function textTongji() {
+  }
+</script>
+
+
+
+
+

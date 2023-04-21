@@ -1,0 +1,25 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<div class="rxh_timeLine">
+    <%
+    var hideClass = commonUtil.generateRandomClassName('hideClass');
+    var length = info.data.length!==0 ? 1:0;
+    for(var i = 0;i < length;i++){
+        var item = info.data[i];
+        var ifHideClass = i > 2 ? 'none' : 'flex';
+        var hideClassLine = i > 2 ? hideClass : '';
+    %>
+    <dl>
+        <dt>
+            <b></b>
+            <s></s>
+        </dt>
+        <dd>
+            <h5><%= commonUtil.changeTime(item.pubDateTimestamp) %></h5>
+            <h4><%= item.incDetail %></h4>
+        </dd>
+    </dl>
+    <%}%>
+</div>
+
+<% include ../component/footer %>

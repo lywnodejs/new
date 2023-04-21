@@ -1,0 +1,42 @@
+//{
+//  "presets": [
+//    ["latest",{
+//      "es2015":true
+//    }]
+//  ],
+//  "plugins": []
+//}
+
+
+
+// {
+//   "presets": [
+//     "latest",
+//     "stage-2"
+//   ],
+//   "plugins": [
+//     ["transform-runtime"]
+//   ]
+// }
+
+
+ {
+   "presets": [
+     [
+       "env",
+       {
+         "targets": {
+           "chrome": 60
+         },
+         "useBuiltIns": "entry",//false || entry || usage
+         "modules": "commonjs"
+       }
+     ],
+     "stage-2"
+   ],
+   "plugins": [
+     [
+       "transform-runtime"
+     ]
+   ]
+ }

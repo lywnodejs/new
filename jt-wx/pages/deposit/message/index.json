@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "cell":"/components/cell/index"
+  },
+  "navigationBarTitleText": "操作结果",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "custom"
+}

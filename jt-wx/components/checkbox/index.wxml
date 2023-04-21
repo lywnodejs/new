@@ -1,0 +1,2 @@
+<!--components/checkbox/index.wxml-->
+<image class="checkbox-img" bindtap="onSelect" src="{{isSelected ? '/image/checkbox_selected2.png' : (normal ? '/image/checkbox_normal.png' : '/image/checkbox.png')}}"></image>

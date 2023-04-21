@@ -1,0 +1,41 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 热点分析 赵波 2019.10.24 -->
+<%
+var desc = '', focuses = [];
+try {
+    desc = info.data.content.desc || '';
+    focuses = info.data.content.focus || [];
+} catch (e){
+
+}
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <h5 class="linkBottom_half"><%- desc %></h5>
+        <ul class="tlBox_link clear_appraisal_mb">
+            <% for (var i=0; i<focuses.length; i++) { %>
+                <li onclick="focusClick('<%= focuses[i].baseName %>')"><%= focuses[i].label || focuses[i].baseName %></li>
+            <% } %>
+        </ul>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var focusAnalysis = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+  ];
+  loadJs(jsArr, focusAnalysis.onViewReady)
+
+</script>

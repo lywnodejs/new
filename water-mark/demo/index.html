@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .con {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .con>li {
+            list-style: none;
+            font-size: 14px;
+            line-height: 60px;
+            background-color: #fff;
+
+            border-bottom: solid 1px #ccc;
+        }
+
+        @media print {
+            .water-animated{
+                display: none !important;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+        <input type="text">
+    <ul class="con">
+                <li>User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96
+                    Safari/537.36
+                </li>
+                <li>Referer:http://127.0.0.1:3001/project/water-mark/demo/test.html</li>
+            </ul>
+
+    <!--<script src="../src/water-mark-en.js"></script>-->
+    <!--<script src="../src/water-mark-en-hd.js"></script>-->
+    <!--<script src="../src/1.8.0.js"></script>-->
+    <!--<script src="../src/water-mark.js" type="text/javascript"></script>-->
+    <!-- <script src="//sec-aegisfe.didistatic.com/static/aegisfe/water-mark1.0.js"></script>  -->
+    <!-- <script src="//sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>  -->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.0.0-beta.49/polyfill.js"></script>-->
+        <script src="https://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="../dist/water-mark.js" type="text/javascript"></script>
+    <script>
+        (function () {
+            var count = 50,
+                index = 1,
+                li,
+                conEl = document.createDocumentFragment();
+            while (index++ < count) {
+                li = document.createElement('li');
+                li.innerHTML =
+                    '滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全，，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部' +
+                    index;
+                conEl.appendChild(li);
+            }
+            document.querySelector('.con').appendChild(conEl);
+
+            waterMark({
+                systemId: '012d',
+                //当前用户ID
+                userId: 'xiongjiang_test01',
+                // disablePrint: false
+                //unix 时间戳
+                // textStyle: 'rgba(0,0,0,0.15)',
+                // imgWidthDis: 100,
+                //高度上的间距，在没有设置imgHeight的时候，内部会根据文字长度自动获取一个高度，再加上这个imgWidthDis -->height = imgHeight + imgHeightDis
+                // imgHeightDis: 100,
+                /*imgWidth: 250,
+                imgHeight: 180,*/
+                // disableSelect: true,
+                // disableCopy: true
+                // containerEl: document.querySelector('.con')
+            });
+        }())
+        window.addEventListener('fullscreenchange',function(e){
+            console.log(e);
+            $(e.target).append($('#js-wartermark1'))
+        })
+
+    </script>
+</body>
+
+</html>

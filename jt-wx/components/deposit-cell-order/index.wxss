@@ -1,0 +1,87 @@
+/* components/repayment-cell/index.wxss */
+.repayment-cell{
+  background-color: white;
+  border-radius: 5px;
+  padding:13px 15px 17px;
+  margin-top: 12px;
+}
+.repayment-cell image{
+  width: 6px;
+  height: 10px;
+}
+.repayment-cell .period-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #999999;
+  border-bottom: 1px solid #EDEDED;
+  padding-bottom: 13px;
+}
+
+.repayment-cell .period-view view{
+  display: flex;
+  align-items: center;
+}
+.repayment-cell .period-view .name{
+  font-size: 15px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 21px;
+  display: block;
+  margin-right: 10px;
+}
+.repayment-cell .stage{
+  padding: 0 5px;
+  background-color: #FFECD8;
+  border: 0.5px solid #FC8100;
+  border-radius: 1px;
+  font-size: 12px;
+  color: #FC8100;
+}
+.repayment-cell .period{
+  margin-top: 7px;
+}
+.repayment-cell .period text {
+  font-size: 15px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 21px;
+}
+.repayment-cell .period text:last-child{
+  color: #999999;
+}
+
+.repayment-cell .content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  font-family: PingFangSC-Medium;
+  color: #A6A6A6;
+}
+.repayment-cell .amount-view,.date-view{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.repayment-cell .date-view>text:first-child{
+  margin: 5px 0 2px;
+}
+.repayment-cell .amount{
+  font-size: 22px;
+  color: #333333;
+}
+.repayment-cell .unit, .date{
+  font-size: 16px;
+  color: #333333;
+}
+.repayment-cell .expired{
+  color: #FF2C43;
+}

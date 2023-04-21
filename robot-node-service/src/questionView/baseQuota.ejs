@@ -1,0 +1,109 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%=sn%>">
+
+    <!--答案框-->
+    <div class="mb">
+
+        <!-- 时间轴 有信息-->
+        <div class='md_v1 md_tlbox md_col3table'>
+            <h4><%= data.stockName%> <%= data.stockCode%> | <%= commonUtil.generateDate(data.date)%></h4>
+            <ul>
+                <li>
+                    <div><h5>现价</h5>
+                        <h3><%=commonUtil.fixed2(data.newPrice)%></h3></div>
+                </li>
+                <li>
+                    <div><h5>涨跌幅</h5>
+                        <h3><%=commonUtil.fixed2(data.rise)%>%</h3></div>
+                </li>
+                <li>
+                    <div><h5>开盘价</h5>
+                        <h3><%=commonUtil.fixed2(data.openPrice)%></h3></div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div><h5>最高价</h5>
+                        <h3><%=commonUtil.fixed2(data.highPrice)%></h3></div>
+                </li>
+                <li>
+                    <div><h5>最低价</h5>
+                        <h3><%=commonUtil.fixed2(data.lowPrice)%></h3></div>
+                </li>
+                <li>
+                    <div><h5>成交量(手)</h5>
+                        <h3><%=commonUtil.formatVolume(data.volume)%></h3></div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div><h5>成交额</h5>
+                        <h3><%=commonUtil.formatAmount(data.amount)%></h3></div>
+                </li>
+                <li>
+                    <div><h5>换手率</h5>
+                        <h3><%=commonUtil.fixed2(data.turnOver)%>%</h3></div>
+                </li>
+                <li>
+                    <div><h5>振幅</h5>
+                        <h3><%=commonUtil.fixed2(data.amplitude)%>%</h3></div>
+                </li>
+            </ul>
+            <div class="link_half link_half2 mt_0"></div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+
+</div>
+
+<script>
+
+  //传给安卓的语音信息
+  var speechAnwser = '<%-info.speechAnswerContent%>';
+  var info_app = '<%-info.answerResultType%>';
+  console.log(info_app)
+  if(window.contestapp){
+    try {
+      window.contestapp.speakAnswer(speechAnwser,1,info_app);
+    } catch (error) {
+      console.log(speechAnwser,1,info_app);
+    }
+  }else{
+    console.log(speechAnwser,1,info_app);
+  }
+
+  try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>'); 
+  } catch (error) {
+      
+  }
+
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+  var baseQuotaView = {
+    onViewReady: function () {
+      resizeUtils.init(frameId,sn);
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min','/static/js/utils/toolsUtil','/static/js/utils/resizeUtils'];
+  loadJs(jsArr,baseQuotaView.onViewReady)
+
+
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+</script>
+

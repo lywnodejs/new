@@ -1,0 +1,29 @@
+<div class="wrap-table" ng-cloak>
+    <table class="p-table table-bordered table-header-bg table-hover">
+        <thead>
+            <tr>
+                <th>
+                    事件编号
+                </th>
+                <th>
+                    事件名称
+                </th>
+                <th>
+                    严重程度
+                </th>
+                <th>
+                    事件状态
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in eventTableList">
+                <td>{{item.event_no}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.level_name}}</td>
+                <td>{{item.status_name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+   

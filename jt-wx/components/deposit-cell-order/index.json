@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "repayment-button": "/components/repayment-button/index"
+  }
+}

@@ -1,0 +1,116 @@
+.jsonTreeBox {
+  line-height: 2;
+  color: #333;
+}
+.header {
+  position: sticky;
+  top: 0;
+  // display: flex;
+  // justify-content: space-between;
+  line-height: initial;
+  background-color: #fff;
+  padding: 10px 0;
+  input,
+  button {
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    margin: 0;
+    font-variant: tabular-nums;
+    list-style: none;
+    -webkit-font-feature-settings: 'tnum';
+    font-feature-settings: 'tnum';
+    position: relative;
+    display: inline-block;
+    min-width: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 14px;
+    line-height: 1.5715;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 2px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    height: 32px;
+    outline: none;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    cursor: pointer;
+    background-color: #1890ff;
+    color: #fff;
+    border-color: #1890ff;
+  }
+}
+.searchBox {
+  display: flex;
+  input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+.searchBoxBtn{
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+}
+.tipsBox button {
+  cursor: auto;
+  background-color: #fff;
+  color: #1890ff;
+  border-color: #1890ff;
+}
+.rootClass {
+  text-indent: 15px;
+}
+.rootTag {
+  color: #1890ff;
+  display: block;
+  text-indent: 0;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.stringTag {
+  display: inline;
+}
+.arrChild {
+  display: block;
+}
+.selectedKey {
+  color: #fff;
+  background-color: #1890ff;
+  border-radius: 3px;
+  &:hover {
+    color: #fff;
+  }
+}
+.searchedKey {
+  color: #fff;
+  background-color: #faad14;
+  border-radius: 3px;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.jsonTreeBoxRead {
+  padding-top: 20px;
+  a,
+  .rootTag {
+    cursor: auto;
+    color: #333;
+  }
+}
+.jsonTreeBoxCanSearch {
+  a {
+    color: #1890ff;
+  }
+  a.searchedKey {
+    color: #fff;
+  }
+}

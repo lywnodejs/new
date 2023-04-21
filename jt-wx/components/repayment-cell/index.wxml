@@ -1,0 +1,39 @@
+<!--components/repayment-cell/index.wxml-->
+<view class="repayment-cell" bindtap="onDetail">
+  <view class="period-view">
+    <view>
+      <text class="stage">{{order.repayOrderInfo.loanTermDesc}}</text>
+      <text class="name">{{order.productName}}</text>
+    </view>
+    <!-- <image src="/image/small_arrow.png"></image> -->
+  </view>
+  <view class="period">
+    <text>{{order.repayOrderInfo.loanDate}}借款{{order.repayOrderInfo.loanAmount}}元</text>
+  </view>
+  <view class="content">
+    <view class="amount-view">
+      <view>
+        <text class="amount">{{order.repayOrderInfo.repayAmount}}</text>
+      </view>
+      <text>应还金额(元)</text>
+    </view>
+    <view class="date-view">
+      <text class="date {{order.status === 8 && order.tinyStatus === 0 ? 'expired2' : 'expired'}}">{{order.repayOrderInfo.dueTips}}</text>
+      <text>还款日 {{order.repayOrderInfo.repayDate}}</text>
+    </view>
+    <repayment-button wx:if="{{order.status === 9 || order.tinyStatus === 0}}" bind:onClick="onClick">去还款</repayment-button>
+    <repayment-button wx:else isHighlighted="{{false}}" bind:onClick="onClick">去还款</repayment-button>
+  </view>
+</view>
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+

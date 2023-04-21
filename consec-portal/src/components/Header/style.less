@@ -1,0 +1,63 @@
+.project-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+
+  width: 100%;
+  min-width: 1200px;
+  height: 70px;
+
+  background-color: #1e3750;
+
+  &-container{
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+
+    width: 1200px;
+    height: 100%;
+
+    &_logo{
+      &-img{
+        width: 140px;
+
+        cursor: pointer;
+      }
+    }
+
+    &_menu{
+      display: flex;
+      align-items: center;
+      margin-left: 40px;
+
+      width: 524px;
+      height: 60px;
+      
+      .ant-menu{
+        border: none;
+
+        font-size: 16px;
+        color: #ffffff;
+        font-family: '华康金刚黑';
+        background: none;
+      }
+    }
+
+    &_relation{
+      position: absolute;
+      right: 0;
+
+      width: 100px;
+      height: 60px;
+      line-height: 60px;
+      color: #ffffff;
+      font-size: 16px;
+      text-align: right;
+
+      cursor: pointer;
+    }
+  }
+}

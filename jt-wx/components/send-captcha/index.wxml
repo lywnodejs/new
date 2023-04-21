@@ -1,0 +1,2 @@
+<!--components/send-captcha/index.wxml-->
+<button class="send-captcha {{icon && 'icon'}}" bindtap="onClick" disabled="{{disabled}}">{{text}}</button>

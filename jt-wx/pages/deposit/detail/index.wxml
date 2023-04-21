@@ -1,0 +1,56 @@
+<!--pages/loans/deposit/index.wxml-->
+<view class="deposit">
+  <view class="header">
+    <view class="title">{{info.productName}}</view>
+    <view class="info">{{info.title}}</view>
+    <view class="num">{{info.yearRate}}</view>
+    <view class="tags" wx:if="{{info.tags}}">
+      <view class="tag" wx:for="{{info.tags}}" wx:key="{{item}}">{{item}}</view>
+    </view>
+  </view>
+  <view class="date_scope" wx:if="{{info.valueDate}}">
+    <view class="top">
+      <text>购买日（起息日）</text>
+      <text>到期日（结息日)</text>
+    </view>
+    <view class="center">
+      <view class="d done"></view>
+      <view class="line"></view>
+      <view class="d"></view>
+    </view>
+    <view class="footer">
+      <text>{{info.valueDate}}</text>
+      <text>{{info.expiryDate}}</text>
+    </view>
+  </view>
+  <view class="detail_info">
+    <text class="title">说明</text>
+    <view class="text">{{info.productIntro}}</view>
+  </view>
+</view>
+<button class="button" bindtap="toApply">购买</button>
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar2}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+

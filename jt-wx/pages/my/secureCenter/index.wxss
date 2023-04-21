@@ -1,0 +1,33 @@
+/* pages/my/secureCenter/index.wxss */
+page {
+  background-color: #F3F3F3;
+}
+.item{
+  margin-top: 20rpx;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 28rpx 30rpx;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.item image{
+  width: 7px;
+  height: 12px;
+}
+.item .left{
+  width: 80%;
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 40rpx;
+  font-weight: 400;
+}
+.item .left text{
+  display: block;
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 34rpx;
+  font-weight: 400;
+}

@@ -1,0 +1,41 @@
+<!--components/apply/item-view/image-upload-view/index.wxml-->
+
+<view class="info-box">
+  <upload-title-view title="{{attribute.name}}" desc="{{attribute.description}}" mustFill="{{attribute.mustFill}}" />
+  <view class="content-box">
+    <view class="item" wx:if="{{urlLists.length > 0}}">
+      <view class="thumbnail-box" bind:tap="onPreview">
+        <image src="{{urlLists[urlLists.length-1]}}" class="last-img"/>
+        <view class="mask-box"></view>
+        <view class="img-num">+{{urlLists.length}}</view>
+      </view>
+    </view>
+    <view class="item "  bind:tap="{{attribute.editFlag ? 'onUploadTap' :''}}" data-attribute="{{attribute}}">
+      <view class="place-holder-box">
+        <image src="/image/img_upload.png" class="upload-img"></image>
+        <view class="upload-tip">点击上传</view>
+      </view>
+
+    </view>
+  </view>
+  <van-overlay show="{{ showPreview }}">
+    <view class="wrapper">
+      <view class="preview-title">
+        <image class="close-preview-img" src="/image/close_with_bg.png" catchtap="onClosePreview" />
+        <view class="num-box">
+          <text>{{current+1}}/{{urlLists.length}}</text>
+        </view>
+        <image wx:if="{{attribute.editFlag}}" class="delete-img" src="/image/delete_trash.png" catchtap="onDelete" />
+      </view>
+      <view class="swiper-box">
+        <swiper bindchange="onSwiper" style='height:{{height}}' circular>
+          <block wx:for="{{urlLists}}" wx:key="idx" wx:for-index="idx">
+            <swiper-item class="swiper-item">
+              <image class="big-img" src="{{item}}" mode="heightFix" />
+            </swiper-item>
+          </block>
+        </swiper>
+      </view>
+    </view>
+  </van-overlay>
+</view>

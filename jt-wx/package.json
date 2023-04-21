@@ -1,0 +1,12 @@
+{
+  "name": "jt-wx",
+  "version": "1.0.0",
+  "dependencies": {
+    "@vant/weapp": "^1.6.2",
+    "js-md5": "^0.7.3",
+    "miniprogram-sm-crypto": "^0.3.6",
+    "moment": "^2.27.0",
+    "uuid": "^8.3.2",
+    "uuidjs": "^4.2.9"
+  }
+}

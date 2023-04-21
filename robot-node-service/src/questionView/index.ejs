@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="keywords" content="小e,智能小e,小E,智能小E,robot.rxhui.com,小e首页,小e机器人,智能机器人,robot.rxhui,问答,智能">
+    <meta name="description" content="智能小e，智能化时代投资助手和全语音问答交互模式，内容覆盖7x24小时金融市场投资标的研判、k线形态量化分析、专家估值评级，及时挖掘投资机会。">
+    <meta name="application-name" content="智能小e 首页">
+    <title><%= robotName %></title>
+    <link rel="stylesheet" href="<%= reportUrl %>/stylesheets/mindleGroundReport.css">
+    <link rel="stylesheet" href="<%= reportUrl %>/stylesheets/yy_OnekeyResearchReport.css">
+    <link rel="stylesheet" href="static/css/yy_icon.css">
+    <link rel="stylesheet" href="static/css/yy_style_v1.css">
+    <link rel="stylesheet" href="static/css/yy_style_v2.css">
+    <link rel="stylesheet" href="static/css/hpc_style.css">
+    <link rel="stylesheet" href="static/css/jser_style.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style_<%= v_libs_svg_css %>.css">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2_<%= v_comp_css %>.css">
+    <link rel="stylesheet" href="static/css/yy_pc_dialogue.css">
+    <script>
+        var env = '<%= env %>';
+        var assetUrl = '<%= assetsUrl %>'
+        var headImg = '<%= logoUrl %>';
+        if (headImg) {
+          headImg = assetUrl + headImg;
+        } else {
+          headImg = 'static/images/avatar-min.png';
+        }
+        var disclaimer = '<%= disclaimer %>' !== '';
+        var disclaimerAutoPopUp = '<%= disclaimerAutoPopUp %>' === 'true';
+        var showIndexCarousel = '<%= showIndexCarousel %>' === 'true';
+        var showQuestion = '<%= showQuestion %>' === 'true';
+        var showRateThumbs = '<%= showRateThumbs %>' === 'true';
+        var showRecommendedQuestion = '<%= showRecommendedQuestion %>' === 'true';
+        var ifRecordQuestion = '<%= ifRecordQuestion %>' === 'true';
+        var ifSupportSocketPush = '<%= ifSupportSocketPush %>' === 'true';
+        var ifSupportWebAudio = '<%= ifSupportWebAudio %>' === 'true';
+        var hostname = '<%= hostname %>';
+    </script>
+    <script src="static/client/js/robots/functionForReport.js"></script>
+    <script src="static/js/libs/jBaidu.js"></script>
+    <script src="static/js/libs/sensorsdata.min.js"></script>
+    <script src="static/js/libs/shenceApp.js"></script>
+</head>
+
+<% if (isAvatar) { %>
+<!--<body style="background-color: red" onbeforeunload="onbeforeunloadHandler(event)">-->
+<body style="background: transparent;" onbeforeunload="onbeforeunloadHandler(event)">
+<% } else { %>
+<body class="body_hideFoot <%= (isPC?'rxh_e_body':'') %> <%= skin %> <%= (appKey==='appHtyw'?'rxh_pc_dialogue':'') %>" onbeforeunload="onbeforeunloadHandler(event)">
+<% } %>
+
+    <!--标题栏-->
+<!--    <header id="titleBar" style="display: none;">-->
+<!--        <a class="arrowL icon-arrowL"></a>-->
+<!--        <p><%= robotName %></p>-->
+<!--        <p>智能小e 股票问答</p>-->
+<!--    </header>-->
+
+    <% if (appKey === 'appHtyw') { %>
+    <!--航天云网标题栏-->
+    <div class="rxh_pcDia_hd">
+        <h3>INDICS——Alex</h3>
+        <% if (windowType !== 'big') { %>
+        <div class="rxh_right">
+            <a class="rxh_small" onclick="htywUtil.titleBarClick('min')">一</a>
+            <a class="rxh_big" onclick="htywUtil.goSinglePage(event)"></a>
+            <a class="rxh_close" onclick="htywUtil.titleBarClick('close')"></a>
+        </div>
+        <% } %>
+    </div>
+    <script src="static/client/js/utils/htywUtil.js"></script>
+    <% } %>
+
+    <% if (isAvatar) { %>
+    <div class="rxhE_hkws" style="width: 100%; height: 100%;">
+        <div id="mainContent" class="md_e_qa">
+        </div>
+    </div>
+    <% } else { %>
+    <!--内容部分-->
+    <div id="mainContent" class="page_body_v2 pt_0">
+        <!--免责声明-->
+        <div class="md_pact_v2" style="display: none">
+            <label>
+                <i class="icon-radioOn"></i>
+                <span>我已经阅读并同意</span>
+            </label>
+            <a class="a_pact" onclick="showDisclaimer()">
+                《<em>免责声明</em>》
+            </a>
+        </div>
+        <!-- 历史问题 -->
+        <div id="divShowHistory" class="md_time_v2" style="display: none;">
+            <a class="box" onclick="showHistoryQuestion()"><%= (appKey==='appHtyw'?'history question':'历史提问') %>
+                <span class="t_blue"><%= (appKey==='appHtyw'?'check out':'查看') %></span>
+            </a>
+        </div>
+        <div id="oldVersionAppend"></div>
+        <div id="morningPush1"></div>
+        <div id="morningPush2"></div>
+        <div id="morningPush3"></div>
+        <div id="morningPush4"></div>
+        <!--帮助引导问题-->
+        <div id="divHelp" style="display: none;"></div>
+    </div>
+    <% } %>
+
+    <!--底部-->
+    <div id="divBottom" class="bottom" style="display: none">
+        <nav>
+            <ul>
+            </ul>
+        </nav>
+        <footer id="footer" class="f_keyboard hide">
+            <a id="icon-keyboard" class="icon-keyboard" style="display: none" onclick="hideVoice()"></a>
+            <a id="icon-voice" class="icon-voice" onclick="goVoice()"></a>
+            <div id="divTxtInput" class="box_input">
+                <textarea id="txtInput" contenteditable="true" placeholder="<%= (appKey === 'appHtyw' ? 'Please enter your question...' : '请输入问题...') %>" onkeydown="sendQ(event)" onfocus="txtInputOnFocus()"></textarea>
+                <a id="icon-Send" class="icon-Send" onclick="doSend()"></a>
+            </div>
+            <a id="icon-help" class="icon-help" onclick="helpClickSwitch()"></a>
+            <!--语音输入-->
+            <div id="recBtn" class="sayBg" style="display: none">
+                <div class="say"></div>
+            </div>
+        </footer>
+    </div>
+
+    <!--免责正文-->
+    <div id="divDisclaimer" class="pop_v2 pop_pact_v2">
+        <div class="bg"></div>
+        <div id="divDisContent" class="box">
+            <div id="txtDisclaimer" class="txt">
+                <%- disclaimerContent || '' %>
+            </div>
+            <div class="btn">
+                <a onclick="agreeDisclaimer()">我已知晓，关闭页面</a>
+            </div>
+        </div>
+    </div>
+
+    <!--引导页 begin-->
+    <div class="page_guide" style="display: none;">
+        <div class="bg1"></div>
+        <div class="bg2"></div>
+        <div class="box">
+            <div class="txt_01">
+                <h3>你可以这样问我：</h3>
+                <img src="static/images/guide_avatar-min.png">
+            </div>
+            <img class="i_txt01" src="static/images/guide_txt01-min.png">
+            <div class="btn">
+                <a onclick="iKnowGuide()">我知道了</a>
+            </div>
+            <!--帮助-->
+            <img class="i_txt02" src="static/images/guide_txt02-min.png">
+            <img class="i_arrow01" src="static/images/guide_arrow01-min.png">
+            <div class="help">
+                <i class="icon-help"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__重新输入 -->
+    <div class="pop_v2 box_reEnter_v2">
+        <div class="bg"></div>
+        <div class="box">
+            <input id="txtSymbol" type="text" placeholder="输入股票名称或代码">
+            <ul class="btn">
+                <li class="a_close">取消</li>
+                <li class="a_submit" onclick="confirmInputSymbol(event)">确定</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 技术分析优化v1.2 ++   begin -->
+    <!-- 弹窗__短线决策，提示弹窗 -->
+    <div id="popShortTermPolicyExplain" class="pop_v2 pop_analysis_1_2_shortPolicy">
+    </div>
+
+    <!-- 弹窗__趋势体系说明，提示弹窗 -->
+    <div id="popTrendSystemExplain" class="pop_v2 pop_analysis_1_2_trendQuantization">
+    </div>
+    <!-- 技术分析优化v1.2 ++   end -->
+
+    <!-- 弹窗__操盘线说明，提示弹窗 -->
+    <div id="popExpmaExplain" class="pop_v2 pop_analysis_1_3_expma">
+    </div>
+    <!-- 技术分析优化v1.3 ++   end -->
+
+    <!--底部弹窗浮层-->
+    <div id="bottomPopup" class="pop_BTT pop_BottomToTop" style="display: none">
+        <!--遮罩-->
+        <div class="bg" style="display: none"></div>
+        <!--白框容器-->
+        <div id="bottomContainer" class="box">
+            <!--关闭按钮-->
+            <a class="close icon-pop_close" onclick="closePopup()"></a>
+            <div class="sumUp">
+                <!--浮层_title-->
+                <div class="sumUp_tech">
+                    <div id="bottomPopupTitle" class="pop_hd">
+                    </div>
+                    <!--答案容器-->
+                    <div id="bottomAnswerContainer" class="pop_bd mb_tab">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--条件选股说明弹窗-->
+    <div id="expContainer" class="expCon">
+        <div id="expBox" style="width: 100%; height: 100%;"></div>
+        <span class="closeBtn" onclick="closeConditionExp()"></span>
+    </div>
+
+    <!--弹窗 请输入其他选股条件-->
+    <div id="pickStockConditionBox" class="pop_v2 pop_condition">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="tbox">
+                <h5>请输入其他选股条件</h5>
+                <div class="tArea">
+                    <textarea id="txaConditions" placeholder="请输入筛选条件" onkeyup="conditionKeyup()"></textarea>
+                </div>
+                <h6 class="note">
+                    <span>多个条件用"，"隔开</span>
+                    <a id="btnShowConditionExp" onclick="showConditionExp()">条件选股怎么问？</a>
+                </h6>
+                <ul class="btn">
+                    <li style="color: #639df5 !important;" onclick="closeConditionBox()">取消</li>
+                    <li id="btnConditionConfirm" class="btnGray" onclick="conditionChange()">确定</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__提示弹窗（自动） -->
+    <div class="pop_v2 pop_prompt pop_prompt_risk pdfForAuto">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="txt">
+                公告原文链接已复制，请打开浏览器在地址框粘贴查看
+            </div>
+            <div class="btn">
+                <a id="lnkCopyPdfUrl" data-clipboard-action="copy" data-clipboard-text="" onclick="closePDFPop()">好&nbsp;&nbsp;的</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__提示弹窗（手动）-->
+    <div class="pop_v2 pop_prompt pop_prompt_risk pdfForHand" style="display:none">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="txt">
+                当前不支持公告原文链接的自动复制，需手动复制，复制后请打开浏览器在地址框粘贴查看
+                <h5 class="PDFUrlTxt autoLine"></h5>
+            </div>
+            <div class="btn">
+                <a class="PDFUrlBtn" onclick="closePDFPopForHand()">好&nbsp;&nbsp;的</a>
+            </div>
+        </div>
+    </div>
+
+    <!--  底部导航浮层    从底部弹出 高度占40% -->
+    <div class="pop_BTT pop_bottomNav">
+        <div class="bg"></div>
+        <div class="box">
+            <a class="close icon-pop_close"></a>
+            <div class="bottomNav">
+                <div class="pop_hd">
+                    你还想了解
+                </div>
+                <div class="pop_bd">
+                    <div class="pop_nav">
+                        <ul>
+                        </ul>
+                    </div>
+                    <div class="pop_con">
+                        <div class="box show">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文字弹窗，底部有关闭按钮的 -->
+    <div id="popMsg" class="pop_bottomClose">
+        <div class="pop_bg"></div>
+        <div class="pop_box">
+            <div class="pop_bd">
+                <div id="popHead" class="hd">板块关联：</div>
+                <div id="popContent" class="bd">
+<!--                    <h4 id="popTitle">标题</h4>-->
+<!--                    <h5>文字</h5>-->
+                </div>
+            </div>
+            <a class="a_close" onclick="closePopupMsg()"><i class="icon-pop_close2"></i></a>
+        </div>
+    </div>
+
+    <!-- 选择弹窗，热点偏好筛选 -->
+    <div id="popFocusFilter" class="pop_screen pop_hotPreScreen">
+    </div>
+
+    <!-- 选择弹窗，个股偏好筛选 -->
+    <div id="popStockFilter" class="pop_screen pop_hotPreScreen">
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="static/js/libs/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="static/js/libs/lazyload-min.js"></script>
+<script type="text/javascript" src="static/js/libs/jquery.jsonp.js"></script>
+<!--<script type="text/javascript" src="static/js/libs/clipboard.min.js"></script>-->
+<% if (appKey === 'appAvatar') { %>
+<script type="text/javascript" src="static/js/libs/swiper.min.js"></script>
+<% } %>
+<script type="text/javascript" src="static/js/libs/socket.io.js"></script>
+<!--<script type="text/javascript" src="static/js/libs/base64.js"></script>-->
+<!--<script type="text/javascript" src="static/js/libs/md5.js"></script>-->
+
+<!--注意：注释为打包时脚本，不可删除！！！-->
+<!-- build:replace '<script type="text/javascript" src="static/client/js/util.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/utils/logUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/UrlConfig.js"></script>
+<script type="text/javascript" src="static/client/js/utils/commonUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/requestUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/versionUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/visibleUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/appConfig.js"></script>
+<script type="text/javascript" src="static/client/js/utils/moduleUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/timeUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/functionForApp.js"></script>
+<script type="text/javascript" src="static/client/js/utils/toolsUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/requestUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/navigateUtil.js"></script>
+<!--<script type="text/javascript" src="static/client/js/utils/yy_tab.js"></script>-->
+<!-- /build -->
+
+<!--图表相关的日期格式化函数-->
+<!-- build:replace '<script type="text/javascript" src="static/client/js/chart.min.js"></script>' -->
+<script type="text/javascript" src="static/js/charts/chartRequestUtil.js"></script>
+<script type="text/javascript" src="static/js/charts/jKline_stock_analysisInit.js"></script><!--技术分析改版1.2-->
+<script type="text/javascript" src="static/js/charts/jKline_stock_analysis.js"></script><!--技术分析改版1.2-->
+<script type="text/javascript" src="static/js/charts/jKline_stock_analysis_9area.js"></script>
+<!--<script type="text/javascript" src="static/js/charts/jKline_history_9area_xym.js?v=201701290"></script>-->
+<!--技术分析 data有数据-->
+<script type="text/javascript" src="static/js/charts/st_kLine.js"></script>
+<!--st新股-->
+<script type="text/javascript" src="static/js/charts/KLineByType_1.js"></script>
+<!--技术分析 data无数据-->
+<script type="text/javascript" src="static/js/charts/sh_kLineInit.js"></script>
+<script type="text/javascript" src="static/js/charts/sh_kLine.js"></script>
+<!--上证指数-->
+<script type="text/javascript" src="static/js/charts/KLineSmall.js"></script>
+<!--相似K线用-->
+<script type="text/javascript" src="static/js/charts/jKlineCYQInit.js"></script>
+<!--筹码分布-->
+<script type="text/javascript" src="static/js/charts/jKlineCYQ.js"></script>
+<script type="text/javascript" src="static/js/charts/jCreateKline.js"></script>
+<script type="text/javascript" src="static/js/charts/lineColumnChart.js"></script>
+<script type="text/javascript" src="static/js/charts/jStockComparision.js"></script>
+<script type="text/javascript" src="static/js/charts/polygonChart.js"></script>
+<script type="text/javascript" src="static/js/charts/lineChart.js"></script>
+<script type="text/javascript" src="static/js/charts/columnChart.js"></script>
+<script type="text/javascript" src="static/js/charts/baseChart.js"></script>
+<!-- /build -->
+
+<!-- build:replace '<script type="text/javascript" src="static/client/js/robot.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/robots/yy_lowVer.js"></script>
+<script type="text/javascript" src="static/client/js/robots/yy_compatible.js"></script>
+
+<script type="text/javascript" src="static/client/js/robots/robotCommon.js"></script>
+<script type="text/javascript" src="static/client/js/robots/eztCommon.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-3.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-2.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-1.js"></script>
+<script type="text/javascript" src="static/client/js/robots/financialAnalyze.js"></script>
+
+<script type="text/javascript" src="static/client/js/robots/showMoreItem.js"></script>
+
+<script type="text/javascript" src="static/client/js/robots/index.js"></script>
+
+<% if (appKey === 'appHtyw') { %>
+<script type="text/javascript" src="static/client/js/robots/yy_pc_dialogue.js"></script>
+<% } else { %>
+<script type="text/javascript" src="static/client/js/robots/yy_autoTextarea.js"></script>
+<% } %>
+<!-- /build -->
+<script src="//weblibs.rxhui.com/compLibrary_rxh/js/yy_compLibrary_rxh2_<%= v_comp_js %>.js"></script>
+<!--<script src="//weblibs.rxhui.com/compLibrary_rxh/js/yy_frameE.js"></script>-->
+
+<!--pc端滚动样式-->
+<% if (isPC) { %>
+<style>
+    /*需要加滚动条的样式*/
+    .box_conStock .conStock::-webkit-scrollbar {
+        display: block !important;
+    }
+</style>
+<% } %>

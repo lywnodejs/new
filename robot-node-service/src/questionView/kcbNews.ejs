@@ -1,0 +1,55 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 投资教育知识 赵波 2019.10.23 -->
+<%
+var list = info.data.list || [];
+var pageSize = 5;
+var hideClass = '';
+ %>
+
+<div class='bd'>
+    <div class='mb infoAndResearch'>
+        <div class='box_tl02'>
+            <h5>
+                <%
+                if (list.length > 0) {
+                    hideClass = commonUtil.generateRandomClassName('hide');
+                }
+                for (var i = 0; i < list.length; i++) {
+                %>
+                <li class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i>=pageSize?'none':'' %>;">
+                    <a onclick="showInformationDetail('<%= list[i].infoId %>','科创板资讯')"><%= list[i].title || '' %></a>
+                    <h6 class="t_gray"><%= timeUtil.getDataGridTimeFormat(list[i].publishAt) %></h6>
+                </li>
+                <% } %>
+            </h5>
+        </div>
+        <%
+        if (list.length > pageSize) {
+            var moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+        <div id="<%= moreId %>" class="box_load" style="margin-top: 1rem" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+            <a>查看更多</a>
+        </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var kcbNews = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, kcbNews.onViewReady)
+
+</script>

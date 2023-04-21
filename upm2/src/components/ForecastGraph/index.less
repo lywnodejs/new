@@ -1,0 +1,147 @@
+@color-green: #4ac455;
+@color-orange: #fc9153;
+@color-blue: rgb(69, 69, 168);
+@color-gray: #fafafa;
+.ant-popover-content {
+  .hover-title {
+    height: 36px;
+    line-height: 36px;
+    // padding: 0 20px;
+    font-size: 16px;
+  }
+  .hover-content {
+    // padding: 4px 20px;
+    max-height: 240px;
+    overflow-y: auto;
+    margin: -12px -16px;
+  }
+  .hover-table {
+    padding: 4px 12px;
+    display: table;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+  }
+  .horizon-line {
+    display: table-row;
+    .h-title,
+    .h-content,
+    .h-status {
+      display: table-cell;
+      height: 1px;
+      background: #eee;
+    }
+  }
+  .inner-content {
+    display: table-row;
+    margin-bottom: 10px;
+    .title {
+      display: table-cell;
+      width: 83px;
+      padding: 10px 0;
+      font-size: 14px;
+      text-align: center;
+      vertical-align: middle;
+      background: rgba(255, 213, 188, 0.35);
+      border-radius: 4px;
+    }
+    .content {
+      display: table-cell;
+      min-width: 150px;
+      padding: 3px 20px;
+      font-size: 12px;
+      vertical-align: middle;
+      background: @color-gray;
+      p {
+        margin-bottom: 0;
+      }
+      p:last-child {
+        color: #9b9b9b;
+      }
+      .dealer-status {
+        color: @color-orange;
+      }
+    }
+  }
+  .status {
+    display: table-cell;
+    padding-right: 28px;
+    text-align: right;
+    vertical-align: middle;
+    background: @color-gray;
+    border-radius: 0 4px 4px 0;
+    &:before {
+      display: inline-block;
+      content: '';
+      width: 6px;
+      height: 6px;
+      margin: 0 7px 2px 0;
+      vertical-align: middle;
+      border-radius: 100%;
+    }
+    &.green:before {
+      background: @color-green;
+    }
+    &.orange:before {
+      background: @color-orange;
+    }
+    &.blue:before {
+      background: @color-blue;
+    }
+  }
+}
+
+.flow-graph-container {
+  position: relative;
+  .svg-wrapper {
+    position: relative;
+    width: 100%;
+    // overflow-x: auto; // bpm审批流可横向滚动
+    overflow: hidden;
+  }
+  .cursor-move {
+    cursor: move;
+  }
+  .scale-svg-btns {
+    position: absolute;
+    right: 0px;
+    top: 4px;
+    button {
+      padding: 4px 10px;
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    > li {
+      float: left;
+      margin-right: 12px;
+    }
+    // .reset-graph-btn {
+    //   display: block;
+    //   margin-bottom: 10px;
+    //   font-size: 18px;
+    // }
+  }
+  .svg-container {
+    user-select: none;
+    margin: 38px 0 10px;
+    rect {
+      stroke: black;
+    }
+    .g:hover rect {
+      stroke: #ddd;
+      stroke-width: 4px;
+    }
+    // .hover rect {
+    //     stroke: #ddd;
+    //     stroke-width: 4px;
+    // }
+    .green {
+      stroke: @color-green;
+    }
+    .orange {
+      stroke: @color-orange;
+    }
+    .blue {
+      stroke: @color-blue;
+    }
+  }
+}

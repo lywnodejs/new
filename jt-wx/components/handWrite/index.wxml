@@ -1,0 +1,8 @@
+<!--components/handWrite/index.wxml-->
+<view class="canvasBox">
+  <canvas style="width:100%;height:100%" disable-scroll="true" bindtouchstart="uploadScaleStart"
+    bindtouchmove="uploadScaleMove" bindtouchend="uploadScaleEnd" bindtap="mouseDown" canvas-id="{{canvasName}}">
+  </canvas>
+  <canvas class="bg" style="width:100%;height:100%" disable-scroll="true" canvas-id="{{canvasName + 'bg'}}">
+  </canvas>
+</view>

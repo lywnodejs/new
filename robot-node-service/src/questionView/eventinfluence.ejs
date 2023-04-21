@@ -1,0 +1,136 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<div class="bd" id="answer<%= sn %>">
+    <div class="mb">
+        <% if(info.data.industries && info.data.industries.length > 0 ){ %>
+            <div class="box_hd2 box_hd2_red">
+                <span>对个股的影响</span>
+                <b><i class="i_t"></i><i class="i_b"></i></b>
+                <em></em>
+            </div>
+        <% } %>
+        <div class="box_show_olBD ">
+            <% for(var i = 0; i < tempData.length; i++){
+                var stock = tempData[i]
+                var stockName = stock.stocks.stkName || stock.stocks.stkCode;
+                var classNum = commonUtil.generateRandomClassName("eventStock");
+            %>
+            <div class="box_bd eventStock<%= classNum %>">
+                <ul>
+                    <li>
+                        <p><%= stock.stocks.stkName %></p>
+                        <h6><%= stock.stocks.stkCode %></h6>
+                    </li>
+                    <li class="t_green">
+                        <p><%= commonUtil.fixed2(stock.stocks.newPrice || '') %></p>
+                        <h6><%= commonUtil.fixed2(stock.stocks.rise || '') + '%' %></h6>
+                    </li>
+                    <li>
+                        <h5>影响原因</h5>
+                        <h6 onclick="setContentVisible('eventStock<%= classNum %>',event)">【展开】</h6>
+                    </li>
+                </ul>
+                <div class="box_txt expandH">
+                    <p><%- commonUtil.highlightText(stock.reason.title, [stockName].concat(info.data.eventAnalyse)) %></p>
+                    <% for(var j = 0; j < stock.reason.analyseFlags.length ; j++){
+                        var arrKeyPoints = stock.reason.analyseFlags;
+                        var tagStockBody = stock.reason.analyseResults[stock.stocks.stkCode + arrKeyPoints[j]];
+                    %>
+                    <br/><h5>
+                        <b><%= arrKeyPoints[j] + ':' %> </b> <%- commonUtil.replaceLineBreak(commonUtil.highlightText(tagStockBody, [stockName].concat(info.data.eventAnalyse))) %>
+                    </h5>
+                    <% } %>
+                </div>
+            </div>
+            <% } %>
+        </div>
+
+        <% if(info.data.industries && info.data.industries.length > 0 ){ %>
+                <div class="box_hd2 box_hd2_blue">
+                    <span>对行业的影响</span>
+                    <b><i class="i_t"></i><i class="i_b"></i></b>
+                    <em></em>
+                </div>
+                <div class="box_show_olBD box_show_olBD2">
+                <% for(var k = 0; k < info.data.industries.length; k++){
+                    var industry = info.data.industries[k]
+                    var classNum = commonUtil.generateRandomClassName("eventStock");
+                %>
+                <div class="box_bd eventStock<%= classNum %>">
+                    <ul>
+                        <li>
+                            <p><%= industry.term %></p>
+                            <h6></h6>
+                        </li>
+                        <li class="t_green">
+                            <p></p>
+                            <h6></h6>
+                        </li>
+                        <li>
+                            <h5>影响原因</h5>
+                            <h6 onclick="setContentVisible('eventStock<%= classNum %>',event)">【展开】</h6>
+                        </li>
+                    </ul>
+                    <div class="box_txt expandH">
+                        <%
+                            var redTxt = info.data.eventAnalyse
+                        %>
+                        <p><%- commonUtil.highlightText(info.data.reasonDocMap[industry.term].title, redTxt) %></p>
+                        <% for(var l = 0; l < info.data.reasonDocMap[industry.term].analyseFlags.length ; l++){
+                            var tagIndustryBody = info.data.reasonDocMap[industry.term].analyseResults[info.data.reasonDocMap[industry.term].analyseFlags[l]]
+                        %>
+                        <br/><h5>
+                            <b><%= info.data.reasonDocMap[industry.term].analyseFlags[l] + '：' %> </b><%- commonUtil.replaceLineBreak(commonUtil.highlightText(tagIndustryBody, redTxt)) %>
+                        </h5>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        <% } %>
+        <% include ./component/ratingLabel.ejs %>
+    </div>
+</div>
+
+
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var eventinfluence = {
+    onViewReady: function () {
+      // resizeUtils.init(frameId, sn);
+    },
+  }
+
+  var jsNo = 0;
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/logUtil',
+    // '/static/js/utils/resizeUtils',
+    '/static/js/utils/toolsUtil'
+  ];
+  loadJs(jsArr, eventinfluence.onViewReady);
+
+  function setContentVisible(liCls, event) {
+    $('.' + liCls).addClass('on').find('.expandH').slideToggle();
+    // $('.' + liCls).find('.expandH').slideToggle();
+    if (event) {
+      if (event.target.innerText === '【展开】')
+        event.target.innerText = '【收起】';
+      else
+        event.target.innerText = '【展开】';
+    }
+  }
+
+</script>
+

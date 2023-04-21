@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "string-view": "/components/apply/item-view/string-view/index",
+    "captcha-popup": "/components/captcha-popup/index"
+  },
+  "navigationStyle": "custom"
+}

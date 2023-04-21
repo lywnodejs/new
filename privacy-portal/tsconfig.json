@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "sourceRoot": "src",
+    "lib": ["es6", "es7", "dom"],
+    "jsx": "preserve",
+    "target": "es2015",
+    "module": "esNext",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "allowJs": true,
+    "outDir": "build/dist",
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": false,
+    "allowUnusedLabels": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": false,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "model/*", "components/*", "uitls/*", "interfaces/*", "decorates/*", "lib/*"],
+      "@/*": ["./*"]
+    }
+  },
+  "awesomeTypescriptLoaderOptions": {
+    "useBabel": true,
+    "useCache": false,
+    "emitRequireType": false
+  },
+  "include": ["src/**/*.js", "src/**/*.ts", "src/**/*.tsx", "locales/module.d.ts"],
+  "exclude": ["node_modules", "dist", "build", "mock"]
+}

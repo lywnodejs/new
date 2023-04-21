@@ -1,0 +1,11 @@
+<!--components/apply/item-view/supply-view/index.wxml-->
+<view class="info-box">
+  <item-title-view title="{{attribute.name}}"  desc="{{attribute.description}}"/>
+  <view class="cell-class" bind:tap="onClick" id="{{attribute.id}}">
+    <view class="cell-title">
+      <text wx:if="{{attribute.completed}}">{{attribute.showValue}}</text>
+      <text wx:else class="cell-tips">{{attribute.tips}}</text>
+    </view>
+    <image class="cell-right-image" src="/image/arrow712.png"></image>
+  </view>
+</view>

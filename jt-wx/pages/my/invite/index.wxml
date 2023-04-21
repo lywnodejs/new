@@ -1,0 +1,66 @@
+<!--pages/my/invite/index.wxml-->
+<view class="invite">
+  <view class="warp">
+    <view class="pack">
+      <view class="top">
+        <text>多邀多得，最高可得</text>
+        <text>{{invite.rewardAmount}}</text>
+        <text>{{invite.rewardType}}</text>
+      </view>
+      <view class="items">
+        <view>
+          <image class="icon" src="/image/invite-icon-0.png" />
+          <image class="gap" src="/image/invite-icon.png" />
+          <image class="icon" src="/image/invite-icon-1.png" />
+          <image class="gap" src="/image/invite-icon.png" />
+          <image class="icon" src="/image/invite-icon-2.png" />
+        </view>
+        <view>
+          <text>邀请好友</text>
+          <text>好友完成</text>
+          <text>坐等领奖</text>
+        </view>
+        <view>
+          <text class="">直接分享</text>
+          <text>注册/获得额度/借款</text>
+          <text>发放奖励\t\t</text>
+        </view>
+      </view>
+      <button open-type="share">分享</button>
+      <text>活动时间：{{invite.activityTime}}</text>
+    </view>
+  </view>
+
+  <view>
+    <text>邀请奖励</text>
+    <view>
+      <view>
+        <text>好友获得自由贷额度</text>
+        <text>好友借款成功</text>
+      </view>
+      <view>
+        <text>{{invite.policySuccessBonus}}</text>
+        <text>{{invite.lendSuccessBonus}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view>
+    <text>规则说明</text>
+    <block wx:for="{{rules}}" wx:key="idx" wx:for-index="idx">
+      <text class="descTitle">• {{item.title}}</text>
+      <text class="descContent">{{item.content}}</text>
+    </block>
+    <text class="descTitle">• 活动限制</text>
+      <rich-text nodes="{{htmlSnip}}"></rich-text>
+   
+    
+    <text class="descTitle">• 其他说明</text>
+    <text class="descContent">（1）在活动期间用户账号被识别为风险账号、账号状态不正常或用户存在恶意刷单、机器作弊等违规行为，主办方将取消用户的活动资格，撤销相关违规交易和奖励，并保留追究法律责任的权利。</text>
+    <text class="descContent">（2）如有证据证明用户盗用、骗取他人信息导致非真实用户参与活动的，系统将取消奖励领取资格，没收违规所得，并保留追究法律责任的权利。</text>
+    <text class="descContent">（3）如出现不可抗力或情势变更的情况（包括但不限于重大灾害事件、活动受政府机关指令需要停止举办或调整的、活动遭受严重网络攻击或因系统故障需要暂停举办的），自由贷有权随时暂停或取消本次活动，并有权主张免责。</text>
+    <text class="descContent">（4）自由贷可以根据活动的实际举办情况对活动规则进行变动调整，相关改动或调整将公布在活动页面上，相关规则一经发布即时生效，自由贷将不另行通知， 请您随时关注。</text>
+    <text class="descContent">（5）如有任何关于本活动问题，请联系官方客服，电话：40001-96079。</text>
+    <text class="descContent">（6）自由贷对本活动在法律规定的范围内具有解释权。</text>
+  </view>
+</view>

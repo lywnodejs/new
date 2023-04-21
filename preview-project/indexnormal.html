@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ORC识别-自定义版</title>
+    <link rel="stylesheet" type="text/css" href="css/indexnormal.css" />
+    <link rel="stylesheet" href="./css/tabList.css">
+</head>
+<body>
+<div class="header">
+    <img src="./image/images/login_02.png" alt="">
+</div>
+<div class="left">
+    <ul>
+        <li onclick="window.location.href='indexbase.html';">
+            <p></p>
+            <img src="./image/images/item01_02.png" />
+            <span>OCR识别</span>
+            <span>普通版</span>
+        </li>
+        <li class="line_left" onclick="window.location.href='indexnormal.html';">
+            <p></p>
+            <img src="./image/images/item02_02.png" />
+            <span>OCR识别</span>
+            <span>自定义版</span>
+        </li>
+        <li onclick="window.location.href='indexWrite.html';">
+            <p></p>
+            <img src="./image/images/item03_02.png" />
+            <span>OCR识别</span>
+            <span>手写版</span>
+        </li>
+        <li onclick="window.location.href='indexbaseMode.html';">
+            <p></p>
+            <img src="./image/images/item04_14.png" />
+            <span>OCR识别</span>
+            <span>公文识别</span>
+        </li>
+        <li onclick="window.location.href='tablist.html';">
+            <p></p>
+            <img src="./image/images/item05_02.png" />
+            <span>知识抽取</span>
+        </li>
+        <li onclick="window.location.href='wordAnalyze.html'">
+            <p></p>
+            <img src="./image/images/item-6_02.png" />
+            <span>词法分析</span>
+        </li>
+        <li onclick="window.location.href='sentenceAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item07_24.png" />
+            <span>句法分析</span>
+        </li>
+        <li onclick="window.location.href='synonymsAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item08_02.png" />
+            <span>同义词 </span>
+        </li>
+    </ul>
+</div>
+<div class="wrap">
+    <div class="box">
+        <div class="box-img">
+            <img src="image/left.png" alt="">
+        </div>
+        <div class="box-ajax">
+           <button style="border: navajowhite;line-height: 30px;cursor: pointer" onclick="onclick1('http://114.242.145.87/www/16.png')" value="">点击进行图片识别</button>
+           <ul id="resReport" ></ul>
+            <div id="res1" class="spinner spinner1">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <div class="box-img">
+            <img src="image/right.png" alt="">
+        </div>
+        <div class="box-ajax">
+            <button style="border: navajowhite;line-height: 30px;cursor: pointer" onclick="onclick2('http://114.242.145.87/www/1.png')" value="">点击进行图片识别</button>
+            <ul id="resReport2" ></ul>
+            <div id="res2" class="spinner spinner2">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<script src="jquery.min.js"></script>-->
+<script src="layui/layui.js"></script>
+<script>
+  layui.use('layer', function(){
+         $ = layui.$ //重点处
+          ,layer = layui.layer;
+
+    $("#res1").hide();
+    $("#res2").hide();
+  });
+    function onclick1(ImgUrl) {
+        $("#res1").show();
+        setTimeout(function () {
+            ajaxData(ImgUrl)
+        },50)
+    }
+    function onclick2(ImgUrl) {
+        $("#res2").show();
+        setTimeout(function () {
+            ajaxData2(ImgUrl)
+        },50)
+    }
+    function ajaxData(ImgUrl){
+        $.ajax({
+            type: "GET",
+            url: '/image/service/ocr',
+            data: {"imageUrl":ImgUrl},
+            async : false,
+            dataType: "json",
+            success: function(data) {
+                if(data.message.code ==0){
+                    var temp = '';
+                    var list = data.data.result || [];
+                    for(var i = 0;i<list.length;i++){
+                        var item = list[i];
+                        console.log(item);
+                        if(item.word_name=="trustee_name"){item.word_name='托管人姓名：'}
+                        if(item.word_name=="name"){item.word_name='基金名称：'}
+                        if(item.word_name=="num"){item.word_name='备案编码：'}
+                        if(item.word_name=="date_time"){
+                            item.word_name='证书打印时间：';
+                            item.word=dateZh(item.word)
+                        }
+                        if(item.word_name=="manager_name"){item.word_name='管理人员名称：'}
+                        if(item.word_name=="date"){
+                            item.word_name='备案日期：';
+                            item.word=dateZh(item.word)}
+                        temp += ''+
+                            '<li class="box_li">'+
+                            '<div>'+item.word_name+'</div>'+
+                            '<div>'+item.word+'</div>'+
+                            '</li>';
+                    }
+                    $('#resReport').html(temp);
+                    $("#res1").hide();
+                }
+                if(data.message.code !=0){
+                    alert(data.message);
+                }
+
+            },
+            error:function (data) {
+                alert(data.message);
+            }
+        });
+    }
+    function ajaxData2(ImgUrl){
+        $.ajax({
+            type: "GET",
+            url: '/image/service/ocr',
+            data: {"imageUrl":ImgUrl},
+            async : false,
+            dataType: "json",
+            success: function(data) {
+                if(data.message.code ==0){
+                    var temp = '';
+                    var list = data.data.result || [];
+                    for(var i = 0;i<list.length;i++){
+                        var item = list[i];
+                        console.log(item);
+                        if(item.word_name=="trustee_name"){item.word_name='托管人姓名：'}
+                        if(item.word_name=="name"){item.word_name='基金名称：'}
+                        if(item.word_name=="num"){item.word_name='备案编码：'}
+                        if(item.word_name=="date_time"){
+                            item.word_name='证书打印时间：'
+                            item.word=dateZh(item.word)
+                        }
+                        if(item.word_name=="manager_name"){item.word_name='管理人员名称：'}
+                        if(item.word_name=="date"){
+                            item.word_name='备案日期：';
+                            item.word=dateZh(item.word)
+                        }
+                        temp += ''+
+                            '<li class="box_li">'+
+                            '<div>'+item.word_name+'</div>'+
+                            '<div>'+item.word+'</div>'+
+                            '</li>';
+                    }
+                    $('#resReport2').html(temp);
+                    $('#res2').hide();
+                }
+                if(data.message.code !=0){
+                    alert(data.message);
+                }
+            },
+            error:function (data) {
+                alert(data.message);
+            }
+        });
+    }
+    function dateZh(date) {
+        let datex;
+        let y=date.substr(0,4);
+        let m=date.substr(4,2);
+        let d=date.substr(6,2);
+        let h=date.substr(8,2);
+        let min=date.substr(10,2);
+        datex = y+'年'+ m +'月'+ d+'日';
+        if (date.length>8){
+            datex = y+'年'+ m +'月'+ d+'日'+h+':'+min
+        }
+        return datex
+    }
+
+</script>
+</body>
+</html>

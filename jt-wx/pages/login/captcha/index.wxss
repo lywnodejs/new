@@ -1,0 +1,35 @@
+/* pages/login/captcha/index.wxss */
+.login-captcha{
+  display: flex;
+  flex-direction: column;
+  padding: 28px 30px;
+  position: relative;
+}
+.login-captcha .title{
+  font-size: 22px;
+  font-family:PingFangSC-Medium;
+  color: #333333;
+}
+.login-captcha .subtitle{
+  font-size: 14px;
+  color: #C5CAD4;
+  font-family:PingFangSC-Medium;
+  padding: 12px 0 100rpx;
+}
+.login-captcha .subtitle text{
+  color: #4D4D4D;
+  padding-left: 10px;
+}
+.login-captcha .input-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+  overflow: hidden;
+}
+.login-captcha .countdown{
+  position: absolute;
+  bottom: 26px;
+  right: 60rpx;
+  text-align: right;
+}

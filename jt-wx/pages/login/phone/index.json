@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "send-captcha": "/components/send-captcha/index",
+    "verify-popup": "/components/verify-popup/index"
+  },
+  "navigationBarTitleText": "九商金融"
+}

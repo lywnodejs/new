@@ -1,0 +1,9 @@
+{
+  "name": "decision-engine",
+  "script": "server.js",
+  "instances": "2",
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "7000"
+  }
+}

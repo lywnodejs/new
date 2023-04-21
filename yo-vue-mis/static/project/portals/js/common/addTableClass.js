@@ -1,0 +1,1 @@
+"use strict";define("js/common/addTableClass",["require","exports","module"],function(e,t,r){return function(e){Array.prototype.slice.call(document.querySelector(e||"#js-spec-content").querySelectorAll("table")).forEach(function(e){angular.element(e).addClass("table table-bordered")})}});

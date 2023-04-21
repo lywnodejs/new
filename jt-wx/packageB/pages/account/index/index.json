@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "account-card": "/components/account-card/index",
+    "cell": "/components/cell/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "password-popup":"/packageB/components/password-popup/index"
+  },
+  "navigationBarTitleText": "电子账户"
+}

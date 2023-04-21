@@ -1,0 +1,37 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<% include ../../component/jsLoad %>
+<%
+if (commonUtil.stringIsNotEmpty(info) && commonUtil.stringIsNotEmpty(info.data) && info.data.length > 0) {
+    var list = info.data;
+    var displayMode = info.displayMode;
+    var timeUnit = info.timeUnit;
+%>
+<div class="rxh_text rxh_gap">
+    <% for (var i = 0; i < list.length; i++) {
+        item = list[i];
+        var propValue = commonUtil.formatNumberNoUnit(item.propValue);
+        var unit = item.unit == null ? "" : item.unit;
+        if (displayMode == "话术") {
+            var date = item.date;
+            if(timeUnit == 'year'){
+                time = date && date.length > 4 ? date.substring(0, 4) + '年' :"--"
+            } else {
+                time = date && date.length > 7 ? date.substring(0, 4) + '年' + date.substring(4, 6) + '月' + date.substring(6, 8) + '日' : '--';
+            }
+    %>
+            <h5><%= time + item.entityName + item.propName +"："+ propValue + unit %></h5><br>
+        <% } else { %>
+            <h5><%= propValue + unit %></h5><br>
+        <% } %>
+    <% } %>
+</div>
+<%
+} else {
+%>
+<div class="rxh_bd2">
+    暂无数据
+</div>
+<%
+}
+%>

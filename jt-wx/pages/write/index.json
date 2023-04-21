@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "canvasUse":"/components/handWrite/index",
+    "painter":"/components/painter/painter"
+  },
+  "navigationBarTitleText":"签署电子签名",
+  "pageOrientation":"landscape",
+  "disableScroll":true
+}

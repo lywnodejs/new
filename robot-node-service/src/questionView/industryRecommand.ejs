@@ -1,0 +1,176 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!--行业推荐-->
+<div class="bd" id="answer<%= sn %>">
+    <div class="mb">
+        <div class='box_hd2 box_hd2_red'>
+            <span>短期市场热点</span>
+            <b><i class='i_t'></i><i class='i_b'></i>
+            </b>
+        </div>
+        <div class='box_show_tl box_show_tlBD'>
+            <% for(var i = 0; i < listShort.length && i < 3 ; i++){
+                var lineClass = commonUtil.generateRandomClassName("hideArticle");
+                var ifOn = i == 0 ? '' : '';
+                var item = listShort[i] %>
+            <li class="<%= ifOn %> <%= lineClass %>">
+                <div class='box_hd'>
+                    <span onclick="industryClick()"><%= i+1 %>、<%= item.term %></span>
+                    <a class='icon-arrow_open'
+                       onclick="showMoreIndustry('<%= lineClass %>','<%= item.term %>','短期')"></a>
+                </div>
+                <h5></h5>
+            </li>
+            <% } %>
+        </div>
+        <div class='box_hd2 box_hd2_blue'>
+            <span>中长期投资方向</span>
+            <b><i class='i_t'></i>
+                <i class='i_b'></i>
+            </b>
+        </div>
+        <div class='box_show_tl box_show_tlBD'>
+            <% for(var i = 0; i < listLong.length && i < 3 ; i++){
+                var lineClass = commonUtil.generateRandomClassName("hideArticle");
+                var item = listLong[i] %>
+            <li class="<%= lineClass %>">
+                <div class='box_hd'>
+                    <span onclick="industryClick('<%= item.term %>')"><%= i+1 %>、<%= item.term %></span>
+                    <a class='icon-arrow_open'
+                       onclick="showMoreIndustry('<%= lineClass %>','<%= item.term %>','中长期')"></a>
+                </div>
+                <h5></h5>
+            </li>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var industryRecommand = {
+    onViewReady: function () {
+      // resizeUtils.init(frameId, sn);
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    // '/static/js/utils/resizeUtils'
+  ];
+  loadJs(jsArr, industryRecommand.onViewReady)
+
+
+  function industryClick(industryName) {
+  }
+
+
+  //展示更多行业
+  function showMoreIndustry(className, subjectName, attribute) {
+    // $("." + className).find("i").attr("class", "icon-arrow_closed2");
+    // $("." + className).find("i").addClass("icon-arrow_open");
+    if ($("." + className).hasClass("on") == false) {
+      $("." + className).siblings().removeClass("on");
+      $("." + className).addClass("on");
+      // $("." + className).find("i").attr("class", "icon-arrow_closed2");
+    } else {
+      // $("." + className).siblings().find("i").attr("class", "icon-arrow_open");
+      $("." + className).removeClass("on");
+    }
+    $("." + className).siblings().find("h5").slideUp();
+    $("." + className).find("h5").slideToggle();
+    var ifRequest = $("." + className).find("h5")[0].innerHTML != '' ? true : false;
+    if (!$('.' + className).hasClass('on') || ifRequest) {
+
+    } else {
+      industryRecommendationReasons(subjectName, attribute, function (result) {
+        if (result.answerResultType === '行业推荐理由') {
+          var content = "";
+          // 赵老师那边的
+          if (result.data.list && result.data.list.length > 0) {
+            if (attribute === "短期") {
+              content += result.data.list[0].analyseResults['sh000001短期行业推荐'] || result.data.list[0].analyseResults['sh000001短期日策略行业推荐'] || result.data.list[0].analyseResults['sh000001日策略行业推荐'] || result.data.list[0].analyseResults['sh000001短期日策略大盘行情展望'] || result.data.list[0].analyseResults['sh000001日策略创业板分析'] || result.data.list[0].analyseResults['sh000001行业推荐'] || result.data.list[0].analyseResults['行业分析'] || result.data.list[0].analyseResults['sh000001大盘行情展望'] || result.data.list[0].analyseResults['sh000001短期大盘行情展望'];
+              var contentS = result.data.list[0].analyseResults['sh000001短期行业推荐'] || result.data.list[0].analyseResults['sh000001短期日策略行业推荐'] || result.data.list[0].analyseResults['sh000001日策略行业推荐'] || result.data.list[0].analyseResults['sh000001短期日策略大盘行情展望'] || result.data.list[0].analyseResults['sh000001日策略创业板分析'] || result.data.list[0].analyseResults['sh000001行业推荐'] || result.data.list[0].analyseResults['行业分析'] || result.data.list[0].analyseResults['sh000001大盘行情展望'] || result.data.list[0].analyseResults['sh000001短期大盘行情展望'];
+              if (contentS == result.data.list[0].analyseResults['sh000001短期行业推荐'] && result.data.list[0].analyseResults['sh000001短期日策略行业推荐']) {
+                content += "<br><p style='height:10px;'></p>" + result.data.list[0].analyseResults['sh000001短期日策略行业推荐'];
+              }
+            } else {
+              var keyPoints = result.data.list[0].analyseFlags;
+              keyPoints.forEach(function (item) {
+                content += '<br/>' + result.data.list[0].analyseResults['sh000001' + item];
+              });
+              var contentS = result.data.list[0].analyseResults['sh000001中长期行业推荐'] || result.data.list[0].analyseResults['sh000001中长期日策略行业推荐'] || result.data.list[0].analyseResults['sh000001日策略行业推荐'] || result.data.list[0].analyseResults['sh000001中长期日策略大盘行情展望'] || result.data.list[0].analyseResults['sh000001日策略创业板分析'] || result.data.list[0].analyseResults['sh000001行业推荐'] || result.data.list[0].analyseResults['行业分析'] || result.data.list[0].analyseResults['sh000001大盘行情展望'] || result.data.list[0].analyseResults['sh000001中长期大盘行情展望'];
+              if (contentS == result.data.list[0].analyseResults['sh000001中长期行业推荐'] && result.data.list[0].analyseResults['sh000001中长期日策略行业推荐']) {
+                content += "<br><p style='height:10px;'></p>" + result.data.list[0].analyseResults['sh000001中长期日策略行业推荐'];
+              }
+            }
+            content = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + result.data.list[0].title + "</p>" + content;
+          } else {
+            content += handleErrorRequest(className, "暂无数据");
+          }
+
+          // 结束赵老师那里
+          var redT = "<s class='t_red'>" + subjectName + "</s>";
+          if (content.indexOf(subjectName) !== -1) {
+            var regT = "/" + subjectName + "/g";
+            content = content.replace(eval(regT), redT);
+          }
+
+          content = toolsUtil.replaceLineBreak(content);
+          $("." + className).find("> h5").html(content);
+          $(".box_show_tl .on>h5").show();
+        }
+      }, function (XMLHttpRequest, textStatus, errorThrown) {
+        handleErrorRequest(className);
+        // saveLog('ajaxError', 'readyState:'+XMLHttpRequest.readyState+',status:'+XMLHttpRequest.status+',statusText:'+XMLHttpRequest.statusText, 'answer-2.js', 0, 0, errorThrown);
+      })
+    }
+  }
+
+  /**
+   * 行业推荐理由
+   */
+  function industryRecommendationReasons(subjectRawValue, attribute, success, errorHandler) {
+    var url = '<%= host %>' + '/api/stock/fix';
+    $.ajax({
+      type: "get",
+      url: url,
+      data: {
+        subjectRawValue: subjectRawValue,
+        predicateType: '行业推荐理由',
+        attribute: attribute,
+        attributeType: '时间',
+      },
+      timeout: 10000,
+      success: success,
+      error: errorHandler
+    })
+  }
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+
+</script>
+

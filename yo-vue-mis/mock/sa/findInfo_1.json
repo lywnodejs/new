@@ -1,0 +1,30 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "data": [{
+        "id": 1000,
+        "project_no": "RA-2019001",
+        "project_name": "金融风险专项评估项目",
+        "dept_id": "9",
+        "dept_name": "金融事业部",
+        "create_user_name": "张三",
+        "create_user_email": "zhaoweinan@didichuxing.com",
+        "create_time": "2018-01-25 12:24:54",
+        "start_time": "2018-01-25 12:24:54",
+        "close_time": "2018-01-25 12:24:54",
+        "follower": [{
+                "user_id": 1,
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "张三"
+            },
+            {
+                "user_id": 2,
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }
+        ],
+        "description": "备注~~~~",
+        "assessment_self_enabled": 1,
+        "feedback_enabled": 1
+    }]
+}

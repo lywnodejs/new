@@ -1,0 +1,36 @@
+.mediaBox {
+  width: 60px;
+  height: 22px;
+  overflow: hidden;
+  position: relative;
+}
+.antImage {
+  opacity: 0;
+  z-index: 99;
+  cursor: pointer;
+}
+.mediaBtn {
+  width: 60px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.video {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+.dots {
+  // background-color: red;
+  bottom: -50px !important;
+  :global {
+    li button {
+      background-color: #a0a0a0 !important;
+    }
+    li.slick-active button {
+      background-color: #333 !important;
+    }
+  }
+}

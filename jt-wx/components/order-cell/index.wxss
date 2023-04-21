@@ -1,0 +1,67 @@
+/* components/order-cell/index.wxss */
+.order-cell{
+  background-color: white;
+  padding: 0 15px;
+  border-radius: 5px;
+  margin-top: 12px;
+}
+
+.order-cell .header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 0 14px;
+  border-bottom: 1px solid #EDEDED;
+  font-size: 15px;
+  color: #333333;
+}
+.order-cell .header .amount{
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+}
+/* 已结清 额度失效 */
+.order-cell .header .status{
+  color: #999999;
+  font-size:15px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+}
+/* 放款失败 */
+.order-cell .header .fail{
+  color: #FF2C43;
+}
+/* 待审核 */
+.order-cell .header .wait{
+  color: #FC8100;
+}
+/* 审核通过 */
+.order-cell .header .pass{
+  color: #0081FF;
+}
+.order-cell .content{
+  padding: 14px 0 15px;
+}
+.order-cell .content>view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #999999;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+}
+.order-cell .content .date{
+  padding-top: 5px;
+}
+.order-cell .content .info{
+  padding-top: 12px;
+  color: #333333;
+}
+.order-cell .content .info .button{
+  padding: 5px 9px;
+  border: 1px solid #FF2C43;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #FF2C43;
+}

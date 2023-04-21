@@ -1,0 +1,8 @@
+<!--pages/login/captcha/index.wxml-->
+<view class="login-captcha">
+  <text class="title">输入短信验证码</text>
+  <text class="subtitle">验证码已发送至<text>{{phone}}</text></text>
+  <captcha-input focus="{{focus}}" isError="{{isError}}" bind:onComplete="onComplete"/>
+  <send-captcha againText="重新发送验证码" class="countdown" bind:onSend="onSend" isDoing="{{isCountdown}}"/>
+  <verify-popup bind:onRefresh="onSend" show="{{img}}" img="{{img}}" isError="{{verifyError}}" bind:onComplete="onVerify"/>
+</view>

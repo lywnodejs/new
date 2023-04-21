@@ -1,0 +1,28 @@
+<!--pages/share/index.wxml-->
+<view class="share">
+  <view class="content">
+    <view class="header">
+      <image src="../../image/avatar_1.png"></image>
+      <view class="title">
+        <text>来自{{userName}}的分享</text>
+        <view>跟我一起加入九商金融吧</view>
+      </view>
+    </view>
+    <image src="/image/shaer_banner.png"></image>
+    <view class="shaer_footer">
+      <view class="info">
+        长按识别
+        <view>内藏惊喜的哦～</view>
+      </view>
+      <image src="/image/miniPng.jpg"></image>
+      <image src="/image/shaer_01.png"></image>
+    </view>
+  </view>
+
+  <view class="footer">
+    <button bindtap="setImage">保存海报至本地</button>
+    <button open-type="share">分享好友或群聊</button>
+  </view>
+</view>
+
+<painter widthPixels="1000" palette="{{imgData}}" bind:imgOK="onImgOK" customStyle='position: absolute; left: -9999rpx;' />

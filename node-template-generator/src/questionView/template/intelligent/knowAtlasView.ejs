@@ -1,0 +1,955 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="<%= config %>/static/css/knowcss/index.css">
+<% } %>
+
+<% if(params.showtext==true){ %>
+    <div class="moduleContent" style="margin-bottom: 0rem;width:96%;">
+
+    </div>
+<% } %>
+
+<div id='main' style='width:100%;height:500px;'></div>
+
+
+<% if(params.showtext==true){ %>
+  <div class="rxh_public_hd03" style="background: none;">
+    <span onclick="toNewKnow()" style="background: #EFF2F6;color:#1b1b1b;margin-left: 50%;transform: translate(-50%,0);">查看完整生态定位</span>
+  </div>
+<% } %>
+
+
+<% if(params.showtext == false){ %>
+  <% if(params.color=='black'){ %>
+    <div class="buttonbox2">
+      <%}else {%>
+      <div class="buttonbox">
+        <%}%>
+      <button class="add" id="add">+</button>
+        <button class="subtract" id="subtract">-</button>
+    </div>
+<% } %>
+<button id="images_" style="display: none;">导出图片</button>
+
+<% if(params.showtext == false){ %>
+<% if(params.color=='black'){ %>
+<div class="alertBox" id="alertBox_">
+    <%} else {%>
+    <div class="alertBox2" id="alertBox_">
+        <% } %>
+        <div class="top">
+            <i class="iconfont iconclose"></i>
+            <span>公司高管</span>
+          <i class="iconfont iconguanxitu">   展开</i>
+        </div>
+        <div class="content">
+            <h4 style="margin-top: 1.6rem;margin-bottom: 0.6rem;"><span></span> </h4>
+            <p></p>
+            <h4 style="margin-top: 1rem;margin-bottom: 0.6rem;"><span></span></h4>
+            <p style="line-height: 1.6rem;"></p>
+
+        </div>
+        <button>行业发展趋势详细报告</button>
+    </div>
+  <% } %>
+    <script>
+
+      window.knowData = {};
+      var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      var dataItemArr=[];
+      var adminType='<%=params.admin%>';
+      var disName = '<%=params.disName%>';
+      var showtext= '<%=params.showtext%>';
+      var TXT = '<%=params.input%>';
+      var symbolVal = '<%=params.input%>';
+      var TYPE = '<%=params.entityType%>';
+      var to_know ='';
+      var color = '<%=params.color%>';
+      var color_ = color ==='black' ? '#ffffff' : '#000000';
+      var global_index = 1;
+      var global_data=[];
+      var dataBox = null;
+      var databackOff = true;
+      var colorblack = {
+        '治理结构':['#606980','#606980'],
+        '董事':['#873c65','#873c65'],
+        '高管':['#745ca4','#745ca4'],
+        '十大股东':['#816558','#816558'],
+        '指数':['#c95e64','#c95e64'],
+        '上游产业':['#3980c4','#3980c4'],
+        '下游产业':['#de9246','#de9246'],
+        '产品':['#de9246','#de9246'],
+        '概念':['#57a4aa','#57a4aa'],
+        '上游产品':['#3980c4','#3980c4'],
+        '下游产品':['#de9246','#de9246'],
+        '公司':['#c95e64','#c95e64'],
+        '产品cp':['#b87032','#ebb271'],
+        '上游产业cp':['#26609e','#5e9dd1'],
+        '下游产业cp':['#b87032','#ebb271'],
+        '概念gn':['#3d7d85','#7bb6b8'],
+        '公司st':['#a3454c','#d68788'],
+        '指数zsgn':['#a3454c','#d68788'],
+        '上游产品cp':['#26609e','#5e9dd1'],
+        '下游产品cp':['#b87032','#ebb271'],
+        '董事nr':['#612648','#945977'],
+        '高管nr':['#52407d','#917fb0'],
+        '十大股东nr':['#5c433a','#8f8078'],
+        '十大股东nt':['#5c433a','#8f8078'],
+        '关联产业':['#f7f113','#f7f60a'],
+        '关联产业cp':['#c5d44d','#8d9f32'],
+        'nr':['#5c433a','#5c433a'],
+        'gn':['#3d7d85','#7bb6b8'],
+        'zsgn':['#a3454c','#d68788'],
+        'cp':['#b87032','#ebb271'],
+        'st':['#a3454c','#d68788'],
+      };
+
+      var A1 = null;//治理结构
+
+      var knowAtlasView<%- sn%> = {
+        onViewReady: function () {
+          callback();
+        },
+      }
+
+      <% if(!params.noSource) { %>
+      loadJs(jsSource, knowAtlasView<%- sn%>.onViewReady);
+      <% } %>
+
+
+      function callback() {
+        window.ec = echarts;
+        getdata(TXT,TYPE);
+
+        function getdata(name,type) {
+          dataItemArr =[];
+          var data = {
+            entityName: name,
+            entityType: type,
+          }
+          if(data.entityType!=='st'){
+            $('.iconBut .iconliebiao').hide(0);
+          }else{
+            $('.iconBut .iconliebiao').show(0);
+          }
+          if(adminType !=='rxhui'){
+            data.userName = sessionStorage.getItem('name');
+          }
+          var url = adminType=='rxhui' ? '/api/kg/search' : '/api/kg/client/search';
+          $.ajax({
+            url: '<%= host %>' + url,
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+              if(data.isError && data.isError == true && adminType !=='rxhui'){
+                $('.alertExternal').show();
+                var a= new Date().getTime();
+                if(sessionStorage.getItem('name')=='cmb'){
+                  if(a<1576425600000){
+                    $('.alertExternal').find('p').eq(0).show(0);
+                  }else{
+                    $('.alertExternal').find('p').eq(1).show(0);
+                  }
+                }else{
+                  if(a<1572969600000){
+                    $('.alertExternal').find('p').eq(0).show(0);
+                  }else{
+                    $('.alertExternal').find('p').eq(1).show(0);
+                  }
+                }
+
+              }
+              $('#loading').hide();
+              dataBox=data;
+              window.knowData = data;
+              if (data.data && data.data.relations.length !== 0) {
+                global_data = data.data.relations;
+                if(!data.data.relations['公司董事_董事']){
+                  $('.iconBut .iconliebiao').hide(0);
+                }else{
+                  $('.iconBut .iconliebiao').show(0);
+                }
+                if(data.data.entity.type==='st'){
+                  var dataItem = handlerData(data.data.relations,false,data.data.entity.disName);
+                  window.TXT= data.data.entity.name;
+                  addElement(global_data,data.data.entity.disName);
+                }else{
+                  var dataItem = handlerData(data.data.relations);
+                  addElement(global_data,false);
+                }
+                dataItemArr.push(dataItem);
+                initEc(dataItem);
+              }else{
+                if(color === 'black'){
+                  var color3 = 'rgb(206,206,206)'
+                }else{
+                  var color3 = 'rgb(39,46,64)'
+                }
+                var dataItem =[{
+                  id: 0,
+                  category: 0,
+                  name:disName,
+                  type:false,
+                  symbolSize: 15,
+                  itemStyle: {
+                    color: color3
+                  }
+                }]
+                var dd = {
+                  nodes:dataItem,
+                  links:[]
+                }
+                dataItemArr.push(dd);
+                initEc(dd);
+              }
+            },
+          })
+        }
+
+        function initEc(data) {
+          var zoom = 3;
+          if(data.nodes.length<=20){
+            zoom = 6
+          }else if(data.nodes.length<=30){
+            zoom = 5
+          }else if(data.nodes.length<=40){
+            zoom = 4
+          }else if(data.nodes.length<=50){
+            zoom = 3;
+          }else if(data.nodes.length<=10){
+            zoom = 7;
+          }
+        zoom = showtext =='true' ?2.6 : zoom;
+          var myChart = ec.init(document.getElementById('main'), 'macarons');
+          window.myChart = myChart;
+          var option = {
+            tooltip: {
+              show: false
+            },
+            series: [{
+              itemStyle: {
+                normal: {
+                  label: {
+                    position: 'top',
+                    show: true,
+                    textStyle: {
+                      color: color_
+                    }
+                  },
+                  nodeStyle: {
+                    brushType: 'both',
+                    borderColor: 'rgba(255,215,0,0.4)',
+                    borderWidth: 1
+                  },
+                  linkStyle: {
+                    color: 'source',
+                    curveness: 0,
+                    type: "solid"
+                  }
+                },
+
+              },
+              force: {
+                initLayout: 'force',//初始布局
+                edgeLength: 5,
+                repulsion: 20,
+                gravity: 0.2,
+                layoutAnimation: false
+              },
+              edgeLabel: {
+                show: false,
+              },
+              //形状
+              // symbol:'arrow',
+              name: 'Les Miserables',
+              type: 'graph',
+              layout: 'force',//取值none,circular,force
+              roam: showtext =='true' ? false : true,//可以拖动
+              draggable: false,
+              useWorker: false,
+              minRadius: 15,
+              maxRadius: 25,
+              animation:true,
+              // gravity: 0.1,
+              // scaling: 3.1,
+              zoom: zoom,
+              nodes: data.nodes,
+              links: data.links,
+            }]
+
+          };
+          myChart.clear();
+          myChart.setOption(option);
+
+          window.openOrFold= function(param) {
+            var option = myChart.getOption();
+            var nodes = option.series[0].nodes;
+            var links = option.series[0].links;
+            var data = param.data;
+
+
+            //如果节点点击过了，就不能再次点击了
+            // if (!data.flag) {
+            //   for (var i = 0; i < nodes.length; i++) {
+            //     if (data.id == nodes[i].id) {
+            //       option.series[0].nodes[i].flag = true;
+            //     }
+            //   }
+            // } else {
+            //   console.log('节点被加载过了。')
+            //   return;
+            // }
+            var dd = null;
+            var k = data.type;
+            if(k === '公司十大股东_公司' || k==='公司董事_董事' || k==='公司高管_高管' || k ==='公司董事_董事' || k==='公司高管_高管'|| k==='公司十大股东_十大股东'){
+              dd =  handlerData2(A1[k],data.id,k);
+              dataItemArr.push(dd);
+              $('#databack').show(0);
+              initEc(dd);
+              $('#loading').hide();
+              // nodes = nodes.concat(dd.nodes);
+              // links = links.concat(dd.links);
+              // option.series[0].nodes = nodes;
+              // option.series[0].links = links;
+              // myChart.clear();
+              // myChart.setOption(option);
+            }else if(data.type){
+              var data2 = {
+                entityName: data.value,
+                entityType: data.type,
+                relationName: ''
+              }
+              if(adminType !=='rxhui'){
+                data2.userName = sessionStorage.getItem('name');
+              }
+              var url = adminType=='rxhui' ? '/api/kg/search' : '/api/kg/client/search';
+              $.ajax({
+                url: '<%= host %>' + url,
+                data: data2,
+                dataType: 'json',
+                success: function (res) {
+                  if(data.isError && data.isError == true && adminType !=='rxhui'){
+                    $('.alertExternal').show();
+                    var a= new Date().getTime();
+                    if(sessionStorage.getItem('name')=='cmb'){
+                      if(a<1576425600000){
+                        $('.alertExternal').find('p').eq(0).show(0);
+                      }else{
+                        $('.alertExternal').find('p').eq(1).show(0);
+                      }
+                    }else{
+                      if(a<1572969600000){
+                        $('.alertExternal').find('p').eq(0).show(0);
+                      }else{
+                        $('.alertExternal').find('p').eq(1).show(0);
+                      }
+                    }
+                  }
+                  $('#loading').hide();
+                  // window.knowData = res;
+                  dataBox=res;
+                  if (res.data && res.data.relations.length !== 0) {
+                    var dataItem = handlerData(res.data.relations,false,data.name);
+                    dd = dataItem;
+                    if(dd.nodes.length==0){
+                      return;
+                    }
+                    if(res.data.entity.type&&res.data.entity.type=='st'){
+                      symbolVal= res.data.entity.name;
+                    }
+                    initEc(dd);
+                    // nodes = dd.nodes;
+                    // links = dd.links;
+                    // option.series[0].nodes = nodes;
+                    // option.series[0].links = links;
+                    // myChart.clear();
+                    // myChart.setOption(option);
+                    dataItemArr.push(dd);
+                    $('#databack').show(0);
+                    return false;
+                  }else{
+                    if(color === 'black'){
+                      var color3 = 'rgb(206,206,206)'
+                    }else{
+                      var color3 = 'rgb(39,46,64)'
+                    }
+                    var dataItem =[{
+                      id: 0,
+                      category: 0,
+                      name: disName,
+                      type:false,
+                      symbolSize: 15,
+                      itemStyle: {
+                        color: color3
+                      }
+                    }]
+                    var dd = {
+                      nodes:dataItem,
+                      links:[]
+                    }
+                    dataItemArr.push(dd);
+                    initEc(dd);
+                  }
+                }
+              })
+            } else{
+              $('#loading').hide();
+              return ;
+            }
+
+          }
+
+          myChart.on('click', clickitem);
+          myChart.on('dblclick', clickitem);
+        }
+
+
+
+        function randomRgbColor(k) { //随机生成RGB颜色
+          if(k && colorblack[k]){
+                var index = color ==='black'? 0:1;
+                return colorblack[k][index];
+            }
+          var r = Math.floor(Math.random() * 256); //随机生成256以内r值
+          var g = Math.floor(Math.random() * 256); //随机生成256以内g值
+          var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+          return `rgb(${r},${g},${b})`; //返回rgb(r,g,b)格式颜色
+        }
+
+//处理数据--------------------------------------------------
+        function handlerData(res, targetId,dataname) {
+          if (!targetId) {
+            targetId = 0;
+          }
+          if(dataname){
+            disName = dataname;
+            global_index=1;
+          }
+          var links = [];
+          var nodes = [];
+
+          if (targetId === 0) {
+            if(color === 'black'){
+              var color3 = 'rgb(206,206,206)'
+            }else{
+              var color3 = 'rgb(39,46,64)'
+            }
+            nodes.unshift({
+              id: 0,
+              category: 0,
+              name:dataBox.data.entity.disName,
+              value:dataBox.data.entity.name,
+              type:dataBox.data.entity.type,
+              symbolSize: 15,
+              itemStyle: {
+                color: color3
+              }
+            })
+          }
+          var offA = true;
+          window.zlId = null;
+          for(var k in res){
+            if(res[k].length!==0){
+              if(k === '公司十大股东_公司' || k==='公司董事_董事' || k==='公司高管_高管' || k ==='公司董事_董事' || k==='公司高管_高管'|| k==='公司十大股东_十大股东'){
+                if(offA){
+                  A1 = res;
+                  offA=false;
+                  window.zlId =global_index++;
+                  nodes.push({
+                    id: zlId,
+                    name: '治理结构',
+                    value: '治理结构',
+                    type:false,
+                    symbolSize: 10,
+                    itemStyle: {
+                      color: randomRgbColor('治理结构')
+                    }
+                  });
+                  links.push({
+                    source: zlId,
+                    target: targetId,
+                    lineLabel: '治理结构'
+                  });
+                }
+                var id2 = global_index++;
+                var name = k.split('_')[1];
+                nodes.push({
+                  id: id2,
+                  name: name,
+                  value: name,
+                  type:k,
+                  symbolSize: 8,
+                  itemStyle: {
+                    color: randomRgbColor(name)
+                  }
+                });
+                links.push({
+                  source: id2,
+                  target: zlId,
+                  lineLabel: name
+                });
+              }else{
+                var id = global_index++;
+                var name = k.split('_')[1];
+                nodes.push({
+                  id: id,
+                  name: name,
+                  value: name,
+                  type:false,
+                  symbolSize: 10,
+                  itemStyle: {
+                    color: randomRgbColor(name)
+                  }
+                });
+                links.push({
+                  source: id,
+                  target: targetId,
+                  lineLabel: name
+                });
+                for(var l=0;l<res[k].length;l++){
+                  if(showtext=='true' && l>=10){
+                    continue
+                  }
+                  var id2 = global_index++;
+                  var item = res[k][l];
+                  nodes.push({
+                    id: id2,
+                    name: item.disName,
+                    value: item.name,
+                    type:item.type,
+                    symbolSize: 8,
+                    itemStyle: {
+                      color: randomRgbColor(name+item.type)
+                    }
+                  });
+                  links.push({
+                    source: id2,
+                    target: id,
+                    lineLabel: item.disName
+                  });
+                }
+              }
+            }
+          }
+
+          var data = {
+            nodes: nodes,
+            links: links
+          }
+          // console.log(data);
+          return data;
+        }
+
+        function handlerData2(res,id,k) {
+          global_index=1;
+          var links = [];
+          var nodes = [];
+          var name = k.split('_')[1];
+
+          // if (targetId === 0) {
+          if(color === 'black'){
+            var color3 = 'rgb(206,206,206)'
+          }else{
+            var color3 = 'rgb(39,46,64)'
+          }
+          nodes.unshift({
+            id: 0,
+            category: 0,
+            name: name,
+            type:false,
+            symbolSize: 15,
+            itemStyle: {
+              color: color3
+            }
+          })
+          // var links = [];
+          // var nodes = [];
+          for(var i=0;i<res.length;i++){
+            var id2 = global_index++;
+            var item = res[i];
+            nodes.push({
+              id: id2,
+              name: item.disName,
+              value: item.name,
+              type:item.type,
+              symbolSize: 8,
+              itemStyle: {
+                color: randomRgbColor(name+item.type)
+              }
+            });
+            links.push({
+              source: id2,
+              target: 0,
+              lineLabel: item.disName
+            });
+          }
+          var dd = {
+            nodes:nodes,
+            links:links
+          }
+          return dd;
+        }
+        function clickitem(param) {
+          var option = myChart.getOption();
+          var nodes = option.series[0].nodes;
+          var links = option.series[0].links;
+          var data = param.data;
+          if(showtext=='true'){
+            return false;
+          }
+          console.log(data)
+          if(data.name=='董事'){
+            window.nrType=true;
+          }else if(data.name=='高管'){
+            window.nrType=false;
+          }
+          if(data.type==='nt' || data.type==='zsgn'){return };
+          $('#loading').show();
+          if(data.type==='cp' || data.type==='gn'){
+            var obj = {
+              q:data.value,
+              begin:0,
+              cp:1,
+              ps:1
+            }
+            getInfo(obj,param);
+          }else if(data.type==='st'){
+            getgs(data,param);
+          }else if(data.type==='nr'){
+              getNR(data.value,param)
+          }else{
+            openOrFold(param);
+          }
+        }
+        function getInfo(data,param) {
+          $.ajax({
+            url:'<%= host %>' + '/api/kg/type/search',
+            data:data,
+            dataType:'json',
+            success:function (res) {
+              // window.knowData = res;
+              if(res&&res.data.length!==0){
+                if(param.data.id==0){
+                  $('#alertBox_').find('.iconguanxitu').hide(0);
+                }else{
+                  $('#alertBox_').find('.iconguanxitu').show(0);
+                }
+                var content = res.data[0].text;
+                $('#alertBox_').find('.content h4').eq(1).html('');
+                // $('#alertBox_').find('.content h4').eq(1).css({marginTop:'0rem'})
+                $('#alertBox_').find('.content p').eq(1).html('');
+                var title_ = data.q;
+                if(title_.length>9){
+                  title_ = title_.slice(0,8)+'...';
+                }
+                $('#alertBox_').find('.top span').html(title_);
+                $('#alertBox_').find('.content h4').eq(0).html('<span></span>产品简介');
+                $('#alertBox_').find('.content p').eq(0).text(content);
+                window.param_arr = param;
+                var url = 'http://report.rxhui.com/v3/detail_v3.html?trade='+data.q+'&type=null';
+                $('#alertBox_ button').attr('data_url',url);
+                getinfoSearch(data.q,0)
+              }else{
+                if(param.data.id==0){
+                  return $('#loading').hide();
+                }
+                openOrFold(param);
+              }
+
+            },
+            error:function (err) {
+
+            }
+          })
+        }
+
+          function getNR(data,param){//获取指数
+            if(window.nrType){
+              var nrid = 55;
+            }else{
+              var nrid = 761;
+            }
+              $.ajax({
+                  url:'/templateNode/report/template/content?d=text&id='+ nrid +'&symbol='+symbolVal+'&relevantPeople='+data,
+                  type:'get',
+                  dataType:'json',
+                  success:function (res) {
+                      if(res && res[1] && res[1].contents && res[1].contents[0].text){
+                        $('#alertBox_3_i').hide(0);
+                        $('#alertBox_3 button').show(0).text('人物详细报告').attr('data_type',0).attr('name',data).attr('symbol',symbolVal);
+                        // $('#alertBox_3').find('.content h4').eq(1).css({marginTop:'0rem'})
+                        $('#alertBox_3').find('.content h4').eq(0).html('<span></span>股东简介');
+                        var title_ = data;
+                        if(title_.length>9){
+                          title_ = title_.slice(0,8)+'...';
+                        }
+                        $('#alertBox_3').find('.top span').html(title_);
+                        $('#alertBox_3').find('.content p').eq(0).html(res[1].contents[0].text);
+                        getinfoSearch(data,1);
+                          // window['onWindowLoaded'+res.sn]();
+                      }else{
+                          openOrFold(param);
+                      }
+                  },
+                  error:function (err) {
+
+                  }
+              })
+          }
+
+        function getgs(data,param){//获取公司信息
+          $.ajax({
+            url:'/templateNode/report/template/content?id=56&symbol='+data.value,
+            type:'get',
+            dataType:'json',
+            success:function (res) {
+              console.log(param)
+              if(param.data.id==0){
+                $('#alertBox_3').find('.iconguanxitu').hide(0);
+              }else{
+                $('#alertBox_3').find('.iconguanxitu').show(0);
+              }
+              if(res.content){
+                // $('#alertBox_3_i').show(0);
+                $('#alertBox_3 button').show(0).text('公司详细报告').attr('data_type',1).attr('data_s',data.value.slice(0,2)).attr('data_v',data.value.slice(2,8)).attr('data_n',data.name);
+                // $('#alertBox_3').find('.content h4').eq(1).css({marginTop:'0rem'})
+                $('#alertBox_3').find('.content h4').eq(0).html('<span></span>个股综述');
+                var title_ = data.name;
+                if(title_.length>9){
+                  title_ = title_.slice(0,8)+'...';
+                }
+                $('#alertBox_3').find('.top span').html(title_);
+                $('#alertBox_3').find('.content p').eq(0).html(res.content);
+                getinfoSearch(data.name,1);
+                window.param_arr = param;
+                window['onWindowLoaded'+res.sn]();
+              }else{
+                if(param.data.id==0){
+                  return $('#loading').hide();
+                }
+                openOrFold(param);
+              }
+            },
+            error:function (err) {
+
+            }
+          })
+        }
+          function getinfoSearch (txt,type){
+            $.ajax({
+              url:'/nodeGenerator/api/template?type=infomationMes&title='+txt+'&content='+txt+'&person=&stocks=&dataTypes=&plainHighlightedFieldName=content&d=j&cp=1&ps=2',
+              type:'get',
+              dataType:'json',
+              success:function (res) {
+                if(type==0){
+                  var elementId = $('#alertBox_');
+                }else{
+                  var elementId = $('#alertBox_3');
+                }
+                try {
+                  if(res.info.data.list.length!==0){
+                    elementId.find('.content p').eq(1).show(0);
+                    elementId.find('.content h4').eq(1).show(0);
+                    elementId.find('.content h4').eq(1).html('<span></span>相关资讯');
+                    elementId.find('.content h4').eq(0).css({marginTop:'0.6rem'})
+                    var ele= '';
+                    for(var i=0;i<res.info.data.list.length;i++){
+                      ele+='<div style="text-decoration: underline" class="tobigdata" data-id="'+res.info.data.list[i].id+'">'+res.info.data.list[i].title+'</div>';
+                    }
+                    elementId.find('.content p').eq(1).html(ele);
+                  }else{
+                    elementId.find('.content p').eq(1).hide(0);
+                    elementId.find('.content h4').eq(1).hide(0);
+                  }
+                  $('.tobigdata').click(function () {
+                    var id = $(this).attr('data-id')
+                    window.openPage('https://big-data.rxhui.com/#/detail?type=%E5%85%A8%E9%83%A8&id='+id);
+                  })
+                }catch (e) {
+
+                }
+                elementId.addClass('alertShow');
+                $('#loading').hide();
+                // setTimeout(function () {
+                //     if(window.nrType){
+                //         var text = $('#mainContent').find('.rxh_bd').eq(1).text();
+                //         $('#alertBox_3').find('.content p').eq(0).html(text);
+                //     }else{
+                //         var text = $('#mainBody').find('.rxh_bd').eq(0).text();
+                //         $('#alertBox_3').find('.content p').eq(0).html(text|| '--');
+                //     }
+                //
+                //   elementId.addClass('alertShow');
+                //   $('#loading').hide();
+                // },500)
+              },
+              error:function (err) {
+                $('#alertBox_').addClass('alertShow');
+              }
+            })
+          }
+
+        $('.iconclose').click(function () {
+          $('#alertBox_').removeClass('alertShow');
+            $('#alertBox_3').removeClass('alertShow');
+        })
+        $('.iconguanxitu').click(function () {
+          openOrFold(param_arr);
+          $('#alertBox_').removeClass('alertShow');
+        })
+        $('html,body').click(function (e) {
+          if($('#alertBox_').hasClass('alertShow')){
+            $('#alertBox_').removeClass('alertShow');
+          }
+            if($('#alertBox_3').hasClass('alertShow')){
+                $('#alertBox_3').removeClass('alertShow');
+            }
+        })
+        $('.buttonbox button').click(function () {
+          var option = myChart.getOption();
+          if($(this).index()===0){
+            option.series[0].zoom+=1.5;
+
+          }else{
+            option.series[0].zoom-=1.5;
+          }
+          myChart.clear();
+          myChart.setOption(option);
+        })
+        $('.buttonbox2 button').click(function () {
+          var option = myChart.getOption();
+          if($(this).index()===0){
+            option.series[0].zoom+=1.5;
+
+          }else{
+            option.series[0].zoom-=1.5;
+          }
+          myChart.clear();
+          myChart.setOption(option);
+        })
+
+        function addElement(data,name) {
+          to_know = name;
+          var text = name || TXT;
+          var element = '';
+          if(data['公司产品关系_关联产业']&& data['公司产品关系_关联产业'].length!==0){
+            var txt='';
+            for(var l=0;l<data['公司产品关系_关联产业'].length;l++){
+              txt+=data['公司产品关系_关联产业'][l].disName+'、';
+            }
+            txt = txt.substr(0,txt.length-1)+'。';
+            element+='<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">'+text+'的核心业务涉及到的产业生态包括：'+txt +'</p>';
+          }
+          if(data['公司上游产品_上游产业']&&data['公司上游产品_上游产业'].length!==0){
+            var txt='';
+            for(var l=0;l<data['公司上游产品_上游产业'].length;l++){
+              txt+=data['公司上游产品_上游产业'][l].disName+'、';
+            }
+            txt = txt.substr(0,txt.length-1)+'。';
+            element+='<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">上游产业为：'+txt +'</p>';
+          }
+          if(data['公司下游产品_下游产业']&&data['公司下游产品_下游产业'].length!==0){
+            var txt='';
+            for(var l=0;l<data['公司下游产品_下游产业'].length;l++){
+              txt+=data['公司下游产品_下游产业'][l].disName+'、';
+            }
+            txt = txt.substr(0,txt.length-1)+'。';
+            element+='<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">下游产业为：'+txt +'</p>';
+          }
+          $('.moduleContent').append(element);
+        }
+
+          $('#alertBox_ button').click(function () {
+            window.openPage($(this).attr('data_url'));
+          })
+
+        window.databackCLick=function(){
+          var data = dataItemArr[dataItemArr.length-2];
+          initEc(data);
+          dataItemArr.pop();
+          if(dataItemArr.length===1){
+            $('#databack').hide(0);
+          }
+        }
+
+        $('#alertBox_3 button').click(function () {
+          if($(this).attr('data_type')=='1'){
+            window.openPage('https://stock-report.rxhui.com/'+'hc/indus?marType='+$(this).attr('data_s')+'&secCode='+$(this).attr('data_v')+'&stockName='+$(this).attr('data_n'));
+          }else{
+            window.openPage('https://stock-report.rxhui.com/report/template?id=73&symbol='+$(this).attr('symbol')+'&relevantPeople='+$(this).attr('name')+'&name='+$(this).attr('name')+'&navbar=0')
+          }
+        })
+
+
+       window.toNewKnow=function () {
+          var url = 'https://kg.rxhui.com/#/know?input='+TXT+'&admin=true&color=black&entityType=st&disName='+to_know;
+         // window.openPage2(url);
+         pa.navigationNative({
+           'pageId':'rh_node',
+           'url':url,
+           'title':'详情页'
+         })
+       }
+
+//end--------------------------------------
+      }
+
+      window.openPage = function(url){
+        try {
+          if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            var parame ={
+              pageId:'webView',
+              title:'知识图谱',
+              url:url
+            }
+            window.webkit.messageHandlers['routerNative'].postMessage(parame)
+          } else if (/(Android)/i.test(navigator.userAgent)) {
+            var parame ={
+              pageId:'rh_node',
+              url:url,
+              title:'知识图谱'
+            }
+            window.contestapp.navigationNative(JSON.stringify(parame))
+          }else{
+            window.open(url);
+          }
+        } catch (error) {
+          window.open(url);
+        }
+      }
+      window.openPage2 = function(url){
+        try {
+          if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+            var parame ={
+              pageId:'webView',
+              title:'知识图谱',
+              url:url
+            }
+            window.webkit.messageHandlers['navigationNative'].postMessage(parame)
+          } else if (/(Android)/i.test(navigator.userAgent)) {
+            var parame ={
+              pageId:'rh_node',
+              url:url,
+              title:'知识图谱'
+            }
+            window.contestapp.navigationNative(JSON.stringify(parame))
+          }else{
+            window.open(url);
+          }
+        } catch (error) {
+          window.open(url);
+        }
+      }
+
+
+    </script>
+
+  <style>
+    #alertBox_3{
+      z-index: 2;
+    }
+    .moduleContent { width: 90%; height: auto; margin: 0 auto;}
+    .moduleContent .title { width: 100%; height: 2rem; font-size: 0.938rem; color: #000; box-sizing: border-box; border-left: 0.25rem solid red; padding-left: 0.4rem; font-weight: 600; line-height: 2rem; background: #EFF2F6; margin-bottom: 0.5rem; }
+    .moduleContent button { width: auto; height: auto; margin-top: 0.4rem; margin-bottom: 0.2rem; outline: none; border: 1px solid #cccccc; background: #e5e5e5; padding: 0.2rem; }
+    .moduleContent p { font-size: 1rem; color: #000; line-height: 1.5rem;}
+  </style>

@@ -1,0 +1,95 @@
+<% if(info && info.robotConfig && info.robotConfig.data && info.robotConfig.data.showEvaluation === 'true') { %>
+<div class="box_appraisal">
+    <%
+    var temp = "";
+    if (params.showInteractiveView) {
+        if (info.questionAnalyse[0].hasOwnProperty('entity') && info.questionAnalyse[0].entity.length > 0) {
+            stockInfo = info.questionAnalyse[0].entity[0].property;
+        }
+        var hideClass = commonUtil.generateRandomClassName('');
+        var questionAnalyse = info.questionAnalyse[0];
+        var stockList = [];
+        if (questionAnalyse.hasOwnProperty(('entity'))) {
+            stockList = questionAnalyse.entity;
+        }
+        var entityContent = 0;
+        stockList.forEach(function (item, index) {
+            if (item.type == '股票') {
+                entityContent += 1;
+            }
+        });
+        temp += '<ul>';
+        if (params.appKey !== 'appTopC' && info.hasOwnProperty('properties') && entityContent <= 1) {
+            if (info.properties.hasOwnProperty('optional')) {
+                if (info.properties.optional == "del") {
+                    temp += "<li  class='deleteOptional" + hideClass + "' onclick=\"nodeClearOptionalGo('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-reduce'></i><span>删自选</span></li>";
+                    temp += "<li style='display:none;' class='addOptional" + hideClass + "' onclick=\"nodeAddOptional('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-plus'></i><span>加自选</span></li>";
+                } else {
+                    temp += "<li style='display:none;' class='deleteOptional" + hideClass + "' onclick=\"nodeClearOptionalGo('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-reduce'></i><span>删自选</span></li>";
+                    temp += "<li class='addOptional" + hideClass + "' onclick=\"nodeAddOptional('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-plus'></i><span>加自选</span></li>";
+                }
+            }
+            if (info.properties.hasOwnProperty('warning')) {
+                if (info.properties.warning == "del") {
+                    temp += "<li  class='deleteWarning" + hideClass + "'  onclick=\"nodeWarningGoApp('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-warning_ok'></i><span>预警</span></li>";
+                    temp += "<li style='display:none;' class='addWarning" + hideClass + "'  onclick=\"nodeWarningGoApp('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-warning'></i><span>预警</span></li>";
+                } else {
+                    temp += "<li style='display:none;' class='deleteWarning" + hideClass + "'  onclick=\"nodeWarningGoApp('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-warning_ok'></i><span>预警</span></li>";
+                    temp += "<li class='addWarning" + hideClass + "'  onclick=\"nodeWarningGoApp('" + stockInfo.code + "','" + stockInfo.name + "','" + stockInfo.marketType + "','" + hideClass + "')\"><i class='icon-warning'></i><span>预警</span></li>";
+                }
+            }
+        }
+        temp += '</ul>';
+    }
+    %>
+    <%- temp %>
+    <a><i id="upId<%=params.sn%>>" class="icon-good" onclick=nodeRating("2")></i><span></span></a>
+    <a><i id="downId<%=params.sn%>" class="icon-bad" onclick=nodeRating("1")></i><span></span></a>
+</div>
+
+<script>
+  function nodeClearOptionalGo() {
+    try{
+
+    }catch (e) {
+      clearOptionalGo('<%=params.stockInfo.code%>','<%= params.stockInfo.name%>','<%=params.stockInfo.marketType%>','<%=params.sn%>')
+    }
+  }
+
+  function nodeAddOptional() {
+    try{
+
+    }catch (e) {
+      addOptional('<%=params.stockInfo.code%>','<%= params.stockInfo.name%>','<%=params.stockInfo.marketType%>','<%=params.sn%>')
+    }
+  }
+
+  function nodeWarningGoApp() {
+    try{
+
+    }catch (e) {
+      warningGoApp()
+    }
+  }
+
+  function nodeRating(sn) {
+    var labelId;
+    if(sn == "1"){
+      labelId = "up"+"<%params.sn%>";
+    }else if(sn == "2"){
+      labelId = "down"+"<%params.sn%>";
+    }
+    try{
+      ratingAnswer('<%params.resultId%>', sn, labelId);
+    }catch (e) {
+    }
+  }
+
+  try{
+    var result = '<%=JSON.stringify(info)%>';
+    var oldResult = JSON.parse(result.replace(/\&#34;/g, "\""));
+    getQuestionTabs(oldResult);
+  }catch (e) {
+  }
+</script>
+<% } %>

@@ -1,0 +1,68 @@
+<!--pages/deposit/apply/index.wxml-->
+<view class="deposit_apply">
+  <view class="title">
+    {{info.productName}}
+  </view>
+  <view class="card">
+    <view class="item">
+      <view class="left">电子账户</view>
+      <view wx:if="{{idCardShow}}" bindtap="goLook" class="right">{{info.eleCardNo  || '暂无'}} <image src="../../../image/arrow.png"></image>
+      </view>
+      <view wx:if="{{!idCardShow}}" class="right" style="color:#F65348" bindtap="goOpen">去开通 <image
+          src="../../../image/arrow1.png"></image>
+      </view>
+    </view>
+    <view class="item" wx:if="{{idCardShow}}">
+      <view class="left">活期可用余额</view>
+      <view class="right"><text>¥</text>{{info.balance || 0.00}}</view>
+    </view>
+  </view>
+  <view class="apply {{showInput? '':'hide'}}">
+    <view class="top">
+      购买金额
+    </view>
+    <view class="content">
+      <image src="../../../image/bigq.png"></image>
+      <input value="{{moneyVal}}" bindinput="changeInput" placeholder-class='input-placeholder' type="number"
+        placeholder='最低买入{{info.amount}}元' />
+    </view>
+  </view>
+  <view class="user {{showInput? '':'hide'}}">
+    <text>客户经理</text>
+    <input placeholder-class='input-placeholder' type="number" placeholder="{{placeholder}}"  bindinput="changejobInput" />
+  </view>
+
+  <view class="page-footer">
+    <view class="protocol-box">
+      <block wx:if="{{protocolList !== null && protocolList !== undefined && protocolList.length>0}}">
+        <protocol-view isSelected="{{isSelect}}" protocols="{{protocolList}}" bindonSelect="changeSelect"
+          bindonShow="onShowChange" />
+      </block>
+    </view>
+
+    <button wx:if="{{!isWrite}}" type="primary" class="apply-btn {{isSelect ? '' : 'disabled'}}" bind:tap="onApply">
+    确定购买并签名</button>
+
+    <button wx:else type="primary" class="apply-btn {{isSelect ? '' : 'disabled'}}" bind:tap="onApply">
+    购买</button>
+  </view>
+</view>
+<password-popup 
+  error="{{errorText}}"
+  show="{{popShow}}"
+  isError="{{isError}}"
+  isForget="{{isForget}}"
+  bind:getCode="getCode"
+/>
+<van-popup class="account-index-alter" show="{{isShow}}">
+  <view class="content">
+    <text>开通电子账户前，请先完成身份认证</text>
+  </view>
+  <view class="footer">
+    <text bindtap="onClose">取消</text>
+    <text bindtap="onDefine">去认证</text>
+  </view>
+</van-popup>
+
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />

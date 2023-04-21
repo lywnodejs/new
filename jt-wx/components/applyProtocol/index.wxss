@@ -1,0 +1,14 @@
+/* components/applyPotocol/index.wxss */
+.apply-protocol{
+	font-size:13px;
+	font-family:PingFangSC-Medium,PingFang SC;
+	font-weight:500;
+	color: #333;
+}
+.apply-protocol .pro-title{
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+.apply-protocol .pro-content{
+	line-height: 1.5;
+}

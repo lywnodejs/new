@@ -1,0 +1,23 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 2,
+  "data": {
+    "id": 1,
+    "business_name": "汽车金融",
+    "business_mgr": [
+      {
+        "user_id": 1,
+        "user_email": "zhangdijasper@didichuxing.com",
+        "user_name": "张三"
+      }
+    ],
+    "security_user": [
+      {
+        "user_id": 2,
+        "user_email": "zhangdijasper@didichuxing.com",
+        "user_name": "张三"
+      }
+    ]
+  }
+}

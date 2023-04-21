@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "string-view": "/components/apply/item-view/string-view/index"
+  }
+}

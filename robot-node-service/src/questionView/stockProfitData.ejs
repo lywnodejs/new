@@ -1,0 +1,77 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <div class='md_v1 md_tlbox md_col3table box_col3table_v2'>
+            <h4><%= property.name %>  <%= property.code %> | <%= commonUtil.changeTime(info.data.endAt) %></h4>
+            <ul>
+                <li>
+                    <div>
+                        <h5><%= type %></h5>
+                        <h3><%= commonUtil.valueUnit(data.value, unit) %></h3>
+                    </div>
+                </li>
+                <li>
+                    <div><h5>业内排名</h5><%- comTotal %></div>
+                </li>
+                <li>
+                    <div><h5>所属行业</h5>
+                        <h3><%= data.induSortName %></h3>
+                    </div>
+                </li>
+            </ul>
+            <div class='link_half link_half2 mt_0'></div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+</div>
+
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  //传给安卓的语音信息
+  var speechAnwser = '<%- info.speechAnswerContent %>';
+  var info_app = '<%- info.answerResultType %>';
+  console.log(info_app)
+  if (window.contestapp) {
+    try {
+      window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+    } catch (error) {
+      console.log(speechAnwser, 1, info_app);
+    }
+  } else {
+    console.log(speechAnwser, 1, info_app);
+  }
+
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>';
+
+
+  var stockProfitData = {
+    onViewReady: function () {
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/requestUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockProfitData.onViewReady)
+
+
+</script>
+

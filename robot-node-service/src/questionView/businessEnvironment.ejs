@@ -1,0 +1,354 @@
+<% include ./component/params %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% if(info.data.length!==0){%>
+<div class="mb" id="<%= randomn %>">
+    <div class="box_govData">
+        <div class="hd_ddList">
+            <h4><%=info.data[0].dimensions%></h4>
+
+            <div class="box_ddList">
+                <a><%=year%>年<i class="icon-arrow2_B_small"></i></a>
+                <ul class="ddList">
+                    <li>2017年</li>
+                    <li>2016年</li>
+                    <li>2015年</li>
+                    <li>2014年</li>
+                    <li>2013年</li>
+                    <b></b>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="box_conStock">
+            <%if(data[0].dimension.length>1){ %>
+            <i class="icon-arrow_shape_left"></i>
+            <%}%>
+            <div class="conStock_hd">
+                <ul>
+                    <li>序号/地区</li>
+                <% for(var i=0;i<data.length;i++){  %>
+                    <li><em><%=i+1%></em><span><b><%=data[i].province%></b></span></li>
+                <%}%>
+                </ul>
+            </div>
+            <div class="conStock">
+                <div class="box">
+                    <!--
+                        1. 无样式名：列表中答案是纯文字
+                        2. ul加样式名num：列表中答案是数字、百分比
+                            （需要加num样式名的，目前有：市盈率、市净率、涨跌幅、换手率、振幅、成交额、成交量、股价、总市值、流通市值、量比、委比、X日主力资金、每股净收益、发行价、历史最高价、历史最低价）
+                        3. ul加样式名ul_pop：弹窗
+                    -->
+                    <% for(var i=0;i<data[0].dimension.length;i++){ %>
+                    <ul class="num">
+                        <!--
+                            1. 不加样式是黑色
+                            2. 涨，在li加样式名：t_red
+                            3. 跌，在li加样式名：t_green
+                            4. 停，在li加样式名：t_gray
+                        -->
+                        <li>
+                            <a><%=data[0].dimension[i].dimensionIndex%>(<%=data[0].dimension[i].units%>)
+                                <!--
+                                    两种：
+                                    1. 下箭头是蓝色，sequence样式名后面加样式名：sequenceD
+                                    2. 上箭头是蓝色，sequence样式名后面加样式名：sequenceT
+                                -->
+                                <b class="sequence"><i class="icon-sequenceT"></i><i class="icon-sequenceD"></i></b>
+                                <!--<b class="sequence sequenceT"><i class="icon-sequenceT"></i><i class="icon-sequenceD"></i></b>-->
+                            </a>
+                        </li>
+                        <% for(var l=0;l<data.length;l++){
+                            var str_= data[l].dimension[i].indexValue? data[l].dimension[i].indexValue: '--' %>
+                        <li><%=str_ %></li>
+                        <%}%>
+                    </ul>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
+        <!-- <h6>你可能感兴趣</h6>
+        <div class="box_tl_hot">
+            <h5><a>您还想了解中长期有投资价值的个股吗？</a></h5>
+            <h5><a>最近热点概念？</a></h5>
+        </div> -->
+    </div>
+
+    <!--点评-->
+    <% if(req.query.appKey!='guoxin'){ %>
+    <div class="box_appraisal">
+        <% if(req.query.appKey=='appZxcxHide'){ %>
+        <a class="a_search">
+            <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+            <span>精准查找政策</span>
+            <i class="icon-arrow2_R_small"></i>
+        </a>
+        <%}%>
+        <a><i id="up<%= randomn%>" class="icon-good"></i></a>
+        <a><i id="down<%= randomn%>" class="icon-bad"></i></a>
+    </div>
+    <%}%>
+</div>
+<%}%>
+<% if(info.data.length==0){ %>
+    <div class="mb md_tlbox">
+        <div class="box_shadow">
+                政策大脑没有为您找到相关数据
+        </div>
+    </div>
+<%}%>
+<script>
+
+  var businessEnvironment = {
+    onViewReady: function () {
+      var data_num=JSON.parse('<%- JSON.stringify(data)%>')
+      var num='<%= randomn %>';
+      try {
+        thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+      $('.box_appraisal .a_search').click(function(){
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+      //传给安卓的语音信息
+      var speechAnwser = '<%-info.speechAnswerContent%>';
+      var info_app = '<%-info.answerResultType%>';
+      if(window.contestapp){
+        try {
+          window.contestapp.speakAnswer(speechAnwser,1,info_app);
+        } catch (error) {
+          console.log(speechAnwser,1,info_app);
+        }
+      }else{
+        console.log(speechAnwser,1,info_app);
+      }
+
+      $('#'+num).find('.conStock .box ul').eq(0).find('li').eq(0).find('.sequence').addClass('sequenceD');
+      click_reData(num,data_num);
+
+      $("#"+num+" .box_conStock .conStock").scroll(function(){
+        if ($(this).scrollLeft() > 20){
+          $(this).siblings(".icon-arrow_shape_left").hide();
+        }
+        else{
+          $(this).siblings(".icon-arrow_shape_left").show();
+        }
+      });
+
+      //点赞或踩
+      $('#'+num).find('.box_appraisal .icon-good').click(function(){
+        feedback(2);
+      })
+      $('#'+num).find('.box_appraisal .icon-bad').click(function(){
+        feedback(1);
+      })
+
+      //切换时间
+      $('#'+num+' .box_ddList a').click(function(){
+        if($('#'+num+' .box_ddList ul').hasClass('show')){
+          $('#'+num+' .box_ddList ul').removeClass('show');
+        }else{
+          $('#'+num+' .box_ddList ul').addClass('show');
+        }
+      })
+      $('#'+num+' .box_ddList ul li').click(function(){
+        $('#'+num+' .box_ddList ul li').removeClass('on');
+        $(this).addClass('on');
+        $('#'+num+' .box_ddList a').html($(this).text()+'<i class="icon-arrow2_B_small"></i>');
+        $('#'+num+' .box_ddList ul').removeClass('show');
+        getDateYear(num,$(this).text());
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr,businessEnvironment.onViewReady);
+
+    function date_info(val){
+        var now = new Date(val);
+        var year = now.getFullYear(); //年
+        var month = now.getMonth() + 1; //月
+        var day = now.getDate(); //日
+        var hh = now.getHours(); //时
+        var mm = now.getMinutes(); //分
+        var clock = year + "-";
+        if (month < 10)
+            clock += "0";
+        clock += month + "-";
+        if (day < 10)
+            clock += "0";
+        clock += day;
+        return (clock);
+    }
+
+    //点赞或踩
+    function feedback(num){
+        var id='<%- info.spanId%>';
+        var data_={
+            spanId:id,
+            commentFeedback:num
+        }
+        $.ajax({
+            url:'<%= host%>'+'/api/feedback?',
+            type:'get',
+            dataType:'json',
+            data:data_,
+            success:function(data){
+                if(data.message.code==0){
+                    try {
+                        if(num==1){
+                            thas.nodeFunction('feedback','谢谢您的评价，我们会继续改进。')
+                        }else{
+                            thas.nodeFunction('feedback','谢谢您的评价，您可以继续提问。')
+                        };
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            }
+        })
+    };
+
+    //请求其他年份
+    function getDateYear(num,year){
+        var obj='<%- JSON.stringify(info.questionAnalyse[0]) %>';        
+        var data_={
+            questionAnalyseJson:obj,
+            predicateType:'政府数据',
+            question:year
+        }
+        $.ajax({
+            url:'<%= host%>'+'/api/getDateYear',
+            type:'get',
+            dataType:'json',
+            data:data_,
+            success:function(info){
+                if(info.data.length!==0){
+                var arr=[];
+                var arrBox=[];
+                var year_=info.data[info.data.length-1].years;
+                for(var i=0;i<info.data.length;i++){
+                    if(info.data[i].years!==year_){continue};
+                    var item=info.data[i];
+                    if(arrBox.indexOf(item.province)==-1){
+                        arrBox.push(item.province);
+                        arr.push({
+                            province:item.province,
+                            dimension:[]
+                        })
+                    }
+                    
+                    for(var l=0;l<arr.length;l++){
+                        if(arr[l].province==item.province){
+                            arr[l].dimension.push({
+                                dimensionIndex:item.dimensionIndex,
+                                indexValue:item.indexValue,
+                                units:item.units
+                            })
+                        }
+                    }
+                    }
+                }else{
+                    var arr=[];
+                };
+                // ele(num,arr);
+                reDataMax(num,0,arr,0);
+            }
+        })
+    }
+
+    function click_reData(num,arr){
+        $('#'+num).find('.conStock .box ul').each(function(index){
+            $(this).find('li').eq(0).click(function(){
+                if(!$(this).find('b').hasClass('sequenceD')){
+                    reDataMax(num,index,arr,0);
+                }else{
+                    reData(num,index,arr,1);
+                }
+            })
+        })
+    }
+    function reData(num,index,arr,mini){
+        for(var i=0;i<arr.length;i++){
+            var max = arr[i];
+            var maxIndex = i;
+            for(var j=i+1;j<arr.length;j++){
+                if(max.dimension[index].indexValue>arr[j].dimension[index].indexValue){
+                    max = arr[j];
+                    maxIndex = j;
+                }
+            }
+            arr.splice(i,0,max);
+            arr.splice(maxIndex+1,1);
+        }
+        ele(num,arr,mini,index);
+    }
+
+    function reDataMax(num,index,arr,mini){
+        for(var i=0;i<arr.length;i++){
+            var max = arr[i];
+            var maxIndex = i;
+            for(var j=i+1;j<arr.length;j++){
+                if(max.dimension[index].indexValue<arr[j].dimension[index].indexValue){
+                    max = arr[j];
+                    maxIndex = j;
+                }
+            }
+            arr.splice(i,0,max);
+            arr.splice(maxIndex+1,1);
+        }
+        ele(num,arr,mini,index);
+    }
+
+
+    function ele(num,arr,mini,index){
+        var element='';
+        var elementB='';
+        for(var i=0;i<arr.length;i++){
+            element+=`
+                <li><em>${i+1}</em><span><b>${arr[i].province}</b></span></li>
+            `
+        }
+        $('#'+num).find('.conStock_hd ul').html('<li>序号/地区</li>'+element);
+        for(var i=0;i<arr[0].dimension.length;i++){
+            elementB+=`
+                <ul class='num'>
+                    <li>
+                        <a>${arr[0].dimension[i].dimensionIndex}(${arr[0].dimension[i].units})
+                            <b class="sequence"><i class="icon-sequenceT"></i><i class="icon-sequenceD"></i></b>
+                        </a>
+                    </li>
+                </ul>
+            `
+        }
+        $('#'+num).find('.conStock .box').html(elementB);
+        
+        if(mini==0){
+            $('#'+num).find('.conStock .box ul').eq(index).find('li').eq(0).find('.sequence').addClass('sequenceD');
+        }else{
+            $('#'+num).find('.conStock .box ul').eq(index).find('li').eq(0).find('.sequence').addClass('sequenceT');
+        }
+
+        for(var i=0;i<arr[0].dimension.length;i++){
+            for(var l=0;l<arr.length;l++){
+                var item=arr[l].dimension[i].indexValue || '--';
+                $('#'+num).find('.conStock .box ul').eq(i).get(0).innerHTML+=`<li>${item}</li>`
+            };
+            
+        }
+        click_reData(num,arr);
+    }
+
+
+
+</script>

@@ -1,0 +1,15 @@
+<!--pages/login/phone/index.wxml-->
+<view class="login-phone">
+  <text class="title">手机号登录/注册</text>
+  <view class="input-view">
+    <text class="{{isFocus ? 'subtitle focus' : 'subtitle'}}">请输入手机号</text>
+    <input focus="{{isFocus}}" id="phone-input" value="{{phone}}" bindblur="onBlur" bindfocus="onFocus" bindinput="onChange"  type="number" placeholder-class="placeholder"/>
+    <image capture-bind:touchstart="onDelete" wx:if="{{phone && phone.length > 0}}" class="delete" src="/image/delete.png"/>
+  </view>
+  <button bindtap="onCaptcha" disabled="{{isDisabled}}" class="btn">获取验证码</button>
+  <view class="wx-btn-view">
+    <button wx:if="{{isLock}}"  class="wx-btn">微信用户一键登录</button>
+    <button wx:else bindtap="onWXLogin" class="wx-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信用户一键登录</button>
+  </view>
+</view>
+<verify-popup bind:onRefresh="onCaptcha" show="{{img}}" img="{{img}}" isError="{{verifyError}}" bind:onComplete="onVerify"/>

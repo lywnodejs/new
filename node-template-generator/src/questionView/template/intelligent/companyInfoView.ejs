@@ -1,0 +1,66 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+var data = info.data
+console.log(info)
+%>
+<div class="rxh_list rxh_gap">
+    <div class="rxh_dl">
+        <dl>
+            <dt>公司名称</dt>
+            <dd><%= commonUtil.stringIsEmpty(data.comName) ? "--" : data.comName %></dd>
+        </dl>
+        <dl>
+            <dt>上市日期</dt>
+            <dd><%= commonUtil.changeTime(data.listDateAt) %></dd>
+        </dl>
+        <dl>
+            <dt>所属区域</dt>
+            <dd><%= commonUtil.stringIsEmpty(data.regionalPlate_1) ? "--" : data.regionalPlate_1 %></dd>
+        </dl>
+        <dl>
+            <dt>企业性质</dt>
+            <dd><%= commonUtil.stringIsEmpty(data.comType) ? "--" : data.comType %></dd>
+        </dl>
+        <dl>
+            <dt>实际控制人</dt>
+            <dd><%= commonUtil.stringIsEmpty(data.actualController) ? "--" : data.actualController %></dd>
+        </dl>
+        <dl>
+            <dt>主营业务</dt>
+            <dd><%= commonUtil.stringIsEmpty(data.mainBus) ? "--" : data.mainBus %></dd>
+        </dl>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var companyInfoView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+        stringIsEmpty: function (str) {
+            return this.stringIsNull(str) || str == "";
+        },
+        stringIsNull: function (str) {
+            return typeof str == "undefined" || str === null;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, companyInfoView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>

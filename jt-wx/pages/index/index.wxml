@@ -1,0 +1,155 @@
+<!--index.wxml-->
+<scroll-view scroll-y style="width: 100%;height:100vh;position:fixed;top:0;left:0;overflow: hidden;" refresher-enabled="{{true}}" refresher-threshold="{{100}}"
+  refresher-default-style="none" refresher-background="#d88508" refresher-triggered="{{triggered}}"
+  bindrefresherrefresh="onRefresh">
+  <view class="loading">
+    <van-loading size="60rpx" color="#ffffff" />
+  </view>
+
+  <view class="bg">
+    <image class="img_bg" src="../../image/index_bg.png"></image>
+    <view>
+      <image class="logo" src="../../image/index_log.png"></image>
+      <image class="logo2" src="../../image/index_logo2.png"></image>
+      <view>
+        <text>息费透明</text>
+        <text>申请简便</text>
+        <text>省时省力</text>
+        <text>安心放心</text>
+      </view>
+    </view>
+  </view>
+  <view class="index" style="width:100%;">
+    <view class="exclusive" wx:if="{{choiceProducts.length!==0}}">
+      <exclusive-banner bindclick="headerClick" datas="{{choiceProducts}}"></exclusive-banner>
+    </view>
+    <view class="lc"
+    wx:if="{{choiceDeposits.length!==0}}"
+      style="margin-bottom:{{banners.length===0? '30rpx' : '0'}};">
+      <view class="title">
+        精选理财
+        <view bindtap="toDeposit" wx:if="{{choiceProducts.length > 4}}" >查看更多</view>
+      </view>
+      <view class="ls_content">
+        <view class="item {{(index==0|| choiceDeposits.length<=2)? '': choiceDeposits.length>3?'two' : 'three'}}" wx:for="{{choiceDeposits}}" wx:if="{{index<4}}" wx:key="index" data-productid="{{item.productId}}" bindtap="toDepositDetail">
+          <view class="line"></view>
+          <view class="rate">
+            <view class="title" wx:if="{{choiceDeposits.length>=3 && index!==0}}">{{item.productName}}</view>
+            <text class="num">{{item.yearRate}}</text>
+            <text class="h">%</text>
+            <text class="text">年化利率</text>
+          </view>
+          <view class="r">
+            <view class="title" wx:if="{{choiceDeposits.length<3}}">{{item.productName}}</view>
+            <view class="tag">
+              <view wx:for="{{item.tags}}" wx:key="{{index}}">{{item}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="index_banner" wx:if="{{banners.length!==0}}">
+      <home-banner banners="{{banners}}" bind:click='onClick'></home-banner>
+    </view>
+
+    <view class="dk" wx:if="{{hotLoans.length!==0}}">
+      <view class="title">
+        热门贷款
+        <view bindtap="toLoans" wx:if="{{hotLoans.length > 4}}" >查看更多</view>
+      </view>
+      <view class="dk_content">
+        <loans-card loans="{{hotLoans}}" bind:apply="onApply"></loans-card>
+      </view>
+    </view>
+
+
+    <view class="index_footer" bindtap="tofech">
+      <image class="logo" src="../../image/footer_bg.png"></image>
+      <view class="info">
+        九台农商银行推出的一系列存款和贷款产品，产品丰富、利率优惠，为用户带来方便、快捷、安心的互联网银行理财和信贷服务。
+      </view>
+    </view>
+  </view>
+</scroll-view>
+
+  <!-- 您是我行关联用户，暂不能申请该产品 -->
+<van-popup class="home-alter" show="{{isShow2}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text>{{desc}}</text>
+    </view>
+    <view class="bottom">
+      <text bindtap="onClose">知道了</text>
+    </view>
+</van-popup>
+
+
+  <!-- 购买前提醒 -->
+<van-popup class="home-alter" show="{{isShowNotify}}">
+    <view class="content">
+      <text>{{notifyDesc}}</text>
+    </view>
+    <view class="bottom">
+      <text bindtap="onNotifyClose">我知道了</text>
+    </view>
+</van-popup>
+
+  <!-- 消息弹窗 -->
+<van-popup class="home-alter" show="{{informationShow}}">
+    <view class="content">
+      <text class="title">{{informationInfo.title}}</text>
+      <text class="information_text">{{informationInfo.content}}</text>
+    </view>
+    <view class="bottom">
+      <text bindtap="onclickRead">已阅读</text>
+    </view>
+</van-popup>
+
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar2}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+
+
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+show="{{showOpenServices}}" />
+
+
+
+  <!-- 隐私协议更新提醒 -->
+  <van-popup class="home-alter" show="{{isShow3}}">
+    <view class="content">
+      <text class="title">用户服务协议及隐私政策更新通知</text>
+      <view class="text">
+        欢迎访问九台农商银行App，在使用我们的产品或服务前，请您务必仔细阅读
+        <text>《用户服务协议》</text>和<text>《隐私政策》</text>
+        来了解我们对您个人信息收集和使用的处理规则
+
+        如您接受以上规则，请点击“同意并继续”开始使用我们的产品和服务，我们按照法律法规要求，采取严格的安全保护措施，保护您的个人信息安全。
+      </view>
+      
+    </view>
+    <view class="footer">
+      <text bindtap="onNoClose">拒绝</text>
+      <text bindtap="onOkClose">同意并继续</text>
+    </view>
+  </van-popup>

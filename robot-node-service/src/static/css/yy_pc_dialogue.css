@@ -1,0 +1,186 @@
+@charset "utf-8";
+
+/************************************************************************************/
+/* 项目名 */
+/* web前端  */
+/* yanyan */
+/************************************************************************************/
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+.rxh_pc_dialogue h3,
+.rxh_pc_dialogue h4,
+.rxh_pc_dialogue h5,
+.rxh_pc_dialogue h6,
+.rxh_pc_dialogue b,
+.rxh_pc_dialogue i,
+.rxh_pc_dialogue em,
+.rxh_pc_dialogue strong {
+    font-style: normal;
+    font-weight: normal;
+}
+
+.rxh_pc_dialogue img {
+    border: none;
+    display: block;
+    width: 100%;
+}
+
+.rxh_pc_dialogue a {
+    color: #333;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.rxh_pc_dialogue li {
+    list-style-type: none;
+}
+
+.rxh_pc_dialogue ul,
+.rxh_pc_dialogue ol {
+    clear: both;
+    zoom: 1;
+    list-style-type: none;
+}
+
+.rxh_pc_dialogue input,
+.rxh_pc_dialogue select,
+.rxh_pc_dialogue textarea {
+    border: none;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+}
+
+.rxh_pc_dialogue ul:after {
+    content: "";
+    height: 0;
+    clear: both;
+    display: block;
+    overflow: hidden;
+}
+
+.rxh_clear_float {
+    clear: both;
+    font-size: 0;
+    line-height: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.rxh_vspace {
+    clear: both;
+    width: 100%;
+    overflow: hidden;
+}
+
+.rxh_line_halfT,
+.rxh_line_halfB,
+.rxh_line_halfV {
+    position: relative;
+}
+
+.rxh_line_halfT:after,
+.rxh_pc_dialogue .bottom:after{
+    background: #eee;
+    -webkit-transform: scaleY(.5);
+    -ms-transform: scaleY(.5);
+    transform: scaleY(.5);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1px;
+}
+
+.rxh_line_halfB:after {
+    background: #eee;
+    -webkit-transform: scaleY(.5);
+    -ms-transform: scaleY(.5);
+    transform: scaleY(.5);
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+}
+
+.rxh_line_halfV:after {
+    background: #eee;
+    -webkit-transform: scaleX(.5);
+    -ms-transform: scaleX(.5);
+    transform: scaleX(.5);
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+}
+
+.rxh_show {
+    display: block !important;
+}
+
+.rxh_hide {
+    display: none !important;
+}
+
+
+/************************************************************************************/
+
+
+.rxh_pc_dialogue{ -webkit-text-size-adjust: none; overflow: hidden;}
+.rxh_pc_dialogue header,
+.rxh_pc_dialogue .bottom nav,
+.rxh_pc_dialogue footer > a{ display: none;}
+.rxh_pc_dialogue .page_body_v2{ padding-top: 1rem;}
+.rxh_pc_dialogue .bottom{ height: 118px;}
+.rxh_pc_dialogue footer{ align-items: flex-start; height: 100%;}
+.rxh_pc_dialogue footer .box_input,
+.rxh_pc_dialogue footer .box_input textarea{ background: transparent !important;}
+.rxh_pc_dialogue footer .box_input{ padding: 9px 18px 6px;}
+.rxh_pc_dialogue footer .box_input textarea{ font-size: 14px; line-height: 22px; height: 66px;}
+.rxh_pc_dialogue footer .box_input .rxh_pcDia_a_btn{ background-color: #639df5; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; color: #fff; font-size: 12px; line-height: 24px; height: 24px; width: 64px; text-align: center; margin: 0; position: absolute; bottom: 12px; right: 12px;}
+
+.rxh_pc_dialogue footer .box_input input::-webkit-input-placeholder,
+.rxh_pc_dialogue footer .box_input textarea::-webkit-input-placeholder{ color: #a1a2a8;}
+.rxh_pc_dialogue footer .box_input input:-moz-placeholder,
+.rxh_pc_dialogue footer .box_input textarea:-moz-placeholder{ color: #a1a2a8;}
+.rxh_pc_dialogue footer .box_input input::-moz-placeholder,
+.rxh_pc_dialogue footer .box_input textarea::-moz-placeholder{ color: #a1a2a8;}
+.rxh_pc_dialogue footer .box_input input:-ms-input-placeholder,
+.rxh_pc_dialogue footer .box_input textarea:-ms-input-placeholder{ color: #a1a2a8;}
+
+
+.rxh_pcDia_hd{ background-color: #fff; width: 100%; line-height: 56px; height: 56px; position: relative;
+    top: 0; left: 0; z-index: 100;}
+.rxh_pcDia_hd h3{ float: left; font: bold 16px/56px "微软雅黑","黑体", Arial, Helvetica, sans-serif; margin-left: 16px;}
+.rxh_pcDia_hd .rxh_right{ float: right;}
+.rxh_pcDia_hd .rxh_right a{ display: inline-block; float: left; width: 19px; height: 19px; text-align: center;}
+.rxh_pcDia_hd .rxh_right .rxh_big{ background: url(../images/rxh_pc_dialogue_icon_big.png) no-repeat 50%;}
+.rxh_pcDia_hd .rxh_right .rxh_close{ background: url(../images/rxh_pc_dialogue_icon_close.png) no-repeat 50%;}
+.rxh_pcDia_hd .rxh_right .rxh_small{ color: #b0b0b0; font-size: 11px; line-height: 19px;}
+
+
+.rxh_pcDia_bd{ height: 100%; width: 100%;}
+
+
+/* 最大化 */
+.rxh_pc_dialogue.rxh_pcDia_big,
+.rxh_pc_dialogue.rxh_pcDia_big .page_body_v2,
+.rxh_pc_dialogue.rxh_pcDia_big .bottom{ width: 1000px;}
+.rxh_pc_dialogue.rxh_pcDia_big{ box-shadow: rgba(15, 66, 76, 0.25) 0 0 24px 0; margin: 20px auto;}
+.rxh_pc_dialogue.rxh_pcDia_big .bottom{ left: 50%; bottom: 20px; margin-left: -500px;}
+

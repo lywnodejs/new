@@ -1,0 +1,49 @@
+<!--components/password-popup/index.wxml-->
+<van-popup
+  closeable="{{closeable}}"
+  close-icon-position="top-left"
+  bind:close="onClose"
+  class="password-popup"
+  position="{{position}}"
+  show="{{ show }}"
+  overlay="{{overlay}}"
+  safe-area-inset-bottom="{{true}}"
+  close-on-click-overlay="{{false}}"
+  >
+  <view class="container">
+    <image wx:if="{{!closeable}}" bindtap="onClose" src="/image/close_left.png"/>
+    <text class="title">{{title}}</text>
+    <view wx:if="{{!isLoading}}">
+      <view class="input-view">
+        <view class="input" catchtouchstart='callkeyboard' data-p='2' data-type="1" >
+          <block wx:for="{{values}}" wx:key="*this" wx:for-index="idx">
+            <text>{{stringValue[idx] ? "•" : ""}}</text>
+          </block>
+        </view>
+      </view>
+      <view class="info">
+        <text style="visibility: {{isError ? 'visible' : 'hidden'}}">{{error}}</text>
+        <text wx:if="{{isForget}}" class="forget" bindtap="onForget">忘记密码？</text>
+      </view>
+
+      <!-- <microdone bind:onChange="onKeyboard"/> -->
+      <microdone bindmicrodoneevent="onMyEvent"
+        place-holder="{{placeHolder}}"
+        keyboard-num="3"
+        imgaddress="/image/microdone/"
+        bod2top="{{bod2top}}"
+        starstr="{{value}}"
+        license="{{license}}"
+        SM24-public-key="{{SM24publickey}}"
+        chaosMode="0"
+        id="bbb"
+        />
+    </view>
+
+    <view class="loading" wx:else>
+      <image wx:if="{{success}}" src="/image/success.png"/>
+      <van-loading style="margin-top:58px;margin-bottom:16px;" color="#1989fa" size="60" />
+      <text>{{success ? '校验成功' : '正在校验'}}</text>
+    </view>
+  </view>
+</van-popup>

@@ -1,0 +1,54 @@
+<div class="p-form-item form-flex">
+    <label class="item-label"> <span class="i-must">*</span>修复人:</label>
+    <div class="wrap-input form-flex-item" 
+     
+        ng-class="{'p-error':(!ctrl.pageData.repairPeople || !ctrl.pageData.repairPeople.length)  && ctrl.showErrors}"
+    
+    >
+        <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入修复人" name="repairPeople" ng-model="ctrl.pageData.repairPeople">
+            <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+            <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+        </ui-my-auto-complete>
+        
+            <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.pageData.repairPeople||!ctrl.pageData.repairPeople.length}">请输入并选择修复人</span>
+        
+    </div>
+</div> 
+<div ng-if="ctrl.pageData.holeState == '待修复' || ctrl.pageData.holeState == '修复中'"  class="p-form-item form-flex">
+    <label class="item-label"><span class="i-must">*</span>部门-产品线：</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.pageData.holeDept || !ctrl.pageData.holeDept.length ) && ctrl.showErrors}">
+        <ui-my-auto-complete 
+        url="ctrl.getDepartmentUrl" 
+        placeholder="请输入受影响部门产品线（中文）" 
+        removeSelected="false"
+        isSample="true"
+        sampleShowName="productName"
+        name="holeDept"
+        ng-model="ctrl.pageData.holeDept">
+            <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+            <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+        </ui-my-auto-complete>
+        <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.pageData.holeDept||!ctrl.pageData.holeDept.length}">请输入并选择一个部门产品线</span>
+    </div>
+</div>
+<div class="p-form-item form-flex">
+    <label class="item-label"> <span class="i-placeholder">x</span>关注人:</label>
+    <div class="wrap-input form-flex-item" 
+     
+    >
+        <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入关注人" name="followers" ng-model="ctrl.pageData.followers">
+            <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+            <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+        </ui-my-auto-complete>
+        
+    </div>
+</div> 
+<div class="p-form-item form-flex">
+    <label class="item-label"><span class="i-placeholder">x</span>标签:</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':ctrl.pageData.holeTags && ctrl.pageData.holeTags.length  && ctrl.pageData.holeTags.length>10}">
+        <ui-my-add-mark placeholder="请输入标签，回车添加，最多添加十个标签" name="holeTags" maxlength="6" ng-model="ctrl.pageData.holeTags">
+            <ui-select-mark-item>{{$item}} </ui-select-match-item>
+        </ui-my-add-mark>
+        <span class="p-error-msg" ng-class="{'ng-invalid':ctrl.pageData.holeTags && ctrl.pageData.holeTags.length  && ctrl.pageData.holeTags.length>10}">标签最多十个</span>
+    </div>
+</div> 

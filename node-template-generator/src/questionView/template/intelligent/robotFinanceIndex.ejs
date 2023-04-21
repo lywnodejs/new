@@ -1,0 +1,59 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+<% if(info && info.length >0){ %>
+    <%for (var i =0 ;i <info.length;i++){%>
+    <% var item = info [i]%>
+        <div class="rxh_gap">
+            <div class="rxh_bd2 rxh_gapTB8">
+                 <div  class="rxh_font15" style="float: left"><%= item.leftTitle; %></div>
+                 <div><p class="rxh_right rxh_font15">
+                            <%= item.rightTitle%>
+                 </p></div>
+            </div>
+            <div class="rxh_list">
+                <table class="rxh_table rxh_table3">
+                    <% var tableData = item.list%>
+                    <% for (var j=0; j< tableData.length;j++){%>
+                       <%var row = tableData[j]%>
+                       <tr>
+                           <%for (var k = 0;k < row.length ;k++){%>
+                           <%var td = row[k]%>
+                           <%if(j== 0 ){%>
+                           <th><%= td %></th>
+                           <%} else {%>
+                            <td><%= td %></td>
+                           <%}%>
+                           <%}%>
+                       </tr>
+                    <%}%>
+                    
+                </table>
+            </div>
+        </div>
+<%}%>
+<%}else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var sn = '<%= sn %>'
+
+    var robotFinanceIndex<%- sn %> = {
+        onViewReady: function () {
+
+        }
+    }
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, robotFinanceIndex<%- sn %>.onViewReady);
+    <% } %>
+
+</script>

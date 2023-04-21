@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "upload-title-view": "/components/apply/item-view/upload-title-view/index",
+    "van-overlay": "@vant/weapp/overlay/index"
+  }
+}

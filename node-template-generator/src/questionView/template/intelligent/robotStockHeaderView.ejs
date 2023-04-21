@@ -1,0 +1,283 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.1">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+
+<%if(info.data){%>
+     <%if(type==1){%>
+        <%if(info.data.trtPTotRisk){%>
+            <div class="rxh_grid rxh_gap">
+                <ul class="rxh_grid_col3">
+                    <%if(info.data.trtPTotRisk.secTotriskLevel){%>
+                    <li class="rxh_grid_blue rxh_txtCenter">
+                        <h5 class="rxh_font14">总风险度</h5>
+                        <h3 class="rxh_font18b"><%=info.data.trtPTotRisk.secTotriskLevel%>级</h3>
+                    </li>
+                    <%}%>
+                    <%if(info.data.trtPTotRisk.secPririskLevel){%>
+                    <li class="rxh_grid_blue rxh_txtCenter">
+                        <h5 class="rxh_font14">价格风险度</h5>
+                        <h3 class="rxh_font18b"><%=info.data.trtPTotRisk.secPririskLevel%>级</h3>
+                    </li>
+                    <%}%>
+                    <%if(info.data.trtPTotRisk.secPleriskLevel){%>
+                    <li class="rxh_grid_blue rxh_txtCenter">
+                        <h5 class="rxh_font14">质押比率风险度</h5>
+                        <h3 class="rxh_font18b"><%=info.data.trtPTotRisk.secPleriskLevel%>级</h3>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+        <%}%>
+        <div class="rxh_grid rxh_gap">
+            <ul class="rxh_grid_col1">
+                <%if(info.data.pledgeRatio){%>
+                    <li class="rxh_grid_gray">
+                        <span>累计质押比例：</span>
+                        <em style="float: right"><%=info.data.pledgeRatio%>%</em>
+                    </li>
+                <%}%>
+                <%if(info.data.holdingRatio){%>
+                    <li class="rxh_grid_gray">
+                        <span>控股股东累计质押比例：</span>
+                        <em style="float: right"><%=info.data.holdingRatio%>%</em>
+                    </li>
+                <%}%>
+            </ul>
+        </div>
+     <%}%>
+
+    <%if(type==2 && info.data.lableTrtRiskList &&info.data.lableTrtRiskList.length!==0){%>
+        <div class="rxh_list" id="<%-sn%>box">
+            <%for(var i=0;i<info.data.lableTrtRiskList.length;i++){
+                var item = info.data.lableTrtRiskList[i];
+                fixed2= function (num) {
+                    return (!isNaN(num) && num !== '') ? num.toFixed(2) : '--';
+                };
+                time=function(val) {
+                    if (val !== '') {
+                        try {
+                            var str =
+                                    val.slice(0, 4) + '.' + val.slice(4, 6) + '.' + val.slice(6, 8)
+                        } catch (error) {
+                            return val
+                        }
+                    } else {
+                        return '--'
+                    }
+                    return str
+                };
+            %>
+                <div class="rxh_dl rxh_dl_txtTop2 rxh_dl_txtTop2_a" style="display: none;">
+                    <dl>
+                        <dt style="width: 6rem;color: #000;margin-right: 0;"><%-time(item.pubDt)%></dt>
+                        <dd>
+                            <%if(item.newPAdjclose<=item.referWarnPrice&&item.newPAdjclose>item.referClosePrice){%>
+                                <div class="rxh_label_buy">达预警线<i class="rxh-icon-arrow4_l"></i></div>
+                            <%}else {%>
+                                <div class="rxh_label_sell">达平仓线<i class="rxh-icon-arrow4_l"></i></div>
+                            <%}%>
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>股东名称</dt>
+                        <dd><%-item.sHolderName%></dd>
+                    </dl>
+                    <dl>
+                        <dt>质押方</dt>
+                        <dd><%-item.sPledgor%></dd>
+                    </dl>
+                    <dl>
+                        <dt>质押股数</dt>
+                        <dd><%-item.sPledgeShares%>万</dd>
+                    </dl>
+                    <dl>
+                        <div>
+                            <dt>占总股本比</dt>
+                            <dd><%- item.sPledgeShrRatio ? fixed2(item.sPledgeShrRatio) + '%' : '--'%></dd>
+                        </div>
+                        <div>
+                            <dt>占持股比</dt>
+                            <dd><%- item.sPledgeHoldingRatio ? fixed2(item.sPledgeHoldingRatio) + '%' : '--' %></dd>
+                        </div>
+                    </dl>
+                    <dl>
+                        <div>
+                            <dt>预警线</dt>
+                            <dd><%-fixed2(item.referWarnPrice)%></dd>
+                        </div>
+                        <div>
+                            <dt>平仓线</dt>
+                            <dd><%-fixed2(item.referClosePrice)%></dd>
+                        </div>
+                    </dl>
+                    <dl>
+                        <div>
+                            <dt>质押日期</dt>
+                            <dd><%-item.sPledgeBgdate? time(item.sPledgeBgdate) : '--'%></dd>
+                        </div>
+                        <div>
+                            <dt>质押日收盘价</dt>
+                            <dd><%-fixed2(item.pledgeCost)%></dd>
+                        </div>
+                    </dl>
+                    <dl>
+                        <div>
+                            <dt>解押日期</dt>
+                            <dd><%-item.sPledgeEnddate? time(item.sPledgeEnddate) : '--'%></dd>
+                        </div>
+                        <div>
+                            <dt>占总股本比</dt>
+                            <dd><%-item.sHoldingShrRatio%>%</dd>
+                        </div>
+                    </dl>
+                </div>
+            <%}%>
+        </div>
+    <div class="rxh_btnMore" id="<%-sn%>num"><a>查看更多</a></div>
+    <%} else if(type==2) {%>
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text">
+                <span>暂无数据</span>
+            </div>
+        </div>
+    <%}%>
+    <%if(type==3 && info.data.trtRiskList &&info.data.trtRiskList.length!==0){%>
+    <div class="rxh_list rxh_gap" id="<%-sn%>box">
+        <%for(var i=0;i<info.data.trtRiskList.length;i++){
+            var item = info.data.trtRiskList[i];
+            fixed2= function (num) {
+                return (!isNaN(num) && num !== '') ? num.toFixed(2) : '--';
+            };
+            time=function(val) {
+                if (val !== '') {
+                    try {
+                        var str =
+                                val.slice(0, 4) + '.' + val.slice(4, 6) + '.' + val.slice(6, 8)
+                    } catch (error) {
+                        return val
+                    }
+                } else {
+                    return '--'
+                }
+                return str
+            };
+        %>
+        <div class="rxh_dl rxh_dl_txtTop2" style="display: none;">
+            <dl>
+                <dt style="width: 6rem;color: #000;margin-right: 0;"><%-time(item.pubDt)%></dt>
+                <dd>
+                    <%if(item.newPAdjclose<=item.referWarnPrice&&item.newPAdjclose>item.referClosePrice){%>
+                        <div class="rxh_label_buy">达预警线<i class="rxh-icon-arrow4_l"></i></div>
+                    <%}else {%>
+                        <div class="rxh_label_sell">达平仓线<i class="rxh-icon-arrow4_l"></i></div>
+                    <%}%>
+                </dd>
+            </dl>
+            <dl>
+                <dt>股东名称</dt>
+                <dd><%-item.sHolderName%></dd>
+            </dl>
+            <dl>
+                <dt>质押方</dt>
+                <dd><%-item.sPledgor%></dd>
+            </dl>
+            <dl>
+                <dt>质押股数</dt>
+                <dd><%-item.sPledgeShares%>万</dd>
+            </dl>
+            <dl>
+                <div>
+                    <dt>占总股本比</dt>
+                    <dd><%- item.sPledgeShrRatio ? fixed2(item.sPledgeShrRatio) + '%' : '--'%></dd>
+                </div>
+                <div>
+                    <dt>占持股比</dt>
+                    <dd><%- item.sPledgeHoldingRatio ? fixed2(item.sPledgeHoldingRatio) + '%' : '--' %></dd>
+                </div>
+            </dl>
+            <dl>
+                <div>
+                    <dt>预警线</dt>
+                    <dd><%-fixed2(item.referWarnPrice)%></dd>
+                </div>
+                <div>
+                    <dt>平仓线</dt>
+                    <dd><%-fixed2(item.referClosePrice)%></dd>
+                </div>
+            </dl>
+            <dl>
+                <div>
+                    <dt>质押日期</dt>
+                    <dd><%-item.sPledgeBgdate? time(item.sPledgeBgdate) : '--'%></dd>
+                </div>
+                <div>
+                    <dt>质押日收盘价</dt>
+                    <dd><%-fixed2(item.pledgeCost)%></dd>
+                </div>
+            </dl>
+            <dl>
+                <div>
+                    <dt>解押日期</dt>
+                    <dd><%-item.sPledgeEnddate? time(item.sPledgeEnddate) : '--'%></dd>
+                </div>
+                <div>
+                    <dt>占总股本比</dt>
+                    <dd><%-item.sHoldingShrRatio%>%</dd>
+                </div>
+            </dl>
+        </div>
+        <%}%>
+    </div>
+    <div class="rxh_btnMore" id="<%-sn%>num"><a>查看更多</a></div>
+    <%} else if(type==3) {%>
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text">
+                <span>暂无数据</span>
+            </div>
+        </div>
+    <%}%>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+console.log(JSON.parse('<%- JSON.stringify(info) %>'))
+  var robotStockHeaderView<%- sn %> = {
+    onViewReady: function () {
+        var num=2;
+       var infinity= function() {
+            if($('#<%-sn%>box .rxh_dl').length>2){
+                $('#<%-sn%>box .rxh_dl').hide(0);
+                $('#<%-sn%>box .rxh_dl').eq(0).show(0);
+                $('#<%-sn%>box .rxh_dl').eq(1).show(0);
+            }else{
+                $('#<%-sn%>num').hide(0);
+            }
+            $('#<%-sn%>num').click(function () {
+                num=num+2;
+                $('#<%-sn%>box .rxh_dl').eq(num-1).show(0);
+                $('#<%-sn%>box .rxh_dl').eq(num).show(0);
+                if(num>=$('#<%-sn%>box .rxh_dl').length){
+                    $('#<%-sn%>num').hide(0);
+                }
+            })
+        }
+        infinity();
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, robotStockHeaderView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

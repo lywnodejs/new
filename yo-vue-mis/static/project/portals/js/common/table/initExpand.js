@@ -1,0 +1,1 @@
+define("js/common/table/initExpand",["require","exports","module"],function(n,e,i){return function(n,e){e=e||"id",n.expandRows=[],n.isShowRows=function(e){return n.expandRows.indexOf(e)>=0},n.tableExpand=function(i){i.isExpand=!i.isExpand,i.isExpand?n.expandRows.push(i):n.expandRows=n.expandRows.filter(function(n){return n[e]!==i[e]})}}});

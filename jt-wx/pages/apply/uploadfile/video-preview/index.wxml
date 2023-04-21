@@ -1,0 +1,8 @@
+<!--pages/apply/uploadfile/video-preview/index.wxml-->
+<view class="preview-title">
+  <image class="close-preview-img" src="/image/close_with_bg.png" catchtap="onClose" />
+</view>
+<view class="video-box">
+  <video id="myVideo" src="{{videoUrl}}" class="video" controls autoplay show-fullscreen-btn="{{true}}"
+    show-center-play-btn='{{false}}' show-play-btn="{{true}}"></video>
+</view>

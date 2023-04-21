@@ -1,0 +1,42 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb mb_tab'>
+        <%- data %>
+    </div>
+</div>
+
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var competitiveEdge = {
+    onViewReady: function () {
+
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min','/static/js/utils/toolsUtil'];
+  loadJs(jsArr, competitiveEdge.onViewReady)
+
+  function showMoreh5AndShowUp(className) {
+    $("." + className).find("h5").removeClass("show_row5");
+    $(".a" + className).removeClass("show").addClass("hide");
+    $(".aShow" + className).show();
+  }
+
+  function hideMoreh5AndShowUp(className) {
+    $("." + className).find("h5").addClass("show_row5");
+    $(".a" + className).removeClass("hide").addClass("show");
+    $(".aShow" + className).hide();
+  }
+</script>
+
+
+
+
+

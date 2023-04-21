@@ -1,0 +1,23 @@
+<view class="apply-page">
+  <block wx:if="{{productInfo.maxAmount}}">
+  <block>
+    <loan-info  showInput="{{showInput}}" loan-info="{{productInfo}}" bind:termchange="onTermChange" bind:amountchange="onAmountChange" />
+  </block>
+    <view bindtap="toproduct" class="productdesc">产品介绍</view>
+    
+    <view wx:for="{{productInfo.attrCats}}" wx:key="index">
+      <cate-group cateInfo="{{item}}" productId="{{productId}}"/>
+    </view>
+
+    <view class="page-footer">
+      <block
+        wx:if="{{productInfo.protocols !== null && productInfo.protocols !== undefined && productInfo.protocols.length>0}}">
+        <protocol-view isSelected="{{isSelected}}" protocols="{{productInfo.protocols}}" bindonSelect="changeSelect" bindonShow="onShowChange"/>
+      </block>
+      <button type="primary" class="apply-btn" bind:tap="onApply"
+        disabled="{{!isAmountCorrect || !isAllAttrCompleted || !isSelected}}">立即申请并签名</button>
+    </view>
+  </block>
+</view>
+<xy-confirm show="{{showErrorPopup}}" title="{{errorPopTitle}}" bind:close="closeErrorPop" contentText="{{errContent}}"
+  isAlert />

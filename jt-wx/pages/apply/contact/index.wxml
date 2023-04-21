@@ -1,0 +1,19 @@
+<!-- pages/apply/contact/index.wxml -->
+<bloc wx:if="{cateInfo !== undefined && cateInfo !== null}">
+    <xy-nav-bar bind:navLeftClick="onClickLeft" title="{{cateInfo.name}}" platform="{{platform}}" />
+    <view wx:if="{{cateInfo.catTips}}" class="top-tips">
+        <image src="/image/bulb-fill.png"></image>
+        {{cateInfo.catTips}}
+    </view>
+
+    <block wx:for="{{attrGroups}}" wx:key="index">
+        <contact-view attrGroup="{{item}}" bind:valuechange="onValueChange" allContactAttrs="{{allContactAttrs}}"
+            groupIndex="{{index}}" />
+    </block>
+    <view wx:if="{{attrGroups.length > 0 && editFlag}}" class="btn-box">
+        <button class="submit-btn" disabled="{{!isAllAttrCompleted}}" bindtap="onSubmit">确定</button>
+    </view>
+
+    <xy-confirm contentText="{{cateInfo.detainTips}}" rightText="继续" bind:cancel="onCancelStay" bind:ok="onContinue"
+    show="{{showStay && cateInfo.detainTips}}" />
+</bloc>

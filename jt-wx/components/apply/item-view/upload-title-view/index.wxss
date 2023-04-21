@@ -1,0 +1,24 @@
+/* components/apply/item-view/upload-title-view/index.wxss */
+.title {
+  font-size: 17px;
+  color: #333333;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+.desc {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #B3B3B3;
+}
+
+.red-star {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #FF2C43;
+}
+
+.gray-star {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #B3B3B3;
+}

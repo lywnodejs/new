@@ -1,0 +1,41 @@
+.ripple {
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10%;
+  pointer-events: none;
+}
+
+.circle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ccccccaa;
+}
+
+.circle:nth-child(1) {
+  animation: anim 3s linear infinite;
+}
+
+.circle:nth-child(2) {
+  animation: anim 3s linear 0.8s infinite;
+}
+
+.circle:nth-child(3) {
+  animation: anim 3s linear 1.6s infinite;
+}
+
+@keyframes anim {
+  from {
+    opacity: 1;
+    transform: scale(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(4);
+  }
+}

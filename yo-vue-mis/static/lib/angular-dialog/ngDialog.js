@@ -1,0 +1,1 @@
+define(function(s,c,e){"use strict";return s("css!./css/ngDialog.css"),s("css!./css/ngDialog-theme-default.css"),s("css!./css/ngDialog-theme-plain.css"),s("./js/ngDialog")});

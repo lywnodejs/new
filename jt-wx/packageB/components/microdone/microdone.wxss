@@ -1,0 +1,197 @@
+.testkbid {
+  width: 100%;
+  height: 488rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #cbcbcb;
+  box-sizing: border-box;
+  padding-top: 10rpx;
+  font-size: 44rpx;
+  z-index: 999;
+}
+.char_keyboard, .purenumber_keyboard, .symble_keyboard {
+  width: 100%;
+  height: 478rpx;
+}
+
+.row1 view, .row2 view, .row3 view, .row4 view, .row5 view {
+  width: 9%;
+  height: 106rpx;
+  line-height: 106rpx;
+  display: inline-block;
+  text-align: center;
+  background: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  box-shadow:0 2rpx 0px #888;
+  margin: 0 0.5%;
+}
+
+.row6 view {
+  width: 13%;
+  height: 106rpx;
+  line-height: 106rpx;
+  display: inline-block;
+  text-align: center;
+  background: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  box-shadow:0 2rpx 0px #888;
+  margin: 0 0.5%;
+}
+
+view {
+  background-size: 100% 100%;
+}
+
+.row1 {
+  width: 100%;
+  height: 25%;
+  float: left;
+}
+
+.row2 {
+  width: 100%;
+  height: 25%;
+  box-sizing: border-box;
+  margin-left: 5%;
+  float: left;
+}
+
+.row3 {
+  width: 100%;
+  height: 25%;
+  float: left;
+}
+
+.row4, .row5, .row6 {
+  width: 100%;
+  height: 25%;
+  float: left;
+}
+
+.row3 .cap {
+  width: 14%;
+  height: 108rpx;
+  line-height: 108rpx;
+  box-shadow: 0 0px 0px #888;
+  float: left;
+  background: #adb4be;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content:center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+ .row6 .c_N, .row6 .c_S {
+  width: 14%;
+  height: 106rpx;
+  line-height: 106rpx;
+  float: left;
+  background:#adb4be;
+}
+.cap image{
+  width: 50%;
+  height: auto;
+}
+.del image,.close image{
+  width: 50%;
+  height: auto;
+  display: block;
+}
+.del1 image,.close1 image{
+  width: 30%;
+  height: auto;
+}
+.row3 .del, .row6 .del {
+  width: 14%;
+  height: 108rpx;
+  line-height: 108rpx;
+  float: right;
+  background: #adb4be;
+  box-shadow: 0 0px 0px #888;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content:center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.row4 .c_N, .row4 .c_C {
+  width: 24%;
+  float: left;
+  background: #adb4be;
+}
+
+.row4  .space {
+  width: 49%;
+  float: left;
+}
+
+.row4 .close {
+  float: left;
+  width: 24%;
+  height: 108rpx;
+  line-height: 108rpx;
+  background: #adb4be;
+  box-shadow: 0 0px 0px #888;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content:center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.row7 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 25%;
+}
+
+.row7 view {
+  width: 31.33%;
+  height: 106rpx;
+  line-height: 106rpx;
+  text-align: center;
+  background: #fff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  box-shadow:0 2rpx 0px #888;
+  margin: 0 1%;
+}
+.row7 .del1,.row7 .close1{
+  height: 108rpx;
+  line-height: 108rpx;
+  box-shadow: 0 0px 0px #888;
+  background: #adb4be;
+  display: flex;
+  display: -webkit-flex;
+  -webkit-justify-content: center;
+  justify-content:center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.logo{
+  position:absolute;
+  top: -50rpx;
+  left: 0;
+  width: 100%;
+  height: 60rpx;
+  background-color: #cbcbcb;
+  text-align: center;
+  font-size: 24rpx;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo image{
+  width: 20rpx;
+  height: 30rpx;
+  margin-right: 10rpx;
+  margin-top: -4rpx;
+}

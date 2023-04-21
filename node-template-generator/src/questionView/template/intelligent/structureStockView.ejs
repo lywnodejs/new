@@ -1,0 +1,56 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+var data = info.data;
+var strAmount;
+var strLimitedStock;
+var shareStructure = data.shareStru ? data.shareStru : {};
+var shareholderAmountList = data.amount.shareholderAmountList;
+var lastHolder = shareholderAmountList.length > 0 ? shareholderAmountList[0] : {};
+var calendarList = data.calendarList;
+var latestCalendar = calendarList.length > 0 ? calendarList[0] : {};
+//股东变化用
+var strAmount = '';
+if (!lastHolder) {
+    strAmount = '';
+}else if (lastHolder.chanOfLast > 10){
+    strAmount = '数量增加';
+}else if (lastHolder.chanOfLast < -10){
+    strAmount = '数量减少';
+}else{
+    strAmount = '数量稳定';
+}
+var strLimitedStock = '';
+if (calendarList.length > 0){
+    strLimitedStock = '；' + commonUtil.generateDate(latestCalendar.listDate) + '将解禁' + commonUtil.formatNumber(latestCalendar.listAmount * 10e3, '', false) + '股，占总股本的' + (latestCalendar.listAmount / shareStructure.totShare * 100).toFixed(2) + '%';
+}
+
+
+%>
+
+<div class="rxh_text rxh_gap">
+    <div class="rxh_bgBox_blue rxh_bgBox_arrow">
+        <h5>股东人数近期<%= strAmount + strLimitedStock %></h5>
+        <i class="rxh-icon-arrow_r"></i>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+</script>
+
+
+

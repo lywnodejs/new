@@ -1,0 +1,24 @@
+/* components/resend/index.wxss */
+.send-captcha::after{
+  display: none;
+}
+.send-captcha {
+  display: inline-block;
+  line-height: 1em;
+  font-size: 13px;
+  color: #0081FF;
+  background-color: transparent;
+  padding: 0;
+}
+.send-captcha.icon{
+  padding: 0 0 0 20px;
+  background: transparent url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAMAAAAM7l6QAAAAz1BMVEUAAAAA//8A//8Aqv8Av/8Akv8Amf8Aif8AiP8Ah/8Ajv8Aiv8AhP8Ag/8Ahv8Ag/8Ahf8Ahf8Agv8Agv8AhP8AhP8Agf8Agf8Ag/8Agf8Agv8Agv8Ag/8Ag/8Ag/8Agv8Ag/8Agv8Agv8Agv8Agv8Agv8Agf8Agv8Agf8Agv8Agv8Agv8Agv8Agv8Agv8Agv8Agv8Agv8Agv8Agf8Agv8Agf8Agf8Agv8Agv8Agv8Agf8Agf8Agf8Agf8Agv8Agf8Agf8Agv8Agv8Agv8Agf8bblm/AAAARHRSTlMAAQIDBAcKDQ8REhgfISgpLC4vNTw+SU1SU2BkZ2t7fH1+gYOFkZKTlpudp6mrrbG1usDBws3T1Nbk6evt7/L3+fr8/pgahLUAAADJSURBVBgZzcHXUsJAAEDRi70rNlTsHSs2jF3x/v83mbBgQlZnfPQc/o8jg+YQsRtzL5SMm3ltbB4nZmoUTZmqEcx8qBvkKuo1uV21yre2nlC0qtKzrA/0O9MmXSplKsGg3lJWV4IdnSCiBHdKTEm1kkRNkoSStqSGDSYp+ZTMtplTypSON1NElI6KOkrZnBLUPSDyrHQ9EqnqO78aUMcomiU3ol5QdOU5PXvqE0Xzpu4XgYVLUy36TVu0TmTNnkN+trTV2F/hj74AMwwxEJtSwWEAAAAASUVORK5CYII=") no-repeat 0 50%;
+  background-size: 15px 15px;
+}
+button.send-captcha[disabled]:not([type]){
+  background-color: transparent;
+}
+.send-captcha[disabled]{
+  background-image: none;
+  color: #BFBFBF;
+}

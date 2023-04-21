@@ -1,0 +1,6 @@
+
+export const SET_DEFAULT_INDEX = 'SET_DEFAULT_INDEX';
+export const SET_PARAMETER = 'SET_PARAMETER';
+
+
+

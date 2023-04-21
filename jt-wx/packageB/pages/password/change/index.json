@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "microdone": "/packageB/components/microdone/microdone",
+    "captcha-popup": "/components/captcha-popup/index"
+  },
+  "navigationBarTitleText": "修改交易密码"
+}

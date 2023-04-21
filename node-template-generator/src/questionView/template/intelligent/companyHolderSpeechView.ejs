@@ -1,0 +1,39 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 港股通资金流向 赵波 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var shareholderAmountList = info.data.shareholderAmountList;
+    var lastItem = shareholderAmountList[0];
+%>
+<div class="rxh_gap">
+    <h6>截止到<%= commonUtil.generateDate(lastItem.endDate) %>，股东人数<%= lastItem.shldAmount.toFixed(0) %>
+        户，较上期<%= (lastItem.chanOfLast > 0 ? "增加" : "减少") + Math.abs(lastItem.chanOfLast).toFixed(2) %>
+        %，前十大股东占比<%= info.data.tenHoldPercent %>%</h6>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var companyHolderSpeechView<%- sn %> = {
+    onViewReady: function () {
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, companyHolderSpeechView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

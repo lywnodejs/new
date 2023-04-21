@@ -1,0 +1,148 @@
+<!-- pages/withdraw/index/index.wxml -->
+<block wx:if="{{isShowLimit}}">
+	<view class="amount-box {{isAmountError ? 'invalid-amount' : ''}}">
+		<view class="input-box">
+			<text>￥</text>
+			<input value="{{amount}}" placeholder="{{placeholder}}" type="number" focus="{{isFocus}}" bind:input="changeAmount"
+				bind:focus="focusInput" bind:blur="blurInput"></input>
+			<view wx:if="{{showClearBtn}}" class="input-close-icon" catch:touchstart="clearInput">
+				<image src="/image/close.png"></image>
+			</view>
+		</view>
+		<view class="desc error-tip" wx:if="{{isAmountError}}">{{amountErrorTip}}</view>
+		<view class="desc range-tip">
+			<text>可提现 {{min}} 至 {{max}} 元</text>
+			<text bindtap="withdrawAll">全部提现</text>
+		</view>
+	</view>
+	<view class="amount-info" wx:if="{{isShowDetail}}">
+		<view class="info-box {{showLoanTerms?'bottom-padd':''}}">
+			<view class="info-item">
+				<view class="label-text">借款期限</view>
+				<view class="item-content" data-type="showLoanTerms" bind:tap="handleItem">
+					<view class="item-value {{showLoanTerms ? 'up-tag' : 'down-tag'}}   {{loanTerms.length == 1 && 'no-tag'}}">
+						{{loanTerms[loanTermIndex].term}}{{termUnit}}
+					</view>
+				</view>
+			</view>
+			<view wx:if="{{showLoanTerms}}" class="Range">
+					   <text>最短{{minterm}}{{termUnit}}</text>
+					   <text class="right">最长{{maxterm}}{{termUnit}}</text>
+					</view>
+			<view class="select-slider" wx:if="{{showLoanTerms}}">
+				<slider class="slider" step="1" min="{{0}}" max="{{loanTerms.length - 1}}" backgroundColor="#E7E9EE"
+					activeColor="#F65348" value="{{loanTermIndex}}" block-size="24" bindchanging="onTermChange" />
+			</view>
+		</view>
+		<view class="info-box repay-type">
+			<view class="repay-info-box">
+				<view class="info-item">
+					<view class="label-text">还款方式</view>
+					<view class="item-content" data-type="showRepayTypes" bind:tap="handleItem">
+						<view class="item-value {{showRepayTypes ? 'up-tag' : 'down-tag'}}">
+							{{repayTypes[repayTypeIndex].repayTypeName}}
+						</view>
+					</view>
+				</view>
+				<view class="select-btns" wx:if="{{showRepayTypes}}">
+					<button wx:for="{{repayTypes}}" wx:key="index" data-index="{{index}}" bindtap="onSelectRepayType"
+						class="{{index === repayTypeIndex ? 'selected' : ''}}">
+						{{item.repayTypeName}}
+					</button>
+				</view>
+			</view>
+			<view wx:if="{{showRepayPlan}}" class="repay-handle" bind:tap="showRepayPlanPop">
+				<image src="/image/i2.png"></image>
+				还款试算
+			</view>
+		</view>
+		<view class="info-item">
+			<view class="label-text">贷款用途</view>
+			<view class="item-content">
+				<picker bindchange="bindPickerChange" range-key="description" range="{{loanPurposeList}}">
+					<view class="picker">
+						<view class="item-value {{showLoanTerms ? 'up-tag' : 'down-tag'}}   {{loanTerms.length == 1 && 'no-tag'}}">
+							{{loanPurpose.description}}
+					</view>
+					</view>
+				</picker>
+			</view>
+		</view>
+
+		<view class="info-item">
+			<view class="label-text">收款账户</view>
+			<view class="item-content">
+				<text class="item-value invalid-value" wx:if="{{!isBind}}" bindtap="toBindCard">去绑卡</text>
+				<view bindtap="toBindCard" class="item-value has-card {{isBind && 'no-tag'}}" wx:else>
+					<image src="{{bankIcon}}"></image>
+					<text>{{accountInfoDesc}}</text>
+				</view>
+			</view>
+		</view>
+	</view>
+	<view class="page-footer">
+
+		<block
+        wx:if="{{protocolList !== null && protocolList !== undefined && protocolList.length>0}}">
+        <protocol-view isSelected="{{isSelect}}" protocols="{{protocolList}}" bindonSelect="changeSelect"  bindonShow="onShowChange"/>
+      </block>
+		<button type="primary" class="apply-btn {{(!isShowDetail || !isSelect) ? 'disabled' : ''}}"  disabled = "{{!isShowDetail || !isSelect}}" bind:tap="onApply">
+			确认提现并签名
+		</button>
+	</view>
+
+
+	<xy-popup title="还款试算" show="{{showRepayPlanPop}}">
+		<view class="repay-calc-tit">
+			<view class="repay-calc-type">{{plansInfo.repayTypeDesc}}</view>
+			<view class="repay-calc-num">
+				{{plansInfo.totalDetails}}
+			</view>
+		</view>
+
+		<bloc wx:for="{{plansInfo.repaymentPlanList}}" wx:key="index">
+			<view class="xy-steps-item">
+				<view class="step-title {{index === plansInfo.repaymentPlanList.length-1 ? 'no-border':''}}">
+					<view class="title">{{item.terms}}期</view>
+					<view class="title-desc">{{item.deductDate}}</view>
+					<text class="tag"></text>
+				</view>
+
+				<view class="step-content">
+					<view class="content">￥{{item.totalAmount}}</view>
+					<view>
+						<text class="detail">{{item.detail}}</text>
+					</view>
+				</view>
+			</view>
+		</bloc>
+	</xy-popup>
+
+	<xy-confirm show="{{showLocationTips}}" textLeft="{{true}}" title="定位服务未开启"
+		contentText="请到手机系统的【设置】>【隐私】>【定位服务】中打开定位服务" isAlert />
+
+</block>
+
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+
+<xy-confirm contentText="{{errorDesc}}" bind:close="onKnow"
+	show="{{showErrorDialog && errorCode != 0 && errorCode != -9}}" isAlert />
+
+	<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />
+
+	<captcha-popup show="{{showCodePopup}}" phone="{{mobilePhone}}" isCountdown="{{isCountdown}}" bindonSend="onSend"
+  isError="{{isCodeError}}" bindonComplete="onComplete" />
+	
+
+

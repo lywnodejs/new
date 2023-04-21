@@ -1,0 +1,159 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 融资融券 赵波 2019.10.18 -->
+<%
+    var result = info;
+
+    var tradingTop10 = result.data.tradingTop10 || [];
+    var seclendingTop10 = result.data.seclendingTop10 || [];
+    var tMarMargintradeInfo = result.data.tMarMargintradeInfo;
+
+    var pageSize = 10;
+    var hideClass = '';
+
+    var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+    var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+
+    var item;
+    var moreId;
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_marginBalance">
+            <ul id="<%= quotaContainerId %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <h6 class="note">数据更新时间：<%= commonUtil.generateDate(tMarMargintradeInfo.tradeDt) %></h6>
+
+            <!-- 两融余额 -->
+            <div class="tlBox_signal">
+                <ol>
+                    <li>两融余额</li>
+                    <li>占流通市值比</li>
+                    <li>标的股排名</li>
+                </ol>
+                <ul>
+                    <li>融资余额<br><%= commonUtil.formatAmount(tMarMargintradeInfo.sMarginTradingbalance*1e4) %></li>
+                    <li><%= commonUtil.formatNumber(tMarMargintradeInfo.tradingRate) %>%</li>
+                    <li><%= tMarMargintradeInfo.tradingRank %></li>
+                </ul>
+                <ul>
+                    <li>融券余额<br><%= commonUtil.formatAmount(tMarMargintradeInfo.sMarginSeclendingbalance*1e4) %></li>
+                    <li><%= commonUtil.formatNumber(tMarMargintradeInfo.seclendingRate) %>%</li>
+                    <li><%= tMarMargintradeInfo.seclendingRank %></li>
+                </ul>
+            </div>
+
+            <div class="tab TAB2">
+                <ul>
+                    <li class="on" onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>融资余额占比前10<b></b></span>
+                    </li>
+                    <li onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>融券余额占比前10<b></b></span>
+                    </li>
+                </ul>
+                <div class="bottom"></div>
+            </div>
+            <div id="<%= tableContainerId %>" class="content">
+                <div class="item show">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>融资余额</li>
+                        <li>占流通市值比<i class="icon-arrow_sequentB"></i></li>
+                    </ol>
+                    <%
+                    if (tradingTop10.length > 10) {
+                        hideClass = commonUtil.generateRandomClassName('hide');
+                    }
+                    for (var j=0; j<tradingTop10.length; j++) {
+                        item = tradingTop10[j];
+                    %>
+                    <ul class="<%= j>=pageSize?hideClass:'' %>" style="display: <%= j >= pageSize?'none':'' %>;">
+                        <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                            <h4><%= item.secName %></h4>
+                            <h6><%= item.secCode %></h6>
+                        </li>
+                        <li><%= commonUtil.formatAmount(item.sMarginTradingbalance*1e4) %></li>
+                        <li><%= commonUtil.formatNumber(item.tradingRate) %>%</li>
+                    </ul>
+                    <% } %>
+                    <%
+                    if (tradingTop10.length > 10) {
+                        moreId = commonUtil.generateRandomClassName('moreId');
+                    %>
+                    <div id="<%= moreId %>" class="box_load" style="padding: 5px 0 18px 0; margin-top: 0;" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+                        <a>查看更多</a>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="item">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>融券余额</li>
+                        <li>占流通市值比<i class="icon-arrow_sequentB"></i></li>
+                    </ol>
+                    <%
+                    if (seclendingTop10.length > 10) {
+                        hideClass = commonUtil.generateRandomClassName('hide');
+                    }
+                    for (var i=0; i<seclendingTop10.length; i++) {
+                        item = seclendingTop10[i];
+                    %>
+                    <ul class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+                        <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                            <h4><%= item.secName %></h4>
+                            <h6><%= item.secCode %></h6>
+                            </li>
+                        <li><%= commonUtil.formatAmount(item.sMarginSeclendingbalance*1e4) %></li>
+                        <li><%= commonUtil.formatNumber(item.seclendingRate) %>%</li>
+                    </ul>
+                    <% } %>
+                    <%
+                    if (seclendingTop10.length > 10) {
+                        moreId = commonUtil.generateRandomClassName('moreId');
+                    %>
+                    <div id="<%= moreId %>" class="box_load" style="padding: 5px 0 18px 0; margin-top: 0;" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+                        <a>查看更多</a>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var marginBalance = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, marginBalance.onViewReady)
+
+  /**
+   * tab 切换
+   * @param event
+   * @param tableContainerId
+   */
+  function marginSubTabClick(event, tableContainerId) {
+    // console.log($(event.currentTarget).index())
+    var curTarget = $(event.currentTarget);
+    var index = curTarget.index();
+    curTarget.addClass('on').siblings().removeClass('on');
+    $('#'+tableContainerId).find('> div').eq(index).addClass('show').siblings().removeClass('show');
+    // $('#'+tableContainerId).children().eq(index).addClass('show').siblings().removeClass('show');
+  }
+
+</script>

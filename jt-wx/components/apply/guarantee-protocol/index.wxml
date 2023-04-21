@@ -1,0 +1,11 @@
+<!--components/apply/guarantee-protocol/index.wxml-->
+<view class="protocol-box">
+  <checkbox isSelected="{{isSelected}}" class="checkbox" bindonSelect="changeSelect"></checkbox>
+  <view class="text-box">{{'我已告知担保人'}}<view class="protocol-name  inline-view">
+      <view wx:for="{{protocols}}" wx:key="index" data-index="{{item}}" class="inline-view">
+        <view bind:tap="onProtocolClick" data-url="{{item.content}}"  data-index="{{index}}" class="inline-view">《{{item.name}}》</view>
+        <view wx:if="{{index !== protocols.length - 1}}" class="inline-view">、</view>
+      </view>
+    </view>，点击确定代表担保人已阅读并同意条款无异议
+  </view>
+</view>

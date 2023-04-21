@@ -1,0 +1,1 @@
+define("js/alarm/adapterAlarmData",["require","exports","module"],function(a,r,t){return function(a,r,t){if(r=r||{},!Array.isArray(a.datas)||!a.datas.length)return a;var e=[],n=a.datas[0].alarmData;return n&&(e=Object.keys(n)),a.datas.forEach(function(a){a.id in r&&(a.isChecked=t),angular.isObject(a.alarmData)&&e.forEach(function(r){a[r]=a.alarmData[r]})}),a}});

@@ -1,0 +1,43 @@
+<view class="product-cell">
+  <view class="loop">
+    <view class="title">
+      <!-- <image src="{{product.logo}}"/> -->
+      <text>{{product.productName}}</text>
+    </view>
+    <view class="content">
+      <view>
+        <text>{{product.availableLendAmount}}</text>
+        <text>{{product.title}}</text>
+      </view>
+      <text bindtap="onClick" class=" {{product.button.enable ? 'totalAmount' : 'totalAmount disabled'}}">{{product.button.text}}</text>
+    </view>
+    <view class="footer" wx:if="{{product.totalAmount}}">
+      <image src="/image/d_top01.png"></image>
+      <image src="/image/d_top02.png"></image>
+      <image src="/image/d_top03.png"></image>
+      <view>
+        总额度
+        <text>{{product.totalAmount}}</text>
+      </view>
+      <view>
+        已用额度
+        <text>{{product.usedAmount}}</text>
+      </view>
+    </view>
+    <!-- <view class="tag">
+    <view>
+      <image src="../../image/tag-bg.png"></image>
+      最低年息率5.7%
+    </view>
+    <view>
+      <image src="../../image/tag-bg.png"></image>
+      按月计息
+    </view>
+    <view>
+      <image src="../../image/tag-bg.png"></image>
+      循环额度
+    </view>
+  </view> -->
+  </view>
+
+</view>

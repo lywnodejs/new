@@ -1,0 +1,17 @@
+<!--pages/login/index/index.wxml-->
+<view class="login">
+  <view class="logo">
+    <image src="/image/loginLogo.png"></image>
+    <view>九商金融</view>
+  </view>
+  <button wx:if="{{!isSelected || isLock}}" class="wx-btn" catchtouchstart="onLogin">微信用户一键登录</button>
+  <button bindtap="onWXLogin" wx:else class="wx-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信用户一键登录</button>
+  <button bindtap="onLogin" class="btn">手机号登录/注册</button>
+  <view class="protocol">
+    <checkbox class="checkbox" isSelected="{{isSelected}}" bind:onSelect="onProtocol"/>
+    <view>
+      <text bindtap="onProtocol">登录注册即代表您已同意</text> <block wx:for="{{protocol}}" wx:key="idx" wx:for-index="idx">
+      <text bindtap="onClick" data-url="{{item.url}}">《{{item.name}}》{{idx !== (protocol.length-1) ? '、' : ''}}</text></block>
+    </view>
+  </view>
+</view>

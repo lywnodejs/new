@@ -1,0 +1,219 @@
+<% include ../component/params %>
+<% if(!params.noSource){ %>
+<link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh/style.css">
+<link rel="stylesheet" href="<%= config %>/static/css/yy_OnekeyResearchReport.css">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">
+<meta name="keywords" content="小e">
+<meta name="description" content="智能小e">
+<meta name="application-name" content="智能小e 首页">
+<% } %>
+<% if(params.titleSize == 1){ %>
+<div class="rxh_bd">
+    <% } %>
+
+    <% include ../component/jsLoad %>
+
+    <div id="groupId">
+        <%
+        var data = info.data;
+        if (data.length > 0) {
+        for(let i = 0; i < data.length; i++){
+            let item = data[i];
+            let chartId = 'chart' + i + sn;
+            var financialName = item.name;
+            if ("资本净额（银行）或净资本（证券）" == item.name) {
+                if ("S4801" == item.induSortCode) {
+                    financialName = '本净额';
+                } else if ("S4901" == item.induSortCode) {
+                    financialName = '净资本';
+                } else {
+                    financialName = '财务指标';
+                }
+            }
+        %>
+
+        <% if(params.titleSize == 1){ %>
+        <div class="rxh_hd rxh_line_halfB" id="title<%= sn %>" style="margin-top: 10px">
+            <b></b><span><%= financialName %></span>
+        </div>
+        <% }else{ %>
+        <% if(item.netProfitYoy >= 0){ %>
+        <div class="rxh_hd2" id="title<%= sn %>"><%= financialName %></div>
+        <% }else if (item.netProfitYoy < 0) { %>
+        <div class="rxh_hd3" id="title<%= sn %>"><%= financialName %></div>
+        <% } %>
+        <% } %>
+
+        <div class="rxh_bd2">
+            <%= item.induSortName %>行业上市公司<b><%= item.induSecNum %>家</b>,<%= commonUtil.replaceSpecial(name) %><%= financialName %>排名行业<b>第<%= item.induRank %>名</b>。
+        </div>
+
+        <!-- 图表 -->
+        <div class="rxh_chartBox">
+            <div id="<%= chartId %>" class="rxh_chart" style="height: 300px"></div>
+        </div>
+        <% } %>
+        <% } %>
+    </div>
+    <% if(params.titleSize == 1){ %>
+</div>
+<% } %>
+
+<script>
+
+    var financialIndexParams = JSON.parse('<%- JSON.stringify(runtimeParams) %>');
+    var financialIndexInfo = JSON.parse('<%- JSON.stringify(info) %>');
+    var sn = '<%= sn %>';
+    var stockName = '<%= name %>';
+    var robotApiUrl = '<%- robotApiUrl %>';
+
+    var financialIndexView = {
+        onViewReady: function () {
+            financialIndexView.displayChart(financialIndexInfo.data);
+            // financialIndexView.refresh();
+        },
+        displayChart: function (data) {
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i].values;
+
+                let xSeries = [];
+                let ySeriesAll = [];
+                let values = [];
+                let averages = [];
+                let colors = [];
+                for (let j = item.length - 1; j >= 0; j--) {
+                    var jItem = item[j];
+                    values.push(jItem.value == undefined ? null : jItem.value);
+                    xSeries.push(financialIndexView.getTimeStr(jItem.endDateAt));
+                    averages.push(jItem.average == undefined ? null : jItem.average);
+                }
+
+                if (i === 0) {
+                    colors = ['#E63435', '#F5BA42'];
+                } else if (i === 1) {
+                    colors = ['#3E85FF', '#F5BA42']
+                }
+
+                for (let k = 0; k < 2; k++) {
+                    let chartSeries = {
+                        type: 'column',
+                        color: colors[k],
+                        tooltip: {
+                            valueSuffix: data[i].unit
+                        }
+                    };
+
+                    if (k === 0) {
+                        chartSeries.name = stockName;
+                        chartSeries.data = values;
+                    } else if (k === 1) {
+                        chartSeries.name = "行业平均";
+                        chartSeries.data = averages;
+                    }
+
+                    ySeriesAll.push(chartSeries);
+                }
+
+
+                let chart = new SplineAndColumnChart();
+                chart.categories = xSeries;
+                chart.containerId = 'chart' + i + sn;
+                chart.series = ySeriesAll;
+                chart.height = 300;
+                chart.units = [data[i].unit];
+                chart.initialize();
+            }
+        },
+        refresh: function () {
+            if (timeUtil.checkAuditTime()) {
+                $.ajax({
+                    type: 'GET',
+                    url: toolsUtil.createURL(robotApiUrl + '/api/qa/fix', financialIndexParams),
+                    dataType: 'jsonp',
+                    success: function (result) {
+                        var datas = result.data;
+                        var srt = '';
+
+                        for (var i = 0; i < datas.length; i++) {
+                            let item = datas[i];
+                            let chartId = 'chart' + i + sn;
+                            var financialName = item.name;
+
+                            if ("资本净额（银行）或净资本（证券）" == item.name) {
+                                if ("S4801" == item.induSortCode) {
+                                    financialName = '本净额';
+                                } else if ("S4901" == item.induSortCode) {
+                                    financialName = '净资本';
+                                } else {
+                                    financialName = '财务指标';
+                                }
+                            }
+
+                            if (item.netProfitYoy >= 0) {
+                                srt += '<div class="rxh_hd2"  id="title' + sn + '">' + financialName + '</div>';
+                            } else if (item.netProfitYoy < 0) {
+                                srt += '<div class="rxh_hd3"  id="title' + sn + '">' + financialName + '</div>';
+                            }
+
+                            srt += '<div class="rxh_bd2">' + item.induSortName + '行业上市公司' +
+                                '<b>' + item.induSecNum + '家</b>，' + stockName + '净资产收益率排名行业' +
+                                '<b>第' + item.induRank + '名</b>。</div>' +
+                                '<div class="rxh_chartBox">' +
+                                '<ul class="rxh_legend">';
+
+                            if (i == 0) {
+                                srt += '<li><b class="rxh_cRed"></b><span>' + stockName + '</span></li>' +
+                                    '<li><b class="rxh_circle rxh_cRedLight"></b><span>行业平均</span></li>';
+                            } else {
+                                srt += '<li><b class="rxh_cBlue"></b><span>' + stockName + '</span></li>' +
+                                    '<li><b class="rxh_circle rxh_cBlueLight"></b><span>行业平均</span></li>';
+                            }
+                            srt += '</ul>' + '<div id="' + chartId + '" class="rxh_chart" style="height: 300px"></div></div>'
+                        }
+
+                        $('#groupId').empty();
+                        $('#groupId').append(srt);
+
+                        financialIndexView.displayChart(datas);
+                    }
+                })
+            }
+        },
+        getTimeStr: function (date, fmt) {
+            if (!date) {
+                return '--';
+            }
+            // if (_.isString(date)) {
+            //     date = parseInt(date);
+            // }
+            date = new Date(date);
+            fmt = fmt || 'yyyy-MM-dd';
+            var o = {
+                "M+": date.getMonth() + 1,                 //月份
+                "d+": date.getDate(),                    //日
+                "h+": date.getHours(),                   //小时
+                "m+": date.getMinutes(),                 //分
+                "s+": date.getSeconds(),                 //秒
+                "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                "S": date.getMilliseconds()             //毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, financialIndexView.onViewReady)
+    <% } %>
+
+</script>

@@ -1,0 +1,213 @@
+
+/***********************************************************************************/
+/********************************     智能问答 v2.0    ******************************/
+/*******************************      前端开发：阎延     *****************************/
+/***********************************************************************************/
+/********************************        黑版        ********************************/
+/***********************************************************************************/
+
+a, body, body select,
+.box_stoInfo li:first-child,
+.box_stoDay span{ color:#a7a7c1 !important;}
+
+
+
+/***********************************************************************************/
+
+/* 顶部标题栏 */
+header,
+header a{ color:#a7a7c1;}
+
+
+/* 灰色 */
+.md_time_v2 .box{ background: #22293a;}
+
+
+.box_appraisal a,
+.md_right_v2 h6,
+footer .icon-help,
+footer .icon-voice,
+.box_show .a_more,
+.mb > h6,
+.box_show_tl .box_hd i,
+.box_show_ol ol,
+.box_show_ol li h6,
+.box_show_ol2 ol,
+.box_show_ol2 li h6,
+.page_guide .help i,
+.pop_v2 ul.btn li:first-child,
+.pop_v2 ul.btn li:first-child a,
+.box_appraisal h6,
+.icon-bad2,
+.t_gray,
+.box_show_btn h4 b{ color: #c2c3da/*#5e6480*/ !important;}/*{ color: #c2c3da;}*/
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder{ color:#c2c3da;}
+input:-moz-placeholder,
+textarea:-moz-placeholder{ color:#c2c3da;}
+input::-moz-placeholder,
+textarea::-moz-placeholder{ color:#c2c3da;}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder{ color:#c2c3da;}
+
+
+/* 灰色2 */
+.md_pact_v2,
+.md_pact_v2 a,
+.md_time_v2 .box,
+.md_rightTxt_v2 h6,
+.box_stoInfo li:first-child h6{ color: #5e6480 !important;}
+
+.md_fastNav li,
+.md_pact_v2 a em{ border-color: #5e6480;}
+
+
+
+/* 红色 */
+.t_red,
+.t_red h6,
+.t_red em,
+.box_stoDay em,
+.box_show_ol .t_red h6{ color: #e54266 !important;}
+
+.t_green,
+.t_green h6,
+.t_green em,
+.box_show_ol .t_green h6{ color: #5b9c54 !important;}
+
+
+/* 红色背景 */
+.box_bRed_r2,
+.box_hd2_red b,
+.box_hd2_red span{ background-color: #d23e5f !important;}
+
+
+/* 蓝色 */
+.md_right_v2 p,
+.box_bBlue{ background: #526fba !important;}
+
+.t_blue,
+footer .box_input a,
+footer .box_input input[type=button],
+.md_right_v2 i,
+.box_tl li a,
+.box_load a,
+.box_tl_hot a,
+.page_guide .voice i,
+.icon-good2,
+.mb > h5 > a,
+.pop_v2 .btn,
+.pop_v2 .btn a{ color: #526fba !important;}
+
+
+/*浅蓝色背景*/
+.box_hd2_blue b,
+.box_hd2_blue span,
+.box_liBar .box_bar b{ background-color: #7daef8 !important;}
+
+
+
+.linkTop_half:after,
+.box_load:after,
+.box_show_tl li:after,
+.box_show_tlBD li:after,
+.box_show_ol .box_bd:after,
+.box_show_olBD .box_bd:after,
+.box_liBar li:after,
+.pop_v2 .btn:after{ background: #0d152b;}
+
+.linkBottom_half:after,
+.box_show_tl:after,
+.box_show_ol:after,
+.box_show_olBD:after,
+.box_show_ol2:after,
+.box_show_ol2 ol:after,
+.box_show_ol2 ul:after,
+.box_show_ol3 ol:after,
+.box_show_ol3 ul:after,
+.box_liBar:after{ background: #0d152b;}
+
+
+.linkRight_half:after,
+.pop_v2 ul.btn li:first-child:after{ background: #0d152b;}
+
+
+/***********************************************************************************/
+
+
+.body_v2:before{ background-image:url(../images/black_bg-min.png);}
+
+
+/* 标题栏 */
+header{ background:#0d152b; -moz-box-shadow-color:0 0.25rem 1rem #050810; -webkit-box-shadow:0 0.25rem 1rem #050810; box-shadow:0 0.25rem 1rem #050810;}
+
+
+/* 底部 */
+footer{ background-image: url(../images/black_bg-min.png);}
+
+footer .box_input,
+footer .box_input input[type=text],
+footer .box_input textarea{ background: #22293a; color: #c2c3da;}
+footer .box_input{ border-color:#0d142a;
+    -moz-box-shadow: -0.25rem 0 0.25rem #0d142a, 0.25rem 0 0.25rem #0d142a, 0 0 0.25rem #0d152a, 0 0.25rem 0.25rem #0d142a;
+    -webkit-box-shadow: -0.25rem 0 0.25rem #050810, 0.25rem 0 0.25rem #0d142a, 0 0 0.25rem #0d152a, 0 0.25rem 0.25rem #0d142a;
+    box-shadow: -0.25rem 0 0.25rem #0d142a, 0.25rem 0 0.25rem #0d142a, 0 0 0.25rem #0d152a, 0 0.25rem 0.25rem #0d142a;}
+footer .box_input input[type=text],
+footer .box_input textarea{ font-size:1rem; line-height:1.5em; height:1.5em;}
+footer .box_input textarea{ resize:none;}
+
+footer .box_input a,
+footer .box_input input[type=button]{ align-items:center; font-size:1.25rem; width:3.375rem; padding-top: 0.375rem; margin: -0.625rem 0;}
+
+
+
+/***********************************************************************************/
+
+
+
+
+/* 问 */
+.md_right_v2 p{ color: #e0e4fe;}
+
+
+/* 答具体内容框 */
+.mb{ background:#22293a;}
+.mb:first-child{ border-color: #050810;
+    -moz-box-shadow: -0.625rem 0.625rem 0.625rem #050810, 0.625rem 0.625rem 0.625rem #050810, 0 0.625rem 0.625rem #0d152a, 0 0.625rem 0.625rem #050810;
+    -webkit-box-shadow: -0.625rem 0.625rem 0.625rem #050810, 0.625rem 0.625rem 0.625rem #050810, 0 0.625rem 0.625rem #0d152a, 0 0.625rem 0.625rem #050810;
+    box-shadow: -0.625rem 0.625rem 0.625rem #050810, 0.625rem 0.625rem 0.625rem #050810, 0 0.625rem 0.625rem #0d152a, 0 0.625rem 0.625rem #050810;}
+
+.mb > h6.date:first-child{ background: #1d2332;}
+
+
+/* 快捷导航 */
+.md_fastNav li{ background:#0d152b; color: #b4b5d2;}
+
+
+/* 红框白字 */
+.box_bRed{ background: #e54266;}
+
+
+/* 股票单日 */
+.box_stoDay{ background: #0f172c; border: none; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;}
+
+
+/* 收缩列表 + 带标题栏的收缩列表 */
+.box_show_tl h5,
+.box_show_tlBD .box_bd,
+.box_show_ol .box_bd > h5,
+.box_show_olBD .box_bd > .box_txt{ background: #191e2b;}
+
+.box_show_tl li.on h5,
+.box_show_tlBD li.on .box_bd,
+.box_show_ol .box_bd.on > h5,
+.box_show_olBD .box_bd.on > h5{ -moz-box-shadow: inset 0px 0.625rem 0.5rem #edf1f7; -webkit-box-shadow: inset 0px 0.625rem 0.5rem #edf1f7; box-shadow: inset 0px 0.625rem 0.5rem #edf1f7;}
+
+
+.box_sxy{padding-top: 10px}
+
+
+
+
+

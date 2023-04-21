@@ -1,0 +1,41 @@
+<!--components/apply/item-view/contact-view/index.wxml-->
+<view class='group-name'>{{attrGroup.name}}</view>
+
+<van-field custom-style="{{'padding:15px 0;border-bottom:0.5px solid #e6e6e6;'}}" border="{{ false }}"
+  placeholder-style="font-size: 16px;color: #CDD1D6;" placeholder="请选择您与联系人的关系" label="关系" disabled
+  input-class="input-class" label-class="label-class" right-icon="arrow" clearable value="{{relation}}" readonly="{{attrGroup.editFlag ? false : true}}"
+  data-item="{{attribute}}" id="{{attribute.id}}" bind:tap="{{attrGroup.editFlag ? 'onRelationClick' : ''}}">
+</van-field>
+
+<van-field custom-style="{{'padding:15px 0;border-bottom:0.5px solid '+(nameErrorMsg?'#ff2c43;':'#e6e6e6;')}}"
+  border="{{ false }}" placeholder-style="font-size: 16px;color: #CDD1D6;" placeholder="请填写真实姓名" label="真实姓名"
+  input-class="input-class" bind:change="onNameChange" bind:focus="onNameFocus" bind:blur="onNameBlur" type="textarea" autosize maxlength="20"
+  disabled="{{selectedIndex === -1 ? true:false}}" label-class="label-class" clearable value="{{name}}" readonly="{{attrGroup.editFlag ? false : true}}"
+  data-item="{{attribute}}" id="{{attribute.id}}" bind:tap="{{attrGroup.editFlag ? 'onInputClick' : ''}}">
+</van-field>
+<view wx:if="{{nameErrorMsg}}" class="error-msg">
+    {{nameErrorMsg}}
+  </view>
+
+<van-field custom-style="{{'padding:15px 0;border-bottom:0.5px solid '+(phoneErrorMsg?'#ff2c43;':'#e6e6e6;')}}"
+  border="{{ false }}" placeholder-style="font-size: 16px;color: #CDD1D6;" label="手机号码" label-class="label-class"
+  input-class="input-class" bind:change="onPhoneChange" bind:focus="onPhoneFocus" bind:blur="onPhoneBlur" clearable
+  disabled="{{selectedIndex === -1 ? true:false}}" value="{{phone}}" data-item="{{attribute}}" type="number" readonly="{{attrGroup.editFlag ? false : true}}"
+  maxlength="11" placeholder="请输入11位手机号码" id="{{attribute.id}}" bind:tap="{{attrGroup.editFlag ? 'onInputClick' : ''}}">
+</van-field>
+<view wx:if="{{phoneErrorMsg}}" class="error-msg">
+    {{phoneErrorMsg}}
+  </view>
+
+
+<van-popup show="{{ showSelectPopup }}" bind:close="onClose" closeable position="bottom" >
+  <view class="option-title">{{attrGroup.name}}</view>
+  <view class="xy-select-list">
+    <view class="xy-list-item" wx:for="{{options}}" wx:key="index" data-index="{{index}}" bind:tap="onOptionSelect">
+      <text class="item-left">{{item}}</text>
+      <view class="item-right">
+        <image wx:if="{{selectedIndex === index}}" class="checkbox-img" src="/image/checkbox_selected.png"></image>
+      </view>
+    </view>
+  </view>
+</van-popup>

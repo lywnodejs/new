@@ -1,0 +1,156 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+<!-- 弹窗__提示弹窗（自动） -->
+<div class="pop_v2 pop_prompt pop_prompt_risk pdfForAuto">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+            公告原文链接已复制，请打开浏览器在地址框粘贴查看
+        </div>
+        <div class="btn">
+            <a onclick="closePDFPop()">好&nbsp;&nbsp;的</a>
+        </div>
+    </div>
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var companyRiskInfo = {
+    onViewReady: function () {
+
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/timeUtil', '/static/js/libs/clipboard.min'];
+  loadJs(jsArr, companyRiskInfo.onViewReady)
+
+  /**
+   * 展示更多公告
+   * @param {*} moreId
+   * @param {*} className
+   * @param {*} secCode
+   * @param {*} marType
+   * @param {*} cp
+   */
+  function moreRiskNotices(moreId, className, secCode, marType, cp) {
+    var cp = cp - 0 + 1;
+    var data = {
+      secCode: secCode,
+      marType: marType,
+      cp: cp
+    }
+    $(".spinner2").show();
+    getMoreRiskNotices(data, function (result) {
+      var data = result.data;
+      var hasNextPage = data.hasNextPage;
+      var riskNotices = data.riskNotices;
+      var tagBody = '';
+      $(".spinner2").hide();
+      riskNotices.forEach(function (item, index) {
+        tagBody +=
+          '<li onclick="showPDF(\'' + item.annTitle + '\',\'' + item.annUrl + '\')">' +
+          '<dt>' +
+          '<b></b>' +
+          '<s><i></i></s>' +
+          '</dt>' +
+          '<dd>' +
+          '<div class="space_between">' +
+          '<span class="PDFUrlBtn">' + item.noticeType + '</span>' +
+          '<span class="date">' + toolsUtil.timeChange(item.pubAt, '/') + '</span>' +
+          '</div>' +
+          '<h5 class="b_fa">' + item.annTitle + '</h5>' +
+          '</dd>' +
+          '</li>';
+      });
+      $('.' + className).append(tagBody);
+      if (hasNextPage) {
+        var newMoreTags = '<a onclick="moreRiskNotices(\'' + moreId + '\',\'' + className + '\',\'' + secCode + '\',\'' + marType + '\',\'' + cp + '\')">查看更多</a>';
+        $('#' + moreId).html(newMoreTags);
+      } else {
+        $("#" + moreId).remove();
+      }
+    });
+
+  }
+
+  /**
+   * 底部弹窗问题
+   * @param params
+   */
+  function getMoreRiskNotices(params, success) {
+    $.ajax({
+      type: "get",
+      url: '<%= host %>' + "/riskNotices/companyRisk/riskNotices",
+      data: params,
+      timeout: 10000,
+      jsonp: "callback",
+      success: success
+    });
+  }
+
+  /**
+   * 判断是否支持pdf展示
+   * @param {*} title
+   * @param {*} pdfUrl
+   */
+  var pdfSupport = false;
+
+  function showPDF(title, pdfUrl) {
+    if (pdfSupport) {
+      // functionForShowPDF(title, pdfUrl);
+    } else {
+      if (ClipboardJS.isSupported()) {
+        var clipboard = new ClipboardJS('.PDFUrlBtn', {
+          text: function (trigger) {
+            return pdfUrl
+          }
+        });
+        clipboard.on('success', function (e) {
+          clipboard.destroy();
+        });
+        copyPdfUrl(pdfUrl);
+      } else {
+        copyPdfUrlForHand(pdfUrl);
+      }
+
+
+    }
+  }
+
+  function copyPdfUrl(pdfUrl) {
+    $(".pdfForAuto").addClass("show").removeClass("hide");
+    var propH = $(".pop_prompt_risk .box").height();
+    propT = propH + 50;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  function copyPdfUrlForHand(pdfUrl) {
+    $('.PDFUrlTxt').text(pdfUrl);
+    $(".pdfForHand").show();
+    var propH = $(".pdfForHand .box").height();
+    propT = propH;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  /**
+   * 关闭弹出的pdf的弹窗
+   */
+  function closePDFPop() {
+    $(".pdfForAuto").addClass("hide").removeClass("show");
+  }
+</script>
+
+
+
+
+

@@ -1,0 +1,185 @@
+/* pages/account/index/index.wxss */
+page{
+  /* background-color: #f3f3f3; */
+}
+.account-index{
+  height: 100%;
+}
+.account-index .empty{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.account-index .empty view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #F9FAFB;
+  padding: 14px 15px 0;
+}
+.account-index .empty image{
+  display: block;
+  width: 690rpx;
+  height: 182rpx;
+}
+.account-index .empty .title{
+  color: #333333;
+  font-size: 17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  margin: 50rpx 0 164rpx;
+}
+.account-index .empty .btn{
+  height: 50px;
+  width: 190px;
+  color: white;
+  background-color: #EEA900;
+  box-shadow:0px 2px 8px 0px rgba(246,83,72,0.32);
+  border-radius:25px;
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.account-index .content{
+  background-color: #ffffff;
+  padding: 13px 15px 0rpx;
+}
+.account-index .content .header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0 12px;
+}
+.account-index .content .header .title{
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+}
+.account-index .content .header image{
+  width: 4px;
+  height: 8px;
+  margin: 0 5px;
+}
+.account-index .content .header>view{
+  color: #999999;
+  font-size: 14px;
+}
+
+.account-index .content .card{
+  margin-bottom: 24rpx;
+  background-color: #F76463;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 19px 15px;
+}
+.account-index .content .card image{
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+.account-index .content .card view{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  color: white;
+  font-size:16px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+}
+.account-index .cells{
+  background-color: white;
+  border-radius: 5px;
+  padding: 0 15px;
+  box-shadow:0px 5px 40px -5px rgba(0,0,0,0.04);
+}
+
+.account-index-alter>view{
+  width: 600rpx;
+  border-radius: 5px;
+}
+.account-index-alter text{
+  display: block;
+}
+.account-index-alter .content{
+  text-align: center;
+  padding: 40px 30px;
+  font-size:15px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(51,51,51,1);
+  line-height:21px;
+}
+.account-index-alter .content .title{
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+  margin-bottom: 15px;
+}
+.account-index-alter .footer{
+  height: 55px;
+  line-height: 55px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color:rgba(252,129,0,1);
+  text-align: center;
+  border-top: 1px solid #E6E6E6;
+  display: flex;
+  flex-direction: row;
+}
+.account-index-alter .footer text{
+  width: 50%;
+  text-align: center;
+}
+.account-index-alter .footer text:first-child{
+  border-right: 1px solid #E6E6E6;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(154,154,154,1);
+}
+
+.van-swipe-cell-right{
+  display: inline-block;
+  background-color: #e6e6e6;
+  width: 156rpx;
+  height: 100%;
+  color: red;
+  font-size: 28rpx;
+  font-weight: 400;
+  padding-left: 40rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.setPassword{
+  width: 100%;
+  height: auto;
+  background-color: #ffffff;
+  padding: 30rpx 40rpx;
+  /* padding-left: 40rpx; */
+  /* padding-top: 30rpx; */
+  box-sizing: border-box;
+}
+.xy{
+  margin-top: 80rpx;
+  padding-bottom: 80rpx;
+  width: 100%;
+  text-align: center;
+  font-size:24rpx;
+  line-height: 40rpx;
+  font-weight: 400;
+  color: #B3B3B3;
+}
+.xy text{
+  color: rgba(13, 129, 252, 1);
+  text-decoration-line: underline;
+}

@@ -1,0 +1,75 @@
+<% include ../component/jsLoad %>
+<%
+var data = info.data;
+var list = data.list || [];
+%>
+
+<% if(list.length > 0){ %>
+    <% if(!params.noSource){ %>
+        <link rel="stylesheet" href="<%= config %>/static/css/yy_bigData.css">
+    <% } %>
+
+    <div class="rxhBD_main">
+        <% for(var i = 0; i < list.length; i++){ %>
+            <div class="rxhBD_text rxh_text01"
+                 style="padding-top: 6px"
+                 onclick="informationMesView.openDetail('<%= list[i].id %>','<%= list[i].url %>')">
+                <div class="rxh_hd_text" >
+                    <span style="padding-bottom: 0px"><%- list[i].title || '' %></span>
+                </div>
+                <div class="rxh_bd_text" style="padding-top:0px;padding-bottom: 13px" >
+                    <h5><%- list[i].content || '' %></h5>
+                    <!-- <h6 class="rxh_date"><%= list[i].ratingDisp && list[i].ratingDisp || '' %>  <%= list[i].reportTypes && list[i].reportTypes[0] || '' %> </h6> -->
+                    <h6 class="rxh_date" style="padding-left: 0px">
+                        <%if(!params.reqParams.dataTypes){%>
+                        <%if(list[i].dataTypes[0] === 'NEWS' || list[i].dataTypes[0] === 'GREAT_WISDOM_DATA'){%>
+                        <span style="color:#f00;border: 1px solid #f00;padding: 0 .3rem;border-radius: 5px;margin-right: .2rem;">新闻</span>
+                        <%}else if(list[i].dataTypes[0] === 'NOTICE'){%>
+                        <span style="color:#f00;border: 1px solid #f00;padding: 0 .3rem;border-radius: 5px;margin-right: .2rem;">公告</span>
+                        <%}else if(list[i].dataTypes[0] === 'REPORT'){%>
+                        <span style="color:#f00;border: 1px solid #f00;padding: 0 .3rem;border-radius: 5px;margin-right: .2rem;">研报</span>
+                        <%}else if(list[i].dataTypes[0] === 'WEIXIN'){%>
+                        <span style="color:#f00;border: 1px solid #f00;padding: 0 .3rem;border-radius: 5px;margin-right: .2rem;">微信</span>
+                        <%}else if(list[i].dataTypes[0] === 'POLICY'){%>
+                        <span style="color:#f00;border: 1px solid #f00;padding: 0 .3rem;border-radius: 5px;margin-right: .2rem;">政策</span>
+                        <%}%>
+                        <%}%>
+                        <span ><%= list[i].mediaFrom || '' %></span>
+                        发布日期：<%- commonUtil.changeTimeForMinNoHours(list[i].publishAt) || '' %></h6>
+                </div>
+            </div>
+        <% } %>
+    </div>
+    <script>
+        var H5url = '<%= bigSearchUrl %>'
+      var informationMesView = {
+        onViewReady: function () {
+
+        },
+        openDetail: function (id, url) {
+            try{
+                pa.navigationNative({
+                    pageId: "webView",//  http://big-data.rxhui.com/
+                    url: H5url+'/#/detail?type=全部&back=app&id='+caseId
+                });
+            } catch (e) {
+                try {
+                    openDetail(id);
+                } catch (e) {
+                    console.log(e.toString());
+                    window.open(url,"_bank");
+                }
+            }
+
+        }
+      }
+
+      <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, informationMesView.onViewReady)
+      <% } %>
+    </script>
+
+
+<% }else{ %>
+<% } %>

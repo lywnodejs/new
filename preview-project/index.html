@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>演示</title>
+<!--    <link rel="stylesheet" type="text/css" href="css/res.css"/>-->
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css?t=2"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="form-wrap" id="form-wrap">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">账号：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userName" required lay-verify="required" placeholder="请输入账号"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码：</label>
+                <div class="layui-input-block">
+                    <input type="password" name="passWord" required lay-verify="required" placeholder="请输入密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <button class="layui-btn  layui-btn-primary" lay-submit lay-filter="formDemo">登录</button>
+        </form>
+    </div>
+    <div class="content" id="content" style="display: none">
+        <div class="logo">
+            <img src="image/logo.png" alt="">
+        </div>
+        <div class="item">
+            <ul>
+                <li>
+                    <a href="indexbase.html">
+                        <img src="./image/images/i01_07.png" alt="">
+                        <p>OCR识别-普通版</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="indexnormal.html">
+                        <img src="./image/images/i02_07.png" alt="">
+                        <p>OCR识别-自定义版</p>
+                        <p>为客户提供自定义图像识别服务</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="indexWrite.html">
+                        <img src="./image/images/i03_07.png" alt="">
+                        <p>OCR识别-手写版</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="indexbaseMode.html">
+                        <img src="./image/images/i04_07.png" alt="">
+                        <p class='ocrP'>OCR识别-公文版</p>
+                        <p>检测图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="tablist.html">
+                        <img src="./image/images/i05_07.png" alt="">
+                        <p>知识抽取</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="wordAnalyze.html">
+                        <img src="./image/images/i06_07.png" alt="">
+                        <p>词法分析</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="sentenceAnalyze.html">
+                        <img src="./image/images/i07_07.png" alt="">
+                        <p>句法分析</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="synonymsAnalyze.html">
+                        <img src="./image/images/i08_07.png" alt="">
+                        <p>同意词</p>
+                        <p>处理图像文件</p>
+                        <span>点击查看 &nbsp; ></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+
+    var $ = null;
+    layui.use(['jquery', 'layer'], function () {
+        $ = layui.$ //重点处
+            , layer = layui.layer;
+        if(getJoinCookie('userName') && getJoinCookie('passWord')){
+            $("#content").show();
+            $("#form-wrap").hide();
+        }
+        if(getJoinCookie('userName')==='rxhuiocr'){
+            $('.content li').hide();
+            $('.content li').eq(3).show();
+        }
+    });
+    layui.use('form', function () {
+        var form = layui.form;
+        //执行实例
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            if ((data.field.userName === 'admin' && data.field.passWord === '123123') || (data.field.userName === 'rxhuiocr' && data.field.passWord === '456456') ) {
+                layer.msg('登录成功');
+                setTimeout(function () {
+                    $("#content").show(300);
+                    $("#form-wrap").hide(300);
+                    SetCookie('userName',data.field.userName);
+                    SetCookie('passWord',data.field.passWord);
+                    if(getJoinCookie('userName')==='rxhuiocr'){
+                        $('.content li').hide();
+                        $('.content li').eq(3).show();
+                    }
+                }, 500)
+            } else {
+                layer.msg('登录失败');
+            }
+            return false;
+        });
+    })
+    //获取cookie
+     function getJoinCookie(name)//取cookies函数
+    {
+        var arr = document.cookie.match(new RegExp("(^| )"+name+"=([^;]*)(;|$)"));
+        if(arr != null) return unescape(arr[2]); return null;
+    }
+
+    //设置cookie
+    function SetCookie(name, value) {
+        var hours = 1; //此 cookie 将被保存 30 天
+        var exp  = new Date();    //new Date("December 31, 9998");
+        exp.setTime(exp.getTime() + hours*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    }
+</script>
+</body>
+</html>

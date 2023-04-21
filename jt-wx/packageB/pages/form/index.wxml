@@ -1,0 +1,76 @@
+<!--pages/account/form/index.wxml-->
+<view bindtap="closePWD" style="min-height:calc(100vh - 140px)">
+    <view class="tit-card">
+        <tie-card data="{{userInfo}}" />
+    </view>
+
+    <view class="bank-box">
+        <bank-cell bindemitBank="changeBankInfo" selectBank="{{selectBank}}" custom-class="bank-box"
+            placeholder="{{placeholder}}" showInput="{{placeholder != ''}}" />
+    </view>
+    <view class="password">
+        <view class="item">
+            <text>设置交易密码</text>
+            <input placeholder="{{placeholderPass[0]}}" data-p='0' data-type="1" readonly="readonly" class="input"
+                placeholder-class="passwordPlay" catchtouchstart="bindButtonTap" type="digit" value="{{starstr[0]}}"
+                id='INP' />
+        </view>
+        <view class="item">
+            <text>确认交易密码</text>
+            <input placeholder="{{placeholderPass[1]}}" data-p='1' data-type="1" readonly="readonly" class="input"
+                placeholder-class="passwordPlay" catchtouchstart="bindButtonTap" type="digit" value="{{starstr[1]}}"
+                id='INP2' />
+        </view>
+        <view class="item">
+            <text>客户经理工号</text>
+            <input type="text" bindinput="managerNumberChange" placeholder-class="passwordPlay" placeholder="客户经理工号"/>
+        </view>
+    </view>
+
+    <view class="user-type" wx:if="{{userInfo && userInfo.declares && userInfo.declares.length !== 0}}">
+        <view class="label-text">本人声明：</view>
+        <block wx:for="{{userInfo.declares}}" wx:for-index="idx" wx:key="idx">
+            <view class="radio-box" data-type="{{idx + 1}}" bindtap="selectUserType">
+                <view>
+                    <checkbox isSelected="{{selectType == idx+1}}"></checkbox>
+                </view>
+                <text>{{item}}</text>
+            </view>
+        </block>
+    </view>
+</view>
+
+<view class="page-footer">
+    <view class="protocol-box">
+        <block wx:if="{{protocolList !== null && protocolList !== undefined && protocolList.length>0}}">
+            <protocol-view isSelected="{{isSelect}}" protocols="{{protocolList}}" bindonSelect="changeSelect"
+                bindonShow="onShowChange" />
+        </block>
+    </view>
+
+    <button type="primary" class="apply-btn {{(isError || !isSelect || !password1 || !password2) ? 'disabled' : ''}}"
+        bind:tap="onApply">确定并签名</button>
+</view>
+
+
+
+<xy-confirm show="{{showTipsPopup}}" isAlert textLeft
+    contentText="提款需开通九台农村商业银行的电子账户，开通无需任何费用，仅需绑定一张本人实体银行卡，用于放款资金的提现，和还款资金的充值。" title="温馨提示" />
+
+<xy-confirm show="{{false}}" isAlert title="预留手机号说明">
+    <view slot="content" class="popup-content-box">
+        <view>预留手机号就是你在办理银行卡时留的电话号码。本次绑卡要求预留手机号和注册手机号一致。修改方法如下：</view>
+        <view>1，联系银行将预留手机号修改为当前在用的注册手机号。</view>
+        <view>2，用银行预留手机号重新注册。</view>
+    </view>
+</xy-confirm>
+
+<xy-confirm show="{{showTypePopup}}" isAlert contentText="仅为中国税收居民才能开通Ⅱ类电子账户" />
+
+
+<microdone bindmicrodoneevent="onMyEvent" place-holder="{{placeholderPass}}" keyboard-num="3"
+    imgaddress="/image/microdone/" starstr="{{starstr}}" license="{{license}}" SM24-public-key="{{SM24publickey}}"
+    chaosMode="0" length-limit="{{[6,6,6,6,6,6]}}" id="setPassword" />
+
+<captcha-popup show="{{showCodePopup}}" phone="{{userInfo.reservedMobile}}" isCountdown="{{isCountdown}}" bindonSend="applyHandler"
+  isError="{{isCodeError}}" bindonComplete="onComplete" />

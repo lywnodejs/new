@@ -1,0 +1,71 @@
+.app-container.default {
+  background-color: @default-container-bg;
+  .app-container__side {
+    background-color: @default-side-bg;
+    &__logo {
+      background-color: @default-logo-bg;
+    }
+    &__menu {
+      color: @default-menu-color;
+    }
+  }
+  .app-container__main {
+    &__header {
+      background-color: @default-header-bg;
+      border-bottom-color: @default-header-border
+    }
+    &__crumbs {
+      background-color: @default-crumbs-bg;
+      border-bottom-color: @default-crumbs-border
+    }
+  }
+  .app-section {
+    background-color: @default-bg;
+    border-color: @default-border;
+  }
+  .app-normal-bg {
+     background-color: @default-bg;
+  }
+  .app-primary-bg {
+    background-color: @default-primary-bg;
+  }
+  .app-minor-bg {
+    color: @default-minor-color;
+    background-color: @default-minor-bg;
+  }
+  .app-border {
+    border-color: @default-border;
+  }
+  .app-border--bottom {
+    border-color: @default-border;
+  }
+  a:link {
+    color: @default-minor-bg;
+  }
+  a:visited {
+    color: @default-minor-bg;
+  }
+  a:hover {
+    color:@default-primary-bg;
+    cursor: pointer;
+  }
+  a:active {
+    color:@default-primary-bg;
+  }
+  // 颜色
+  .app-color--primary {
+    color: @default-color-primary;
+  }
+  .app-color--success {
+    color: @default-color-success;
+  }
+  .app-color--warning {
+    color: @default-color-warning;
+  }
+  .app-color--danger {
+    color: @default-color-danger;
+  }
+  .app-color--info {
+    color: @default-color-info;
+  }
+}

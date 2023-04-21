@@ -1,0 +1,31 @@
+<!--pages/account/open/result/index.wxml-->
+<xy-nav-bar bind:navLeftClick="onNav" title="开户结果" />
+<view class="success" wx:if="{{type == 1}}">
+    <view class="state-img tc"><image src="/image/right.png"></image></view>
+    <view class="tit tc">{{bankInfo.result}}</view>
+    <view class="account-box">
+        <image src="{{bankInfo.eleCardIconUrl}}"></image>
+        <view class="account">
+            <view>{{bankInfo.eleCardName}}</view>
+            <view>{{bankInfo.eleCardNo}}</view>
+        </view>
+    </view>
+
+    <view class="explain">
+        <view class="tit tc"><text class="has-child">电子账户使用说明</text></view>
+        <block wx:for="{{bankInfo.useExplains}}" wx:for-index="idx">
+            <view class="item">
+                <view class="item-tit has-child">{{item.title}}</view>
+                <view class="item-desc">{{item.desc}}</view>
+            </view>
+        </block>
+    </view>
+    <button class="apply-btn" bindtap="onComplete">完成</button>
+</view>
+
+<view class="error" wx:if="{{type == 0}}">
+    <view class="state-img tc"><image src="/image/error.png"></image></view>
+    <view class="tit tc">开户失败</view>
+    <view class="desc">{{msg}}</view>
+    <text bindtap="onReopen" class="apply-btn">重新开户</text>
+</view>

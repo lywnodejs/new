@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "license-view": "/components/apply/item-view/license-view/index"
+  },
+  "navigationStyle": "custom"
+}

@@ -1,0 +1,5 @@
+<div class="menu" ng-class="{show:items.length}" ng-controller="menu" >
+    <ul class="menu-item" ng-cloak>
+        <li ng-repeat="item in items" ng-click="filterData(item,$index)" ng-class="{hover:$index === activeIndex}"><span><a href="javascript:">{{item}}</a></span></li>
+    </ul>
+</div>

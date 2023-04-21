@@ -1,0 +1,32 @@
+<!--pages/my/secureCenter/detail/index.wxml-->
+<view class="secureCenter_detail">
+  <view class="logo">
+    <image src="../../../image/secureCenterLogo.png"></image>
+  </view>
+    <!-- 交易管理bizType固定值 -->
+    <get-code bind:value="getValue" bizType="transaction_manage" wx:if="{{!isopen}}"/>
+    <view class="msg" wx:if="{{!isopen}}">
+      为了您的资金安全，请获取短信验证码并输入，并且输入您的电子账户交易密码。以用作身份验证。
+    </view>
+    <view class="footer">
+      <button class="button {{disabled? 'disabled':''}}" bindtap="openPop">{{isopen ?'关闭':'开启'}}资金交易服务</button>
+    </view>
+</view>
+
+<password-popup 
+  show="{{popShow}}"  
+  isError="{{isError}}"
+  isForget="{{isForget}}"
+  bind:getCode="getCode"
+  />
+  <captcha-popup 
+  isError="{{isError}}" 
+  phone="{{phone}}" 
+  isCountdown="{{isCountdown}}" 
+  bind:onComplete="onComplete" 
+  show="{{show}}"
+  bind:onSend="onSend"/>
+
+
+<xy-confirm leftText='取消' rightText='去重置' contentText="因输入密码错误次数较多，您的账户已被冻结，请重置交易密码" bind:ok="toPassword" bind:cancel='onCloseServer'
+show="{{passwordNumErr}}" />

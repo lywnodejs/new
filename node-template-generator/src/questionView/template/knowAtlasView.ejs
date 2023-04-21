@@ -1,0 +1,890 @@
+<% include ../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="<%= config %>/static/css/knowcss/index.css">
+<% } %>
+
+<% if(params.showtext == true){ %>
+    <div class="moduleContent" style="margin-bottom: 0rem;width:96%;">
+
+    </div>
+<% } %>
+
+<div id='main'></div>
+
+
+<% if(params.showtext == true){ %>
+    <div class="rxh_public_hd03" style="background: none;">
+        <span onclick="toNewKnow()"
+              style="background: #EFF2F6;color:#1b1b1b;margin-left: 50%;transform: translate(-50%,0);">查看完整生态定位</span>
+    </div>
+<% } %>
+
+
+<% if(params.showtext == false){ %>
+    <% if(params.color == 'black'){ %>
+<div class="buttonbox2">
+    <% }else { %>
+    <div class="buttonbox">
+        <% } %>
+        <button class="add">+</button>
+        <button class="subtract">-</button>
+    </div>
+    <% } %>
+    <button id="images_" style="display: none;">导出图片</button>
+
+    <% if(params.showtext == false){ %>
+        <% if(params.color == 'black'){ %>
+    <div class="alertBox" id="alertBox_">
+        <% } else { %>
+        <div class="alertBox2" id="alertBox_">
+            <% } %>
+            <div class="top">
+                <i class="iconfont iconclose"></i>
+                <span>公司高管</span>
+                <i class="iconfont iconguanxitu"> 展开</i>
+            </div>
+            <div class="content">
+                <h4 style="margin-top: 1.6rem;margin-bottom: 0.6rem;"><span></span></h4>
+                <p></p>
+                <h4 style="margin-top: 1rem;margin-bottom: 0.6rem;"><span></span></h4>
+                <p style="line-height: 1.6rem;"></p>
+
+            </div>
+            <button>行业发展趋势详细报告</button>
+        </div>
+        <% } %>
+        <script>
+
+            window.knowData = {};
+            var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+            var dataItemArr = [];
+            var disName = '<%= params.disName %>';
+            var showtext = '<%= params.showtext %>';
+            var TXT = '<%= params.input %>';
+            var TYPE = '<%= params.entityType %>';
+            var to_know = '';
+            var color = '<%= params.color %>';
+            var color_ = color === 'black' ? '#ffffff' : '#000000';
+            var global_index = 1;
+            var active_d = null;
+            var global_data = [];
+            var databackOff = true;
+            var colorblack = {
+                '父':['rgb(206,206,206)','rgb(39,46,64)'],
+                '治理结构': ['#606980', '#606980'],
+                '董事': ['#873c65', '#873c65'],
+                '高管': ['#745ca4', '#745ca4'],
+                '十大股东': ['#816558', '#816558'],
+                '指数': ['#c95e64', '#c95e64'],
+                '上游产业': ['#3980c4', '#3980c4'],
+                '下游产业': ['#de9246', '#de9246'],
+                '产品': ['#de9246', '#de9246'],
+                '概念': ['#57a4aa', '#57a4aa'],
+                '上游产品': ['#3980c4', '#3980c4'],
+                '下游产品': ['#de9246', '#de9246'],
+                '公司': ['#c95e64', '#c95e64'],
+                '产品cp': ['#b87032', '#ebb271'],
+                '上游产业cp': ['#26609e', '#5e9dd1'],
+                '下游产业cp': ['#b87032', '#ebb271'],
+                '概念gn': ['#3d7d85', '#7bb6b8'],
+                '公司st': ['#a3454c', '#d68788'],
+                '指数zsgn': ['#a3454c', '#d68788'],
+                '上游产品cp': ['#26609e', '#5e9dd1'],
+                '下游产品cp': ['#b87032', '#ebb271'],
+                '董事nr': ['#612648', '#945977'],
+                '高管nr': ['#52407d', '#917fb0'],
+                '十大股东nr': ['#5c433a', '#8f8078'],
+                '十大股东nt': ['#5c433a', '#8f8078'],
+                '关联产业': ['#f7f113', '#f7f60a'],
+                '关联产业cp': ['#c5d44d', '#e5df13'],
+                'nr': ['#5c433a', '#5c433a'],
+                'gn': ['#3d7d85', '#7bb6b8'],
+                'zsgn': ['#a3454c', '#d68788'],
+                'cp': ['#b87032', '#ebb271'],
+                'st': ['#a3454c', '#d68788'],
+            };
+
+            var A1 = null;//治理结构
+
+            var knowAtlasView<%- sn %> = {
+                onViewReady: function () {
+                    callback();
+                },
+            }
+
+            <% if(!params.noSource) { %>
+            loadJs(jsSource, knowAtlasView<%- sn %>.onViewReady);
+            <% } %>
+
+
+            function callback() {
+                getdata(TXT, TYPE);
+
+                function getdata(name, type) {
+                    dataItemArr = [];
+                    var data = {
+                        entityName: name,
+                        entityType: type,
+                    }
+                    if (data.entityType !== 'st') {
+                        $('.iconBut .iconliebiao').hide(0);
+                    } else {
+                        $('.iconBut .iconliebiao').show(0);
+                    }
+                    $.ajax({
+                        url: '<%= host %>' + '/api/kg/search',
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+                            $('#loading').hide();
+                            window.knowData = data;
+                            if (data.data && data.data.relations.length !== 0) {
+                                global_data = data.data.relations;
+                                if (!data.data.relations['公司董事_董事']) {
+                                    $('.iconBut .iconliebiao').hide(0);
+                                } else {
+                                    $('.iconBut .iconliebiao').show(0);
+                                }
+                                if (data.data.entity.type === 'st') {
+                                    var dataItem = handlerData(data.data.relations, false, data.data.entity.disName);
+                                    addElement(global_data, data.data.entity.disName);
+                                } else {
+                                    var dataItem = handlerData(data.data.relations);
+                                    addElement(global_data, false);
+                                }
+                                dataItemArr.push(dataItem);
+                                initEc(dataItem);
+                            } else {
+                                if (color === 'black') {
+                                    var color3 = 'rgb(206,206,206)'
+                                } else {
+                                    var color3 = 'rgb(39,46,64)'
+                                }
+                                var dataItem = [{
+                                    id: 0,
+                                    category: 0,
+                                    name: disName,
+                                    type: false,
+                                    symbolSize: 15,
+                                    itemStyle: {
+                                        color: color3
+                                    }
+                                }]
+                                var dd = {
+                                    nodes: dataItem,
+                                    links: []
+                                }
+                                dataItemArr.push(dd);
+                                initEc(dd);
+                            }
+                        }
+                    })
+                }
+
+
+                function randomRgbColor(k) { //随机生成RGB颜色
+                    if (k && colorblack[k]) {
+                        var index = color === 'black' ? 0 : 1;
+                        return colorblack[k][index];
+                    }
+                    var r = Math.floor(Math.random() * 256); //随机生成256以内r值
+                    var g = Math.floor(Math.random() * 256); //随机生成256以内g值
+                    var b = Math.floor(Math.random() * 256); //随机生成256以内b值
+                    return `rgb(${r},${g},${b})`; //返回rgb(r,g,b)格式颜色
+                }
+
+//处理数据--------------------------------------------------
+                function handlerData(res, targetId, dataname) {
+                    if (!targetId) {
+                        targetId = 0;
+                    }
+                    if (dataname) {
+                        disName = dataname;
+                        global_index = 1;
+                    }
+                    var links = [];
+                    var nodes = [];
+                    if (targetId === 0) {
+                        nodes = {
+                            category: 0,
+                            name: disName,
+                            group: 2,
+                            type: 2,
+                            type_: false,
+                            color:'父',
+                            show: true,
+                            children: []
+                        }
+                    }
+                    var offA = true;
+                    window.zlId = null;
+                    var indexBox = -1;
+                    var indexGS = 0;
+                    var indexGS2 = -1;
+                    for (var k in res) {
+                        if (res[k].length !== 0) {
+                            if (k === '公司十大股东_公司' || k === '公司董事_董事' || k === '公司高管_高管' || k === '公司董事_董事' || k === '公司高管_高管' || k === '公司十大股东_十大股东') {
+                                if (offA) {
+                                    indexBox++;
+                                    indexGS = indexBox;
+                                    A1 = res;
+                                    offA = false;
+                                    window.zlId = global_index++;
+                                    nodes.children.push({
+                                        name: '治理结构',
+                                        group: 1.5,
+                                        type: 2,
+                                        color: '治理结构',
+                                        type_: false,
+                                        show: true,
+                                        weight: 10,
+                                        children: []
+                                    });
+                                }
+                                var name = k.split('_')[1];
+                                indexGS2++;
+                                nodes.children[indexGS].children.push({
+                                    name: name,
+                                    group: 1,
+                                    value: name,
+                                    color: name,
+                                    show: true,
+                                    type: 2,
+                                    type_: k,
+                                    weight: 10,
+                                    _children: []
+                                });
+                                for (var l = 0; l < res[k].length; l++) {
+                                    var item = res[k][l];
+                                    nodes.children[indexGS].children[indexGS2]._children.push({
+                                        name: item.disName,
+                                        value: item.name,
+                                        group: 1,
+                                        color: name + item.type,
+                                        type_: item.type,
+                                        type: 2,
+                                        weight: 10,
+                                        show: true
+                                    });
+                                }
+                            } else {
+                                indexBox++;
+                                var name = k.split('_')[1];
+                                nodes.children.push({
+                                    name: name,
+                                    value: name,
+                                    color: name,
+                                    group: 1.5,
+                                    type_: false,
+                                    type: 1,
+                                    weight: 10,
+                                    show: true,
+                                    children: []
+                                });
+                                for (var l = 0; l < res[k].length; l++) {
+                                    // if(showtext=='true' && l>=10){
+                                    //     continue
+                                    // }
+                                    var item = res[k][l];
+                                    nodes.children[indexBox].children.push({
+                                        name: item.disName,
+                                        value: item.name,
+                                        group: 1,
+                                        weight: 10,
+                                        color: name + item.type,
+                                        type_: item.type,
+                                        type: 2,
+                                        children: [],
+                                        show: l < 8
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    window.nodesData = nodes;
+                    return nodes;
+                }
+
+                function handlerData2(res, id_, k) {
+                    var id = id_;
+                    var name = k.split('_')[1];
+                    var links_ = [];
+                    var nodes_ = [];
+                    for (let i = 0; i < res.length; i++) {
+                        var id2 = global_index++
+                        var item = res[i];
+                        links_.push({
+                            source: id2,
+                            target: id,
+                            value_: item.disName,
+                            color: name + item.type,
+                            value: 1,
+                            show: true
+                        });
+                        nodes_.push({
+                            id: id2,
+                            name: item.disName,
+                            value: item.name,
+                            group: 1,
+                            color: name + item.type,
+                            type_: item.type,
+                            type: 2,
+                            show: true
+                        });
+                    }
+                    var dd = {
+                        nodes: nodes_,
+                        links: links_
+                    }
+                    return dd;
+                }
+
+                function clickitem(param) {
+                    var option = myChart.getOption();
+                    var nodes = option.series[0].nodes;
+                    var links = option.series[0].links;
+                    var data = param.data;
+                    if (showtext == 'true') {
+                        return false;
+                    }
+                    if (data.type === 'nt' || data.type === 'zsgn') {
+                        return
+                    }
+                    ;
+                    $('#loading').show();
+                    if (data.type === 'cp' || data.type === 'gn') {
+                        var obj = {
+                            q: data.value,
+                            begin: 0,
+                            cp: 1,
+                            ps: 1
+                        }
+                        getInfo(obj, param);
+                    } else if (data.type === 'st') {
+                        getgs(data, param);
+                    } else if (data.type === 'nr') {
+                        getNR(data.value, param)
+                    } else {
+                        openOrFold(param);
+                    }
+                }
+
+                function getInfo(data, param) {
+                    $.ajax({
+                        url: '<%= host %>' + '/api/kg/type/search',
+                        data: data,
+                        dataType: 'json',
+                        success: function (res) {
+                            // window.knowData = res;
+                            if (res && res.data.length !== 0) {
+                                var content = res.data[0].text;
+                                $('#alertBox_').find('.content h4').eq(1).html('');
+                                // $('#alertBox_').find('.content h4').eq(1).css({marginTop:'0rem'})
+                                $('#alertBox_').find('.content p').eq(1).html('');
+                                var title_ = data.q;
+                                if (title_.length > 9) {
+                                    title_ = title_.slice(0, 8) + '...';
+                                }
+                                $('#alertBox_').find('.top span').html(title_);
+                                $('#alertBox_').find('.content h4').eq(0).html('<span></span>产品简介');
+                                $('#alertBox_').find('.content p').eq(0).text(content);
+                                window.param_arr = param;
+                                var url = 'http://report.rxhui.com/v3/detail_v3.html?trade=' + data.q + '&type=null';
+                                windowOpen(url);
+                                getinfoSearch(data.q, 0)
+                            } else {
+                                openOrFold(param);
+                            }
+
+                        },
+                        error: function (err) {
+
+                        }
+                    })
+                }
+
+                function getNR(data, param) {//获取指数
+                    $.ajax({
+                        url: '/templateNode/report/template/content?id=55&symbol=' + TXT + '&relevantPeople=' + data,
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.content) {
+                                $('#alertBox_3_i').hide(0);
+                                $('#alertBox_3 button').hide(0);
+                                // $('#alertBox_3').find('.content h4').eq(1).css({marginTop:'0rem'})
+                                $('#alertBox_3').find('.content h4').eq(0).html('<span></span>股东简介');
+                                var title_ = data;
+                                if (title_.length > 9) {
+                                    title_ = title_.slice(0, 8) + '...';
+                                }
+                                $('#alertBox_3').find('.top span').html(title_);
+                                $('#alertBox_3').find('.content p').eq(0).html(res.content);
+                                getinfoSearch(data, 1);
+                                window['onWindowLoaded' + res.sn]();
+                            } else {
+                                openOrFold(param);
+                            }
+                        },
+                        error: function (err) {
+
+                        }
+                    })
+                }
+
+                function getgs(data, param) {//获取公司信息
+                    $.ajax({
+                        url: '/templateNode/report/template/content?id=56&symbol=' + data.value,
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (res) {
+                            if (res.content) {
+                                $('#alertBox_3_i').show(0);
+                                $('#alertBox_3 button').show(0).attr('data_s', data.value.slice(0, 2)).attr('data_v', data.value.slice(2, 8));
+                                // $('#alertBox_3').find('.content h4').eq(1).css({marginTop:'0rem'})
+                                $('#alertBox_3').find('.content h4').eq(0).html('<span></span>个股综述');
+                                var title_ = data.name;
+                                if (title_.length > 9) {
+                                    title_ = title_.slice(0, 8) + '...';
+                                }
+                                $('#alertBox_3').find('.top span').html(title_);
+                                $('#alertBox_3').find('.content p').eq(0).html(res.content);
+                                getinfoSearch(data.name, 1);
+                                window.param_arr = param;
+                                window['onWindowLoaded' + res.sn]();
+                            } else {
+                                openOrFold(param);
+                            }
+                        },
+                        error: function (err) {
+
+                        }
+                    })
+                }
+
+                function getinfoSearch(txt, type) {
+                    $.ajax({
+                        url: '/nodeGenerator/api/template?type=infomationMes&title=' + txt + '&content=' + txt + '&person=&stocks=&dataTypes=&plainHighlightedFieldName=content&d=j&cp=1&ps=2',
+                        type: 'get',
+                        dataType: 'json',
+                        success: function (res) {
+                            if (type == 0) {
+                                var elementId = $('#alertBox_');
+                            } else {
+                                var elementId = $('#alertBox_3');
+                            }
+                            try {
+                                if (res.info.data.list.length !== 0) {
+                                    elementId.find('.content p').eq(1).show(0);
+                                    elementId.find('.content h4').eq(1).show(0);
+                                    elementId.find('.content h4').eq(1).html('<span></span>相关资讯');
+                                    elementId.find('.content h4').eq(0).css({marginTop: '0.6rem'})
+                                    var ele = '';
+                                    for (var i = 0; i < res.info.data.list.length; i++) {
+                                        ele += '<div style="text-decoration: underline" class="tobigdata" data-id="' + res.info.data.list[i].id + '">' + res.info.data.list[i].title + '</div>';
+                                    }
+                                    elementId.find('.content p').eq(1).html(ele);
+                                    tobigdata();
+                                } else {
+                                    elementId.find('.content p').eq(1).hide(0);
+                                    elementId.find('.content h4').eq(1).hide(0);
+                                }
+
+                            } catch (e) {
+
+                            }
+                            setTimeout(function () {
+                                var text = $('#mainContent').find('.rxh_bd').eq(1).text();
+                                $('#alertBox_3').find('.content p').eq(0).html(text);
+                                elementId.addClass('alertShow');
+                                $('#loading').hide();
+                            }, 500)
+                        },
+                        error: function (err) {
+                            $('#alertBox_').addClass('alertShow');
+                        }
+                    })
+                }
+
+                $('.iconclose').click(function () {
+                    $('#alertBox_').removeClass('alertShow');
+                    $('#alertBox_3').removeClass('alertShow');
+                })
+                $('.iconguanxitu').click(function () {
+                    openOrFold(param_arr);
+                    $('#alertBox_').removeClass('alertShow');
+                })
+                $('html,body').click(function (e) {
+                    if ($('#alertBox_').hasClass('alertShow')) {
+                        $('#alertBox_').removeClass('alertShow');
+                    }
+                    if ($('#alertBox_3').hasClass('alertShow')) {
+                        $('#alertBox_3').removeClass('alertShow');
+                    }
+                })
+                $('.buttonbox2 button').click(function () {
+                    var option = myChart.getOption();
+                    if ($(this).index() === 0) {
+                        option.series[0].zoom += 1;
+
+                    } else {
+                        option.series[0].zoom -= 1;
+                    }
+                    myChart.clear();
+                    myChart.setOption(option);
+                })
+
+                function addElement(data, name) {
+                    to_know = name;
+                    var text = name || TXT;
+                    var element = '';
+                    if (data['公司产品关系_关联产业'] && data['公司产品关系_关联产业'].length !== 0) {
+                        var txt = '';
+                        for (var l = 0; l < data['公司产品关系_关联产业'].length; l++) {
+                            txt += data['公司产品关系_关联产业'][l].disName + '、';
+                        }
+                        txt = txt.substr(0, txt.length - 1) + '。';
+                        element += '<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">' + text + '的核心业务涉及到的产业生态包括：' + txt + '</p>';
+                    }
+                    if (data['公司上游产品_上游产业'] && data['公司上游产品_上游产业'].length !== 0) {
+                        var txt = '';
+                        for (var l = 0; l < data['公司上游产品_上游产业'].length; l++) {
+                            txt += data['公司上游产品_上游产业'][l].disName + '、';
+                        }
+                        txt = txt.substr(0, txt.length - 1) + '。';
+                        element += '<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">上游产业为：' + txt + '</p>';
+                    }
+                    if (data['公司下游产品_下游产业'] && data['公司下游产品_下游产业'].length !== 0) {
+                        var txt = '';
+                        for (var l = 0; l < data['公司下游产品_下游产业'].length; l++) {
+                            txt += data['公司下游产品_下游产业'][l].disName + '、';
+                        }
+                        txt = txt.substr(0, txt.length - 1) + '。';
+                        element += '<p style="padding:0.875rem 0.875rem 0rem;text-indent: 2em;">下游产业为：' + txt + '</p>';
+                    }
+                    $('.moduleContent').append(element);
+                }
+
+                function windowOpen(url) {
+                    $('#alertBox_ button').attr('data_url', url);
+                    $('#alertBox_ button').click(function () {
+                        window.open($(this).attr('data_url'));
+                    })
+                }
+
+                window.databackCLick = function () {
+                    var data = dataItemArr[dataItemArr.length - 2];
+                    initEc(data);
+                    dataItemArr.pop();
+                    if (dataItemArr.length === 1) {
+                        $('#databack').hide(0);
+                    }
+                }
+
+                $('#alertBox_3 button').click(function () {
+                    window.open('https://stock-report.rxhui.com/' + 'hc/indus?marType=' + $(this).attr('data_s') + '&secCode=' + $(this).attr('data_v'));
+                })
+
+                window.tobigdata = function () {
+                    $('.tobigdata').click(function () {
+                        var id = $(this).attr('data-id')
+                        window.open('https://big-data.rxhui.com/#/detail?type=%E5%85%A8%E9%83%A8&id=' + id);
+                    })
+                }
+
+                window.toNewKnow = function () {
+                    var url = 'http://kg.rxhui.com/#/know?input=' + TXT + '&color=black&entityType=st&disName=' + to_know;
+                    window.open(url);
+                }
+
+                function initEc(data) {
+                    var width = window.innerWidth;
+                    var height = window.innerHeight;
+                    var svg = d3.select("#main")
+                        .append("svg")
+                        .attr("width", width)
+                        .attr("height", height)
+
+
+                    var g = svg.append('g');
+
+                    var zoom = d3.behavior.zoom()//缩放配置，
+                        .scaleExtent([0.5, 4])//缩放比例
+                        .on("zoom", zoomed);
+
+                    function zoomed(d) {
+                        g.attr("transform",//svg下的g标签移动大小
+                            "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+                    }
+
+                    svg.call(zoom)
+
+                    window.force = d3.layout.force()
+                        .gravity(0.1)
+                        .linkDistance(80)
+                        .charge(-1500)
+                        .theta(0.01)
+                        .friction(0.6)
+                        .chargeDistance([300])
+                        .size([width, height])
+                        .on('tick', tick)
+
+                    var link = g.selectAll(".link"),
+                        node = g.selectAll(".node");
+                    var root = data;
+                    reset();
+
+
+                    function flatten() {
+                        var nodes = [];
+                        function recurse(node) {
+                            if (node.children) node.children.forEach(recurse);
+                            if (!node.id && node.show) node.id = global_index++;
+                            nodes.push(node);
+                        }
+                        recurse(data);
+                        return nodes;
+                    }
+
+                    function reset() {
+
+                        var nodes = flatten(root),
+                            links = d3.layout.tree().links(nodes);
+                        force.nodes(nodes)
+                            .links(links)
+                            .start()
+
+                        link = link.data(links, function (d) {
+                            return d.target.id
+                        })
+
+                        link.exit().remove();
+
+                        link.enter().insert("line", ".node")
+                            .attr('stroke', function (d) {
+                                return '#cccccc'
+                            })
+
+                        node = node.data(nodes, function (d) {
+                            return d.id;
+                        });
+                        node.exit().remove();
+
+                        var nodeEnter = node.enter().append("g")
+                            .attr('class', 'node');
+                        nodeEnter.append("circle")
+                            .attr("r", function (d, i) {    //圆圈半径
+                                if (d.type != 2) {
+                                    return
+                                }
+                                return d.group * 10;
+                            })
+                            .attr("fill", function (d, i) {
+                                //return colorScale(i);
+                                return randomRgbColor(d.color);
+                            })
+
+                        nodeEnter.append("polygon")
+                            .attr("points", function (d, i) {    //圆圈半径
+                                if (d.type != 1) return;
+                                var r = d.group * 10;
+                                var side = 6;
+                                var step = 360 / side;
+                                var arr = "";
+                                for (var i = 0; i < 40; i++) {
+                                    var cor = i * step;
+                                    var x = Math.cos(Math.PI * (cor / 180)) * r;
+                                    var y = -Math.sin(Math.PI * (cor / 180)) * r;
+                                    arr += x + "," + y + " ";
+                                }
+
+                                return arr;
+                            })
+                            .attr("fill", function (d, i) {
+                                //return colorScale(i);
+                                return randomRgbColor(d.color);
+                            })
+
+                        if(color === 'black'){
+                            var color3 = '#ffffff'
+                        }else{
+                            var color3 = 'black'
+                        }
+                        nodeEnter.append('text')
+                            .style('fill', color3)
+                            .attr('font-size', 10)
+                            .attr("dx", function (d) {
+                                var linklengthX = 0 - (d.name.length * 5);
+                                return linklengthX
+                            })
+                            .attr("dy", function (d) {
+                                var linklengthY = (d.group * 15) + 5;
+                                return linklengthY
+                            })
+                            .text(function (d) {
+                                return d.name
+                            })
+                    }
+
+                    function tick(d) {
+                        link.attr("x1", function (d) {
+                            return d.source.x;
+                        })
+                            .attr("y1", function (d) {
+                                return d.source.y;
+                            })
+                            .attr("x2", function (d) {
+                                return d.target.x;
+                            })
+                            .attr("y2", function (d) {
+                                return d.target.y;
+                            });
+
+                        node.attr("transform", function (d) {
+                            return "translate(" + d.x + "," + d.y + ")";
+                        }).on('click', clickItem);
+
+                        if (d.alpha < 0.06) {
+                            if (active_d !== null) {
+                                const parentBox = svg.node().parentElement
+                                const fullWidth = parentBox.clientWidth
+                                const fullHeight = parentBox.clientHeight
+                                var x = fullWidth / 2 - active_d.x;
+                                var y = fullHeight / 2 - active_d.y;
+                                zoom.scale(1);
+                                zoom.translate([x, y])
+                                g.transition()
+                                    .duration(500)
+                                    .attr("transform", 'translate(' + x + ',' + y + ')scale(' + 1 + ')');
+                                active_d = null;
+
+                            }
+                        }
+                    }
+
+//////////////////////////////////////////////////////
+
+                    function clickItem(d) {//点击每个item球体
+                        // if (showtext == 'true') {
+                        //     return false;
+                        // }
+                        if (d.type === 'nt' || d.type === 'zsgn') {
+                            return
+                        }
+                        if(d.type_== false){
+                            if(d.children[d.children.length-1].show){
+                                for(var i=0;i<d.children.length;i++){
+                                    if(i>=8){
+                                        d.children[i].show=false;
+                                        delete d.children[i].id;
+                                    }
+                                }
+                            }else{
+                                for(var i=0;i<d.children.length;i++){
+                                    d.children[i].show=true;
+                                }
+                            }
+                            active_d = d;
+                            reset(root);
+                        }else{
+                            active_d = d;
+                            openOrFold(d);
+                        }
+                        // ;
+                        // $('#loading').show();
+                        // if (data.type === 'cp' || data.type === 'gn') {
+                        //     var obj = {
+                        //         q: data.value,
+                        //         begin: 0,
+                        //         cp: 1,
+                        //         ps: 1
+                        //     }
+                        //     getInfo(obj, d);
+                        // } else if (data.type === 'st') {
+                        //     getgs(data, d);
+                        // } else if (data.type === 'nr') {
+                        //     getNR(data.value, d)
+                        // } else {
+                        //     openOrFold(param);
+                        // }
+                        // active_d = d;
+                        // openOrFold(d);
+                    }
+
+                    window.openOrFold = function (d) {
+                        console.log(d);
+                        var k = d.type_;
+                        if (d3.event.defaultPrevented) return; // ignore drag
+                        if (k === '公司十大股东_公司' || k === '公司董事_董事' || k === '公司高管_高管' || k === '公司董事_董事' || k === '公司高管_高管' || k === '公司十大股东_十大股东') {
+                            if (d.children) {
+                                d._children = d.children;
+                                d.children = null;
+                            } else {
+                                d.children = d._children;
+                                d._children = null;
+                            }
+                            reset(root);
+
+                        } else {
+
+                        }
+                    }
+
+                }
+
+//end--------------------------------------
+            }
+
+
+        </script>
+
+        <style>
+            #alertBox_3 {
+                z-index: 2;
+            }
+
+            .moduleContent {
+                width: 90%;
+                height: auto;
+                margin: 0 auto;
+            }
+
+            .moduleContent .title {
+                width: 100%;
+                height: 2rem;
+                font-size: 0.938rem;
+                color: #000;
+                box-sizing: border-box;
+                border-left: 0.25rem solid red;
+                padding-left: 0.4rem;
+                font-weight: 600;
+                line-height: 2rem;
+                background: #EFF2F6;
+                margin-bottom: 0.5rem;
+            }
+
+            .moduleContent button {
+                width: auto;
+                height: auto;
+                margin-top: 0.4rem;
+                margin-bottom: 0.2rem;
+                outline: none;
+                border: 1px solid #cccccc;
+                background: #e5e5e5;
+                padding: 0.2rem;
+            }
+
+            .moduleContent p {
+                font-size: 1rem;
+                color: #000;
+                line-height: 1.5rem;
+            }
+
+            circle {
+                cursor: pointer;
+            }
+
+            svg {
+                cursor: move;
+            }
+        </style>

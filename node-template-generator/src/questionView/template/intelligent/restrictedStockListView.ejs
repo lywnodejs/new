@@ -1,0 +1,72 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+    var result = info;
+    var ressWeekList = result.data.ressWeekList || [];
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN_fix">
+        <div class="rxh_list_hd">
+            <ol>
+                <li><span>个股名称/代码</span></li>
+            </ol>
+            <ul class="rxh_li_line1-5">
+                <%
+                for(var i=0; i<ressWeekList.length && i<10; i++) {
+                    var item = ressWeekList[i];
+                %>
+                <li>
+                    <p><%= item.secName %></p>
+                    <h6 class="rxh_gray"><%= item.secCode %></h6>
+                </li>
+                <%}%>
+            </ul>
+        </div>
+        <div class="rxh_list_bd">
+            <div class="rxh_list_scroll">
+                <i class="rxh-icon-arrow4_r"></i>
+                <ol>
+                    <li><span class="rxh_right">解禁股(万股)</span></li>
+                    <li><span class="rxh_right">占流通股本比</span></li>
+                    <li><span class="rxh_right">解禁时间<i class="rxh-icon-arrow5_t_small"></i></span></li>
+                </ol>
+                <%
+                for(var i=0; i<ressWeekList.length && i<10; i++) {
+                    var item = ressWeekList[i];
+                %>
+                <ul class="rxh_li_line1-5">
+                    <li>
+                        <p class="rxh_right"><%= commonUtil.formatNumber(item.listAmount)%></p>
+                    </li>
+                    <li>
+                        <p class="rxh_right"><%= commonUtil.formatNumber(item.unresAmount)%>%</p>
+                    </li>
+                    <li>
+                        <p class="rxh_right"><%= commonUtil.generateDate(item.listDate)%></p>
+                    </li>
+                </ul>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+</script>
+
+
+

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "checkbox": "/components/checkbox/index"
+  },
+  "navigationBarTitleText": "登录"
+}

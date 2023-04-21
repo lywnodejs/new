@@ -1,0 +1,83 @@
+page {
+  background: #fbfbfb;
+  height: auto;
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+.wrapper .title{
+  margin-top: 9rpx;
+  margin-bottom: 10px;
+  margin-left: 9rpx;
+  width: 100%;
+  font-size: 13rpx;
+  color: #999999;
+  display: flex;
+  justify-content: space-between;
+}
+.wrapper .title image{
+  width: 18rpx;
+  height: 18rpx;
+  margin-right: 4rpx;
+}
+.wrapper .title >view{
+  display: flex;
+  margin-right: 40rpx;
+}
+.writeBox{
+  box-sizing: border-box;
+  height: 210rpx;
+  display: flex;
+  justify-content: center;
+  /* margin: 0 auto; */
+  box-sizing: border-box;
+}
+.wrapper .but{
+  width: 117rpx;
+  height: 36rpx;
+  background-color: #F65348;
+  border-radius: 4rpx;
+  font-size: 17rpx;
+  text-align: center;
+  line-height: 36rpx;
+  color: #ffffff;
+  float: right;
+  margin-top: 17rpx;
+  margin-right: 20rpx;
+}
+.writeBox .handCenter{
+  height: 100%;
+}
+.writeBox .handCenter.two{
+  width: 48%;
+}
+.writeBox .handCenter.three{
+  width: 32%;
+}
+.writeBox .handCenter.four{
+  width: 23%;
+}
+.wrapper .setImg{
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+.writeBox .handCenter.two:nth-of-type(1){
+  margin-right: 10rpx;
+}
+.writeBox .handCenter.three:nth-of-type(2){
+  margin:0 10rpx;
+}
+.writeBox .handCenter.four:nth-of-type(2){
+  margin: 0 10rpx;
+}
+.writeBox .handCenter.four:nth-of-type(4){
+  margin-left: 10rpx;
+}

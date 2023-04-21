@@ -1,0 +1,39 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 20,
+  "data": [
+      {
+          "dept_id": 100001,
+          "dept_name": "安全产品与技术部",
+          "manager_id": "D50000",
+          "interfacer": {
+              "id": 30000,
+              "emp_id": "D19999",
+              "username": "zhangsan",
+              "realname": "张三",
+              "email": "zhangsan@didichuxing.com",
+              "job_desc": "研发工程师"
+          }
+      },
+      {
+          "dept_id": 100002,
+          "dept_name": "安全事务部",
+          "manager_id": "D50000",
+          "interfacer": null
+      },
+      {
+          "dept_id": 100078,
+          "dept_name": "滴滴云",
+          "manager_id": "D50000",
+          "interfacer": {
+              "id": 30000,
+              "emp_id": "D19999",
+              "username": "lisi",
+              "realname": "李四",
+              "email": "lisi@didiglobal.com",
+              "job_desc": "研发工程师"
+          }
+      }
+  ]
+}

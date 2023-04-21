@@ -1,0 +1,14 @@
+<!--components/cell/index.wxml-->
+<view class="cell-container" bindtap="onTap">
+  <view class="item" style="height: {{height}}px">
+    <view>
+      <image wx:if="{{icon}}" src="{{icon}}"></image>
+      <text style="color: {{color}}">{{title}}</text>
+    </view>
+    <view>
+      <text wx:if="{{tips}}">{{tips}}</text>
+      <image src="/image/arrow.png"></image>
+    </view>
+  </view>
+  <view wx:if="{{line}}" class="line"></view>
+</view>

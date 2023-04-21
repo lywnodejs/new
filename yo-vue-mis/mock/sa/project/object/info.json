@@ -1,0 +1,48 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "data": {
+        "id": 89,
+        "project_id": 42,
+        "project_name": "金融风险专项评估项目",
+        "business_id": 5,
+        "business_name": "汽车金融",
+        "object_id": 6,
+        "object_name": "汽车金融平台",
+        "users": [{
+                "data_id": 6,
+                "user_id": 414711,
+                "user_name": "赵伟男",
+                "user_email": "zhaoweinan@didiglobal.com",
+                "type": 1871
+            },
+            {
+                "data_id": 6,
+                "user_id": 1060,
+                "user_name": "李蕊",
+                "user_email": "liruicatherine@didiglobal.com",
+                "type": 1871
+            }
+        ],
+        "risk_high": null,
+        "risk_middle": null,
+        "risk_lower": null,
+        "no_risk": null,
+        "not_applicable": null,
+        "stat": null,
+        "access_user_id": null,
+        "source": null,
+        "status": null,
+        "status_name": null,
+        "feedback_status": 0,
+        "feedback_status_name": "-",
+        "assessment_self_status": 0,
+        "assessment_self_status_name": "-",
+        "assessment_status": 0,
+        "assessment_status_name": "-",
+        "repair_status": 0,
+        "repair_status_name": "-",
+        "check_status": 0,
+        "check_status_name": "-"
+    }
+}

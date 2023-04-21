@@ -1,0 +1,77 @@
+@import '../../themes/vars.less';
+
+.backTop {
+  right: 50px;
+
+  :global {
+    .ant-back-top-content {
+      background: @primary-color;
+      opacity: 0.3;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px 1px rgba(69, 65, 78, 0.1);
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.content {
+  padding: 14px 28px;
+  min-height: ~'calc(100% - 120px)';
+  // overflow-y: scroll;
+  h1 {
+    font-size: 24px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+    margin-bottom: 20px;
+  }
+  :global {
+    .ant-breadcrumb > span:last-child {
+      color: #333333;
+    }
+  }
+  .titleBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.wrap {
+  width: ~'calc(100% - 190px)';
+}
+
+.container {
+  height: ~'calc(100vh - 48px)';
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.footer {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  min-height: 72px;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .content {
+    padding: 12px;
+  }
+
+  .backTop {
+    right: 20px;
+    bottom: 20px;
+  }
+
+  .container {
+    height: 100vh;
+    flex: 1;
+    width: 100%;
+  }
+}

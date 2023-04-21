@@ -1,0 +1,130 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+    <!--答案框-->
+    <div class="mb">
+        <!--红框白字 2行-->
+        <% for(var i = 0;i < reportList.length;i++){
+            var item = reportList[i];
+        %>
+        <div class="gzpj <%= i > 2 ? 'hideReport' + sn : '' %>"
+             style="<%= i > 2 ? 'display: none' : 'display:block' %>">
+            <% for(var j = 0;j < item.tempArray.length;j++){
+                var temp = item.tempArray[j];
+            %>
+            <div class="box_bRed box_bRed_r2 box_bBlue">
+                <li><%= temp.title %></li>
+                <% if(j == 0){ %>
+                <li>
+                    <h6>
+                        <span><%= item.organization %>/<%= item.author %></span><br><%= commonUtil.changeTime(item.publishAt) %>
+                    </h6>
+                </li>
+                <% } %>
+            </div>
+
+            <!--显示6行，有展开按钮-->
+            <div class="box_show box_show_r3">
+                <h5 id="<%= temp.contentId %>" class="show_row3"><%= temp.content %></h5>
+                <a id="<%= temp.expandBtnId %>" class="a_more"
+                   onclick="expandContent('<%= temp.expandBtnId %>','<%= temp.contentId %>','<%= temp.foldBtnId %>')">展开<i
+                            class="icon-arrowD"></i></a>
+                <a id="<%= temp.foldBtnId %>" style="display: none" class="a_more"
+                   onclick="foldContent('<%= temp.foldBtnId %>','<%= temp.contentId %>','<%= temp.expandBtnId %>')">收起<i
+                            class="icon-arrowT"></i></a>
+            </div>
+            <% } %>
+        </div>
+        <% } %>
+        <div id="moreId<%= sn %>" class="mb">
+            <div class="box_load" onclick="toolsUtil.showMoreArticle('hideReport<%= sn %>' , 'moreId<%= sn %>')">
+                <a>点击加载更多</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>';
+
+  var contentIds = [];
+  var ids = '<%- contentIds %>';
+  ids = '[' + ids + ']';
+  ids = JSON.parse(ids);
+
+  for (var i = 0; i < ids.length; i++) {
+    ite = ids[i];
+    contentIds.push([ite.contentId, ite.expandBtnId])
+  }
+
+
+  var stockRelatedReports = {
+    onViewReady: function () {
+      checkTextOverflow(contentIds);
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockRelatedReports.onViewReady)
+
+
+  var timeType = '<%= timeType %>'
+  var predicateType = '<%= predicateType %>'
+
+
+  /**
+   * 展开隐藏内容
+   * @param expandBtnId
+   * @param contentId
+   * @param foldBtnId
+   */
+  function expandContent(expandBtnId, contentId, foldBtnId) {
+    $('#' + expandBtnId).hide();
+    $('#' + foldBtnId).show();
+    $('#' + contentId).removeClass('show_row3');
+  }
+
+  /**
+   * 收缩内容
+   * @param foldBtnId
+   * @param contentId
+   * @param expandBtnId
+   */
+  function foldContent(foldBtnId, contentId, expandBtnId) {
+    $('#' + foldBtnId).hide();
+    $('#' + contentId).addClass('show_row3');
+    $('#' + expandBtnId).show();
+  }
+
+  /**
+   * 判断文字内容较多时是否需要收缩内容及显示展开按钮
+   * @param ids [contentId, expandBtnId], contentId：内容容器Id， expandBtnId：展开按钮Id
+   */
+  function checkTextOverflow(ids) {
+    for (var i = 0; i < ids.length; i++) {
+      var contentId, expandBtnId;
+      contentId = ids[i][0];
+      expandBtnId = ids[i][1];
+      var content = $('#' + contentId);
+      // console.log(content[0].scrollHeight, content.height())
+      if (content[0].scrollHeight <= content.height())
+        $('#' + expandBtnId).hide();
+      else {
+        content.addClass('show_row3');
+        $('#' + expandBtnId).show();
+      }
+    }
+  }
+
+</script>
+

@@ -1,0 +1,39 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 2,
+  "data": [
+    {
+      "id": 1,
+      "business_name": "汽车金融",
+      "business_mgr": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "security_user": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "business_name": "汽车金融2",
+      "business_mgr": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "security_user": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ]
+    }
+  ]
+}

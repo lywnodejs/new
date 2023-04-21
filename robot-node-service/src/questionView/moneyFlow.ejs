@@ -1,0 +1,180 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% if(ispop){ %>
+<div class="mb_tab mb_tabFlow">
+    <% } %>
+    <% if(!ispop){ %>
+    <% include ./component/preAnswer %>
+    <div class='bd' id="answer<%= sn %>">
+        <div class='mb mb_tab mb_tabFlow'>
+            <% } %>
+            <nav id="<%= navId %>">
+                <a>1日</a>
+                <a class="on">5日</a>
+                <a>10日</a>
+                <a>30日</a>
+            </nav>
+
+            <% for(var i in list){
+                var dayMoney = list[i];
+                //主力净流
+                var majorNetFlow = dayMoney.majorFlowIn - dayMoney.majorFlowOut;
+                //小单
+                var totalSmall = dayMoney.smallOrderBuy + dayMoney.smallOrderSell;
+                //中单
+                var totalMedium = dayMoney.mediumOrderBuy + dayMoney.mediumOrderSell;
+                //大单
+                var totalBig = dayMoney.bigOrderBuy + dayMoney.bigOrderSell;
+                //特大
+                var totalHuge = dayMoney.hugeOrderBuy + dayMoney.hugeOrderSell;
+                //总买，卖
+                var totalBuy = dayMoney.smallOrderBuy + dayMoney.mediumOrderBuy + dayMoney.bigOrderBuy + dayMoney.hugeOrderBuy;
+                var totalSell = dayMoney.smallOrderSell + dayMoney.mediumOrderSell + dayMoney.bigOrderSell + dayMoney.hugeOrderSell;
+                //汇总
+                var totalNum = totalBuy + totalSell;
+            %>
+            <div class="nav_con <%= parseInt(i) === 5 ? 'show' : '' %>">
+                <ul class="box_flow">
+                    <li>
+                        <p class="t_red"><%= dayMoney.majorFlowIn %>万</p>
+                        <h6>主力流入</h6>
+                    </li>
+                    <li>
+                        <p class="t_green"><%= dayMoney.majorFlowOut %>万</p>
+                        <h6>主力流出</h6>
+                    </li>
+                    <li>
+                        <p class="<%= commonUtil.getClsByNumber(majorNetFlow) %>"><%= Math.abs(majorNetFlow) %>万</p>
+                        <h6>主力净流</h6>
+                    </li>
+                </ul>
+                <ul class="box_percent">
+                    <li>
+                        <h6>
+                            <span><%= totalBuy %>万</span>
+                            <span>汇总</span>
+                            <span><%= totalSell %>万</span>
+                        </h6>
+                        <dl>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(totalBuy, totalNum) %>%;"></b>
+                            </dd>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(totalSell, totalNum) %>%;"></b>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <h6>
+                            <span><%= dayMoney.hugeOrderBuy %>万</span>
+                            <span>超大</span>
+                            <span><%= dayMoney.hugeOrderSell %>万</span>
+                        </h6>
+                        <dl>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.hugeOrderBuy, totalHuge) %>%;"></b>
+                            </dd>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.hugeOrderSell, totalHuge) %>%;"></b>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <h6>
+                            <span><%= dayMoney.bigOrderBuy %>万</span>
+                            <span>大单</span>
+                            <span><%= dayMoney.bigOrderSell %>万</span>
+                        </h6>
+                        <dl>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.bigOrderBuy, totalBig) %>%;"></b>
+                            </dd>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.bigOrderSell, totalBig) %>%;"></b>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <h6>
+                            <span><%= dayMoney.mediumOrderBuy %>万</span>
+                            <span>中单</span>
+                            <span><%= dayMoney.mediumOrderSell %>万</span>
+                        </h6>
+                        <dl>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.mediumOrderBuy, totalMedium) %>%;"></b>
+                            </dd>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.mediumOrderSell, totalMedium) %>%;"></b>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <h6>
+                            <span><%= dayMoney.smallOrderBuy %>万</span>
+                            <span>小单</span>
+                            <span><%= dayMoney.smallOrderSell %>万</span>
+                        </h6>
+                        <dl>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.smallOrderBuy, totalSmall) %>%;"></b>
+                            </dd>
+                            <dd>
+                                <b style=" width: <%= commonUtil.getPercentage(dayMoney.smallOrderSell, totalSmall) %>%;"></b>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <% } %>
+
+            <% if(!ispop){ %>
+        </div>
+    </div>
+    <% } %>
+    <% if(ispop){ %>
+</div>
+<% } %>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var jsNo = 0;
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var moneyFlow = {
+    onViewReady: function () {
+      navClick('<%= navId %>', '<%= answerResultType %>');
+      resizeUtils.init(frameId, sn);
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, moneyFlow.onViewReady)
+
+
+  //给Nav下的标签添加点击事件
+  function navClick(navId, title) {
+    $('#' + navId).children().click(function () {
+      $(this).addClass("on").siblings().removeClass("on");
+      var order = $(this).index();
+      $(this).parent().siblings().each(function () {
+        $(this).removeClass("show");
+      });
+      $(this).parent().siblings().eq(order).addClass("show");
+      var txt = $(this)[0].innerHTML + '点击';
+      // baiduTrackEvent(title+'--'+txt,'click',title+'--'+txt);//百度统计
+    });
+  }
+</script>
+
+
+
+
+

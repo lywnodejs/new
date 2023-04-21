@@ -1,0 +1,54 @@
+.confirm-popup {
+  width: 600rpx;
+  min-height: 160px;
+  border-radius: 5px;
+}
+.tit-box {
+  padding-top: 20px;
+  text-align: center;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+}
+.confirm-popup .content-box {
+  min-height: 104px;
+  width: 100%;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #e6e6e6;
+  justify-content: center;
+}
+.confirm-popup .content-box.text-left {
+  text-align: left;
+  justify-content: left;
+}
+.confirm-popup .btn-group {
+  display: flex;
+  height: 56px;
+}
+
+.confirm-popup .btn-group .left-text,
+.confirm-popup .btn-group .right-text {
+  flex: 1;
+  height: 100%;
+  line-height: 56px;
+  text-align: center;
+  font-size: 17px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+}
+.confirm-popup .btn-group .left-text {
+  color: #9a9a9a;
+  border-right: 1px solid #e6e6e6;
+}
+.confirm-popup .btn-group .right-text {
+  color: #fc8100;
+}

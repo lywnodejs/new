@@ -1,0 +1,36 @@
+/* pages/apply/idcertificate/index.wxss */
+page {
+  background: #FFFFFF;
+  box-sizing: border-box;
+  padding: 10px 20px 40px;
+  font-family: PingFangSC-Medium, PingFang SC;
+}
+
+
+.id-card-box {
+  margin-bottom: 30px;
+}
+
+.front-back-box {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.id-card-item {
+  flex: 0 0 calc(50% - 15rpx);
+}
+
+.id-card-title,
+.face-title {
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 12px;
+}
+
+.face-box {
+  margin-bottom: 60px;
+  margin-top: 15px;
+}

@@ -1,0 +1,367 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+<!--答案框-->
+<div class="bd" id="answer<%= random %>">
+<div class="mb" id="<%= random %>">
+
+    <ul class="ul_list" style="overflow: hidden;">
+        <% for(var i = 0;i < info.data.length;i++){
+            var item = info.data[i];
+            var str = '';
+            function date_info(val) {
+                var now = new Date(val);
+                var year = now.getFullYear(); //年
+                var month = now.getMonth() + 1; //月
+                var day = now.getDate(); //日
+                var hh = now.getHours(); //时
+                var mm = now.getMinutes(); //分
+                var clock = year + "-";
+                if (month < 10)
+                    clock += "0";
+                clock += month + "-";
+                if (day < 10)
+                    clock += "0";
+                clock += day;
+                return (clock);
+            }
+        %>
+        <li onclick="openPolicyDetailInfo('<%= item.id %>')">
+            <h5><%- item.title %></h5>
+            <h5 class="note"><%- item.content %></h5>
+
+            <h6>
+                <% if(item.mediaFrom){ %>
+                <b style="margin-left: 0;"><%= item.mediaFrom %></b>
+                <% }else{ %>
+                <b style="margin-left: 0;"><%= item.organization %></b>
+                <% } %>
+                <b><%= date_info(item.publishAt) %></b>
+            </h6>
+        </li>
+        <% } %>
+    </ul>
+
+
+    <!--加载更多-->
+    <div class="box_load">
+        <a>查看更多</a>
+    </div>
+
+
+    <!--点评-->
+    <% if(req.query.appKey != 'appAvatar' && req.query.appKey != 'guoxin'){ %>
+        <div class="box_appraisal">
+            <% if(req.query.appKey == 'appZxcxHide'){ %>
+                <a class="a_search">
+                    <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                    <span>精准查找政策</span>
+                    <i class="icon-arrow2_R_small"></i>
+                </a>
+            <% } %>
+            <a><i id="up<%= random %>" class="icon-good"></i></a>
+            <a><i id="down<%= random %>" class="icon-bad"></i></a>
+        </div>
+    <% } %>
+</div>
+</div>
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+
+    .mb .ul_list li {
+        padding: 0.75rem 0 0.688rem;
+    }
+
+    .mb .ul_list li:first-child {
+        padding-top: 0;
+    }
+
+    .mb .ul_list li:first-child:after {
+        height: 0;
+    }
+
+    .mb .ul_list h5 {
+        font-size: 0.938rem;
+        line-height: 1.375rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .mb .ul_list h5.note {
+        color: #a1a2a8;
+        font-size: 0.875rem;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        line-height: 1.375rem;
+        max-height: 2.65rem;
+        margin-bottom: 0.625rem;
+    }
+
+    .mb .ul_list h6 b,
+    .timeLine .space_between span b {
+        background-color: #f7f8fb;
+        border: solid 1px #ededed;
+        -moz-border-radius: 0.5em;
+        -webkit-border-radius: 0.5rem;
+        border-radius: 0.5rem;
+        color: #a1a2a8;
+        font-size: 0.75rem;
+        line-height: 1rem;
+        padding: 0 0.5rem;
+        margin-left: 0.625rem;
+    }
+
+    .mb .ul_list h6 {
+        color: #a1a2a8;
+        line-height: 1.5rem;
+    }
+
+    .box_hotPolTop + .box_load,
+    .ul_list + .box_load {
+        margin-top: 0;
+    }
+
+    .box_load + .box_hotPolTop {
+        margin-top: 1.5rem;
+    }
+
+    .box_sxy {
+        padding-top: 10px
+    }
+
+    .box_tl02 li {
+        padding: 0
+    }
+
+</style>
+
+<script>
+
+  var infoSearch = {
+    onViewReady: function () {
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+
+      // $(".box_hotPolTop2 .box_bgGray .a_more").click(function (e) {
+      //     e=window.event||e;
+      //     if(e.stopPropagation){
+      //         e.stopPropagation()
+      //     }else{
+      //         e.cancelBubble=true;
+      //     }
+      //     if($(this).find("i").hasClass("icon-arrowT")){
+      //         $(this).html('展开<i class="icon-arrowD"></i>');
+      //         $(this).siblings("h5").addClass("show_row3");
+      //     }else{
+      //         $(this).html('收起<i class="icon-arrowT"></i>');
+      //         $(this).siblings("h5").removeClass();
+      //     }
+      // });
+
+      //点赞或踩
+      function feedback(num) {
+        var id = '<%- info.spanId %>';
+        var data_ = {
+          spanId: id,
+          commentFeedback: num
+        }
+        $.ajax({
+          url: '<%= host %>' + '/api/feedback?',
+          type: 'get',
+          dataType: 'json',
+          data: data_,
+          success: function (data) {
+            if (data.message.code == 0) {
+              try {
+                if (num == 1) {
+                  thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+                } else {
+                  thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+                }
+                ;
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+        })
+      }
+
+      var num = '<%= random %>';
+      var length = '<%= info.data.length %>';
+
+      // 查看跟多
+      var height_ = 5;
+
+      function showLi() {
+        $('#' + num + ' .ul_list li').each(function (index, item) {
+          if (length <= height_) {
+            $('#' + num + ' .box_load').hide();
+          }
+          if (index >= height_) {
+            $('#' + num + ' .ul_list li').eq(index).css({
+              display: 'none'
+            })
+          } else {
+            $('#' + num + ' .ul_list li').eq(index).css({
+              display: 'block'
+            })
+          }
+          ;
+
+        })
+      }
+
+      showLi();
+
+      $('#' + num + ' .box_load').click(function () {
+        height_ += 5;
+        showLi();
+      })
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+
+      var report = '<div class="pop_BTT pop_BottomToTopPolicy pop_BottomToTopPolicy_gt policy" style="display: none;">\n' +
+        '                <!--遮罩-->\n' +
+        '                <div class="bg"></div>\n' +
+        '                <!--白框容器-->\n' +
+        '                <div id="policyBottomContainer" class="box">\n' +
+        '                    <!--关闭按钮-->\n' +
+        '                    <a class="close icon-pop_close" onclick="closePolicyDetail()"></a>\n' +
+        '                    <div class="sumUp">\n' +
+        '                        <!--浮层_title-->\n' +
+        '                        <div class="sumUp_tech">\n' +
+        '                            <div class=\'outlineTxt\' style="width:100%;height:calc(90vh);background:rgba(0, 0, 0, 0.514);position:absolute;z-index:1000000000;">\n' +
+        '                                <ul style="width:100%;height:100%;background:#fff;font-size:1rem;border-top-right-radius: .5rem;">\n' +
+        '                                </ul>\n' +
+        '                            </div>\n' +
+        '                            <div id="" class="pop_hd">资讯详情</div>\n' +
+        '                            <!--答案容器-->\n' +
+        '                            <div id="policyBottomAnswerContainer" class="pop_bd mb_tab">\n' +
+        '                                <div class="box_show box_show_btn infoDetail">\n' +
+        '                                    <h3 style="font-weight: 500;padding: .33rem 0;padding-top: .33rem;padding-bottom: .13rem;margin-bottom: .5rem;">\n' +
+        '                                        <b></b>\n' +
+        '                                    </h3>\n' +
+        '                                    <span style="color:#a7aabe;font-size:0.875rem;"></span>\n' +
+        '                                    <span style="color:#a7aabe;font-size:0.875rem;"></span>\n' +
+        '                                    <h4 style="margin-top: .5rem;font-weight:300;"></h4>\n' +
+        '                                </div>\n' +
+        '                            </div>\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '                </div>\n' +
+        '            </div>';
+
+      if ($('.pop_BottomToTopPolicy').length == 0) {
+        $('body').append(report);
+      }
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, infoSearch.onViewReady)
+
+
+
+
+
+  function openPolicyDetailInfo(id, istrue) {
+    if (istrue == 'false') {
+      return
+    }
+    ;
+
+    getPolicyDetail(id);
+    $('.pop_BottomToTopPolicy').show();
+    setTimeout(function () {
+      $('#policyBottomContainer').addClass('box_show');
+    }, 100);
+  }
+
+  function closePolicyDetail() {
+    $('#policyBottomContainer').removeClass('box_show');
+    setTimeout(function () {
+      $('.pop_BottomToTopPolicy').hide();
+      $('.pop_BottomToTopPolicy').find('h4').html('');
+    }, 300)
+  }
+
+  //获取详情页数据
+  function getPolicyDetail(id) {
+    $.ajax({
+      url: '<%= host %>' + '/bigSearch/detail?' + `id=${id}`,
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        console.log(data.data.list[0]);
+
+        if (data.message.code == 0 && data.data.list[0]) {
+          var mediaFrom = data.data.list[0].mediaFrom || data.data.list[0].organization;
+          $('.pop_BottomToTopPolicy').find('h3 b').html(data.data.list[0].title);
+          $('.pop_BottomToTopPolicy').find('span').eq(0).html('来源: ' + mediaFrom);
+          $('.pop_BottomToTopPolicy').find('span').eq(1).html(date_info(data.data.list[0].publishAt));
+          $('.pop_BottomToTopPolicy').find('h4').html(data.data.list[0].content);
+        }
+      }
+    })
+  }
+
+  function date_info(val) {
+    var now = new Date(val);
+    var year = now.getFullYear(); //年
+    var month = now.getMonth() + 1; //月
+    var day = now.getDate(); //日
+    var hh = now.getHours(); //时
+    var mm = now.getMinutes(); //分
+    var clock = year + "-";
+    if (month < 10)
+      clock += "0";
+    clock += month + "-";
+    if (day < 10)
+      clock += "0";
+    clock += day;
+    return (clock);
+  }
+
+
+</script>
+

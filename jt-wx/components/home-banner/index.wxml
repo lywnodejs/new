@@ -1,0 +1,18 @@
+<!--components/ad-swiper/index.wxml-->
+<view class="home-swiper">
+  <swiper bindchange="onChange" indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}" circular="{{circular}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{banners}}" wx:key="idx" wx:for-index="idx">
+      <swiper-item>
+        <!-- <view class="swiper-item {{idx}}"> -->
+          <image bindtap="onClick" data-banner="{{item}}" src="{{item.imageUrl}}"/>
+        <!-- </view> -->
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class="swiper-dots" wx:if="{{banners.length > 1}}">
+    <block wx:for="{{banners}}" wx:key="idx" wx:for-index="idx">
+      <view class="{{index === idx ? 'selected' : ''}}"></view>
+    </block>
+  </view>
+</view>

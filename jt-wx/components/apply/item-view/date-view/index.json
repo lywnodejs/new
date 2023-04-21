@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "item-title-view": "/components/apply/item-view/item-title-view/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index"
+  }
+}

@@ -1,0 +1,79 @@
+<% include ../../component/jsLoad %>
+
+<%
+var data = info.data;
+var list = data || [];
+var dataType = dataType;
+%>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+
+<% if(list.length > 0){ %>
+
+    <div class="rxh_gap">
+        <div class="rxh_list rxh_list_colN">
+            <!--
+            1. 等比宽度，在li标签上加样式名：rxh_li_equal
+            2. 固定宽度，在li标签上加样式名：rxh_li_shrink（4个汉字/8个字符），rxh_li_shrink6（6个字/12个字符）
+            3. 剩余宽度，在li标签上加样式名：rxh_li_grow
+
+            省略号：
+            1. 显示1行，加样式名：rxh_ellipsis1
+            2. 显示2行，加样式名：rxh_ellipsis2
+            3. 显示3行，加样式名：rxh_ellipsis3
+
+            颜色：
+            1. 灰色，加样式名：rxh_gray
+            2. 红色，加样式名：rxh_red
+            3. 绿色，加样式名：rxh_green
+            4. 蓝色，加样式名：rxh_blue
+            -->
+<!--            <div class="rxh_list_scroll">-->
+<!--                <i class="icon-arrow4_R"></i>-->
+            <ol>
+                <li class="rxh_li_grow" style="background-color: white"><span>公司</span></li>
+                <li class="rxh_li_shrink" style="background-color: white"><span class="rxh_right">参控关系</span></li>
+                <li class="rxh_li_shrink" style="background-color: white"><span>参控比例</span></li>
+            </ol>
+            <% for(var i = 0; i < list.length; i++) {%>
+                <%let item = list[i];%>
+                <ul style="background-color: white">
+                    <li class="rxh_li_grow">
+                         <p><%= item.comName%></p>
+                    </li>
+                    <li class="rxh_li_shrink">
+                         <p class="rxh_right"><%= item.relation%></p>
+                    </li>
+                    <li class="rxh_li_shrink">
+                         <h5 class="rxh_right "><%= item.hldPercent%>%</h5>
+                    </li>
+                </ul>
+            <%}%>
+<!--            </div>-->
+        </div>
+    </div>
+
+
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var ParticipateHoldingCompanyView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+    }
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, ParticipateHoldingCompanyView<%- sn %>.onViewReady)
+    <% } %>
+</script>

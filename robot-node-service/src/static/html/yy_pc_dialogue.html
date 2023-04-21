@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="application-name" content="">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/yy_pc_dialogue.css">
+<body>
+
+<!-- pc版对话框 -->
+<div class="rxh_pc_dialogue">
+    <div class="rxh_pcDia_hd">
+        <h3>INDICS——Alex</h3>
+        <div class="rxh_right">
+            <a class="rxh_small">一</a>
+            <a class="rxh_big"></a>
+            <a class="rxh_close"></a>
+        </div>
+    </div>
+    <div class="rxh_pcDia_bd">
+        <!--#include file="yy_index.html"-->
+    </div>
+</div>
+
+<script src="../js/libs/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+$(function () {
+   var rxh_winH = $(window).height();
+   var rxh_headH = $(".rxh_pcDia_hd").height();
+   var rxh_footH = $(".rxh_pc_dialogue .bottom").height();
+   var rxh_mainH = rxh_winH - rxh_headH - rxh_footH - 20;
+   console.log(rxh_mainH);
+
+   $(".rxh_pc_dialogue .page_body_v2").css("height", rxh_mainH);
+});
+</script>
+
+</body>
+</html>

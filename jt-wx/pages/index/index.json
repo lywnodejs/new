@@ -1,0 +1,17 @@
+{
+  "usingComponents": {
+    "quota-card": "/components/quota-card/index",
+    "account-card": "/components/account-card/index",
+    "home-banner": "/components/home-banner/index",
+    "exclusive-banner":"/components/exclusive-banner/index",
+    "loans-card":"/components/loans-card/index",
+    "header": "/components/header/index",
+    "repayment-cell": "/components/repayment-cell/index",
+    "understanding": "/components/understanding/index",
+    "product-cell": "/components/product-cell/index",
+    "van-loading": "@vant/weapp/loading/index"
+  },
+  "disableScroll": true,
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom"
+}

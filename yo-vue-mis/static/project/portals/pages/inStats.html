@@ -1,0 +1,168 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <title>指标可视化</title>
+    <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <!-- <link rel="shortcut icon" href="http://static.galileo.xiaojukeji.com/static/tms/api/public/other/09be3dfc699b6238bee74b06cbe89285.ico" type="image/x-icon" /> -->
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+
+    <link  rel="stylesheet" type="text/css"  href="/lib/font-awesome/css/font-awesome.css?_v=f37b79">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap.css?_v=eea507">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap-font.css?_v=9753fe">
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/css/portals.css?_v=f36e80">
+    <style>
+        .nav,
+        .pagination,
+        .carousel,
+        .panel-title a {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="content">
+    <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>
+    <!--[if lt IE 9]>   
+        <style>
+            .browse-happy {
+                background: #ccc;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                z-index: 1000;
+            }
+
+            .browse-happy h3 {
+                position: absolute;
+                width: 100%;
+                top: 200px;
+                text-align: center;
+            }
+        </style>
+        <div class="browse-happy">
+            <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+        </div>
+        <![endif]-->
+    <!-- <header class="header" style="height:70px">
+        <header-html></header-html>
+    </header> -->
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    <div class="main page-center">
+        <div ng-view style="width:100%;"></div>
+    </div>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+    <script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+    <script   src="/project/portals/config/config.js?_v=000d11"></script>
+    <script>
+        var _hmt = _hmt || [];
+        //让业务页面首先加载，footer和统计稍后加载
+        setTimeout(function () {
+            require(['modules/footer/js/footer']);
+            var node = document.createElement("script");
+            node.type = 'text/javascript';
+            node.charset = 'utf-8';
+            node.async = true;
+            node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(node, s);
+        }, 0)
+    </script>
+    <script>
+var _hmt = _hmt || [];
+//让业务页面首先加载，footer和统计稍后加载
+ setTimeout(function(){
+    require(['modules/footer/js/footer']);
+    var node = document.createElement("script");
+    node.type = 'text/javascript';
+    node.charset = 'utf-8';
+    node.async = true;
+    node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(node, s);
+ },0)
+</script>
+<footer class="footer" ng-cloak>
+    <!-- <p> 
+        <label style="margin-right: 15px;">滴滴出行安全产品与技术部开发并维护</label>
+        扫码加入钉钉反馈群：<img  width="90" height="90"  src="/project/portals/i/code.png?_v=80763a"/>
+    </p> -->
+    <div class="footer-container">
+        <div class="footer-item" style="width: 50%;">
+            <p class="footer-item--title">安全管理平台</p>
+            <p class="footer-item--desc">我们专注提供一站式安全服务，打造一流安全平台，建设顶级安全服务能力，为滴滴信息安全、业务安全和客户安全保驾护航。</p>
+            <p class="footer-item--desc">反馈邮箱： soc@didichuxing.com</p>
+        </div>
+        <div style="width: 40%;">
+            <p class="footer-item--desc">扫码加入钉钉反馈群</p>
+            <img  width="100" height="100"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </div>
+
+    <!-- <div popover-placement="left-bottom" uib-popover-template="'options-panel.html'" popover-trigger="'mouseenter'"  class="p-btn-scroll-code fadein" style="bottom: 165px;">
+        <img  width="30" height="30"  src="/project/portals/i/code.png?_v=80763a"/>
+    </div>
+    <script type="text/ng-template" id="options-panel.html">
+        <div class="form-group">
+          <div>扫码加入钉钉反馈群:</div>
+          <img  width="150" height="150"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </script> -->
+</footer>
+    <!-- <footer class="footer" ng-cloak>
+        <p> 滴滴出行信息安全部开发并维护</p>
+    </footer> -->
+    <!---->
+    <script   src="/lib/angular/angular-locale_zh-cn.js?_v=76f17e"></script>
+    <script   src="/lib/angular/ui-bootstrap-tpls-2.5.0.js?_v=484474"></script>
+    <script   src="/lib/angular/angular-route.js?_v=fc2ed3"></script>
+    <script>
+        require(['js/inStats/index']);
+    </script>
+</body>
+
+</html>

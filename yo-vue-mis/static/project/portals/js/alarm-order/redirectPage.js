@@ -1,0 +1,1 @@
+define("js/alarm-order/redirectPage",["require","exports","module"],function(r,e,t){return function(r){if("0"!==String(r.errno))return void alert(r.errmsg);1===r.data.state?window.location.href="alarm-order-edit.html?id="+r.data.id:window.location.href="alarm-order-detail.html?id="+r.data.id}});

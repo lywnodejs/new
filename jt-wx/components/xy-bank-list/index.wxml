@@ -1,0 +1,18 @@
+<view class="xy-select-list">
+    <view wx:for="{{list}}"
+          wx:key="index"
+          data-index="{{index}}"
+          class="xy-list-item {{item.isDisabled ? 'disabled' : ''}}"
+          bind:tap="_selectItem">
+        <view class="item-left">
+            <image src="{{item.bankPicUrl}}" class="logo"></image>
+            <view class="item-label">
+                <view class="bank-name">{{item.bankName}}</view>
+                <view class="bank-desc">{{item.desc}}</view>
+            </view>
+        </view>
+        <view class="item-right">
+            <image wx:if="{{selectedIndex === index}}" class="checkbox-img" src="/image/checkbox_selected.png"></image>
+        </view>
+    </view>
+</view>

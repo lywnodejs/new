@@ -1,0 +1,1 @@
+define("js/common/factory/department",["require","exports","module"],function(t,e,n){return function(t){t.factory("department",["$http",function(t){return{getDepartmentList:function(e,n){t({method:"get",url:n||"/process/department"}).success(function(t){if("0"!==String(t.errno))return void console.error(t);angular.isFunction(e)&&e(t.data)})}}}])}});

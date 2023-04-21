@@ -1,0 +1,19 @@
+<!--components/captcha-input/index.wxml-->
+<view class="captcha-input {{error && 'error'}}">
+  <view class="input-view">
+    <input 
+      adjust-position="{{true}}"
+      bindfocus="onKeyboard" 
+      bindkeyboardheightchange="onKeyboard" 
+      focus="{{focus}}"
+      value="{{value}}"  
+      type="{{type}}" 
+      bindinput="onChange"  
+      bindconfirm="onChange"/>
+    <block wx:for="{{placeholders}}" wx:key="*this" wx:for-index="idx">
+      <text style="width: {{width}}px" class="{{idx === focusIndex && 'focus'}}">{{captcha[idx] || ""}}</text>
+    </block>
+  </view>
+  <text>验证码不正确</text>
+</view>
+

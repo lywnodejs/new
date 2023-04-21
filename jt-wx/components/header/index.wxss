@@ -1,0 +1,27 @@
+/* components/header/index.wxss */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.header image{
+  width: 4px;
+  height: 8px;
+}
+.header>text{
+  font-size: 17px;
+  font-family: PingFangSC-Medium;
+  color: #333333;
+}
+.header .more>text{
+  padding-right: 5px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #999999;
+  line-height: 20px;
+}
+.header .more>text text{
+  color: #FC8100;
+}

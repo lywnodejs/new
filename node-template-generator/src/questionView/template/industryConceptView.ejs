@@ -1,0 +1,90 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+
+<div class="rxh_bd">
+    <ul class="rxh_box2n" id="currentUi<%= sn %>"></ul>
+
+    <ul class="rxh_box2n" id="moreLi<%= sn %>" style="display: none"></ul>
+
+    <a class="rxh_btn_more" id="moreBtn<%= sn %>">更多<i class="icon-arrow2_D"></i></a>
+
+</div>
+
+<% include ../component/footer %>
+
+<script>
+    var robotApiUrl = '<%- robotApiUrl %>';
+    var conceptParams = JSON.parse('<%- JSON.stringify(runtimeParams) %>');
+    var moreData;
+
+    var industryConceptView = {
+        onViewReady: function () {
+            // 标签切换
+            $(".rxh_btn_more").click(function () {
+                switch ($(this).text()) {
+                    case '更多':
+                        $(this).html('收起<i class="icon-arrow2_D">');
+                        if (!$("#moreLi<%= sn %>:has(li)").length) {
+                            var str = industryConceptView.displayUl(moreData, moreData.length);
+                            $('#moreLi<%= sn %>').append(str);
+                        }
+                        $('#moreLi<%= sn %>').show();
+                        break;
+                    case '收起':
+                        $(this).html('更多<i class="icon-arrow2_D">');
+                        $('#moreLi<%= sn %>').hide();
+                        break;
+                }
+            });
+
+            industryConceptView.loadData();
+        },
+        loadData: function () {
+            var url = toolsUtil.createURL(robotApiUrl + '/api/qa/fix', conceptParams);
+            $.ajax({
+                type: 'GET',
+                url: url,
+                dataType: 'jsonp',
+                success: function (result) {
+                    var data = result.data;
+                    if (data.length > 4 ? true : false) {
+                        var newUl = industryConceptView.displayUl(data, 4);
+                        moreData = data.slice(4);
+                    } else {
+                        var newUl = industryConceptView.displayUl(data, data.length);
+                        $('#moreBtn<%= sn %>').hide();
+                    }
+                    $('#currentUi<%= sn %>').append(newUl);
+                }
+            })
+        },
+        displayUl: function (data, size) {
+            var str = '';
+            for (var i = 0; i < size; i++) {
+                var item = data[i];
+                var raise = item.raise;
+                var className = '';
+                var marginRight = item.baseName.length > 4 ? 'margin-right: 0.2rem' : ''
+                if (raise > 0) {
+                    raise = '+' + raise;
+                    className = 'rxh_red';
+                } else if (raise < 0) {
+                    className = 'rxh_green';
+                }
+                str += '<li class="' + className + '"><span>' + item.baseName + '</span><em style="' + marginRight + '">' + raise + '%</em></li>'
+            }
+            return str;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, industryConceptView.onViewReady);
+    <% } %>
+
+</script>
+
+
+

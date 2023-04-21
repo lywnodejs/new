@@ -1,0 +1,134 @@
+<script>
+    function reportInit() {
+      var report = '<div id="policyDetail" class="pop_BTT pop_BottomToTopPolicy pop_BottomToTopPolicy_gt policy" style="display: none;">' +
+        '                <div class="bg"></div>' +
+        '                <div id="policyBottomContainer" class="box">' +
+        '                    <a class="close icon-pop_close" onclick="closePolicyDetail()"></a>' +
+        '                    <div class="sumUp">' +
+        '                        <div class="sumUp_tech">' +
+        '                            <div class="outlineTxt" style="width:100%;height:calc(90vh);background:rgba(0, 0, 0, 0.514);position:absolute;z-index:1000000000;">' +
+        '                                <ul style="width:100%;height:100%;background:#fff;font-size:1rem;border-top-right-radius: .5rem;">' +
+        '                                </ul>' +
+        '                            </div>' +
+        '                            <div id="" class="pop_hd">资讯详情</div>' +
+        '                            <div id="policyBottomAnswerContainer" class="pop_bd mb_tab">' +
+        '                                <div class="box_show box_show_btn infoDetail">' +
+        '                                    <h3 style="font-weight: 500;padding: .33rem 0;padding-top: .33rem;padding-bottom: .13rem;margin-bottom: .5rem;">' +
+        '                                        <b></b>' +
+        '                                    </h3>' +
+        '                                    <span style="color:#a7aabe;font-size:0.875rem;"></span>' +
+        '                                    <span style="color:#a7aabe;font-size:0.875rem;"></span>' +
+        '                                    <h4 style="margin-top: .5rem;font-weight:300;"></h4>' +
+        '                                </div>' +
+        '                            </div>' +
+        '                        </div>' +
+        '                    </div>' +
+        '                </div>' +
+        '            </div>';
+
+      if($('.pop_BottomToTopPolicy').length == 0){
+        $('body').append(report);
+      }
+
+    }
+
+    function openPolicyDetail(id,istrue) {
+      if(istrue=='false'){return};
+
+      reportInit();
+      getPolicyDetail(id);
+      $('.pop_BottomToTopPolicy').show();
+      setTimeout(function(){
+        $('#policyBottomContainer').addClass('box_show');
+      },100);
+    }
+
+    function closePolicyDetail() {
+      $('#policyBottomContainer').removeClass('box_show');
+      setTimeout(function(){
+        $('.pop_BottomToTopPolicy').hide();
+        $('.pop_BottomToTopPolicy').find('h4').html('');
+        $("#policyDetail").remove()
+      },300)
+    }
+
+    //获取详情页数据
+    function getPolicyDetail(id){
+      $.ajax({
+        url:'<%= host%>'+'/api/policyInterfacesDetail?'+`id=${id}`,
+        type:'get',
+        dataType:'json',
+        success:function(data){
+          if(data.message.code==0){
+
+            $('.pop_BottomToTopPolicy').find('h3 b').html(data.data.title);
+            $('.pop_BottomToTopPolicy').find('span').eq(0).html('来源: '+data.data.mediaFrom);
+            $('.pop_BottomToTopPolicy').find('span').eq(1).html(date_info(data.data.publishAt));
+            $('.pop_BottomToTopPolicy').find('h4').html(data.data.content);
+            getTG(id);
+          }
+        }
+      })
+    }
+
+    /**
+     * @description: 获取详情页要点
+     * @param {type} txt
+     */
+    function getTG(id){
+      var params = {
+        type:'policy',
+        content:id
+      }
+      $.ajax({
+        url:'/policycatalogue/intelligent/report',
+        type:'get',
+        dataType:'json',
+        data:params,
+        success:function(data){
+          $('.pop_BottomToTopPolicy').find('.outlineTxt ul').html('');
+          if(data.catalogue.length==0){
+            $('.pop_BottomToTopPolicy').find('.outlineTxt ul').html(`
+            <p style="width:100%;height:3.5rem;font-size:1.2rem;line-height:3.5rem;text-align:center;color:#fff;background:#639df5;">暂无要点</p>
+                    `);
+            //传给安卓的语音信息
+            window.miniE_isOpenData=false;
+            return
+          };
+          $('.pop_BottomToTopPolicy').find('.outlineTxt ul').append(`
+            <p style="width:100%;height:2.6rem;font-size:1.2rem;line-height:2.6rem;text-align:center;color:#fff;background:#639df5;">本文要点</p>
+            `)
+          for(var i=0;i<data.catalogue.length;i++){
+            if(i>5){continue};
+            $('.pop_BottomToTopPolicy').find('.outlineTxt ul').append(`
+                        <li style="width:88%;height:2.2rem;line-height:2.2rem;padding-left:5%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${data.catalogue[i]}</li>
+            `)
+          }
+          $('.pop_BottomToTopPolicy').find('.outlineTxt ul li').eq(0).css({
+            paddingTop:'1rem'
+          })
+          //传给安卓的语音信息
+          window.miniE_isOpenData=true;
+        }
+      })
+    }
+
+
+    function date_info(val){
+      var now = new Date(val);
+      var year = now.getFullYear(); //年
+      var month = now.getMonth() + 1; //月
+      var day = now.getDate(); //日
+      var hh = now.getHours(); //时
+      var mm = now.getMinutes(); //分
+      var clock = year + "-";
+      if (month < 10)
+        clock += "0";
+      clock += month + "-";
+      if (day < 10)
+        clock += "0";
+      clock += day;
+      return (clock);
+    }
+
+</script>

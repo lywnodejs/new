@@ -1,0 +1,39 @@
+<!--components/apply/item-view/shoot-require-view/index.wxml-->
+<view class="tips-box">
+  <view class="title">
+    <image class='diamond-img' src="/image/ocr/tag.png"></image>
+    <text class="require-tip">拍摄身份证要求</text>
+    <image src="/image/ocr/tag.png" class="diamond-img after-tag-img"></image>
+  </view>
+  <view class="tips-msg">请保持身份证照片边框完整、字体清晰、亮度均匀</view>
+  <view class="imgs">
+    <view class="demo-box">
+      <image class="demo-img" src="/image/ocr/tip1.png"></image>
+      <view class="tip-desc">
+        <image class="yes-img"  src="/image/yes.png"></image>
+        <text >标准拍摄</text>
+      </view>
+    </view>
+    <view class="demo-box">
+      <image class="demo-img" src="/image/ocr/tip2.png"></image>
+      <view class="tip-desc">
+        <image class="no-img" src="/image/no.png"></image>
+        <text >信息遮挡</text>
+      </view>
+    </view>
+    <view class="demo-box">
+      <image class="demo-img" src="/image/ocr/tip3.png"></image>
+      <view class="tip-desc">
+        <image class="no-img" src="/image/no.png"></image>
+        <text >照片模糊</text>
+      </view>
+    </view>
+    <view class="demo-box">
+      <image class="demo-img" src="/image/ocr/tip4.png"></image>
+      <view class="tip-desc">
+        <image class="no-img" src="/image/no.png"></image>
+        <text>闪光强烈</text>
+      </view>
+    </view>
+  </view>
+</view>

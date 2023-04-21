@@ -1,0 +1,33 @@
+/* components/apply/item-view/string-view/index.wxss */
+
+.info-box {
+  padding-top: 16px;
+}
+
+
+
+.input-class {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  color: #333;
+} 
+
+
+.error-msg {
+  color: #ff2c43;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+
+.van-field__clear-root .van-icon-clear {
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiBAMAAADIaRbxAAAAGFBMVEUAAADc3NzZ2dnZ2dna2trZ2dnZ2dnZ2dlmoiK9AAAAB3RSTlMASFBX4vv8MYMYBgAAAI1JREFUKM+Fkr0RgCAMRlEcwBEcgTvP3sINKNhAJ8CsLyIH4V4hBYSPFyA/xmAMx6J24zGbSbxSNtmTEl0VbEjKGBS0SVzy7Bri21IQp9d2Vo3mXyzlXkz1xGdb/Y280UiG1tCFk6CzQ15IOiRBl9zuR4EXb8br/CGiYKTIBjOGrDLzqA4ryCqzE9gtGA94K0XdvCxkCQAAAABJRU5ErkJggg==");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.van-field__clear-root .van-icon-clear:before {
+  content: "";
+}

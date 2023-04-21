@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "get-code":"/components/get-code/index",
+    "password-popup":"/packageB/components/password-popup/index"
+  },
+  "navigationBarTitleText": "提前赎回"
+}

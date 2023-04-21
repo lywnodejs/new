@@ -1,0 +1,263 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+    <!--答案框-->
+    <div class="mb">
+        <!--红框白字 2行-->
+        <% for(var i = 0;i < reportList.length;i++){
+            var item = reportList[i];
+        %>
+        <div class="gzpj <%= i > 0 ? 'hideReport' + sn : '' %>"
+             style="<%= i > 0 ? 'display: none' : 'display:block' %>">
+            <div class="box_bRed box_bRed_r2 box_bBlue">
+                <li><%= item.knowledgeTypeName %></li>
+                <li>
+                    <h6>
+                        <span><%= item.organization %>/<%= item.author %></span><br><%= commonUtil.changeTime(item.publishTime) %>
+                    </h6>
+                </li>
+            </div>
+
+            <!--显示6行，有展开按钮-->
+            <div class="box_show box_show_r3">
+                <h5 id="<%= item.contentId %>" class="show_row3"><%= decodeURIComponent(item.text) %></h5>
+                <a id="<%= item.expandBtnId %>" class="a_more"
+                   onclick="expandContent('<%= item.expandBtnId %>','<%= item.contentId %>','<%= item.foldBtnId %>')">展开<i
+                            class="icon-arrowD"></i></a>
+                <a id="<%= item.foldBtnId %>" style="display: none" class="a_more"
+                   onclick="foldContent('<%= item.foldBtnId %>','<%= item.contentId %>','<%= item.expandBtnId %>')">收起<i
+                            class="icon-arrowT"></i></a>
+            </div>
+        </div>
+        <% } %>
+        <% if(list.length != 0){ %>
+            <div id="moreId<%= sn %>" class="mb">
+                <div class="box_load">
+                    <a>点击查看更多</a>
+                </div>
+            </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<style>
+    .ul_box {
+        height: 3.126rem;
+        align-items: center;
+        overflow: hidden;
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        padding: .688rem 0 .875rem;
+    }
+
+    .pop_content_ul {
+        display: inline-block;
+        font-size: 0;
+        white-space: nowrap;
+
+    }
+
+    .pop_content_ul li {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -moz-flex;
+        display: -webkit-flex;
+        display: flex;
+        border-radius: .25rem;
+        background-color: #eceae7;
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+        padding: .563rem .75rem;
+        text-align: center;
+        margin-right: .625rem;
+    }
+
+    .pop_content_ul li span {
+        display: block;
+    }
+
+    .pop_content_ul_click {
+        background: #639df5 !important;
+        color: #fff;
+    }
+
+    .centent_pop {
+        margin-top: 0.8rem;
+        line-height: 1.688rem;
+    }
+</style>
+
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+  var jsNo = 0;
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>';
+
+
+  //传给安卓的语音信息
+  var speechAnwser = '<%= speechAnwser %>';
+  var info_app = '<%- info.questionAnalyse[0].classifyType.predicateType.label %>';
+  console.log(info_app)
+  if (window.contestapp) {
+    try {
+      window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+    } catch (error) {
+      console.log(speechAnwser, 1, info_app);
+    }
+  } else {
+    console.log(speechAnwser, 1, info_app);
+  }
+
+  var industryRelatedData = {
+    onViewReady: function () {
+      alertInfo();
+      resizeUtils.init(frameId, sn);
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, industryRelatedData.onViewReady)
+
+  function industryClick(industryName) {
+  }
+
+  var dataList = '<%= JSON.stringify(list) %>';
+  var oldResult = JSON.parse(dataList.replace(/\&#34;/g, "\""));
+  console.log(oldResult)
+
+  /**
+   * 展开隐藏内容
+   * @param expandBtnId
+   * @param contentId
+   * @param foldBtnId
+   */
+  function expandContent(expandBtnId, contentId, foldBtnId) {
+    $('#' + expandBtnId).hide();
+    $('#' + foldBtnId).show();
+    $('#' + contentId).removeClass('show_row3');
+  }
+
+  /**
+   * 收缩内容
+   * @param foldBtnId
+   * @param contentId
+   * @param expandBtnId
+   */
+  function foldContent(foldBtnId, contentId, expandBtnId) {
+    $('#' + foldBtnId).hide();
+    $('#' + contentId).addClass('show_row3');
+    $('#' + expandBtnId).show();
+  }
+
+  /**
+   * 判断文字内容较多时是否需要收缩内容及显示展开按钮
+   * @param ids [contentId, expandBtnId], contentId：内容容器Id， expandBtnId：展开按钮Id
+   */
+  function checkTextOverflow(ids) {
+    for (var i = 0; i < ids.length; i++) {
+      var contentId, expandBtnId;
+      contentId = ids[i][0];
+      expandBtnId = ids[i][1];
+      var content = $('#' + contentId);
+      // console.log(content[0].scrollHeight, content.height())
+      if (content[0].scrollHeight <= content.height())
+        $('#' + expandBtnId).hide();
+      else {
+        content.addClass('show_row3');
+        $('#' + expandBtnId).show();
+      }
+    }
+  }
+
+  function alertInfo() {
+    $(function () {
+      // addEle();
+      var sn = '<%= sn %>';
+      var id = 'moreId<%= sn %>';
+      $('#' + id).click(function () {
+        addEle();
+        // $('.policy_' + sn).show();
+        // var str = '';
+        // $('.policy_' + sn).find('.pop_content_ul').append()
+        setTimeout(function () {
+          $('.policy_' + sn).find('#bottomContainer').addClass('box_show');
+        }, 100);
+      });
+    })
+  }
+
+  function addEle() {
+    var str = '';
+    var knowledgeTypeName = '';
+    for (var i = 0; i < oldResult.length; i++) {
+      var oldResult_ = oldResult[i].organization || '&nbsp;&nbsp;&nbsp;'
+      str += '<li> <span>' + oldResult_ + '</span><span>' + date_info(oldResult[i].publishTime) + '</span></li>'
+      knowledgeTypeName = oldResult[i].knowledgeTypeName
+    }
+    var popup = '<div class="policy_<%= sn %> pop_BTT pop_BottomToToprelated">' +
+      <!--遮罩-->
+      '<div class="bg"></div>' +
+      <!--白框容器-->
+      '<div id="bottomContainer" class="box">' +
+      <!--关闭按钮-->
+      '<a class="close icon-pop_close"></a>' +
+      '<div class="sumUp">' +
+      <!--浮层_title-->
+      '<div class="sumUp_tech">' +
+      '<div id="" class="pop_hd">'+knowledgeTypeName+'</div>' +
+      <!--答案容器-->
+      '<div id="bottomAnswerContainer" class="pop_bd mb_tab">' +
+      '<div class="ul_box">' +
+      '<ul class="pop_content_ul">'+str+'</ul>' +
+      '</div>' +
+      '<p class="centent_pop"></p>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>'
+    $('body').append(popup);
+    $('.policy_' + sn).show();
+    $('.policy_' + sn).find('.centent_pop').html(decodeURI(oldResult[0].text))
+    $('.policy_' + sn).find('.pop_content_ul li').eq(0).addClass('pop_content_ul_click');
+    $('.policy_' + sn).find('.pop_content_ul li').click(function () {
+      var text = decodeURI(oldResult[$(this).index()].text);
+      $('.policy_' + sn).find('.pop_content_ul li').removeClass('pop_content_ul_click');
+      $(this).addClass('pop_content_ul_click');
+      $('.policy_' + sn).find('.centent_pop').html(text)
+    })
+    $('.policy_' + sn).find('.close').click(function () {
+      $('.policy_' + sn).find('#bottomContainer').removeClass('box_show');
+      setTimeout(function () {
+        $(".policy_"+sn).remove();
+      }, 300)
+    });
+  }
+
+  function date_info(val) {
+    var now = new Date(val);
+    var year = now.getFullYear(); //年
+    var month = now.getMonth() + 1; //月
+    var day = now.getDate(); //日
+    var hh = now.getHours(); //时
+    var mm = now.getMinutes(); //分
+    var clock = year + "-";
+    if (month < 10)
+      clock += "0";
+    clock += month + "-";
+    if (day < 10)
+      clock += "0";
+    clock += day;
+    return (clock);
+  }
+</script>
+

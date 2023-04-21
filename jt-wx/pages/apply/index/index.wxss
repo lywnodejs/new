@@ -1,0 +1,54 @@
+/* pages/apply/index/index.wxss */
+page {
+  background-color: #f7f7f7;
+  padding: 15px 15px;
+  box-sizing: border-box;
+  font-family: PingFangSC-Medium, PingFang SC;
+}
+.apply-page {
+  padding-bottom: 230px;
+}
+
+
+.apply-page .page-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 20px 25px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.apply-page .apply-btn {
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50px;
+  background: #ff2c43;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  border: none;
+  font-weight: 500;
+}
+
+.apply-page .apply-btn[disabled]{
+  background-color: #FFD2D7;
+  border: none;
+  color: white;
+}
+
+.apply-page  .apply-btn::after{
+  border: none;
+}
+
+
+.productdesc{
+  width: 100%;
+  height: auto;
+  font-size: 24rpx;
+  color: #337efe;
+  line-height: 34rpx;
+  font-weight: 400;
+  text-align: right;
+  margin-top: 20rpx;
+}

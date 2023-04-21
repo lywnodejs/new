@@ -1,0 +1,50 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+var data = info.data;
+var days = data.days;
+var induName = data.induName;
+var stock = info.questionAnalyse[0].entity[0].property;
+
+var raise = data.raise;
+// var text = raise > 0 ? '涨幅' : '跌幅';
+var className = "";
+if(raise > 0){
+    className = 'rxh_red';
+}else if(raise < 0){
+    className = 'rxh_green';
+}
+raise = commonUtil.fixed2(raise * 100);
+
+var induSecNum = data.induSecNum;
+var level = data.level;
+
+%>
+
+<div class="rxh_gap">
+    <% if(type.indexOf("行业景气度") != -1){%>
+        <%= commonUtil.replaceSpecial(stock.name) %>（<%= stock.code %>）所属的<%= induName %>行业指数近<%= days %>日涨幅为<b class="<%= className %>"><%= raise %>%</b>。
+    <%}else{%>
+            <%= commonUtil.replaceSpecial(stock.name) %>（<%= stock.code %>）所属的<%= induName %>行业共有<%= induSecNum %>家上市公司，所属行业上市公司<%= level %>。
+    <%}%>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+</script>
+
+
+

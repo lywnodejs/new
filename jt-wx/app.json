@@ -1,0 +1,137 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/order/index/index",
+        "pages/my/index/index",
+        "pages/my/ticket/index",
+        "pages/my/invite/index",
+        "pages/my/official/index",
+        "pages/my/settings/index",
+        "pages/apply/index/index",
+        "pages/apply/contact/index",
+        "pages/apply/result/index",
+        "pages/repayment/bill/index",
+        "pages/repayment/result/index",
+        "pages/withdraw/bank/index",
+        "pages/withdraw/result/index",
+        "pages/login/index/index",
+        "pages/login/phone/index",
+        "pages/login/captcha/index",
+        "pages/account/open/result/index",
+        "pages/account/list/index",
+        "pages/account/result/index",
+        "pages/account/card/index",
+        "pages/web/index",
+        "pages/logs/logs",
+        "verify_mpsdk/index/index",
+        "pages/apply/protocol/index",
+        "pages/apply/material/index",
+        "pages/apply/guarantee/index",
+        "pages/apply/guarantee/edit/index",
+        "pages/apply/idcertificate/index",
+        "pages/apply/licensecertificate/index",
+        "pages/apply/uploadfile/index",
+        "pages/apply/verify-phone/index",
+        "pages/apply/uploadfile/video-preview/index",
+        "pages/withdraw/face/index",
+        "pages/deposit/index/index",
+        "pages/deposit/detail/index",
+        "pages/loans/index",
+        "pages/repayment/index/index",
+        "pages/write/index",
+        "pages/my/messageCenter/index",
+        "pages/my/messageCenter/detail/index",
+        "pages/my/depositList/index",
+        "pages/my/depositList/detail/index",
+        "pages/my/secureCenter/index",
+        "pages/my/secureCenter/idCancel/index",
+        "pages/my/secureCenter/idCancel/detail/index",
+        "pages/my/secureCenter/idCancel/cloneId/index",
+        "pages/share/index",
+        "pages/deposit/message/index",
+        "pages/deposit/redeemfail/index"
+    ],
+    "subpackages": [
+        {
+            "root": "packageB",
+            "name": "pack2",
+            "independent": false,
+            "pages": [
+                "pages/apply/index",
+                "pages/detail/index",
+                "pages/withdrawIndex/index",
+                "pages/redemption/index",
+                "pages/password/change/index",
+                "pages/password/forget/index",
+                "pages/form/index",
+                "pages/account/index/index",
+                "pages/account/transfer/index"
+            ]
+        }
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "custom": false,
+        "color": "#BCBEC0",
+        "selectedColor": "#EEA900",
+        "borderStyle": "white",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "/image/icons/home.png",
+                "selectedIconPath": "/image/icons/home_selected.png"
+            },
+            {
+                "pagePath": "pages/deposit/index/index",
+                "text": "存款",
+                "iconPath": "/image/icons/dk.png",
+                "selectedIconPath": "/image/icons/dk_selected.png"
+            },
+            {
+                "pagePath": "pages/loans/index",
+                "text": "贷款",
+                "iconPath": "/image/icons/ck.png",
+                "selectedIconPath": "/image/icons/ck_selected.png"
+            },
+            {
+                "pagePath": "pages/my/index/index",
+                "text": "我的",
+                "iconPath": "/image/icons/my.png",
+                "selectedIconPath": "/image/icons/my_selected.png"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000
+    },
+    "sitemapLocation": "sitemap.json",
+    "usingComponents": {
+        "van-button": "@vant/weapp/button/index",
+        "van-nav-bar": "@vant/weapp/nav-bar/index",
+        "van-icon": "@vant/weapp/icon/index",
+        "van-cell": "@vant/weapp/cell/index",
+        "van-popup": "@vant/weapp/popup/index",
+        "van-field": "@vant/weapp/field/index",
+        "checkbox": "/components/checkbox/index",
+        "xy-nav-bar": "/components/nav-bar/index",
+        "xy-confirm": "/components/xy-confirm/index",
+        "xy-popup": "/components/xy-popup/index",
+        "xy-select-list": "/components/xy-select-list/index",
+        "xy-bank-list": "/components/xy-bank-list/index",
+        "xy-steps": "/components/xy-steps/index",
+        "xy-step-item": "/components/xy-step-item/index",
+        "apply-page": "/components/apply-page/index",
+        "safe-are-bottom": "/components/safe-area-bottom/index"
+    },
+    "permission": {
+        "scope.userLocation": {
+            "desc": "你的位置信息将用于借款额度评估"
+        }
+    }
+}

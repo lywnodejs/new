@@ -1,0 +1,75 @@
+<!--pages/order/index/index.wxml-->
+<wxs module="refresh">
+module.exports = {
+  onPulling: function(evt, instance) {
+    var p = Math.min(evt.detail.dy / 80, 1)
+    console.log(p)
+    var view = instance.selectComponent('.refresh-container')
+    view.setStyle({
+      opacity: p,
+      transform: "scale(" + p + ")"
+    })
+  }
+}
+</wxs>
+
+<view class="order">
+  <view class="tab">
+    <block wx:for="{{titles}}" wx:key="*this" wx:for-index="idx">
+      <text bindtap="onChange" data-index="{{idx}}" class="{{idx === active && 'active'}}">{{item}}</text>
+    </block>
+  </view>
+  <scroll-view
+      wx:if="{{active === 0}}" 
+      scroll-y style="width: 100%; height: calc(100% - 48px);"
+      refresher-enabled="{{true}}" 
+      refresher-threshold="{{100}}"
+      refresher-default-style="black"
+      refresher-background="#F7F7F7"
+      refresher-triggered="{{triggered}}"
+      bindrefresherrefresh="onRefresh"
+      bindrefresherrestore="onRestore"
+      bindrefresherabort="onAbort">
+      <view wx:if="{{list[1].length > 0}}">
+        <view class="repayment-info">
+            <view>
+              <text class="amount-title">30日内待还(元)</text>
+              <text class="amount">{{summaryRepayInfo.wait30Amount}}</text>
+              <rich-text nodes="<p style='color:#8C8C8C'>共<span style='color: #FC8100'>{{summaryRepayInfo.totalWaitRepayCount}}笔</span>借款未结清，剩余待还总额<span style='color:#333333'>{{summaryRepayInfo.totalWaitReapyAmount}}</span></p>"></rich-text>
+            </view>
+            <image src="/image/order_line.png"/>
+        </view>
+        <view class="repayment-content">
+          <block wx:for="{{list[1]}}" wx:key="orderNum">
+            <repayment-cell-order order="{{item}}"/>
+          </block>
+        </view>
+      </view>
+       <view class="empty" wx:else>
+        <image src="/image/empty.png"/>
+        <text>暂无订单</text>
+      </view>
+  </scroll-view>
+  <scroll-view
+      wx:else
+      scroll-y style="width: 100%; height: calc(100% - 48px);"
+      refresher-enabled="{{true}}" 
+      refresher-threshold="{{100}}"
+      refresher-default-style="black"
+      refresher-background="#F7F7F7"
+      refresher-triggered="{{triggered}}"
+      bindrefresherrefresh="onRefresh"
+      bindrefresherrestore="onRestore"
+      bindrefresherabort="onAbort">
+      <view class="all" wx:if="{{list[0].length > 0}}">
+        <block wx:for="{{list[0]}}" wx:key="idx" wx:for-index="idx">
+          <repayment-cell-order  order="{{item}}" wx:if="{{item.status === 8 || item.status === 9}}"/>
+          <order-cell data="{{item}}" wx:else/>
+        </block>
+      </view>
+      <view class="empty" wx:else>
+        <image src="/image/empty.png"/>
+        <text>暂无订单</text>
+      </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "ticket-cell": "/components/ticket-cell/index"
+  },
+  "navigationBarTitleText": "优惠券"
+}

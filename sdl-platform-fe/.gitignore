@@ -1,0 +1,24 @@
+# Mac 冗余文件
+.DS_Store
+package-lock.json
+
+# NPM, Yarn 相关
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+node_modules/
+
+# Test 相关
+
+# Editor directories and files
+.vscode/
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# 项目相关
+dist/
+src/routes/routes.js
+static/.dll/

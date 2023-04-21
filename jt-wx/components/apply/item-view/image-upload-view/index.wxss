@@ -1,0 +1,136 @@
+/* components/apply/item-view/image-upload-view/index.wxss */
+.info-box {
+  padding: 16px 0;
+}
+
+.content-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0 0 0;
+}
+
+.content-box .item {
+  flex: 0 0 calc(50% - 15rpx);
+  height: 120px;
+  box-shadow: 0 2px 13px 0 rgba(3, 29, 55, 0.06);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.thumbnail-box {
+  position: relative;
+}
+
+.last-img {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: calc(100% - 20px);
+  height: 100px;
+}
+
+.mask-box {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: calc(100% - 20px);
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.img-num {
+  position: absolute;
+  font-size: 26px;
+  width: 100%;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  line-height: 120px;
+  margin: auto;
+  color: #FFFFFF;
+  text-align: center;
+}
+
+
+.place-holder-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-img {
+  width: 44px;
+  height: 44px;
+}
+
+.upload-tip {
+  margin-top: 13px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+}
+
+.wrapper {
+  height: 100%;
+  background-color: #333333;
+}
+
+.preview-title {
+  padding: 110px 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-preview-img {
+  width: 40px;
+  height: 40px;
+}
+
+.num-box {
+  height: 28px;
+  padding: 0 15px;
+  background: #262626;
+  border-radius: 14px;
+  font-size: 16px;
+  font-family: Avenir-Heavy, Avenir;
+  font-weight: 500;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.delete-img {
+  width: 40px;
+  height: 40px;
+}
+
+.wrapper .swiper-box {
+  width: 100%;
+  margin-top: 20px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 400px;
+}
+
+
+.swiper-box .swiper-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: unset;
+}
+
+
+.swiper-box .big-img {
+  width: 100%;
+  height: 100%;
+}

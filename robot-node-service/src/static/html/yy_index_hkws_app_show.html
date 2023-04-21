@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智能问答v2.0 海康威视</title>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="keywords" content="小e,智能小e,小E,智能小E,robot.rxhui.com,小e首页,小e机器人,智能机器人,robot.rxhui,问答,智能">
+    <meta name="description" content="智能小e，智能化时代投资助手和全语音问答交互模式，内容覆盖7x24小时金融市场投资标的研判、k线形态量化分析、专家估值评级，及时挖掘投资机会。">
+    <meta name="application-name" content="智能小e 首页">
+
+    <link rel="stylesheet" href="/src/static/css/yy_style_v1.css">
+    <link rel="stylesheet" href="/src/static/css/yy_style_v2.css?v=181203">
+    <!--<link rel="stylesheet" href="../css/yy_style_lowVer.css?v=1.1" />-->
+    <script src="../js/libs/jquery-1.11.2.min.js"></script>
+    <script src="/src/static/client/js/robots/yy_pop.js"></script>
+    <script src="/src/static/client/js/robots/yy_lowVer.js?v=1.1"></script>
+    <script src="/src/static/client/js/robots/yy_compatible.js?v=1.1"></script>
+    <script src="/src/static/client/js/robots/yy_autoTextarea.js"></script>
+    <script src="/src/static/client/js/robots/yy_index.js?v=1.1"></script>
+    <!--    <script src="/src/static/client/js/robots/yy_screenOther.js?v=1.0"></script>-->
+    <script src="/src/static/js/libs/swiper.min.js"></script>
+
+
+    <style>
+        .rxhE_hkws_app{
+            background: url(../images/bg_hkws2.jpg) no-repeat #000;
+            background-size: 100% auto;
+            height: calc(100vh);
+        }
+        .rxhE_hkws_app iframe{ position: relative; top: 180px; left: 20px; width: calc(100vw - 40px);}
+    </style>
+</head>
+<body>
+
+<div class="rxhE_hkws_app">
+
+    <!-- 路径加传参1 可以查看长答案的样式 -->
+    <iframe src ="yy_index_hkws.html" frameborder="0" height="480px" allowTransparency="true"></iframe>
+
+</div>
+
+
+
+<script>
+    $(function () {
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // 传参看答案超长时的样式，传参 =1时
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+        var rxh_parameter = location.search.substring(1);
+        if(rxh_parameter == 1){
+            $(".rxhE_hkws_app iframe").attr("src", "yy_index_hkws.html?1");
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+
+    });
+</script>
+
+
+
+</body>
+</html>

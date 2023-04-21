@@ -1,0 +1,20 @@
+name: sdl-platform-fe
+stages:
+    - name: Compile
+      trigger: manual
+      jobs:
+        - name: compile-job
+          tasks:
+            - name: compile-task
+              type: oe-compile
+              params:
+                image: false
+                osType: centos7.2
+    - name: Deploy
+      trigger: manual
+      jobs:
+        - name: deploy-job
+          tasks:
+            - name: deploy-task
+              type: oe-deploy:odin
+

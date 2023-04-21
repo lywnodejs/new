@@ -1,0 +1,54 @@
+@import '~antd/es/style/themes/default.less';
+
+.pie {
+  position: relative;
+  .chart {
+    position: relative;
+    width: ~'calc(100% - 250px)';
+  }
+
+  .legend {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    min-width: 240px;
+    margin: 0 20px;
+    padding: 0;
+    list-style: none;
+    transform: translateY(-50%);
+    li {
+      height: 22px;
+      margin-bottom: 16px;
+      line-height: 22px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .dot {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    border-radius: 8px;
+  }
+  .line {
+    display: inline-block;
+    width: 1px;
+    height: 16px;
+    margin-right: 8px;
+    background-color: @border-color-split;
+  }
+  .legendTitle {
+    color: @text-color;
+  }
+  .rate {
+    color: @text-color-secondary;
+  }
+  .count {
+    position: absolute;
+    right: 0;
+  }
+}

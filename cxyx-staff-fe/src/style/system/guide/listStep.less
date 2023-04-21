@@ -1,0 +1,33 @@
+@import '../../variable';
+
+.listStep {
+  .titleBox {
+    background-color: @concreteColor;
+    padding: 12px 16px;
+    border-radius: 4px;
+  }
+
+  .titleBox .title {
+    color: @black;
+    font-size: @normalFontSize;
+  }
+
+  .titleBox .titleDes {
+    color: @black;
+    font-size: @normalFontSize - 2px;
+  }
+
+  .content {
+    padding: 10px 0;
+  }
+  .sourceName {
+    max-width: 210px;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: normal;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+}

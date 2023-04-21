@@ -1,0 +1,112 @@
+/* Base css */
+
+/* card */
+.upm-card {
+  background: @content-bg;
+  &__content {
+    padding: 14px;
+  }
+}
+
+/* 内容展示区 */
+.upm-content {
+  background: @content-bg;
+  padding: @base-space;
+}
+
+/* form */
+.upm-form {
+  .ant-form-item {
+    display: flex;
+  }
+  .ant-form-item-label {
+    overflow: visible;
+  }
+  .ant-form-item-control-wrapper {
+    flex: 1;
+  }
+  &__button {
+    margin-right: @base-space / 2;
+  }
+}
+
+.ant-form-item-label {
+  text-overflow: ellipsis;
+}
+
+.ant-table-body {
+  th,
+  td {
+    word-break: break-word;
+  }
+}
+
+/* table */
+// 管理端页面在使用
+.upm-table {
+  // border: @base-border;
+  .ant-table {
+    font-size: 12px;
+    th,
+    td {
+      padding: 10px 8px;
+    }
+  }
+  button {
+    font-size: 12px;
+    margin-right: @base-space / 4;
+  }
+}
+
+.upm-popover {
+  &__button {
+    &:not(:last-child) {
+      margin-right: 6px;
+    }
+  }
+}
+
+/* 树表面板 */
+.upm-tree-panel {
+  border-top: @base-border;
+  padding-top: @base-space;
+  &__label {
+    font-size: @label-font;
+    font-weight: 500;
+  }
+  &__left {
+    border-right: @base-border;
+    padding-right: @base-space;
+    max-height: 450px;
+    overflow: auto;
+  }
+  &__right {
+    padding-left: @base-space;
+  }
+}
+
+/* border */
+.upm-border {
+  border: @base-border;
+  &-top {
+    border-top: @base-border;
+  }
+  &-right {
+    border-right: @base-border;
+  }
+  &-bottom {
+    border-bottom: @base-border;
+  }
+  &-left {
+    border-left: @base-border;
+  }
+}
+
+.ant-divider,
+.ant-divider-vertical {
+  margin: 0 4px;
+}
+
+.upm-warning {
+  color: #ff7d4c;
+}

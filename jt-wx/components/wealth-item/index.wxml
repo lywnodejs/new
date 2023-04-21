@@ -1,0 +1,18 @@
+<!--components/wealth-item/index.js.wxml-->
+<view class="wealth-item">
+  <view class="right">
+    <view class="title">{{order.productName}}</view>
+    <view class="tags">
+      <view class="tag" wx:for="{{order.tags}}" wx:key="index">
+        {{item}}
+      </view>
+    </view>
+  </view>
+  <view class="left">
+    <view class="num">{{order.yearRate}}<text>%</text></view>
+    <view class="info">{{order.title}}</view>
+  </view>
+  <view class="but" bindtap="todetail">
+    {{order.button.text}}
+  </view>
+</view>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>选股条件</title>
+    <link rel="stylesheet" href="/static/css/pick-conditions.css">
+    <style>
+        .hideEl {
+            display: none !important;
+        }
+        .showEl {
+            display: inline-block !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div id="divCustomStrategy" class="pickStockPanel" style="display: none">
+            <div class="strategy clearfix">
+                <p>我的策略</p>
+                <p style="float:right" onclick="showStrategyPopup()"><i class="icon-admin"></i><span>管理</span></p>
+            </div>
+            <div class="pickStockNamePanel">
+                <ul id="customStrategy" class="aPanel clearfix skill">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--遮罩-->
+    <div id="divMask" class="bg" onclick="maskClick(event)">
+    </div>
+
+    <div id="divOptions" class="fullScreenFixed">
+        <!--选股条件-->
+        <div class="fullScreen" style="pointer-events: auto" onclick="fullScreen(event)">
+            <div class="choosePanel">
+                <div class="chooseTitle clearfix">
+                    <div>
+                        <div id="optionTitle" class="closeTitle fl" style="font-weight: bold"></div>
+                        <div class="close fr" onclick="closeOptionPopup()"><i class="icon-pop_close"></i></div>
+                    </div>
+                    <h5></h5>
+                </div>
+                <!--选项列表-->
+                <ul id="optionList" class="optionHeight">
+                </ul>
+                <div class="userDefined">
+                    <div class="editChoose">
+                        <span>自定义条件</span>
+                        <i class="choose"></i>
+                    </div>
+                    <div class="inputPanel">
+                        <div><input id="txtGt" type="number" max="100000000" oninput="txtInputHandler(this)"></div>
+                        <div class="andPanle">~</div>
+                        <div><input id="txtLt" type="number" max="100000000" oninput="txtInputHandler(this)"></div>
+                    </div>
+                </div>
+                <p id="btnConfirmCondition" class="buttonNo" onclick="confirmConditions()">确认</p>
+            </div>
+        </div>
+    </div>
+
+    <!--管理策略弹窗-->
+    <div id="divEditStrategy" class="fullScreenFixed" style="display: none">
+        <div class="fullScreen" onclick="fullScreen(event)">
+            <div id="divChooseStrategy" class="choosePanel">
+                <div class="chooseTitle clearfix">
+                    <div>
+                        <div class="closeTitle fl" style="font-weight: bold">管理策略</div>
+                        <div class="close fr" onclick="closeStrategyPopup()"><i class="icon-pop_close"></i></div>
+                    </div>
+                    <h5></h5>
+                </div>
+                <ul id="strategyList">
+                </ul>
+                <p id="btnDelStrategy" class="buttonNo" onclick="confirmDeleteStrategy()">删除</p>
+            </div>
+        </div>
+    </div>
+
+    <!--已选条件-->
+    <div class="alreadyChoose">
+        <div class="alreadyChooseUp">
+            <div id="alreadyChooseUp"><i class="icon-select_arrowT"></i><a>已选择(<span id="spanConditionCount">0</span>/<span>10</span>)个条件</a></div>
+            <div id="chooseUpResult" class="resultNo" onclick="gotoResultPage(event)">查看结果</div>
+        </div>
+        <div id="divSelectedCondition" class="alreadyChooseDownPanel hidd"></div>
+    </div>
+
+
+    <!-- 吐司 -->
+    <!-- 默认隐藏，显示的时候，去掉样式名：hide -->
+    <div id="toast" class="pop_tips" style="display: none">
+        <div class="pop">
+            <div id="txtToast" class="pop_box">
+                最多支持10个条件
+            </div>
+        </div>
+    </div>
+
+    <!-- 确定弹窗 -->
+    <!-- 默认隐藏，显示的时候，去掉样式名：hide -->
+    <div class="pop_confirm" style="display: none">
+        <div class="pop">
+            <div class="pop_bg"></div>
+            <div class="pop_box">
+                <h4>是否清空已选条件?</h4>
+                <div class="btn">
+                    <a onclick="doClear()">清空</a>
+                    <a onclick="closeConfirmPopup()">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script src="/static/js/libs/jBaidu.js"></script>
+<script src="/static/js/libs/jquery-1.11.2.min.js"></script>
+<script src="/static/client/js/utils/commonUtil.js"></script>
+<script src="/static/client/js/utils/logUtil.js"></script>
+<script src="/static/client/js/utils/functionForApp.js"></script>
+<script src="/static/client/js/robots/changeRem.js"></script>
+<script src="/static/client/js/robots/jUrlParams.js"></script>
+<script src="/static/client/js/robots/jCommon.js"></script>
+<script src="/static/client/js/robots/jsStockConditions.js"></script>

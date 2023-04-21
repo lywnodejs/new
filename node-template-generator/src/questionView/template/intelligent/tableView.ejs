@@ -1,0 +1,177 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<% include ../../component/jsLoad %>
+<%
+if (conditionParams.useTitle) {
+%>
+<% include ../../component/templateTitleView %>
+<%
+}
+%>
+<%
+if (conditionParams.useChart) {
+%>
+<div id="chartGroup<%= sn %>">
+    <div id="rxh_t<%= sn %>" class="rxh_t" style="overflow-x: auto;margin-top: 14px">
+        <table id="tableGroup<%= sn %>" style="background: #F6F7F9;"></table>
+    </div>
+</div>
+
+<%
+}
+%>
+<%
+if (conditionParams.useHuashu) {
+%>
+<div class="rxh_bd2">
+    <%= info.textValue %>
+</div>
+<%
+}
+%>
+
+
+<script>
+    var tableView<%- sn %> = {
+        stepNumber: 2,
+        onViewReady: function () {
+            var sn = '<%- sn %>'
+            let info = JSON.parse('<%- JSON.stringify(info) %>');
+            let queryParams = JSON.parse('<%- JSON.stringify(queryParams) %>');
+            let conditionParams = queryParams.conditionParams;
+            let tabelClassType = queryParams.tabelClassType;
+            tableView<%- sn %>.stepNumber = queryParams.conditionParams.stepNumber;//当前步数
+
+            if (!conditionParams.useChart) return;
+            let str = '';
+            let chartData = info.chartData;
+            let heads = chartData[0];
+
+            let list = chartData[1]
+            str = tableView<%- sn %>.addTableHeadView(str, heads);
+
+
+            if (!tableView<%- sn %>.isPC()) {
+                $('#rxh_t' + sn).css("width", 'calc( 100vw - 1.75rem)');
+            }
+
+
+            if (tabelClassType === 1 && list.length > 5) {
+                let homeList = list.slice(0, 5);
+                let moreList = list.slice(5);
+
+                let homeStr = tableView<%- sn %>.addTableContentView(str, homeList);
+
+                str = homeStr;
+
+                let moreStrView = '<div id="icon-arrow' + sn + '" class="rxh_btnEllipsis" style="margin-top: 10px"><i class="icon-arrow_D"></i></div>';
+                $('#chartGroup' + sn).append(moreStrView);
+
+
+                $('#icon-arrow' + sn).click(function () {
+
+                    if ($('#tableGroup' + sn).find('tr:visible').length > 6) {
+                        $('#tableGroup' + sn).empty();
+                        $('#tableGroup' + sn).append(homeStr);
+
+                        $('#icon-arrow' + sn + ' i').removeClass('icon-arrow_T');
+                        $('#icon-arrow' + sn + ' i').addClass('icon-arrow_D');
+
+                    } else {
+                        let moreStr = tableView<%- sn %>.addTableContentView('', moreList);
+                        $('#tableGroup' + sn).append(moreStr);
+
+
+                        $('#icon-arrow' + sn + ' i').removeClass('icon-arrow_D');
+                        $('#icon-arrow' + sn + ' i').addClass('icon-arrow_T');
+
+                    }
+
+
+                });
+            } else {
+                str = tableView<%- sn %>.addTableContentView(str, list);
+            }
+
+            $('#tableGroup' + sn).append(str);
+        }, addTableContentView: function (str, list) {
+            for (let i = 0; i < list.length; i++) {
+                let item = list[i];
+
+                str += '<tr>';
+                for (let j = 0; j < item.length; j++) {
+                    let value = item[j];
+                    if (typeof(value) == "object" && Object.prototype.toString.call(value).toLowerCase() == "[object object]" && !value.length) {
+                        let xValue = value.xValue;
+                        let rowSpan = value.rowSpan;
+                        let indicatorUrl = value.indicatorUrl;
+                        let type = value.type;
+
+                        if (type === 0) {
+
+                            indicatorUrl += "&navbar=1";
+
+                            if (j === 0) {
+                                str += '<td rowspan="' + rowSpan + '" style="padding: 5px;height: 30px;" onclick="tableView<%- sn %>.onclick(\'' + indicatorUrl + '\',\'' + xValue + '\')">' +
+                                    '<span style="color: #3E85FF;">' + xValue + '</span></td>';
+                            } else {
+                                str += '<td rowspan="' + rowSpan + '" onclick="tableView<%- sn %>.onclick(\'' + indicatorUrl + '\',\'' + xValue + '\')"><span style="color: #3E85FF" >' + xValue + '</span></td>';
+                            }
+
+                        } else {
+                            if (j === 0) {
+                                str += '<td rowspan="' + rowSpan + '" style="padding: 5px;height: 30px;">' +
+                                    '<span style="color: #424242;">' + xValue + '</span>' +
+                                    '</td>';
+                            } else {
+                                str += '<td rowspan="' + rowSpan + '"><span>' + xValue + '</span></td>';
+                            }
+                        }
+                    } else if(value != 'up'){
+                        str += '<td><span>' + value + '</span></td>';
+                    }
+                }
+                str += '</tr>';
+            }
+
+            return str;
+
+        }, addTableHeadView: function (str, heads) {
+            str += '<tr>';
+            for (let i = 0; i < heads.length; i++) {
+                str += '<td style="background-color: #F6F7F9"><span style="color: #9599A1">' + heads[i] + '</span></td>'
+            }
+            str += '</tr>';
+
+            return str;
+        }, isPC: function () {
+            var userAgentInfo = navigator.userAgent;
+            var Agents = ["Android", "iPhone",
+                "SymbianOS", "Windows Phone",
+                "iPad", "iPod"];
+            var flag = true;
+            for (var v = 0; v < Agents.length; v++) {
+                if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            return flag;
+        }, onclick(url, name) {
+            pa.navigationNative({
+                'pageId': 'rh_node',
+                'url': url
+            })
+        }
+    }
+
+    <% if(!params.noSource && !queryParams.d) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, tableView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>
+<style>
+
+
+</style>

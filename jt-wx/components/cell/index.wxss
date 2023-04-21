@@ -1,0 +1,46 @@
+/* components/cell/index.wxss */
+.cell-container .item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.cell-container .line{
+  height: 1px;
+  width: 100%;
+  background-color: #EDEDED;
+}
+.cell-container .item>view{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.cell-container .item>view text{
+  font-size: 16px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(0,0,0,1);
+  display: block;
+}
+.cell-container .item>view image{
+  width: 22px;
+  height: 22px;
+  display: block;
+  margin-right: 15px;
+}
+.cell-container .item>view:nth-of-type(2) image{
+margin-right: 0;
+}
+.cell-container .item view:last-child image{
+  width: 7px;
+  height: 12px;
+  display: block;
+}
+.cell-container .item view:last-child text{
+  font-size:14px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(153,153,153,1);
+  padding-right: 10rpx;
+}

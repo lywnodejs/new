@@ -1,0 +1,29 @@
+{
+    "appenders": {                              
+        "file": {                               
+            "type": "fileSync",                 
+            "filename": "logs/file.log",         
+            "maxLogSize": 10485760,          
+            "numBackups": 5,                   
+            "compress": false,                 
+            "encoding": "utf-8",
+            "layout": {                        
+                "type": "pattern",
+                "pattern": "[%d] [%p] [%c] ｜　%m"
+            }
+        },
+        "dateFile": {                           
+            "type": "dateFile",                
+            "filename": "logs/datefile.log",    
+            "pattern": "yyyy-MM-dd-hh-mm-ss",   
+            "compress": false             
+        },
+        "console": {
+            "type": "console"
+        }
+    },
+    "categories": {                        
+        "file": { "appenders": ["file"], "level": "trace" },
+        "default": { "appenders": ["file", "dateFile", "console"], "level": "trace" }
+    }
+}

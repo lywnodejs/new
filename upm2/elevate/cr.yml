@@ -1,0 +1,5 @@
+reviewers: gaoshimeng,zhangdijasper
+owners: zhangdijasper,wangkangnone
+subscriber: zhangdijasper,wangkangnone
+strategy: default
+force: feature_dev

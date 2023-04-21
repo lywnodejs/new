@@ -1,0 +1,92 @@
+/**app.wxss**/
+@import 'miniprogram_npm/@vant/weapp/common/index.wxss';
+@import "./components/pwd/tiny/passwordKeyboard/passwordKeyboard.wxss";
+page {
+  height: 100%;
+  font-family: PingFang SC, PingFangSC-Medium, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+  Segoe UI, Arial, Roboto, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft Yahei',
+  sans-serif;
+}
+.van-popup__close-icon{
+  top: 26px !important;
+}
+.home-alter>view{
+  width: 600rpx;
+  border-radius: 5px;
+}
+.home-alter text{
+  display: block;
+}
+.home-alter .text{
+  text-align:left;
+  white-space: pre-line;
+}
+.home-alter .text text{
+  color: #337EFE;
+  display: inline;
+}
+.home-alter .information_text{
+  overflow: scroll;
+  max-height: 60vh;
+  padding-right: 4rpx;
+}
+.home-alter .content{
+  text-align: center;
+  padding: 20px 30px;
+  font-size:15px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(51,51,51,1);
+  line-height:21px;
+}
+.home-alter .content .title{
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+  margin-bottom: 15px;
+}
+.home-alter .footer, .home-alter .bottom{
+  height: 55px;
+  line-height: 55px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color:rgba(252,129,0,1);
+  text-align: center;
+  border-top: 1px solid #E6E6E6;
+  display: flex;
+  flex-direction: row;
+}
+.home-alter .footer text{
+  width: 50%;
+  text-align: center;
+}
+.home-alter .footer text:first-child{
+  border-right: 1px solid #E6E6E6;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(154,154,154,1);
+}
+.home-alter .bottom{
+  justify-content: center;
+}
+.home-alter .idcarbottom{
+  height: 55px;
+  line-height: 55px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color:rgba(252,129,0,1);
+  text-align: center;
+  border-top: 1px solid #E6E6E6;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.home-alter .idcarbottom view{
+  width: 50%;
+}
+.home-alter .idcarbottom .disbled{
+  color: #ccc;
+}

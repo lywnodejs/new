@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>同义词分析</title>
+    <meta name="viewport" content="width=device-width">
+    <!-- <meta name="description" content="description here"> -->
+    <link rel="root" href=""/> <!-- for JS -->
+    <!-- Base jQuery-UI styles -->
+    <link rel="stylesheet" href="nlp/styles/jquery-ui-redmond.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="nlp/styles/main.css">
+    <link rel="stylesheet" href="./css/tabList.css">
+    <!-- CSS for embedded visualizations -->
+    <link rel="stylesheet" href="nlp/styles/style-vis.css">
+
+    <!-- head.js, required for embedding -->
+    <script type="text/javascript" src="/scripts/head.load.min.js"></script>
+
+    <style>
+        svg {
+            border: none;
+        }
+
+        .sentnum {
+            display: none;
+        }
+        #rightBottom span{
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #313f3e;
+            background: #d0fffb;
+            margin-right: 10px;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid #45c8bd;
+            font-weight: 400;
+            margin-bottom:10px;
+        }
+        #rightBottom{
+            padding-top: 20px;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+
+
+<body>
+<div class="header">
+    <img src="./image/images/login_02.png" alt="">
+</div>
+<div class="left">
+    <ul>
+        <li onclick="window.location.href='indexbase.html';">
+            <p></p>
+            <img src="./image/images/item01_02.png"/>
+            <span>OCR识别</span>
+            <span>普通版</span>
+        </li>
+        <li onclick="window.location.href='indexnormal.html';">
+            <p></p>
+            <img src="./image/images/item02_02.png"/>
+            <span>OCR识别</span>
+            <span>自定义版</span>
+        </li>
+        <li onclick="window.location.href='indexWrite.html';">
+            <p></p>
+            <img src="./image/images/item03_02.png"/>
+            <span>OCR识别</span>
+            <span>手写版</span>
+        </li>
+        <li onclick="window.location.href='indexbaseMode.html';">
+            <p></p>
+            <img src="./image/images/item04_14.png"/>
+            <span>OCR识别</span>
+            <span>公文识别</span>
+        </li>
+        <li onclick="window.location.href='tablist.html';">
+            <p></p>
+            <img src="./image/images/item05_02.png"/>
+            <span>知识抽取</span>
+        </li>
+        <li onclick="window.location.href='wordAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item-6_02.png"/>
+            <span>词法分析</span>
+        </li>
+        <li onclick="window.location.href='sentenceAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item07_24.png"/>
+            <span>句法分析</span>
+        </li>
+        <li class="line_left">
+            <p></p>
+            <img src="./image/images/item08_02.png"/>
+            <span>同义词 </span>
+        </li>
+    </ul>
+</div>
+
+<div class="right">
+    <div class="rightTop">
+        <textarea class="inp" placeholder="请输入一个词语"></textarea>
+        <button>分析</button>
+    </div>
+    <div id="rightBottom"></div>
+</div>
+</body>
+<script type="text/javascript" src="./js/jquery1.11.3.min.js"></script>
+<script>
+    useClcik();
+
+    function useClcik() {
+        $('.rightTop button').click(function () {
+            activeNum = 0;
+            activeNumArr = []
+            var data = {
+                word: $('.inp').val(),
+            };
+            $.ajax({
+                url: '/information/platform/public/morphology/similarWord',
+                data: data,
+                dataType: 'json',
+                success: function (res) {
+                    $('#rightBottom').html('');
+                    var str='';
+                    if (res && res.data && res.data.length !== 0) {
+                        for (var i = 0; i < res.data.length; i++) {
+                            str += ' <span>'+res.data[i]+'</span>';
+                        }
+                        $('#rightBottom').html(str);
+                    }
+                }
+            })
+        })
+    }
+
+    /**
+     * @description 获取文字下标
+     * @param txt  整段文字
+     * @param val  指定文字
+     * @param type  开始或者结束  0：开始  1：结束
+     */
+    function formatting(txt, val, type, num) {
+        var index = 0;
+        activeNumArr.push(val);
+        if (activeNumArr.indexOf(val) !== -1) {
+            activeNum = txt.indexOf(val, activeNum);
+        }
+        if (type === 0) {
+            index = txt.indexOf(val, activeNum);
+        } else {
+            index = txt.indexOf(val, activeNum) + val.length;
+        }
+        return index;
+    }
+
+
+</script>
+<!-- End Google Analytics -->
+</html>

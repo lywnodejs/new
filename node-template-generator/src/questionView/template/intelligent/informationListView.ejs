@@ -1,0 +1,85 @@
+<% include ../../component/jsLoad %>
+
+<%
+var data = info.data;
+var list = data || [];
+var dataType = dataType;
+var summary = info.summary;
+%>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+
+<% if (commonUtil.stringIsNotEmpty(summary)){ %>
+    <div class="rxh_mT8"><%= summary%></div>
+<%}%>
+<% if(list.length > 0){ %>
+    <div class="rxh_list rxh_list_1n" style="background: white">
+        <ul >
+   <% for(var i = 0; i < list.length; i++) {%>
+        <%let item = list[i];%>
+                <%let pageId = item.pageId;%>
+       <!-- 四周有间距，加样式名：rxh_gap -->
+                <% if (pageId != 0 && commonUtil.stringIsNotEmpty(pageId)){ %>
+                <li onclick="noticeView<%- sn %>.openDetail('<%= item.pageId %>','<%= item.pageUrl %>')">
+                    <p><%=item.title%></p>
+                    <h6 class="rxh_gray rxh_mT4"><%=commonUtil.changeTimeForMinNoHours(item.date)%></h6>
+                </li>
+                <%}%>
+   <%}%>
+        </ul>
+    </div>
+
+
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+
+<script>
+    var noticeView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+        openDetail: function (id, url) {
+            try {
+                this.naviToDetail(id);
+            } catch (e) {
+                console.log(e.toString());
+                // window.open(url,"_bank");
+                pa.navigationNative({
+                    'pageId':'rh_node',
+                    'url':url,
+                    'title':'详情页',
+                    'isLoadData':'1',//此参数针对监管关注wander数据在iOS13的解析问题处理
+                })
+            }
+        },
+        naviToDetail:function (caseId) {
+            console.log(caseId);
+            if (caseId.length == 0){
+                return;
+            }
+            var host = JSON.parse('<%- JSON.stringify(info.host) %>');
+            var pageUrl = host + '/api/template/commonDetail';
+            pageUrl = pageUrl + '?' + 'caseNumber=' + caseId;
+            pa.navigationNative({
+                'pageId':'rh_node',
+                'url':pageUrl,
+                'title':'详情页'
+            })
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, noticeView<%- sn %>.onViewReady)
+    <% } %>
+</script>

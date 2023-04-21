@@ -1,0 +1,363 @@
+/* pages/my/index/index.wxss */
+.my {
+  background-color: #FFFFFF;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.loading{
+  width: 100%;
+  height: 100rpx;
+  position: absolute;
+  top: -80rpx;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #EEA900;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 48px;
+  color: white;
+  background-color: #EEA900;
+  font-size: 17px;
+  font-family: PingFangSC-Medium;
+}
+
+.nav.left {
+  justify-content: flex-start;
+  padding-left: 30px;
+}
+
+.my .top {
+  width: 100%;
+  background-color: #EEA900;
+}
+
+/* .my .top>image {
+  width: 100%;
+  position: absolute;
+  height: 450rpx;
+  top: -2px;
+  left: 0;
+} */
+
+.my .top .info {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 60rpx;
+}
+
+.my .myInfo {
+  position: relative;
+  box-sizing: border-box;
+  padding:0 30rpx 0;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.myInfo .topName {
+  display: flex;
+  justify-content: space-between;
+}
+
+.myInfo .topName .left image {
+  margin-left: 20rpx;
+  width: 32rpx;
+  height: 32rpx;
+}
+.myInfo .topName .right image{
+  width: 24rpx;
+  height: 24rpx;
+  margin-left: 10rpx;
+}
+
+.myInfo .topName .left {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 44rpx;
+}
+
+
+.topName .right {
+  display: flex;
+  align-items: center;
+  font-size: 24rpx;
+  color: #F8DC99;
+  font-weight: 400;
+  line-height: 34rpx;
+}
+.topName .right text{
+  margin-right: 10rpx;
+}
+.myInfo .num{
+  margin-top: 40rpx;
+  font-size: 24rpx;
+  color: #F8DC99;
+  line-height: 34rpx;
+  font-weight: 400;
+  position: relative;
+}
+.myInfo .num .num_line{
+  position: absolute;
+  bottom: -30rpx;
+  left: 0;
+  width: 56rpx;
+  height: 4rpx;
+  background-color: rgba(248, 220, 153, 1);
+}
+.myInfo .num view{
+  margin-top: 10rpx;
+  font-size: 48rpx;
+  color: #ffffff;
+  line-height: 52rpx;
+  font-weight: bold;
+}
+.myInfo .contentN{
+  text-align: center;
+  position: relative;
+  margin-top: 30rpx;
+  display: flex;
+  justify-content: space-around;
+  font-size: 24rpx;
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 34rpx;
+  border-top: 1px solid rgba(248, 220, 153, 0.5);
+  padding-top: 30rpx;
+}
+.top>.my_bg{
+  position: absolute;
+  width: 100vw;
+  height: 100rpx;
+  left: 0;
+  margin-top: -10rpx;
+}
+.myInfo .contentN .tagitem{
+  width: 33.3%;
+}
+.myInfo .contentN .tagitem view{
+  margin-top: 10rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  line-height: 34rpx;
+  color: #ffffff;
+}
+.myInfo .contentN .tagitem text{
+  color: #F8DC99;
+  font-size: 24rpx;
+  line-height: 34rpx;
+}
+.myInfo .bottom {
+  margin-top: 84rpx;
+}
+.myInfo .bottom .left{
+  margin-left: 20rpx;
+  font-size: 28rpx !important;
+  line-height: 40rpx !important;
+  font-weight: 400;
+  color: #ffffff;
+}
+.myInfo .bottom .right{
+  font-size: 32rpx;
+  line-height: 34rpx;
+  color: #333333;
+  padding-right: 20rpx;
+}
+
+.my .top .avatar-view {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.my .top .phone-view {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 15px;
+}
+
+.my .top .avatar {
+  width: 60px;
+  height: 60px;
+  display: block;
+  border: 2px solid white;
+  border-radius: 60px;
+  box-sizing: border-box;
+}
+
+.my .top .phone {
+  font-size: 18px;
+  font-family: PingFangSC-Medium;
+  color: #FFFFFF;
+}
+
+.my .top .verified {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4rpx 20rpx;
+  background-color: #FBEDCC;
+  font-size: 12px;
+  color: #EEA900;
+  border-radius: 10px;
+  margin-top: 3px;
+}
+
+.my .top .verified image {
+  width: 4px;
+  height: 5px;
+  display: block;
+  margin-left: 2px;
+}
+
+.my .top .button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 11px;
+  color: #404254;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  border-radius: 15px;
+}
+
+.my .top .button image {
+  width: 4px;
+  height: 6px;
+  display: block;
+  margin-left: 4px;
+}
+
+.my .content {
+  padding: 0 15px 15px;
+  margin-top: 50rpx;
+}
+
+.my .content>view {
+  background-color: white;
+  padding: 0 15px;
+  border-radius: 5px;
+}
+
+.my .item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+
+.my .line {
+  height: 1px;
+  width: 100%;
+  background-color: #EDEDED;
+}
+
+.my .item>view {
+  display: flex;
+  flex-direction: row;
+}
+
+.my .item>view text {
+  font-size: 16px;
+  margin-left: 15px;
+}
+
+.my .item>view image {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.my .item>image {
+  width: 7px;
+  height: 12px;
+  display: block;
+}
+
+
+.my .slogan {
+  display: block;
+  width: 191px;
+  height: 18px;
+  margin-bottom: 25px;
+}
+
+.my .slogan-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 43px;
+}
+
+
+
+.my-alter>view{
+  width: 600rpx;
+  border-radius: 5px;
+}
+.my-alter text{
+  display: block;
+}
+.my-alter .content{
+  text-align: center;
+  padding: 20px 30px;
+  font-size:15px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(51,51,51,1);
+  line-height:21px;
+}
+.my-alter .content .title{
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+  margin-bottom: 15px;
+}
+.my-alter .footer, .my-alter .bottom{
+  height: 55px;
+  line-height: 55px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color:rgba(252,129,0,1);
+  text-align: center;
+  border-top: 1px solid #E6E6E6;
+  display: flex;
+  flex-direction: row;
+}
+.my-alter .footer text{
+  width: 50%;
+  text-align: center;
+}
+.my-alter .footer text:first-child{
+  border-right: 1px solid #E6E6E6;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(154,154,154,1);
+}
+
+.my-alter .bottom{
+  justify-content: center;
+}

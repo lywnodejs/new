@@ -1,0 +1,19 @@
+{
+  "name": "webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "i": "npm install --registry=http://npm.intra.xiaojukeji.com",
+    "start": "pm2 start pm2.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.4.1",
+    "koa-better-router": "^2.1.1"
+  },
+  "devDependencies": {
+    "pm2": "^2.9.1"
+  }
+}

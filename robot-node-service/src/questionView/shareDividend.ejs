@@ -1,0 +1,18 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%=sn%>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+<script>
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>');
+} catch (error) {
+    
+}
+</script>
+
+
+
+

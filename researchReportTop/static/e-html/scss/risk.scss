@@ -1,0 +1,183 @@
+/*
+ * @Date: 2018-12-28 16:54:52
+ * @Author: 刘亚伟
+ * @LastEditTime: 2019-01-10 12:08:08
+ */
+@function n($a) {
+    @return $a/67.5+rem;
+}
+
+@mixin fontNum {
+    font-family: 'Conv_DINAlternateBold';
+}
+@mixin borderRadius($num) {
+    border-radius: $num;
+    -webkit-border-radius: $num;
+    -moz-border-radius: $num;
+    -ms-border-radius: $num;
+    -o-border-radius: $num;
+}
+.top_nav{
+    width: 100%;
+    height: auto;
+    background: #277ad8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+.top{
+    width: 100%;
+    height: n(132);
+    background: #277ad8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    color: #fff;
+    font-size: n(48);
+    &>i{
+        position: absolute;
+        top: n(32);
+        left: n(30);
+        font-size: n(65);
+        z-index: 10;
+    }
+    span{
+        &:nth-of-type(1){
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            line-height: n(132); 
+        }
+        &:nth-of-type(2){
+            display: block;
+            width: n(50);
+            height: n(50);
+            border: n(4) solid #fff;
+            position: absolute;
+            top: n(40);
+            right: n(30);
+            box-sizing: border-box;
+            text-align: center;
+            line-height: n(32);
+            @include borderRadius(50%);
+            i{
+                font-size: n(30);
+            }
+}
+    }
+}
+
+table{
+    width: 100%;
+    height: auto;
+    margin-top: n(132);
+    border-collapse: collapse;
+    thead{
+        width: 100%;
+        background: #f8fbff;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: n(36);
+        color: #a1a2a8;
+        text-align: center;
+        tr{
+            height: n(90);
+            td{
+                i{
+                    font-size: n(36);
+                }
+            }
+        }
+    }
+    tbody{
+        width: 100%;
+        font-size: n(48);
+        color: #333333;
+        text-align: center;
+        tr{
+            width: 100%;
+            height: n(186);
+            position: relative;
+            border-bottom: 1px solid #e5e5e5;
+            td{
+                position: relative;
+                @include fontNum;
+            }
+            td>p{
+                width: auto;
+                position: absolute;
+                top: n(34);
+                left: n(48);
+            }
+            td>span{
+                position: absolute;
+                top: n(100);
+                left: n(48);
+                font-size: n(36);
+                color: #a1a2a8;
+                font-family: 'Courier New', Courier, monospace;
+                @include fontNum;
+            }
+        }
+    }
+}
+
+.alert{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.281);
+    display: none;
+    .alert1{
+        width: n(845);
+        height: auto;
+        background: #ffffff;
+        padding-bottom: n(90);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -ms-transform: translate(-50%,-50%);
+        -o-transform: translate(-50%,-50%);
+        @include borderRadius(n(20));
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: auto;
+        }
+        p{
+            width: 85%;
+            margin: 0 auto;
+            font-size: n(40);
+            color: #333333;
+            line-height: n(70);
+            &:nth-of-type(1){
+                margin-top: n(20);
+            }
+            span{
+                font-weight: bold;
+            }
+        }
+        button{
+            width: n(600);
+            height: n(122);
+            background: #4d97ec;
+            @include borderRadius(n(10));
+            outline: none;
+            border: none;
+            margin-left: n(114);
+            color: #f8fdff;
+            font-size: n(40);
+            margin-top: n(40);
+        }
+    }
+}

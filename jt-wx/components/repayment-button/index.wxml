@@ -1,0 +1,6 @@
+<!--components/repayment-button/index.wxml-->
+<text
+        catchtap="onClick"
+  class="{{isHighlighted ? 'repayment-button highlighted' : 'repayment-button'}}">
+  <slot/>
+</text>

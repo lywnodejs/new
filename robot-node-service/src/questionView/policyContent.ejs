@@ -1,0 +1,181 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<div class="bd" id="answer<%= randomn %>">
+<div class="mb" id="<%= randomn %>">
+
+    <div class="box_hotPolTop2">
+        <ul>
+            <% for(var i in info.data.data){
+                var item = ['学习之旅', '最高党政机关', '各部委', '地方党政机关', '其他']; %>
+            <% for(var l = 0;l < info.data.data[i][item[i]].list.length;l++){
+                function date_info(val) {
+                    var now = new Date(val);
+                    var year = now.getFullYear(); //年
+                    var month = now.getMonth() + 1; //月
+                    var day = now.getDate(); //日
+                    var hh = now.getHours(); //时
+                    var mm = now.getMinutes(); //分
+                    var clock = year + "-";
+                    if (month < 10)
+                        clock += "0";
+                    clock += month + "-";
+                    if (day < 10)
+                        clock += "0";
+                    clock += day;
+                    return (clock);
+                }
+                var huiyi = info.data.data[i][item[i]].list[l].contentType.split('|')[0] + ' · '
+                var shijian = date_info(info.data.data[i][item[i]].list[l].publishAt)
+                if (info.data.data[i][item[i]].list[l].persons) {
+                    var persons = " · " + info.data.data[i][item[i]].list[l].persons[0]
+                } else {
+                    var persons = ''
+                }
+                if (info.data.data[i][item[i]].list[l].organization) {
+                    var organization = " · " + info.data.data[i][item[i]].list[l].organization
+                } else {
+                    var organization = ''
+                }
+                if (info.data.data[i][item[i]].list[l].themes && info.data.data[i][item[i]].list[l].themes.length !== 0) {
+                    var themes = '#' + info.data.data[i][item[i]].list[l].themes[0];
+                } else {
+                    var themes = '';
+                }
+            %>
+            <li onclick="openPolicyDetail('<%= info.data.data[i][item[i]].list[l].id %>','<%= boolean %>')">
+                <div class="box_bgGray">
+                    <h5 class="show_row3" data_id="<%= info.data.data[i][item[i]].list[l].id %>">
+                        <%- info.data.data[i][item[i]].list[l].content %>
+                    </h5>
+                    <a class="a_more">展开<i class="icon-arrowD"></i></a>
+                </div>
+                <% if(info.data.data[i][item[i]].list[l].title){ %>
+                <h6 class="t_gray"
+                    style="text-overflow: ellipsis;overflow: hidden;white-space: nowrap;"><%- info.data.data[i][item[i]].list[l].title %></h6>
+                <% } %>
+                <h6 class="t_gray"><%= shijian %> <%= themes %></h6>
+            </li>
+            <% } %>
+            <% } %>
+        </ul>
+    </div>
+
+
+    <!--点评-->
+    <% if(req.query.appKey != 'guoxin'){ %>
+        <div class="box_appraisal">
+            <% if(req.query.appKey == 'appZxcxHide'){ %>
+                <a class="a_search">
+                    <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                    <span>精准查找政策</span>
+                    <i class="icon-arrow2_R_small"></i>
+                </a>
+            <% } %>
+            <a><i id="up<%= randomn %>" class="icon-good"></i></a>
+            <a><i id="down<%= randomn %>" class="icon-bad"></i></a>
+        </div>
+    <% } %>
+</div>
+</div>
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+</style>
+<script>
+
+  var policyContent = {
+    onViewReady: function () {
+      try {
+        thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          // console.log('app外');
+        }
+      })
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%= info.speechAnswerContent || '' %>';
+      var info_app = '<%= info.answerResultType || '' %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          // console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        // console.log(speechAnwser, 1, info_app);
+      }
+
+      $(".box_hotPolTop2 .box_bgGray .a_more").click(function (e) {
+        e = window.event || e;
+        if (e.stopPropagation) {
+          e.stopPropagation()
+        } else {
+          e.cancelBubble = true;
+        }
+        if ($(this).find("i").hasClass("icon-arrowT")) {
+          $(this).html('展开<i class="icon-arrowD"></i>');
+          $(this).siblings("h5").addClass("show_row3");
+        } else {
+          $(this).html('收起<i class="icon-arrowT"></i>');
+          $(this).siblings("h5").removeClass();
+        }
+      });
+
+      //点赞或踩
+      function feedback(num) {
+        var id = '<%= info.spanId %>';
+        var data_ = {
+          spanId: id,
+          commentFeedback: num
+        }
+        $.ajax({
+          url: '<%= host %>' + '/api/feedback?',
+          type: 'get',
+          dataType: 'json',
+          data: data_,
+          success: function (data) {
+            if (data.message.code == 0) {
+              try {
+                if (num == 1) {
+                  thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+                } else {
+                  thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+        })
+      }
+
+      var num = '<%= randomn %>';
+      $('#'+num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#'+num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, policyContent.onViewReady)
+
+</script>
+
+<% include ./component/reportDetail %>

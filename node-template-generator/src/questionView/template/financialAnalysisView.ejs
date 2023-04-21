@@ -1,0 +1,310 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<!--财务全景-->
+<!--<div class="rxh_main">-->
+<!--<div class="rxh_md">-->
+<!--<div class="rxh_bd">-->
+<!--<div class="rxh_hd2">财务全景</div>-->
+<%
+    let chartId = commonUtil.generateRandomClassName('chart');
+    let indexes = info.indexes;
+    let descriptions = info.data.description || '';
+
+    // 提取周期
+    let scores = info.data.scores || [];
+    let period = [];
+    for(var i=0; i<scores.length; i++)
+    {
+        period.push(commonUtil.getQuarterLabel(scores[i].endDate, 'zh', true));
+    }
+
+    // 顶部两排要展示的指标
+    let topIndex = [
+          {name: '市盈率(TTM)', fieldName: 'pe', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '股息率', fieldName: 'dividendRate', value: '', unit: '%', dividedBy: 1, precision: 2},
+          // {name: '净资产收益率', fieldName: 'waaRoe', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '每股净资产', fieldName: 'sFaBps', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '总市值(亿)', fieldName: 'marValue', value: '', unit: '', dividedBy: 1e8, precision: 2},
+          {name: '52周最高价', fieldName: 'adjHighFtWeek', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '市净率', fieldName: 'pb', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '每股收益', fieldName: 'epsBasic', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '每股现金流', fieldName: 'sFaOcfps', value: '', unit: '', dividedBy: 1, precision: 2},
+          {name: '流通市值(亿)', fieldName:'floatMarValue', value: '', unit: '', dividedBy: 1e4, precision: 2},
+          {name: '52周最低价', fieldName:'adjLowFtWeek', value: '', unit: '', dividedBy: 1, precision: 2}
+        ]
+
+    for (let m=0; m<topIndex.length; m++) {
+        let value = info.data[topIndex[m].fieldName]
+        if (value && !isNaN(value)) {
+          value = (value/topIndex[m].dividedBy).toFixed(topIndex[m].precision) + topIndex[m].unit
+        }
+        else if (value === 0) {
+          value = '0.00'
+        }
+        else {
+          value = '--'
+        }
+
+        if (value === '-0.00') {
+          value = '0.00'
+        }
+
+        topIndex[m].value = value
+    }
+    // console.log(info.data)
+    // console.log(topIndex)
+%>
+
+<ul class="rxh_col2a">
+    <%
+    for(let i = 0; i < topIndex.length; i++){
+        let item = topIndex[i];
+    %>
+
+    <% if(i%5===0) { %>
+    <li>
+    <% } %>
+
+        <dl>
+            <dt><%=item.name%></dt>
+            <dd><%=item.value%></dd>
+        </dl>
+
+    <% if((i+1)%5===0) { %>
+    </li>
+    <% } %>
+
+    <% } %>
+</ul>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <div class="rxh_col2">
+        <div class="rxh_colL">
+            <h3><%=(info.data.totalScore||'--')%><span>综合评分</span></h3>
+            <h6>打败了<%=(commonUtil.formatNumber(info.data.beatStocksPercent*100))%>%的股票 </h6>
+            <ul class="rxh_tBox">
+                <li><span>行业排名：</span><em><%=(info.data.induRank||'--')%><b>/<%=(info.data.induSecNum||'--')%></b></em></li>
+                <li><span>市场排名：</span><em><%=(info.data.allStockRank||'--')%><b>/<%=(info.data.allStockNum||'--')%></b></em></li>
+            </ul>
+        </div>
+        <div class="rxh_colR">
+            <!-- 图表 -->
+            <div class="rxh_chartBox">
+                <ul class="rxh_legend">
+<!--                    &lt;!&ndash;-->
+<!--                        1. 方形，b标签无样式名-->
+<!--                        2. 圆形，b标签加样式名：rxh_circle-->
+<!--                        3. 蓝色，b标签加样式名：rxh_cBlue-->
+<!--                        3. 浅蓝色，b标签加样式名：rxh_cBlueLight-->
+<!--                        3. 红色，b标签加样式名：rxh_cRed-->
+<!--                        3. 浅红色，b标签加样式名：rxh_cRedLight-->
+<!--                        3. 黄色，b标签加样式名：rxh_cYellow-->
+<!--                        3. 浅黄色，b标签加样式名：rxh_cYellowLight-->
+<!--                    &ndash;&gt;-->
+                    <li><b class="rxh_circle rxh_cBlueLight"></b><span><%=period[0]%></span></li>
+                    <li><b class="rxh_circle rxh_cYellowLight"></b><span><%-(period[1] || '')%></span></li>
+                </ul>
+                <!--雷达图容器-->
+                <div id="<%= chartId %>" class="rxh_chart" style="width: 100%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--tabs-->
+    <div class="rxh_tab rxh_line_halfT">
+        <%
+        for(let i = 0; i < indexes.length-1; i++){
+            let item = indexes[i];
+        %>
+        <a class="<%-i==0?'rxh_on':''%>" onclick="showTabContent(event,'<%=item.type+sn%>')"><%- item.name %></a>
+        <% } %>
+    </div>
+
+    <div>
+        <%
+        for(let i = 0; i < indexes.length-1; i++){
+            let item = indexes[i];
+        %>
+            <div id="<%= item.type+sn %>" style="display: <%-i===0?'':'none'%>;">
+                <div class="rxh_content">
+                    <div class="rxh_item">
+                        <%- descriptions[i] %>
+                    </div>
+                </div>
+                <%
+                    // 第5个为现金流，特殊处理，循环3次
+                for(let j = 0; j < (i==4?3:item.index.length); j++){
+                %>
+                    <div class="rxh_chartBox noData">
+                        <div id="<%= item.type %>_chart<%= j %>_<%= sn %>" style="min-height: 250px"></div>
+                    </div>
+                    <div id="<%= item.type %>_desc<%= j %>_<%= sn %>" class="rxh_bd2 noData"></div>
+
+                    <div id="<%= item.type %>_tips<%= j %>_<%= sn %>" class="rxh_bgBox" style="display: none">
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+        </div>
+</div>
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<% include ../component/footer %>
+
+<script>
+    var financialAnalysisView = {
+      onViewReady: function () {
+        <% if(!params.noSource) { %>
+            $('.noData').show()
+        <% } %>
+        initFinancialView();
+      }
+    }
+
+    <% if(!params.noSource) {%>
+        var financialJsArr = JSON.parse('<%- JSON.stringify(params.jsArray)%>');
+        loadJs(financialJsArr, financialAnalysisView.onViewReady)
+    <%}else{%>
+        // $('.noData').hide()
+    <%}%>
+
+    // 初始化视图
+    function initFinancialView() {
+        var financialResult = JSON.parse('<%- JSON.stringify(info) %>');
+        // console.log(financialResult)
+        var financialRandomNum = '<%=sn%>';
+
+        var scores = financialResult.data.scores || [];
+        // 蜘蛛图
+        var polygonChart = new PolygonChart(0);
+        polygonChart.fieldCategories = financialResult.fieldCategories;
+        polygonChart.xCategories = financialResult.xCategories;
+        polygonChart.initialize('<%=chartId%>', scores.reverse());
+
+        var indexes = financialResult.indexes;
+        var indexData = financialResult.indexData;
+        var chart;
+        var chartId;
+        var categories = [];
+        for (var i=0; i<indexes.length; i++) {
+            // 当前指标类型
+            var itemType = indexes[i].type;
+            var itemIndex = indexes[i].index;
+            // 当前指标总数据
+            var itemData = indexData[i].data;
+            // 指标数据列表
+            var statInfos = itemData.statInfos.reverse();
+
+            // 横轴时间
+            categories = getCategories(statInfos);
+            // console.log(categories)
+
+            // 话述
+            var descId;
+            itemData.description.forEach(function (item, index) {
+                // console.log(index,item)
+                // 第一段话术，第六个因同样是现金流（周期不同）需要屏蔽
+                if (i < 5) {
+                    descId = itemType + '_desc0_' + financialRandomNum;
+                    $('#' + descId).append(item)
+                }
+            })
+            itemData.descriptionTwo.forEach(function (item, index) {
+                // console.log(index,item)
+                // 第一个现金流的话术跳过
+                if (i === 4)
+                    return;
+                descId = itemType + '_desc1_' + financialRandomNum;
+                $('#'+descId).append(item)
+
+                if (i === 5) {
+                  var tips1Id = itemType + '_tips1_' + financialRandomNum;
+                  $('#'+tips1Id).append('<h5>现金再投资比率：指将留存于单位的业务活动现金流量与再投资资产之比。</h5>')
+                  $('#'+tips1Id).show()
+                }
+            })
+            itemData.descriptionThree.forEach(function (item, index) {
+                // console.log(index,item)
+                // 第一个现金流的话术跳过
+                if (i === 4)
+                    return;
+                descId = itemType + '_desc2_' + financialRandomNum;
+                $('#'+descId).append(item)
+
+              if (i === 5) {
+                var tips2Id = itemType + '_tips2_' + financialRandomNum;
+                $('#'+tips2Id).append('<h5>允当比率：现金流量允当比率是存货占总资产的百分比。它反映了近 5 年营收资金满足公司成长的自给自足率。</h5>')
+                $('#'+tips2Id).show()
+              }
+            })
+            for (var j=0; j<itemIndex.length; j++) {
+                chart = new BaseChart();
+                if (i === 5)
+                    chartId = itemType + '_chart' + (j+1) + '_' + financialRandomNum;
+                else
+                    chartId = itemType + '_chart' + j + '_' + financialRandomNum;
+                //console.log(chartId)
+                var series = [];
+                var unit = '';
+                for (var p in itemIndex[j]) {
+                    var field = itemIndex[j][p];
+                    var singleSeries = getSingleSeriesOption();
+                    var option = toolsUtil.getOptionByIndex(field);
+                    singleSeries.name = option.name;
+                    singleSeries.data = getDataByIndex(statInfos, field, option.dividedBy);
+                    singleSeries.tooltip.valueSuffix = unit = option.unit;
+                    series.push(singleSeries);
+                }
+
+                chart.categories = categories;
+                chart.containerId = chartId;
+                chart.series = series;
+                chart.height = 250;
+                chart.unit = unit;
+                chart.initialize();
+            }
+        }
+    }
+
+    // 横轴日期
+    function getCategories(list) {
+        var temp = [];
+        for (var i=0; i<list.length; i++) {
+            temp.push(getQuarterLabel(list[i].quarterYear, 'en'))
+        }
+        return temp;
+    }
+
+    // 指标数据
+    function getDataByIndex(list, indexField, dividedBy) {
+        var temp = [];
+        for (var i=0; i<list.length; i++) {
+            var value = list[i][indexField] || null;
+            if (value && dividedBy>1)
+                value = value/dividedBy;
+            temp.push(value)
+        }
+        return temp;
+    }
+
+    // 单个series项
+    function getSingleSeriesOption() {
+        return {
+            name: '',
+            // unit: '',
+            tooltip: {
+                valueSuffix: ''
+            },
+            data: []
+        }
+    }
+
+    // tab 切换
+    function showTabContent(event,contentId) {
+        $(event.currentTarget).removeClass().addClass('rxh_on');
+        $(event.currentTarget).siblings().removeClass()
+        $('#'+contentId).show().siblings().hide();
+    }
+</script>

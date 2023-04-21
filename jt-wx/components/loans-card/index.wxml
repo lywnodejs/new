@@ -1,0 +1,7 @@
+<!--components/loans-card/index.wxml-->
+<view class="loans-card" wx:for="{{loans}}" wx:key="{{index}}">
+  <view class="title">{{item.productName}}</view>
+  <view class="num">{{item.availableLendAmount}}</view>
+  <view class="info">{{item.title}}</view>
+  <button class="{{item.button.enable? '': 'disabled'}}" bindtap="onClick" data-item="{{item}}">{{item.button.text}}</button>
+</view>

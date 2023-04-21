@@ -1,0 +1,67 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--相似K线-->
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+
+  var similarKStock = {
+    onViewReady: function () {
+      var stockList = JSON.parse('<%- JSON.stringify(stockList) %>');
+      var tempArr = JSON.parse('<%- JSON.stringify(tempArr) %>');
+
+      tempArr.forEach(function (chartId) {
+        $('#' + chartId).html(smallKLine.getTarget(chartId))
+      })
+
+      smallKLine.HttpUrl = '<%= quotaUrl %>';
+
+      stockList.forEach(function (item, index) {
+        smallKLine.init(tempArr[index], item.marketType + item.stockCode, item.stockName, item.startAt, item.endAt + 24 * 60 * 60 * 1000);
+      });
+
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/libs/7.0/highstock',
+    '/static/js/libs/7.0/highcharts-more',
+    '/static/js/utils/timeUtil',
+    '/static/js/charts/KLineSmall',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, similarKStock.onViewReady)
+
+
+  /**
+   * 智能回答
+   * @param sendTxt 发送给后端的问题
+   * @param showTxt 显示的问题
+   * @param voiceQuestion 是否为语音问题
+   * @param questionId 个性化首页推荐需要参数  问句的id
+   * @param userQuestionId  个性化首页推荐需要参数  用户问句关系的id
+   * @param source  来源（便于百度统计）
+   */
+  function nodeQuestion(sendTxt, showTxt, voiceQuestion, isPopup, questionId, userQuestionId, source) {
+  }
+</script>
+
+
+
+
+

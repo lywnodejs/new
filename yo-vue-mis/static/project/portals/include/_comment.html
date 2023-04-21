@@ -1,0 +1,68 @@
+<div class="info-con p-col-dis p-comment" ng-cloak ng-show="ctrl.commentList && ctrl.commentList.length">
+    <span class="info-title">评论</span>
+    <div class="wrap-textarea">
+        <textarea name="" class="p-comment-input" ng-model="ctrl.commentText" id="js-comment-el" ng-keyup="ctrl.textareaKeyup($event)" data-input-length ignore="true" placeholder="请输入评论" show-text="#show-comment-text" inputlength="200"></textarea>
+    </div>
+    <div class="operate">
+        <div class="l">
+            <span id="show-comment-text" class="show-text"></span>
+        </div>
+        <div class="r">
+            <button class="p-btn p-btn-sm" ng-click="ctrl.addComment($event)" ng-class="{
+                disabled:!ctrl.commentText || ctrl.commentText.trim().length>200
+            }">发布<dot ng-show="ctrl.isCommentSubmiting" ng-cloak></dot></button>
+        </div>
+    </div>
+    <div class="comments-list" ng-cloak ng-show="ctrl.commentList.length">
+        <ul>
+            <li class="comments-item" ng-repeat="com in ctrl.commentList" ng-class="{op0:ctrl.currentCommentId==com.parent.commentId}" data-qid="{{com.parent.commentId}}">
+                <div class="wrap-avatar">
+                    <a href="http://home.didichuxing.com/person.html#/{{com.parent.user}}/1" target="_blank">
+                        <img err-src="http://static.galileo.xiaojukeji.com/static/tms/api/public/other/8355c3caf02679026151c10588307c5a.png"
+                        ng-src="http://home.didichuxing.com/DidiFile/Avatar/{{com.parent.user}}.jpg">
+                    </a>
+                </div>
+                <div class="comment-item-sub">
+                    <div class="comment-content pl0">
+                        <a href="http://home.didichuxing.com/person.html#/{{com.parent.user}}/1" target="_blank" class="username">{{com.parent.userName}}</a>
+                        : <span>{{com.parent.content}}</span>
+                        <div class="comments-op">
+                            <span class="comment-time">{{com.parent.time}}</span>
+                            <a href="javascript:" data-type="1" ng-click="ctrl.replyComment(com.parent , com.parent.commentId)">回复</a>
+                            <a href="javascript:"
+                            data-type="0"
+                            ng-if="ctrl.user.name===com.parent.user"
+                            ng-click="ctrl.setcacheDeleteCommentData(com.parent)"
+                            uib-popover-template="ctrl.commentPopoverTmplUrl">删除</a>
+                        </div>
+                        <ol>
+                            <li class="comments-item" ng-repeat="comItem in com.child" data-qid="{{comItem.commentId}}" ng-class="{op0:ctrl.currentCommentId==comItem.commentId}">
+                                <div class="wrap-avatar">
+                                    <a href="http://home.didichuxing.com/person.html#/{{comItem.user}}/1" target="_blank">
+                                        <img err-src="http://static.galileo.xiaojukeji.com/static/tms/api/public/other/8355c3caf02679026151c10588307c5a.png"
+                                        ng-src="http://home.didichuxing.com/DidiFile/Avatar/{{comItem.user}}.jpg">
+                                    </a>
+                                </div>
+                                <div class="comment-content">
+                                    <a href="http://home.didichuxing.com/person.html#/{{comItem.user}}/1" target="_blank" class="username">{{comItem.userName}}</a>
+                                    <span>回复    <a href="http://home.didichuxing.com/person.html#/{{comItem.reply}}/1" target="_blank" class="username">{{comItem.replyName}}</a></span>
+                                    : <span>{{comItem.content}}</span>
+                                    <div class="comments-op">
+                                        <span class="comment-time">{{comItem.time}}</span>
+                                        <a href="javascript:" data-type="1" ng-click="ctrl.replyComment(comItem,com.parent.commentId)">回复</a>
+                                        <a href="javascript:"
+                                        data-type="0"
+                                        ng-if="ctrl.user.name === comItem.user"
+                                        popover-trigger="'outsideClick'"
+                                        ng-click="ctrl.setcacheDeleteCommentData(comItem,com.parent.commentId)"
+                                        uib-popover-template="ctrl.commentPopoverTmplUrl" >删除</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

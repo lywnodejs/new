@@ -1,0 +1,78 @@
+/* components/apply/cate-group/index.wxss */
+.cate-title {
+  height: 24px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 24px;
+  margin: 20px 0 10px 0;
+}
+
+.card {
+  background-color: white;
+  border-radius: 4px;
+  padding: 0 15px;
+}
+
+
+.info-item {
+  height: 58px;
+  display: flex;
+  align-items: center;
+}
+
+.info-item .spacer {
+  display: inline;
+  flex: 1;
+}
+
+/* .info-item view {
+  display: inline;
+} */
+
+.info-item .left-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 14px;
+}
+
+.info-item .info-title {
+  display: inline;
+  font-size: 15px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 21px;
+}
+
+.info-item .completed {
+  display: inline;
+  font-size: 13px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #999999;
+  line-height: 18px;
+}
+
+.info-item .need-add {
+  display: inline;
+  font-size: 13px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #0D81FC;
+  line-height: 18px;
+}
+
+
+.info-item .right-icon {
+  width: 6px;
+  height: 10px;
+  margin-left: 9px;
+}
+
+.divider {
+  height: 0.5px;
+  margin-left: 36px;
+  background-color: #EDEDED;
+}

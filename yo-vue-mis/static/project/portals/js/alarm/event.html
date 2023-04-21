@@ -1,0 +1,165 @@
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">事件编号：</label>
+        <div class="wrap-input form-flex-item">
+            {{event_no}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">事件状态：</label>
+        <div class="wrap-input form-flex-item">
+            {{status_name}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">事件名称：</label>
+        <div class="wrap-input form-flex-item">
+            {{name}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">事件类型：</label>
+        <div class="wrap-input form-flex-item">
+            {{type_name}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">严重程度：</label>
+        <div class="wrap-input form-flex-item">
+            {{level_name}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">发现方式：</label>
+        <div class="wrap-input form-flex-item">
+            {{source_name}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">发现系统：</label>
+        <div class="wrap-input form-flex-item">
+            {{system}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">发生时间：</label>
+        <div class="wrap-input form-flex-item">
+            {{occured_time}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">确认时间：</label>
+        <div class="wrap-input form-flex-item">
+            {{confirm_time}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">修复时间：</label>
+        <div class="wrap-input form-flex-item">
+            {{repair_time}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">涉及人员：</label>
+        <div class="wrap-input form-flex-item">
+            {{empsStaff}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">权限标签：</label>
+        <div class="wrap-input form-flex-item">
+            {{authLabelIds}}
+        </div>
+    </div>
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">RCCD处罚结果：</label>
+        <div class="wrap-input form-flex-item">
+            {{rccdIds}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">涉及部门：</label>
+        <div class="wrap-input form-flex-item">
+            {{empsDept}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">调查结果：</label>
+        <div class="wrap-input form-flex-item">
+            {{survey_result}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">处罚结果：</label>
+        <div class="wrap-input form-flex-item">
+            {{punish_result}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">备注：</label>
+        <div class="wrap-input form-flex-item">
+            {{remark}}
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">关联告警：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="wrap-table">
+                <table class="p-table table-bordered table-header-bg table-hover" ng-cloak>
+                    <thead>
+                        <tr>
+                            <th ng-repeat="key in tableHeaderFields">
+                                {{key}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!datas || !datas.length">
+                            <td colspan="20">
+                                <h5>没有相关数据</h5>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="data in datas" ng-cloak>
+                            <td ng-repeat="field in tableFields" ng-switch on="field">
+                                <span ng-switch-when="level">
+                                    {{[data[field]-1]}}
+                                </span>
+                                <span ng-switch-when="state">
+                                    {{data[field]-1}}
+                                </span>
+                                <span ng-switch-when="operation">
+                                    <button class="p-btn p-btn-sm" ng-click="handleDetailClick(data)">查看</button>
+                                </span>
+                                <span ng-switch-default>
+                                    {{data[field]}}
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

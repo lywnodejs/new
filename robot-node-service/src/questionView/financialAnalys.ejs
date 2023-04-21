@@ -1,0 +1,1438 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% if(!ispop){ %>
+<% include ./component/preAnswer %>
+<% } %>
+
+<%
+  try {
+  var result = info;
+  var property = commonUtil.getPropertyByEntity(result.questionAnalyse[0].entity);
+  var marketType = property.marketType,
+      stockCode = property.code;
+
+  var randomNum = commonUtil.generateRandomClassName();
+  var chartId = 'polygon'+randomNum;
+
+  // 提取周期
+  var scores = result.data.scores || [];
+  var period = [];
+  for(var i=0; i<scores.length; i++)
+  {
+    period.push(scores[i].endDate);
+  }
+  scores = JSON.stringify(scores.reverse())
+
+  // 话术
+  var description = result.data.description;
+  var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+
+  // 底部链接
+  var tagLink =
+    '<ul class="tlBox_link">'+
+      '<li onclick="stockRelatedIndustryAnalysis(\''+randomNum+'\')">查看同行业比较</li>'+
+      '<li onclick="stockMoreFinancialIndex(\''+randomNum+'\')">查看更多财务指标</li>'+
+    '</ul>';
+
+  // 所属行业
+  var industry = result.data.induSortName || '';
+  var industryCode = result.data.induSortCode || '';
+  // private static final String ZHENGQUAN_INDU_CODE = "S4901";证券
+  // private static final String YINHANG_INDU_CODE = "S4801";银行
+  // private static final String BAOXIAN_INDU_CODE = "S4902";保险
+
+  // 银行，证券，保险三大行业在主要指标选项卡中额外多展示一个指标tab
+  var tagExtraTabForMainIndex = '';
+  var tagExtraTabContentForMainIndex = '';
+  // 三大行业为专项指标，其它行业运营能力，财务分析
+  var tagOperationTabForAnalysis = '';
+  var tagOperationTabContentForAnalysis = '';
+  // 蜘蛛图用的字段名称
+  var fieldCategories = ['profitScore', 'growupScore', 'operationScore', 'debtScore', 'cashScore'];
+  // 蜘蛛图展示名称
+  var xCategories = ['盈利', '成长', '运营', '偿债', '现金流'];
+  // 财务分析指标类型
+  var tabType = 'operation';
+  // 财务分析指标中图的数量
+  var chartCount = 3;
+
+  if (['S4901', 'S4801', 'S4902'].indexOf(industryCode) !== -1) {
+    // 替换为专项指标用的字段，及中文名称
+    fieldCategories.splice(2, 1, 'specialScore');
+    xCategories.splice(2, 1, '专项指标<br/>（'+industry+'）');
+    tagExtraTabForMainIndex =
+            '<li tabType="specialTable" onclick="mainIndexSubTabClick(event, \''+randomNum+'\')">'+
+                '<span>'+industry+'专项指标<b></b></span>'+
+            '</li>';
+    // 子内容不同
+    var tagTabs = '';
+    if (industryCode === 'S4801') { //银行
+      tabType = 'yinhangSpec';
+      chartCount = 3;
+      tagTabs =
+              '<li indexType="capiAdeRatio" class="on" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">资本充足率</li>'+
+              '<li indexType="nplRatio" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">不良贷款率</li>'+
+              '<li indexType="netCapital" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">资本净额</li>';
+    } else if (industryCode === 'S4901') { //证券
+      tabType = 'zhengquanSpec';
+      chartCount = 1;
+      tagTabs =
+              '<li indexType="netCapitalVal" class="on" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">净资本</li>';
+
+    } else if (industryCode === 'S4902') { //保险
+      tabType = 'baoxianSpec';
+      chartCount = 2;
+      tagTabs =
+              '<li indexType="lossRatioProperty" class="on" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">赔付率(产险)</li>'+
+              '<li indexType="intrinsicValueLife" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">内含价值(寿险)</li>';
+      // '<li indexType="insurPremUnearned" onclick="indexSubTabClick(event, \'specialTable\', \''+randomNum+'\')">已赚保费</li>' ;
+    }
+    tagExtraTabContentForMainIndex =
+        '<div id="'+('specialTable'+randomNum)+'" dataLoad="false" marketType="'+marketType+'" stockCode="'+stockCode+'" period="year" class="item" style="min-height: 380px">'+
+            '<ul id="'+('specialTable_ul'+randomNum)+'" class="box_label box_label2">'+
+                tagTabs+
+            '</ul>'+
+
+            '<ul class="chartTag">'+
+                '<li>'+
+                '</li>'+
+                '<li>'+
+                '<a id="'+('specialTable_curPeriod'+randomNum)+'" onclick="setPeriodVisible(event, \'specialTable\', \''+randomNum+'\')">年报<i class="icon-arrow2_B_small"></i></a>'+
+                // 下拉框
+                '<ul id="'+('specialTable_period'+randomNum)+'" class="ddList">'+
+                    '<li onclick="periodClick(event, \'specialTable\', \''+randomNum+'\')">全部</li>'+
+                    '<li onclick="periodClick(event, \'specialTable\', \''+randomNum+'\')" class="on">年报</li>'+
+                    '<li onclick="periodClick(event, \'specialTable\', \''+randomNum+'\')">中报</li>'+
+                    '<li onclick="periodClick(event, \'specialTable\', \''+randomNum+'\')">一季报</li>'+
+                    '<li onclick="periodClick(event, \'specialTable\', \''+randomNum+'\')">三季报</li>'+
+                    '<b></b>'+
+                '</ul>'+
+                '</li>'+
+            '</ul>'+
+
+            '<div id="'+('specialTable_chart'+randomNum)+'" class="box_chart02">'+
+            '</div>'+
+            '<div id="'+('specialTable_list'+randomNum)+'" class="list_chartTag">'+
+            '</div>'+
+        '</div>';
+  } else {
+  }
+
+  // 图表话术
+  var tagChartNhuashu = '';
+  for (var c=0; c<chartCount; c++) {
+    tagChartNhuashu +=
+        '<ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, \''+marketType+'\', \''+stockCode+'\', \''+tabType+(c>0?c+1:'')+'\', \''+randomNum+'\')">'+
+            '<li class="on">季度</li>'+
+            '<li>年度</li>'+
+        '</ul>'+
+        '<div >'+
+            '<div class="chart" style="min-height: 250px;">'+
+                '<div id="'+tabType+(c>0?c+1:'')+'_season_'+randomNum+'" dataLoad="false" class="chartContainer"></div>'+
+                    '<div id="'+tabType+(c>0?c+1:'')+'_year_'+randomNum+'" dataLoad="false" class="chartContainer" style="display: none"></div>'+
+                    '</div>'+
+                '<div class="tBox box_bgGray">'+
+            '</div>'+
+        '</div>'
+  }
+
+  tagOperationTabForAnalysis =
+      '<li tabType="'+tabType+'" marketType="'+marketType+'" stockCode="'+stockCode+'" onclick="financialAnalysisTabClick(event, \''+randomNum+'\')">'+
+        '<span>'+(['S4901', 'S4801', 'S4902'].indexOf(industryCode) !== -1?industry+'专项指标':'运营能力')+'<b></b></span>'+
+      '</li>';
+  tagOperationTabContentForAnalysis =
+      // 运营能力
+      '<div id="'+(tabType+randomNum)+'" class="item">'+
+        '<h5>'+description[2]+'</h5>'+
+        tagChartNhuashu+
+        '<h6 id="'+(tabType+'Date'+randomNum)+'" class="note t_gray" style=" text-align: left; margin: 0.875rem 0 -0.25rem;"></h6>'+
+      '</div>';
+  } catch (e) {
+      // console.log(e)
+  }
+%>
+<% if(!ispop){ %>
+<div id="answer<%= randomNum %>">
+<div class='bd'>
+  <div class='mb'>
+<% } %>
+    <div class="box_finAnalysis2">
+        <ul id="stock<%=randomNum%>" marketType="<%=marketType%>" stockCode="<%=stockCode%>" stockName="<%=property.name%>" class="stock2" style="display: <%-info.isPopup?'none':''%>"></ul>
+
+    <!--    所属题材-->
+        <div class="subMatter">
+            所属行业：<b><%=result.data.induSortName%></b>
+        </div>
+
+    <!--    // 头部-->
+        <ul class="comprehensive">
+            <li>
+                <h3><%=result.data.totalScore%><span>综合评分</span></h3>
+                <h6>打败了<%=commonUtil.formatNumber(result.data.beatStocksPercent*100)%>%的股票
+                    <div class="dottedLine"></div>
+                </h6>
+                <h5>
+                    <span>行业排名:</span>
+                    <em><b><%=(result.data.induRank||'--')%></b>/<%=(result.data.induSecNum||'--')%></em>
+                </h5>
+                <h5>
+                    <span>市场排名:</span>
+                    <em><b><%=(result.data.allStockRank||'--')%></b>/<%=(result.data.allStockNum||'--')%></em>
+                </h5>
+            </li>
+            <li>
+                <div class="chartTag">
+                    <b><i></i></b><span><%=commonUtil.getQuarterLabel(period[0], 'zh', true)%></span>
+                    <b><i></i></b><span><%=(period.length>1?commonUtil.getQuarterLabel(period[1], 'zh', true):'')%></span>
+                </div>
+    <!--            // 综评图表-->
+                <div id="<%=chartId%>"></div>
+            </li>
+        </ul>
+
+    <!--    // 标签-->
+        <ul class="TAB5">
+            <li class="on" onclick="marginSubTabClick2(event,'<%=tableContainerId%>', '<%=randomNum%>')"><b><i></i></b><div>主要指标</div><b><i></i></b></li>
+            <li onclick="marginSubTabClick2(event,'<%=tableContainerId%>', '<%=randomNum%>')"><b><i></i></b><div>财务分析</div><b><i></i></b></li>
+        </ul>
+
+        <div id="<%=tableContainerId%>" class="content content2">
+            <div id="mainIndex_container<%=randomNum%>" class="item show">
+    <!--            // 主要指标-->
+                <div class="TAB2 TAB2_scroll">
+                    <div class="scroll">
+                        <ul>
+                            <li tabType="mainIndex" class="on" onclick="mainIndexSubTabClick(event, '<%=randomNum%>')">
+                                <span>主要指标<b></b></span>
+                            </li>
+                            <li tabType="profitTable" onclick="mainIndexSubTabClick(event, '<%=randomNum%>')">
+                                <span>利润表<b></b></span>
+                            </li>
+                            <li tabType="assetDebtTable" onclick="mainIndexSubTabClick(event, '<%=randomNum%>')">
+                                <span>资产负债表<b></b></span>
+                            </li>
+                            <li tabType="cashFlowTable" onclick="mainIndexSubTabClick(event, '<%=randomNum%>')">
+                                <span>现金流量表<b></b></span>
+                            </li>
+                          <%- tagExtraTabForMainIndex %>
+                        </ul>
+                    </div>
+                    <div class="bottom"></div>
+                </div>
+
+    <!--            // 子主要指标-->
+                <div id="<%='mainIndex'+randomNum%>" dataLoad="false" marketType="<%=marketType%>" stockCode="<%=stockCode%>" period="year" class="item show">
+                    <ul id="<%='mainIndex_ul'+randomNum%>" class="box_label">
+                        <li indexType="waaRoe" class="on" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">ROE</li>
+                        <li indexType="roic" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">ROIC</li>
+                        <li indexType="epsBasic" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">每股收益</li>
+                        <li indexType="sFaBps" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">每股净资产</li>
+                        <li indexType="grossRev" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">毛利润</li>
+                        <li indexType="sfaOcfps" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">每股现金流</li>
+                        <li indexType="sFaUndistributedps" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">每股未分配</li>
+                        <li indexType="sFaSurpluscapitalps" onclick="indexSubTabClick(event, 'mainIndex', '<%=randomNum%>')">每股公积金</li>
+                    </ul>
+
+                    <ul class="chartTag">
+                        <li>
+                        </li>
+                        <li>
+                            <a id="<%='mainIndex_curPeriod'+randomNum%>" onclick="setPeriodVisible(event, 'mainIndex', '<%=randomNum%>')">年报<i class="icon-arrow2_B_small"></i></a>
+    <!--                        // 下拉框-->
+                            <ul id="<%='mainIndex_period'+randomNum%>" class="ddList">
+                                <li onclick="periodClick(event, 'mainIndex', '<%=randomNum%>')">全部</li>
+                                <li onclick="periodClick(event, 'mainIndex', '<%=randomNum%>')" class="on">年报</li>
+                                <li onclick="periodClick(event, 'mainIndex', '<%=randomNum%>')">中报</li>
+                                <li onclick="periodClick(event, 'mainIndex', '<%=randomNum%>')">一季报</li>
+                                <li onclick="periodClick(event, 'mainIndex', '<%=randomNum%>')">三季报</li>
+                                <b></b>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div id="<%='mainIndex_chart'+randomNum%>" class="box_chart02">
+    <!--                    //     柱：色 #4479ef，宽 12px，-->
+    <!--                    //     柱上文字：色 #4479ef，字号 12px, 行高 13px, 字距柱顶4px-->
+    <!--                    //     同比（黄色）：#eab537-->
+    <!--                    //     点：6*6px-->
+                    </div>
+                    <div id="<%='mainIndex_list'+randomNum%>" class="list_chartTag">
+                    </div>
+                </div>
+
+    <!--            // 利润表-->
+                <div id="<%='profitTable'+randomNum%>" dataLoad="false" marketType="<%=marketType%>" stockCode="<%=stockCode%>" period="year" class="item" style="min-height: 380px">
+                    <ul id="<%='profitTable_ul'+randomNum%>" class="box_label">
+                        <li indexType="netProfit" class="on" onclick="indexSubTabClick(event, 'profitTable', '<%=randomNum%>')">归属净利润</li>
+                        <li indexType="totOperRev" onclick="indexSubTabClick(event, 'profitTable', '<%=randomNum%>')">营业收入</li>
+                        <li indexType="operProfit" onclick="indexSubTabClick(event, 'profitTable', '<%=randomNum%>')">营业利润</li>
+                    </ul>
+
+                    <ul class="chartTag">
+                        <li>
+                        </li>
+                        <li>
+                            <a id="<%='profitTable_curPeriod'+randomNum%>" onclick="setPeriodVisible(event, 'profitTable', '<%=randomNum%>')">年报<i class="icon-arrow2_B_small"></i></a>
+    <!--                        // 下拉框-->
+                            <ul id="<%='profitTable_period'+randomNum%>" class="ddList">
+                                <li onclick="periodClick(event, 'profitTable', '<%=randomNum%>')">全部</li>
+                                <li onclick="periodClick(event, 'profitTable', '<%=randomNum%>')" class="on">年报</li>
+                                <li onclick="periodClick(event, 'profitTable', '<%=randomNum%>')">中报</li>
+                                <li onclick="periodClick(event, 'profitTable', '<%=randomNum%>')">一季报</li>
+                                <li onclick="periodClick(event, 'profitTable', '<%=randomNum%>')">三季报</li>
+                                <b></b>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div id="<%='profitTable_chart'+randomNum%>" class="box_chart02">
+                    </div>
+                    <div id="<%='profitTable_list'+randomNum%>" class="list_chartTag">
+                    </div>
+                </div>
+
+    <!--            // 资产负债表-->
+                <div id="<%='assetDebtTable'+randomNum%>" dataLoad="false" marketType="<%=marketType%>" stockCode="<%=stockCode%>" period="year" class="item" style="min-height: 380px">
+                    <ul id="<%='assetDebtTable_ul'+randomNum%>" class="box_label">
+                        <li indexType="balanceSheet" class="on" style="display: none" onclick="indexSubTabClick(event, 'assetDebtTable', '<%=randomNum%>')">111</li>
+                    </ul>
+
+                    <ul class="chartTag">
+                        <li>
+                        </li>
+                        <li>
+                            <a id="<%='assetDebtTable_curPeriod'+randomNum%>" onclick="setPeriodVisible(event, 'assetDebtTable', '<%=randomNum%>')">年报<i class="icon-arrow2_B_small"></i></a>
+    <!--                        // 下拉框-->
+                            <ul id="<%='assetDebtTable_period'+randomNum%>" class="ddList">
+                                <li onclick="periodClick(event, 'assetDebtTable', '<%=randomNum%>')">全部</li>
+                                <li onclick="periodClick(event, 'assetDebtTable', '<%=randomNum%>')" class="on">年报</li>
+                                <li onclick="periodClick(event, 'assetDebtTable', '<%=randomNum%>')">中报</li>
+                                <li onclick="periodClick(event, 'assetDebtTable', '<%=randomNum%>')">一季报</li>
+                                <li onclick="periodClick(event, 'assetDebtTable', '<%=randomNum%>')">三季报</li>
+                                <b></b>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div id="<%='assetDebtTable_chart'+randomNum%>" class="box_chart02">
+                    </div>
+                    <div id="<%='assetDebtTable_list'+randomNum%>" class="list_chartTag list_chartTag2">
+                    </div>
+                </div>
+
+    <!--            // 现金流量表-->
+                <div id="<%='cashFlowTable'+randomNum%>" dataLoad="false" marketType="<%=marketType%>" stockCode="<%=stockCode%>" period="year" class="item" style="min-height: 380px">
+                    <ul id="<%='cashFlowTable_ul'+randomNum%>" class="box_label">
+                        <li indexType="netCashFlowsOperAct" class="on" onclick="indexSubTabClick(event, 'cashFlowTable', '<%=randomNum%>')">经营现金流</li>
+                        <li indexType="netCashFlowsInvAct" onclick="indexSubTabClick(event, 'cashFlowTable', '<%=randomNum%>')">投资现金流</li>
+                        <li indexType="netCashFlowsFncAct" onclick="indexSubTabClick(event, 'cashFlowTable', '<%=randomNum%>')">融资现金流</li>
+                    </ul>
+
+                    <ul class="chartTag">
+                        <li>
+                        </li>
+                        <li>
+                            <a id="<%='cashFlowTable_curPeriod'+randomNum%>" onclick="setPeriodVisible(event, 'cashFlowTable', '<%=randomNum%>')">年报<i class="icon-arrow2_B_small"></i></a>
+    <!--                        // 下拉框-->
+                            <ul id="<%='cashFlowTable_period'+randomNum%>" class="ddList">
+                                <li onclick="periodClick(event, 'cashFlowTable', '<%=randomNum%>')">全部</li>
+                                <li onclick="periodClick(event, 'cashFlowTable', '<%=randomNum%>')" class="on">年报</li>
+                                <li onclick="periodClick(event, 'cashFlowTable', '<%=randomNum%>')">中报</li>
+                                <li onclick="periodClick(event, 'cashFlowTable', '<%=randomNum%>')">一季报</li>
+                                <li onclick="periodClick(event, 'cashFlowTable', '<%=randomNum%>')">三季报</li>
+                                <b></b>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div id="<%='cashFlowTable_chart'+randomNum%>" class="box_chart02">
+                    </div>
+                    <div id="<%='cashFlowTable_list'+randomNum%>" class="list_chartTag">
+                    </div>
+                </div>
+
+    <!--            // 专项指标-->
+                <%-tagExtraTabContentForMainIndex%>
+            </div>
+
+            <div class="item" style="min-height: 400px">
+                <div class="TAB2 TAB2_scroll">
+                    <div id="<%='tabContainer'+randomNum%>" class="scroll">
+                        <ul>
+                            <li class="on" tabType="profit" marketType="<%=marketType%>" stockCode="<%=stockCode%>" onclick="financialAnalysisTabClick(event, '<%=randomNum%>')">
+                                <span>盈利能力<b></b></span>
+                            </li>
+                            <li tabType="growup" marketType="<%=marketType%>" stockCode="<%=stockCode%>" onclick="financialAnalysisTabClick(event, '<%=randomNum%>')">
+                                <span>成长能力<b></b></span>
+                            </li>
+    <!--                        // 运营能力-->
+                            <%-tagOperationTabForAnalysis%>
+                            <li tabType="debt" marketType="<%=marketType%>" stockCode="<%=stockCode%>" onclick="financialAnalysisTabClick(event, '<%=randomNum%>')">
+                                <span>偿债能力<b></b></span>
+                            </li>
+                            <li tabType="cash" marketType="<%=marketType%>" stockCode="<%=stockCode%>" onclick="financialAnalysisTabClick(event, '<%=randomNum%>')">
+                                <span>现金流<b></b></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bottom"></div>
+                </div>
+
+    <!--            // 基本面-->
+                <div id="<%='financialTab'+randomNum%>">
+    <!--                // 盈利能力-->
+                    <div id="<%='profit'+randomNum%>" class="item">
+                        <h5><%-description[0]%></h5>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'profit', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='profit_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='profit_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                                // <h5><b>毛利率：</b>40.2%，业内排名前X，行业均值18.9%，核心产品市场竞争力及获利能力较强；</h5>
+                            </div>
+                        </div>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'profit2', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='profit2_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='profit2_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <h6 id="<%='profitDate'+randomNum%>" class="note t_gray" style=" text-align: left; margin: 0.875rem 0 -0.25rem;"></h6>
+                    </div>
+
+    <!--                // 成长能力-->
+                    <div id="<%='growup'+randomNum%>" class="item">
+                        <h5><%-description[1]%></h5>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'growup', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='growup_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='growup_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <h6 id="<%='growupDate'+randomNum%>" class="note t_gray" style=" text-align: left; margin: 0.875rem 0 -0.25rem;"></h6>
+                    </div>
+
+    <!--                // 运营能力-->
+                  <%-tagOperationTabContentForAnalysis%>
+
+    <!--                // 偿债能力-->
+                    <div id="<%='debt'+randomNum%>" class="item">
+                        <h5><%-description[3]%></h5>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'debt', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='debt_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='debt_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox  box_bgGray">
+                            </div>
+                        </div>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'debt2', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='debt2_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='debt2_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <h6 id="<%='debtDate'+randomNum%>" class="note t_gray" style=" text-align: left; margin: 0.875rem 0 -0.25rem;"></h6>
+                    </div>
+
+    <!--                // 现金流-->
+                    <div id="<%='cash'+randomNum%>" class="item">
+                        <h5><%-description[4]%></h5>
+                        <ul class="tab TAB1" onclick="financialAnalysisSubTabClick(event, '<%=marketType%>', '<%=stockCode%>', 'cash', '<%=randomNum%>')">
+                            <li class="on">季度</li>
+                            <li>年度</li>
+                        </ul>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='cash_season_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                                <div id="<%='cash_year_'+randomNum%>" dataLoad="false" class="chartContainer" style="display: none"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='cash2_year_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="chart" style="min-height: 250px;">
+                                <div id="<%='cash3_year_'+randomNum%>" dataLoad="false" class="chartContainer"></div>
+                            </div>
+                            <div class="tBox box_bgGray">
+                            </div>
+                        </div>
+                        <h6 id="<%='cashDate'+randomNum%>" class="note t_gray" style=" text-align: left; margin: 0.875rem 0 -0.25rem;"></h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%-tagLink%>
+    </div>
+<% if(!ispop){ %>
+  </div>
+</div>
+</div>
+<% } %>
+
+<script>
+
+  var financialAnalysMode = {
+    onViewReady: function () {
+      // financialAnalysisView.onViewReady();
+      initData()
+    }
+  }
+
+  var jsFinancialArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/js/libs/6.0/highstock',
+    '/static/js/libs/6.0/highcharts-more',
+    '/static/js/charts/polygonChart',
+    '/static/js/charts/lineChart',
+    '/static/js/charts/baseChart',
+    '/static/js/utils/toolsUtil'
+  ]
+  loadJs(jsFinancialArr,financialAnalysMode.onViewReady)
+
+  function initData () {
+    try {
+      // 蜘蛛图
+      var chart = new PolygonChart('<%=result.data.totalScore%>');
+      chart.fieldCategories = '<%=fieldCategories%>'.split(',');
+      chart.xCategories = '<%-xCategories%>'.split(',');
+      chart.initialize('<%=chartId%>', JSON.parse('<%-scores%>'));
+    } catch (e) {
+    }
+
+    // 取默认Tab展示的第一个图表数据
+    var param = {
+      marType: '<%=marketType%>',
+      secCode: '<%=stockCode%>',
+      financeIndex: 'waaRoe',
+      financeQuarter: 'year',
+      tabType: 'mainIndex',
+      randomNum: '<%=randomNum%>'
+    };
+    updateMainIndexData(param)
+
+    // 取报价
+    getStockQuota('<%=marketType+stockCode%>', 'stock'+'<%=randomNum%>');
+  }
+
+  /**
+   * 取股票报价行情
+   * @param symbol
+   * @param containerId
+   */
+  function getStockQuota(symbol, containerId) {
+      // 取报价
+      getPrice(symbol, function (result) {
+          // console.log(result)
+          var riseCls = '';
+          if(result.rise > 0)
+              riseCls = 't_red';
+          else if(result.rise < 0)
+              riseCls = 't_green';
+          var tag =
+              '<a onclick="gotoStockDetail(\''+result.stkCode+'\',\''+result.stkName+'\',\''+result.symbol.replace(result.stkCode)+'\')">'+
+                  '<li>'+
+                      '<h4>'+result.stkName+'<span class="num">'+result.stkCode+'</span></h4>'+
+                      '<h6>'+getTimeStr_more(result.time*1000)+'</h6>'+
+                  '</li>'+
+                  '<li>'+
+                      '<div class="icon"><i class="icon-arrow_closed"></i></div>'+
+                      '<div class="'+riseCls+'">'+
+                          '<h3>'+result.newPrice.toFixed(2)+'</h3>'+
+                          '<h6>'+result.change.toFixed(2)+'    '+result.rise.toFixed(2)+'%</h6>'+
+                      '</div>'+
+                  '</li>'+
+              '</a>';
+          $('#'+containerId).html(tag);
+      });
+  }
+
+  /**
+   * 取股票报价
+   * @param symbol
+   * @param success
+   * @param error
+   */
+  function getPrice(symbol, success, error) {
+    $.ajax({
+      type: "get",
+      url: "/hangqing-service/json/getPrice",
+      data: {
+        symbol: symbol,
+        userId: '<%=params.userId%>',
+        clientId: '<%=params.clientId%>'
+      },
+      dataType: "jsonp",
+      jsonp: "callback",
+      success: success
+    });
+  }
+  function getTimeStr_more(time) {
+    var date = new Date(time);
+    return getTimeStr(time) + " " + getTwoNumber(date.getHours()) + ":" + getTwoNumber(date.getMinutes());
+  }
+  function getTimeStr(time) {
+    var spl = "-";
+    var date = new Date();
+    if (time != undefined && time != "")
+      date.setTime(time);
+    var month = date.getMonth() + 1;
+    var monthStr = getTwoNumber(month);
+    var day = date.getDate();
+    var dayStr = getTwoNumber(day);
+    return date.getFullYear() + spl + monthStr + spl + dayStr;
+  }
+  function getTwoNumber(number) {
+    return String((number >= 10) ? number : ("0" + number));
+  }
+
+  // 根据中文返回对应的周期
+  function getPeriodByZh(zh) {
+    var period = 'allQuarter';
+    switch (zh) {
+      case '全部':
+        period = 'allQuarter';
+        break;
+      case '年报':
+        period = 'year';
+        break;
+      case '中报':
+        period = 'twoQuarter';
+        break;
+      case '一季报':
+        period = 'oneQuarter';
+        break;
+      case '三季报':
+        period = 'threeQuarter';
+        break;
+    }
+    return period;
+  }
+
+  // 查看行业分析
+  function stockRelatedIndustryAnalysis(randomNum) {
+    var stock = $('#stock'+randomNum);
+    requestFixedAnswer({
+      subjectCode: stock.attr('stockCode'),
+      subjectType: '股票',
+      subjectName: stock.attr('stockName'),
+      subjectMarket: stock.attr('marketType'),
+      predicateType: '同行数据对比'
+    }, stock.attr('stockName')+'同行数据对比', stock.attr('marketType'), true);
+    closePopup();
+    scrollToQuestion();
+  }
+
+  // 查看财务分析
+  function stockFinancialAnalysis(randomNum) {
+    var stock = $('#stock'+randomNum);
+    requestFixedAnswer({
+      subjectCode: stock.attr('stockCode'),
+      subjectType: '股票',
+      subjectName: stock.attr('stockName'),
+      subjectMarket: stock.attr('marketType'),
+      predicateType: '财务分析'
+    }, stock.attr('stockName')+'财务分析', stock.attr('marketType'), true);
+    closePopup();
+    scrollToQuestion();
+  }
+
+  // 查看更多财务指标
+  function stockMoreFinancialIndex(randomNum) {
+    var stock = $('#stock'+randomNum);
+    requestFixedAnswer({
+      subjectCode: stock.attr('stockCode'),
+      subjectType: '股票',
+      subjectName: stock.attr('stockName'),
+      subjectMarket: stock.attr('marketType'),
+      predicateType: '财务数据是'
+    }, stock.attr('stockName')+'财务数据', stock.attr('marketType'), true);
+    closePopup();
+    scrollToQuestion();
+  }
+
+  /**
+   * 财务分析 一级tab 切换
+   * @param event
+   * @param tableContainerId
+   */
+  function marginSubTabClick2(event, tableContainerId, randomNum) {
+    // console.log($(event.currentTarget).index())
+    var curTarget = $(event.currentTarget);
+    var index = curTarget.index();
+    curTarget.addClass('on').siblings().removeClass('on');
+    $('#'+tableContainerId).find('> div').eq(index).addClass('show').siblings().removeClass('show');
+    if (index === 1) {
+      $('#tabContainer'+randomNum).find('li.on').eq(0).click()
+    }
+  }
+
+  // 主要指标内部 子Tab点击
+  function indexSubTabClick(event, tabType, randomNum) {
+    // console.log(event)
+    // 当前点击对象
+    var curTarget = $(event.currentTarget);
+    if (curTarget.hasClass('on')) {
+      return;
+    }
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // 当前指标(英文)
+    var indexType = curTarget.attr('indexType');
+    // console.log(indexType)
+    // 主要指标对象
+    var tagMainIndex = $('#'+tabType+randomNum);
+    // 更新指标的周期
+    var period = tagMainIndex.attr('period');
+
+    // 当前选中的指标
+    var tagIndex = $('#'+tabType+'_ul'+randomNum).find('li.on');
+    var param = {
+      marType: tagMainIndex.attr('marketType'),
+      secCode: tagMainIndex.attr('stockCode'),
+      financeIndex: indexType || tagIndex.attr('indexType'),
+      financeQuarter: period,
+      tabType: tabType,
+      randomNum: randomNum
+    };
+    updateMainIndexData(param);
+  }
+
+  // 周期列表是否可见
+  function setPeriodVisible(event, tabType, randomNum) {
+    // console.log(event)
+    $('#'+tabType+'_period'+randomNum).toggleClass('show');
+  }
+
+  // 周期选择
+  function periodClick(event, tabType, randomNum) {
+    // console.log(event.currentTarget)
+    // 当前点击对象
+    var curTarget = $(event.currentTarget);
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // 取点击的中文文本
+    var zh = curTarget.text();
+    // 中文转换为对应的周期
+    var period = getPeriodByZh(zh);
+    // 当前选中的指标
+    var tagIndex = $('#'+tabType+'_ul'+randomNum).find('li.on');
+    // console.log(tagIndex.attr('indexType'), period)
+    // 显示或隐藏周期列表
+    $('#'+tabType+'_period'+randomNum).toggleClass('show');
+    // console.log($('#'+tabType+'_curPeriod'+randomNum))
+    // 更新当前选中周期中文
+    $('#'+tabType+'_curPeriod'+randomNum).html(zh+'<i class="icon-arrow2_B_small"></i>');
+    // 主要指标对象
+    var tagMainIndex = $('#'+tabType+randomNum);
+    // 更新指标的周期
+    tagMainIndex.attr('period', period);
+
+    var param = {
+      marType: tagMainIndex.attr('marketType'),
+      secCode: tagMainIndex.attr('stockCode'),
+      financeIndex: tagIndex.attr('indexType'),
+      financeQuarter: period,
+      tabType: tabType,
+      randomNum: randomNum
+    };
+    updateMainIndexData(param);
+  }
+
+  // 主要指标内部tab切换
+  function mainIndexSubTabClick(event, randomNum) {
+    // 当前点击对象
+    var curTarget = $(event.currentTarget);
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    var index = curTarget.index();
+    var tabType = curTarget.attr('tabType');
+    $('#mainIndex_container'+randomNum).find('> div').eq(index+1).addClass('show').siblings().removeClass('show');
+
+    // 主要指标对象
+    var tagMainIndex = $('#'+tabType+randomNum);
+    var dataLoad = tagMainIndex.attr('dataLoad');
+    // 当前选中的指标
+    var tagIndex = $('#'+tabType+'_ul'+randomNum).find('li.on');
+    if (dataLoad === 'false') {
+      var param = {
+        marType: tagMainIndex.attr('marketType'),
+        secCode: tagMainIndex.attr('stockCode'),
+        financeIndex: tagIndex.attr('indexType'),
+        financeQuarter: tagMainIndex.attr('period'),
+        tabType: tabType,
+        randomNum: randomNum
+      };
+      updateMainIndexData(param);
+    }
+  }
+
+  // 更新主要指标图表及列表数据
+  function updateMainIndexData(param) {
+    financialAnalysisMainIndex(param, function (result) {
+      // console.log(result)
+      $('#'+param.tabType+param.randomNum).attr('dataLoad', true);
+      var option = getOptionByIndex(param.financeIndex);
+      var params = {
+        containerId: param.tabType+'_chart'+param.randomNum,
+        unit: '',
+        colors: ['#5e98f4', '#eab537', '#ed665a'],
+        dateQuarter: true,
+        showDataLabels: true,
+        yAxisVisible: false,
+        xAxisVisible: false,
+        valueDecimals: 2,
+        series: [
+          {name: option.name+'('+option.unit+')', field: 'disPlayValueOne', type: 'column', tooltip: {valueSuffix: option.unit}, data: []},
+          {name: '同比', field: 'disPlayValueTwo', type: 'spline', yAxis:1, tooltip: {valueSuffix: '%'}, data: []}
+        ]
+      };
+
+      var list = result.data || [];
+      // 资产负责额外处理
+      if (param.financeIndex === 'balanceSheet') {
+        var maxNum = 0;
+        list.forEach(function (value) {
+          maxNum = Math.max(maxNum, value.disPlayValueOne, value.disPlayValueTwo);
+        });
+        if (maxNum > 1e12) {
+          option.dividedBy = 1e12;
+          option.unit = '万亿';
+        }
+        params.series = [
+          {name: '总资产'+'('+option.unit+')', field: 'disPlayValueOne', type: 'column', tooltip: {valueSuffix: option.unit+'元'}, data: []},
+          {name: '总负债'+'('+option.unit+')', field: 'disPlayValueTwo', type: 'column', tooltip: {valueSuffix: option.unit+'元'}, data: []},
+          {name: '负债率', field: 'disPlayValueThree', type: 'spline', yAxis:1, tooltip: {valueSuffix: '%'}, data: []}
+        ];
+        params.colors = ['#5e98f4', '#ed665a', '#eab537'];
+      }
+
+      // 列表标签
+      var tagList = [];
+      for (var j=0; j<=params.series.length; j++) {
+        if (j === 0)
+          tagList.push('<li></li>');
+        else
+          tagList.push('<li><b></b></li>');
+      }
+
+      list = list.reverse();
+      var categories = [];
+      list.forEach(function (item, index) {
+        var dateStr = item.reportQuarter;
+        if(params.dateQuarter)
+          dateStr = getQuarterLabel(item.reportQuarter, 'zh2', true).replace(' ', '');
+        categories.push(dateStr);
+
+        // 图表用
+        for(var p in params.series)
+        {
+          var fieldValue = list[index][params.series[p].field]+0 || null;
+          if (fieldValue && params.series[p].name !== '同比' && params.series[p].name !== '负债率')
+            fieldValue /= option.dividedBy;
+          params.series[p].data.push(fieldValue);
+        }
+
+        // 列表用
+        for (var m in tagList) {
+          var n = parseInt(m);
+          var value;
+          if (n === 0)
+            tagList[n] += '<li>'+dateStr+'</li>';
+          else if (n === 1) {
+            value = item.disPlayValueOne;
+            if (param.financeIndex === 'balanceSheet') {
+              value = formatAmount(value);
+            } else {
+              value = isNaN(value) ? value : value/option.dividedBy;
+              value = (value?value.toFixed(2) + option.unit.replace('亿元','亿'):'--')
+            }
+            tagList[n] += '<li>'+value+'</li>';
+          }
+          else if (n === 2) {
+            value = item.disPlayValueTwo;
+            if (param.financeIndex === 'balanceSheet') {
+              value = formatAmount(value);
+              tagList[n] += '<li>'+value+'</li>';
+            } else {
+              value = !isNaN(value)?value.toFixed(2) + '%':'--'
+              tagList[n] += '<li class="'+getClsByNumber(item.disPlayValueTwo)+'">'+value+'</li>';
+            }
+          }
+          else if (n === 3) {
+            value = item.disPlayValueThree;
+            value = !isNaN(value)?value.toFixed(2) + '%':'--';
+            tagList[n] += '<li class="'+getClsByNumber(item.disPlayValueThree)+'">'+value+'</li>';
+          }
+        }
+      });
+
+      for (var x in tagList) {
+        tagList[x] = '<ul>'+tagList[x]+'</ul>';
+      }
+      $('#'+param.tabType+'_list'+param.randomNum).html(tagList.join(''));
+
+      var baseChart = new BaseChart();
+      baseChart.categories = categories;
+      for(var p in params){
+        baseChart[p] = params[p];
+      }
+      baseChart.initialize();
+    })
+  }
+
+  /**
+   * 格式化成交额
+   * @param value
+   * @param precision
+   * @returns {*}
+   */
+  function formatAmount(value, precision) {
+    if (!isNaN(value)) {
+      precision = precision || 2;
+
+      var prefix = "";
+      if (value < 0){
+        prefix = "-";
+        value = Math.abs(value);
+      }
+
+      if (value < 1e4)
+        return prefix + value.toFixed(precision) + '元';
+      else if (value < 1e8)
+        return prefix + (value / 1e4).toFixed(precision) + '万';
+      else if (value < 1e12)
+        return prefix + (value / 1e8).toFixed(precision) + '亿';
+      else
+        return prefix + (value / 1e12).toFixed(precision) + '万亿';
+    } else {
+      return value ? value : '--';
+    }
+  }
+
+  //盈利能力等一级tab点击
+  function financialAnalysisTabClick(event, randomNum) {
+    // console.log(event.currentTarget)
+    var curTarget = $(event.currentTarget || event.target);
+    var tabType = curTarget.attr('tabType');
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // tab关联div展示，其它的隐藏
+    $('#'+tabType+randomNum).show().siblings().hide();
+
+    // 点击时如果tab没有完全展示，那么滚动一下
+    var tabContainer = $('#tabContainer'+randomNum)[0];
+    if(tabType === 'cash' || tabType === 'debt'){
+      tabContainer.scrollLeft = tabContainer.scrollWidth - tabContainer.clientWidth;
+    }else if(tabType === 'growup' || tabType === 'profit'){
+      tabContainer.scrollLeft = 0;
+    }
+
+    // 取当前点击Tab默认展示的第一个图表数据
+    var marketType = curTarget.attr('marketType');
+    var stockCode = curTarget.attr('stockCode');
+    var dataLoad = $('#'+tabType+'_season_'+randomNum).attr('dataLoad');
+    if(dataLoad === 'false'){
+      var params = {
+        marType: marketType,
+        secCode: stockCode,
+        statType: tabType,
+        type: 'quarter'
+      };
+      financialAnalysisPartInfo(params, function (result) {
+        setFinancialChartData(tabType+'_season_'+randomNum, tabType, result);
+
+        // 话术
+        var description = [];
+        if(result && result.data)
+          description = result.data.description || [];
+        var tag = '';
+        for(var i=0; i<description.length; i++){
+          tag +='<h5>'+description[i]+'</h5>';
+        }
+
+        var tbox = $('#'+tabType+randomNum).find('.tBox');
+        tbox.eq(0).html(tag);
+        if (tabType === 'operation' || tabType === 'debt' || tabType === 'profit' || tabType === 'yinhangSpec' || tabType === 'baoxianSpec') {
+          // tbox.eq(1).html('<h5>'+result.data.descriptionDebtOperation+'</h5>');
+          var tag2 = getDescriptionTag(result.data.descriptionTwo || []);
+          if (tag2)
+            tbox.eq(1).html(tag2);
+
+          var tag3 = getDescriptionTag(result.data.descriptionThree || []);
+          if (tag3)
+            tbox.eq(2).html(tag3);
+        }
+
+        $('#'+tabType+'Date'+randomNum).html('诊断数据依赖于个股与业内其它公司对比；</br>当前数据报告期：'+generateDate(result.data.displayDate))
+      });
+
+      // 现金流因为季度与年度同时展示，所以需要另取一次年度的数据
+      if (tabType === 'cash') {
+        var params2 = {
+          marType: marketType,
+          secCode: stockCode,
+          statType: tabType,
+          type: 'year'
+        };
+        financialAnalysisPartInfo(params2, function (result) {
+          setFinancialChartData(tabType+'_year_'+randomNum, tabType, result);
+
+          var tbox = $('#'+tabType+randomNum).find('.tBox');
+          // tbox.eq(1).html('<h5>'+result.data.descriptionDebtOperation+'</h5>');
+          // tbox.eq(2).html('<h5>'+result.data.descriptionThreeOperation+'</h5>');
+          var tag2 = getDescriptionTag(result.data.descriptionTwo || []);
+          if (tag2)
+            tbox.eq(1).html(tag2);
+
+          var tag3 = getDescriptionTag(result.data.descriptionThree || []);
+          if (tag3)
+            tbox.eq(2).html(tag3);
+        })
+      }
+    }
+  }
+
+  /**
+   * 格式化20170801为2017-08-01
+   * @param date
+   * @returns {string}
+   */
+  function generateDate(date) {
+    var temp = date;
+    if (date) {
+      date = date.toString();
+      if (date.length === 8)
+        temp = date.substr(0, 4) + '-' + date.substr(4, 2) + '-' + date.substr(6, 2);
+    }
+    else
+      temp = '--';
+    return date ? temp : '--';
+  }
+  function getDescriptionTag(tempArray) {
+    var tag = '';
+    for(var i=0; i<tempArray.length; i++){
+      tag +='<h5>'+tempArray[i]+'</h5>';
+    }
+    return tag;
+  }
+
+  //年度，季度二级tab点击
+  function financialAnalysisSubTabClick(event, marketType, stockCode, tabType, randomNum) {
+    var target = $(event.target);
+    var className = event.target.className;
+    if(className !== 'on'){
+      var text = target.html();
+      // 设置选中点击tab样式，同级隐藏
+      target.addClass('on').siblings().removeClass('on');
+
+      var seasonId = tabType+'_season_'+randomNum;
+      var yearId = tabType+'_year_'+randomNum;
+      // 记下选择图表容器ID，数据返回后使用
+      var containerId = '';
+      var type = '';
+      if(text === '季度'){
+        containerId = seasonId;
+        $('#'+seasonId).show();
+        $('#'+yearId).hide();
+        type = 'quarter';
+      }else if(text === '年度'){
+        containerId = yearId;
+        $('#'+seasonId).hide();
+        $('#'+yearId).show();
+        type = 'year';
+      }
+
+      // 有属性里取下看图表的数据是否已经加载
+      var chartContainer = $('#'+containerId);
+      var dataLoad = chartContainer.attr('dataLoad');
+      if(dataLoad === 'false'){
+        chartContainer.attr('dataLoad', 'loading');
+        //取点击的子tab对应的图表数据
+        var params = {
+          marType: marketType,
+          secCode: stockCode,
+          statType: tabType.replace('2', '').replace('3', ''),
+          type: type
+        };
+        financialAnalysisPartInfo(params, function (result) {
+          setFinancialChartData(containerId, tabType, result);
+        })
+      }
+    }
+  }
+
+  // 设置图表数据
+  function setFinancialChartData(containerId, tabType, result) {
+    tabType = tabType.replace('2', '').replace('3', '');
+
+    // 拼图表容器Id，并设置标签属性为已取到数据
+    var ids = containerId.split('_');
+    var chartId = [tabType,ids[1],ids[2]].join('_');
+    var chartId2 = [tabType+2,ids[1],ids[2]].join('_');
+    var chartId3 = [tabType+3,ids[1],ids[2]].join('_');
+    $('#'+chartId).attr('dataLoad', 'true');
+    if(tabType === 'profit' || tabType === 'operation' || tabType === 'debt' || tabType === 'cash' || tabType === 'yinhangSpec' || tabType === 'baoxianSpec') {
+      $('#'+chartId2).attr('dataLoad', 'true');
+      if (tabType === 'cash' || tabType === 'operation' || tabType === 'yinhangSpec') {
+        $('#'+chartId3).attr('dataLoad', 'true');
+      }
+    }
+
+    // 构造图表行，列数据
+    var categories = []; // X
+    var series = []; // Y
+    var series2 = []; // Y  chart2
+    var series3 = []; // Y  chart3
+    var unit = '%';
+    var unit2 = '%';
+    var unit3 = '%';
+
+    var profit = [{name:'毛利率', field: 'sFaGrossprofitmargin', data: []},
+      {name:'净利率', field: 'sFaNetprofitmargin', data: []}];
+    var profit2 = [{name:'ROE', field: 'roe', data: []}];
+
+    var cash = [{name:'经营活动现金流占比净利润', field: 'netCashFlowsOperAct', data: []}];
+    var cash2 = [{name:'现金再投资比率', field: 'cashReRatio', data: []}];
+    var cash3 = [{name:'现金流量允当比率', field: 'cashAdequacyRatio', data: []}];
+
+    var growup = [{name:'净利润同比增长率', field: 'sFaYoynetprofit', data: []},
+      {name:'营业收入同比增长率', field: 'sFaYoyTr', data: []},
+      {name:'可持续增长率', field: 'sgr', data: []}];
+
+    var operation = [{name:'营业周期', field: 'sFaTurndays', data: []},
+      {name:'存货周转天数', field: 'sFaInvturndays', data: []}];
+    var operation2 = [{name:'总资产周转率', field: 'sFaAssetsturn', data: []},
+      {name:'流动资产周转率', field: 'sFaCaturn', data: []},
+      {name:'固定资产周转率', field: 'sFaFaturn', data: []}];
+    var operation3 = [{name:'应收账款周转率', field: 'sFaArturn', data: []}];
+
+    var debt = [{name:'流动比率', field: 'sFaCurrent', data: []},
+      {name:'速动比率', field: 'sFaQuick', data: []}];
+    var debt2 = [{name:'资产负债率', field: 'sFaDebttoassets', data: []}];
+
+    if(tabType === 'profit'){
+      series = profit;
+      series2 = profit2;
+    }
+    else if(tabType === 'cash'){
+      series = cash;
+      series2 = cash2;
+      series3 = cash3;
+      unit = '%';
+    }
+    else if(tabType === 'growup'){
+      series = growup;
+    }
+    else if(tabType === 'operation'){
+      series = operation;
+      series2 = operation2;
+      series3 = operation3;
+      unit = '天';
+      unit2 = '次';
+      unit3 = '次';
+    }
+    else if(tabType === 'debt'){
+      series = debt;
+      series2 = debt2;
+      unit = '倍';
+      unit2 = '%';
+    }
+    else if(tabType === 'yinhangSpec'){
+      series = [{name:'资本充足率', field: 'capiAdeRatio', data: []}];
+      series2 = [{name:'不良贷款率', field: 'nplRatio', data: []}];
+      series3 = [{name:'资本净额', field: 'netCapital', data: []}];
+      unit3 = '亿';
+    }
+    else if(tabType === 'baoxianSpec'){
+      // series = [{name:'内含价值', field: 'sFaAssetsturn', data: []}];
+      series = [{name:'赔付率(产险)', field: 'lossRatioProperty', data: []}];
+      series2 = [{name:'内含价值(寿险)', field: 'intrinsicValueLife', data: []}];
+      unit2 = '亿';
+    }
+    else if(tabType === 'zhengquanSpec'){
+      series = [{name:'净资本', field: 'netCapitalVal', data: []}];
+      unit = '亿';
+    }
+
+    var list = [];
+    if(result && result.data)
+      list = result.data.statInfos.reverse() || [];
+
+    // 遍历出X，Y轴的数据
+    for(var i=0; i<list.length; i++){
+      categories.push(getQuarterLabel(list[i].quarterYear, 'en'));
+      var field, value;
+      for(var p in series)
+      {
+        field = series[p].field;
+        value = list[i][field] || null;
+        if (field === 'netCapital' || field === 'netCapitalVal') {
+          value = value ? value/1e8 : value;
+        }
+        series[p].data.push(value);
+      }
+
+      // 第二个图表
+      if(tabType === 'profit' || tabType === 'operation' || tabType === 'debt' || tabType === 'cash' || tabType === 'yinhangSpec' || tabType === 'baoxianSpec'){
+        for(p in series2)
+        {
+          field = series2[p].field;
+          value = list[i][field] || null;
+          if (field === 'intrinsicValueLife') {
+            value = value ? value/1e8 : value;
+          }
+          series2[p].data.push(value);
+        }
+        // 第三个图表
+        if (tabType === 'cash' || tabType === 'operation' || tabType === 'yinhangSpec') {
+          for(p in series3)
+          {
+            field = series3[p].field;
+            value = list[i][field] || null;
+            if (field === 'netCapital' || field === 'netCapitalVal') {
+              value = value ? value/1e8 : value;
+            }
+            series3[p].data.push(value);
+          }
+        }
+      }
+    }
+
+    // 赋值给图表，现金流使用柱状图改为折线图
+    var chart;
+    // if(containerId.split('_')[0] === 'cash')
+    //     chart = new LineChart();
+    // else
+    chart = new LineChart();
+    chart.initialize(chartId, categories, series, unit);
+
+    // 有两个图表
+    if(tabType === 'profit' || tabType === 'operation' || tabType === 'debt' || (tabType === 'cash' && ids[1] !== 'season') || tabType === 'yinhangSpec' || tabType === 'baoxianSpec'){
+      var chart2 = new LineChart();
+      chart2.initialize(chartId2, categories, series2, unit2);
+      // 有三个图表
+      if (tabType === 'cash' || tabType === 'operation' || tabType === 'yinhangSpec') {
+        var chart3 = new LineChart();
+        chart3.initialize(chartId3, categories, series3, unit3);
+      }
+    }
+  }
+
+  var HttpUrl = '/robot/semantic/';
+  //分类项汇总
+  function financialAnalysisPartInfo(param, success) {
+    var params = {
+      url: HttpUrl + 'semantic-api-service/financeAnalysis/partInfos',
+      param: param,
+      success: success
+    };
+    newAjax.get(params);
+  }
+
+  // 财务分析：主要指标
+  function financialAnalysisMainIndex(param, success) {
+    var params = {
+      url: HttpUrl + 'semantic-api-service/financeAnalysis/mainIndex',
+      param: param,
+      success: success
+    };
+    newAjax.get(params);
+  }
+
+  /**
+   * 一般报价的文字颜色
+   * @param num
+   * @returns {string}
+   */
+  function getClsByNumber(num) {
+    var txtCls = '';
+    if (num > 0)
+      txtCls = 't_red';
+    else if (num < 0)
+      txtCls = 't_green';
+    return txtCls;
+  }
+
+  // 转换日期为2017Q1 ||　2017一季报
+  function getQuarterLabel(value, type, shortYear){
+    var en = {
+      '00': '',
+      '03': 'Q1',
+      '06': 'Q2',
+      '09': 'Q3',
+      '12': 'Q4'
+    };
+
+    var zh = {
+      '00': '',
+      '03': '一季报',
+      '06': '二季报',
+      '09': '三季报',
+      '12': '四季报'
+    };
+
+    var season = {
+      '00': '',
+      '03': '年第一季度',
+      '06': '年第二季度',
+      '09': '年第三季度',
+      '12': '年第四季度'
+    };
+
+    var zh2 = {
+      '00': '',
+      '03': ' 一季报',
+      '06': ' 中报',
+      '09': ' 三季报',
+      '12': ' 年报'
+    };
+
+    var quarter = en;
+    if(type === 'zh')
+      quarter = zh;
+    if(type === 'zh2')
+      quarter = zh2;
+    else if(type === 'season')
+      quarter = season;
+
+    var month = '00';
+    var year = '';
+    var str = value.toString();
+    year = str.substr(shortYear?2:0, shortYear?2:4);
+    if(str.length > 4)
+      month = str.substr(4, 2);
+
+    return year+quarter[month];
+  }
+
+  // 根据指标返回对应的指标选项
+  function getOptionByIndex(index) {
+    var options = {
+      epsBasic: {name: '每股收益', unit: '元', dividedBy: 1},
+      sFaBps: {name: '每股净资产', unit: '元', dividedBy: 1},
+      sFaSurpluscapitalps: {name: '每股公积金', unit: '元', dividedBy: 1},
+      sFaUndistributedps: {name: '每股未分配', unit: '元', dividedBy: 1},
+      sfaOcfps: {name: '每股现金流', unit: '元', dividedBy: 1},
+      totOperRev: {name: '营业总收入', unit: '亿元', dividedBy: 1e8},
+      operProfit: {name: '营业利润', unit: '亿元', dividedBy: 1e8},
+      grossRev: {name: '毛利润', unit: '亿元', dividedBy: 1e8},
+      netProfit: {name: '归属净利润', unit: '亿元', dividedBy: 1e8},
+      waaRoe: {name: 'ROE', unit: '%', dividedBy: 1},
+      roic: {name: 'ROIC', unit: '%', dividedBy: 1},
+      netCashFlowsOperAct: {name: '经营现金流', unit: '亿元', dividedBy: 1e8},
+      netCashFlowsInvAct: {name: '投资现金流', unit: '亿元', dividedBy: 1e8},
+      netCashFlowsFncAct: {name: '融资现金流', unit: '亿元', dividedBy: 1e8},
+      balanceSheet: {name: '资产负债表', unit: '亿元', dividedBy: 1e8},
+      marValue: {name: '总市值', unit: '亿元', dividedBy: 1e8},
+      sFaGrossprofitmargin: {name: '毛利率', unit: '%', dividedBy: 1},
+      sFaNetprofitmargin: {name: '净利率', unit: '%', dividedBy: 1},
+      sFaRoa: {name: 'ROA', unit: '%', dividedBy: 1},
+      sFaOcftoprofit: {name: '经营现金流/净利润', unit: '%', dividedBy: 1},
+      sFaCurrent: {name: '流动比率', unit: '倍', dividedBy: 1},
+      sFaQuick: {name: '速动比率', unit: '倍', dividedBy: 1},
+      sFaDebttoassets: {name: '资产负债率', unit: '%', dividedBy: 1},
+      sFaAssetsturn: {name: '总资产周转率', unit: '次', dividedBy: 1},
+      sFaCaturn: {name: '流动资产周转率', unit: '次', dividedBy: 1},
+      sFaFaturn: {name: '固定资产周转率', unit: '次', dividedBy: 1},
+      sFaTurndays: {name: '营业周期', unit: '天', dividedBy: 1},
+      sFaInvturndays: {name: '存货周转天数', unit: '天', dividedBy: 1},
+      sFaYoynetprofit: {name: '净利润同比增长率', unit: '%', dividedBy: 1},
+      sFaYoyTr: {name: '营业收入同比增长率', unit: '%', dividedBy: 1},
+      // 2019.05.23 三期增加
+      capiAdeRatio: {name: '资本充足率', unit: '%', dividedBy: 1},
+      nplRatio: {name: '不良贷款率', unit: '%', dividedBy: 1},
+      netCapital: {name: '资本净额', unit: '亿元', dividedBy: 1e8},
+      loanDepoRatio: {name: '存贷比率', unit: '%', dividedBy: 1},
+      // sFaYoyTr1: {name: '内含价值', unit: '%', dividedBy: 1},
+      lossRatioProperty: {name: '赔付率(产险)', unit: '%', dividedBy: 1},
+      intrinsicValueLife: {name: '内含价值(寿险)', unit: '亿元', dividedBy: 1e8},
+      insurPremUnearned: {name: '已赚保费', unit: '亿元', dividedBy: 1e8},
+      netCapitalVal: {name: '净资本', unit: '亿元', dividedBy: 1e8},
+      floatMarValue : {name: '流通市值', unit: '亿元', dividedBy: 1e4},
+      // epsBasic: {name: 'EPS', unit: '元', dividedBy: 1},
+      sFaOptogr: {name: '营业利润率', unit: '%', dividedBy: 1},
+      operExpenseRatio: {name: '营业费用率', unit: '%', dividedBy: 1},
+      freeCashFlow: {name: '自由现金流', unit: '亿元', dividedBy: 1e8},
+      cashReRatio: {name: '现金再投资比率', unit: '%', dividedBy: 1},
+      cashAdequacyRatio: {name: '现金流量允当比率', unit: '%', dividedBy: 1},
+      sFaCurrentdebttodebt: {name: '流动负债率', unit: '%', dividedBy: 1},
+      sgr: {name: '可持续增长率', unit: '%', dividedBy: 1},
+      sFaYoyEquity: {name: '净资本增长率', unit: '%', dividedBy: 1},
+      sFaArturn: {name: '应收账款周转率', unit: '次', dividedBy: 1},
+    };
+    return options[index];
+  }
+
+  /*
+   * ajax封装
+   */
+  var newAjax = {
+    //ajax封装：增加时间戳t，loaing相关处理
+    get: function (o) {
+      var success = o.success;
+      o.success = function (rs) {
+        success(rs);
+      };
+      $.ajax($.extend(true, {
+        method: 'get',
+        data: $.extend({
+          _: Date.now()
+        }, o.param),
+        complete: function () {
+
+        }
+      }, o));
+    },
+    post: function (o) {
+      o.method = 'post';
+      ajax.get(o);
+    },
+    jsonp: function (o) {
+      o.dataType = 'jsonp';
+      o.jsonp = 'jsoncallback';
+      ajax.get(o);
+    }
+  }
+</script>
+
+
+
+
+
+

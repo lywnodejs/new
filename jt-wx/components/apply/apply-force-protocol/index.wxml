@@ -1,0 +1,32 @@
+<!--components/apply/apply-force-protocol/index.wxml-->
+
+<van-popup show="{{ showProtocolPopup }}" position="bottom" custom-style="height: 480px;" closeable
+  close-on-click-overlay="{{false}}" bind:close="onClose" bind:after-enter="onAfterEnter" bind:after-leave="onAfterLeave">
+  <view class="popup-box">
+    <view class="popup-title">阅读协议</view>
+
+    <view class="protocol-content" style=" overflow-y: scroll;-webkit-overflow-scrolling: touch;">
+      <rich-text class="rich-text" nodes="{{richText}}"></rich-text>
+    </view>
+
+    <view class="popup-footer">
+      <view class="protocol-box">
+        点击确认代表您已阅读并同意
+        <view class="protocol-name inline-view">
+          <view wx:for="{{protocols}}" wx:key="index"  class="inline-view">
+            <view bind:tap="changeProtocol" data-content="{{item.content}}" class="inline-view">《{{item.name}}》</view>
+            <view wx:if="{{index !== protocols.length - 1}}" class="inline-view">、</view>
+          </view>
+        </view>
+      </view>
+
+      <view>
+        <button type="primary" class="apply-btn popup-btn {{isFirstShow ? 'popup-btn-dis' : ''}}" bindtap="confirm">
+          确认<text class="count-down" wx:if="{{isFirstShow}}">({{counter}}s)</text>
+        </button>
+      </view>
+
+
+    </view>
+  </view>
+</van-popup>

@@ -1,0 +1,19 @@
+/* components/repayment-button/index.wxss */
+.repayment-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 172rpx;
+  height: 64rpx;
+  /* padding: 14rpx 20rpx; */
+  color: #73AF2B;
+  font-size: 26rpx;
+  border-radius: 20px;
+  border: 2rpx solid #73AF2B;
+  margin-right: -10rpx;
+}
+
+.repayment-button.highlighted{
+  background-color: #73AF2B;
+  color: white;
+}

@@ -1,0 +1,4 @@
+<!--pages/apply/protocol/index.wxml-->
+<view class="protocol-content" style=" overflow-y: scroll;-webkit-overflow-scrolling: touch;">
+  <rich-text class="rich-text" nodes="{{richText}}"></rich-text>
+</view>

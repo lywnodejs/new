@@ -1,0 +1,446 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <title>漏洞列表</title>
+        <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap.css?_v=eea507">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap-font.css?_v=9753fe">
+    <link  rel="stylesheet" type="text/css"  href="/lib/angular-select2/select.css?_v=3b60b1">
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/css/bug-list.css?_v=eb8c09">
+</head>
+
+<body>
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    <div class="main page-center">
+        <div class="content bug-list" ng-controller="bug-list as ctrl">
+            <div class="content-header pr0">
+                <h1 class="content-header-title">漏洞列表 <span ng-cloak class="arrow-slide" ng-class="{open:!formIsOpen}" ng-click="slideForm($event)">{{!formIsOpen ? '查询' : '收起'}}</span></h1>
+                <span bind-html-compile="buttonsHtml"></span>
+            </div>
+            <div class="p-form list-form">
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">题目/单号：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.holeName" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">状态：</label>
+                        <div class="wrap-input form-flex-item p-col-9">
+                            <ui-select ng-model="ctrl.pageData.holeState" multiple remove-selected="false" close-on-select="false" search-enabled="false" ng-cloak>
+                                <ui-select-match placeholder="选择漏洞状态">
+                                    <span>{{$item.name}}</span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in ctrl.pageConfig.holeState">
+                                    {{item.name}}
+                                </ui-select-choices>
+                            </ui-select>
+                            <!-- <div class="p-col-5">
+                                <select class="p-form-control"  ui-select2="{multiple: true}" ng-model="ctrl.pageData.holeState">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="item in ctrl.pageConfig.holeState" value="{{::$index}}">{{::item}}</option>
+                                </select>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">等级：</label>
+                        <div class="wrap-input form-flex-item">
+                            <select class="p-form-control" ng-model="ctrl.pageData.riskLevel">
+                                <option value="">请选择</option>
+                                <option ng-repeat="option in ctrl.pageConfig.riskLevel" value="{{$index}}"> {{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">漏洞类型：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" name="holeType1" id="js-holeType" ng-change="ctrl.holeType1Change()" ng-model="ctrl.pageData.holeType1">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="option in ctrl.pageConfig.holeType1" value="{{option.id}}"> {{option.dName}}</option>
+                                </select>
+                            </div>
+                            <span>--</span>
+                            <div class="p-col-5">
+                                <select class="p-form-control" name="holeType2" ng-model="ctrl.pageData.holeType2">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="option in ctrl.pageConfig.holeType2" value="{{option.id}}"> {{option.dName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">安全工程师：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.safeEnginner" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">当前处理人：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.currentProcesser" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+                 <div class="p-form-item flex-between">
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3">上报时间：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postStartTimeIsOpen"
+                        onclose="ctrl.postStartTimeClose()"
+                        ng-model="ctrl.pageData.postStartTime"
+                        ng-click="ctrl.postStartTimeOpen()"
+                        ng-change="ctrl.postStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postEndTimeIsOpen"
+                        onclose="ctrl.postEndTimeClose()"
+                        ng-model="ctrl.pageData.postEndTime"
+                        ng-click="ctrl.postEndTimeOpen()"
+                        ng-change="ctrl.postEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3">到期时间：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireStartTimeIsOpen"
+                        onclose="ctrl.expireStartTimeClose()"
+                        ng-model="ctrl.pageData.expireStartTime"
+                        ng-click="ctrl.expireStartTimeOpen()"
+                        ng-change="ctrl.expireStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireEndTimeIsOpen"
+                        onclose="ctrl.expireEndTimeClose()"
+                        ng-model="ctrl.pageData.expireEndTime"
+                        ng-click="ctrl.expireEndTimeOpen()"
+                        ng-change="ctrl.expireEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">受影响URL/APP：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.holeEffectInfo" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">标签：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.holeTag" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">漏洞来源：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" name="holeSource1" ng-change="ctrl.holeSource1Change()" ng-model="ctrl.pageData.holeSource1">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="option in ctrl.pageConfig.holeSource1" value="{{option.id}}"> {{option.dName}}</option>
+                                </select>
+                            </div>
+                            <span>--</span>
+                            <div class="p-col-5">
+                                <select class="p-form-control" name="holeSource2" ng-model="ctrl.pageData.holeSource2">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="option in ctrl.pageConfig.holeSource2" value="{{option.id}}"> {{option.dName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">漏洞详情：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.description" ng-maxlength="100" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">部门-产品线：</label>
+                        <div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.deptInfo || !ctrl.deptInfo.length ) && ctrl.showErrors}" ng-cloak>
+                            <ui-my-auto-complete url="ctrl.getDepartmentUrl" placeholder="请输入受影响部门产品线（中文）" removeSelected="false" isSample="true" sampleShowName="productName"
+                                name="deptInfo" ng-model="ctrl.deptInfo">
+                                <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+                                <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+                            </ui-my-auto-complete>
+                            <span class="p-error-msg">请输入并选择一个部门产品线</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3"></label>
+                        <div class="wrap-input form-flex-item operate-btns">
+                            <button class="p-btn" ng-click="getData()">搜索<dot ng-show="ctrl.isSubmitDataIng" ng-cloak></dot></button>
+                            <button class="p-btn" ng-click="resetForm()">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrap-center">
+                <ul class="p-filter-menu">
+                    <li ng-repeat="item in ['全部','待确认','待修复', '修复中','已修复','已关闭', '被忽略', '已超期']" ng-click="filterDataAndIndex($index)" ng-class="{hover:$index===activeIndex}"
+                        ng-cloak>{{item}}</li>
+                </ul>
+            </div>
+            <div class="wrap-table">
+                <loading></loading>
+                <table class="p-table table-bordered table-header-bg table-hover" ng-cloak>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>状态</th>
+                            <th>等级</th>
+                            <th>漏洞类型</th>
+                            <th>题目</th>
+                            <th>部门</th>
+                            <th>安全工程师</th>
+                            <th>当前处理人</th>
+                            <th>上报时间</th>
+                            <th>超期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!datas || !datas.length">
+                            <td colspan="10">
+                                <h5>没有相关数据</h5>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="data in datas">
+                            <td>{{data.holeId}}</td>
+                            <td>{{data.holeState}}</td>
+                            <td>{{ data.riskLevel | getRiskLevel}}</td>
+                            <td class="i-tl">{{data.holeType.holeType1 }}--{{data.holeType.holeType2 }}</td>
+                            <th>{{data.holeName}}</th>
+                            <td>{{data.holeDept[0].productName || "无"}}</td>
+                            <td ng-bind-html="data.safetyEngineer | getName | to_trusted"> </td>
+                            <td ng-bind-html="data.cuurentProcess | getName | to_trusted" class="w15"></td>
+                            <td>{{data.postTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                            <td ng-class="{
+                                'red-color':data.expireCount>0,
+                                'red-green':data.expireCount<0,
+                            }">{{data.expireCount>0 ? '+' + data.expireCount : data.expireCount}}</td>
+                            <td><a href="{{data.buttonState | getRedirectPage}}.html?id={{data.holeId}}" class="p-btn p-btn-sm"
+                                    target="_blank">查看</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="wrap-pagination" ng-show="totalItems && totalPage" ng-cloak>
+     <ul uib-pagination
+     ng-show="totalItems && totalPage"
+     first-text="首页"
+     last-text="最后一页"
+     previous-text="上一页"
+     next-text="下一页"
+     boundary-link-numbers="true"
+     force-ellipses="true"
+     class="pagination-sm"
+     total-items="totalItems"
+     ng-model="currentPage"
+     max-size="maxSize"
+     items-per-page="pageSize"
+     ng-change="getData()"
+     ></ul>
+     <select ng-change="changePageSize()" ng-model="pageSize" ng-init="pageSize = pageSize + '' || pageSizeOptions[0] + '' ">
+         <!--  -->
+         <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}} 条/页</option>
+     </select>
+     <div class="jump" ng-show="totalItems && totalPage > 5">
+          <input type="number" name="jumpPageNum" ng-model="jumpPageNum" ng-keyup="jumpPage($event)" placeholder="输入页码" />
+          <a href="javascript:" ng-click="jumpPage()">GO</a>
+     </div>
+     <div class="i-fr">{{totalItems}}条记录，共{{totalPage}}页</div>
+ </div>
+
+        </div>
+    </div>
+    <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+<script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+<script   src="/project/portals/config/config.js?_v=000d11"></script> <script>
+var _hmt = _hmt || [];
+//让业务页面首先加载，footer和统计稍后加载
+ setTimeout(function(){
+    require(['modules/footer/js/footer']);
+    var node = document.createElement("script");
+    node.type = 'text/javascript';
+    node.charset = 'utf-8';
+    node.async = true;
+    node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(node, s);
+ },0)
+</script>
+<footer class="footer" ng-cloak>
+    <!-- <p> 
+        <label style="margin-right: 15px;">滴滴出行安全产品与技术部开发并维护</label>
+        扫码加入钉钉反馈群：<img  width="90" height="90"  src="/project/portals/i/code.png?_v=80763a"/>
+    </p> -->
+    <div class="footer-container">
+        <div class="footer-item" style="width: 50%;">
+            <p class="footer-item--title">安全管理平台</p>
+            <p class="footer-item--desc">我们专注提供一站式安全服务，打造一流安全平台，建设顶级安全服务能力，为滴滴信息安全、业务安全和客户安全保驾护航。</p>
+            <p class="footer-item--desc">反馈邮箱： soc@didichuxing.com</p>
+        </div>
+        <div style="width: 40%;">
+            <p class="footer-item--desc">扫码加入钉钉反馈群</p>
+            <img  width="100" height="100"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </div>
+
+    <!-- <div popover-placement="left-bottom" uib-popover-template="'options-panel.html'" popover-trigger="'mouseenter'"  class="p-btn-scroll-code fadein" style="bottom: 165px;">
+        <img  width="30" height="30"  src="/project/portals/i/code.png?_v=80763a"/>
+    </div>
+    <script type="text/ng-template" id="options-panel.html">
+        <div class="form-group">
+          <div>扫码加入钉钉反馈群:</div>
+          <img  width="150" height="150"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </script> -->
+</footer>
+    <script   src="/lib/angular/angular-sanitize.js?_v=76d49b"></script>
+    <script>
+        require(['js/bug-list/index']);
+    </script>
+</body>
+
+</html>

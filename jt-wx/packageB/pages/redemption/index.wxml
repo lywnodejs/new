@@ -1,0 +1,31 @@
+<!--packageB/pages/redemption/index.wxml-->
+<view class="redemption">
+  <view class="header">
+    <view class="title">当前提前赎回收益 </view>
+    <view class="num">{{expectRedeemAmount.advanceRedeemAmount}}</view>
+    <view class="info">(本金+活期利息)</view>
+    <view class="header_footer">
+      <image src="/image/d_top04.png"></image>
+      <image src="/image/d_top05.png"></image>
+      <image src="/image/d_top06.png"></image>
+      若到期日赎回预计可得收益
+      <view>{{expectRedeemAmount.expireRedeemAmount}}<text>元</text></view>
+    </view>
+  </view>
+
+  <!-- 提前赎回bizType固定值 -->
+  <get-code bind:value="getValue" bizType="early_redeem" />
+
+
+  <button bindtap="ok" class="ok">确定</button>
+</view>
+<password-popup 
+  show="{{popShow}}"
+  isError="{{isError}}"
+  error="{{errorText}}"
+  isForget="{{isForget}}"
+  bind:getCode="getCode"
+/>
+
+<xy-confirm leftText='取消' rightText='去重置' contentText="因输入密码错误次数较多，您的账户已被冻结，请重置交易密码" bind:ok="toPassword" bind:cancel='onCloseServer'
+show="{{passwordNumErr}}" />

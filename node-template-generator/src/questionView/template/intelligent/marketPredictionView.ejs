@@ -1,0 +1,133 @@
+<% include ../../component/templateTitleView %>
+<% include ../../component/jsLoad %>
+<%
+var data = info.data;
+
+%>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+    <style>
+        .clearfix:after { 
+            content:"";
+            display:block;
+            height:0;
+            clear:both;
+            visibility:hidden;
+        }
+        .clearfix { clear: both; }
+        .fl{float: left}
+        .fr{float: right;}
+    </style>
+<% } %>
+<% if(data.length > 0){ %>
+    <div class="rxh_list rxh_list_1n" style="padding:10px;">
+        <ul class="">
+            <% for(var i = 0; i < data.length; i++){ %>
+                <%var obj = data[i]%>
+                <div class="allBox" style="padding-bottom: 20px">
+                    <div>
+                        <div class="clearfix" style="font-size:16px;font-weight:bold;">
+                            <span class="fl"><%=obj.stock_name%>（<%=obj.stock_code%>）</span>
+                            <span style="color: blue;font-size: 12px" class="fr ycDom" onclick="ycBtn('<%=obj.stock_name%>','<%-i%>')">预测</span>
+                        </div>
+                        <div class="rxh_list rxh_list_1n">
+                        <%if (obj.news_list.length >0) {%>
+                            <%for (var j=0; j<obj.news_list.length; j++) {%>
+                                <%var objChild = obj.news_list[j]%>
+                                <ul style="font-size:14px;">
+                                    <li>
+                                        <div class="rxh_text rxh_text03 rxh_gap rxh_gap0">
+                                            <h3>
+                                                <span style="font-size: 14px;color: #666666"><%- objChild.title || '' %></span>
+                                                <%if (objChild.attitude === '利空') {%>
+                                                    <b class="rxh_bg_green"><i class="rxh-icon-cry"></i>利空</b>
+                                                <%} else if(objChild.attitude === '利好'){%>
+                                                    <b class="rxh_bg_red"><i class="rxh-icon-smile"></i>利好</b>
+                                                <%} else {%>
+                                                    <b class="rxh_bg_red"><i></i>中性</b>
+                                                <%}%>
+                                                <h6 class="rxh_date" style="padding-left: 0px">
+                                                    <span ><%= objChild.data || ''%></span>
+                                                    来源：<%=objChild.mediaFrom || '' %></h6>
+                                            </h3>
+                                        </div>
+                                    </li>
+                                </ul>
+                            <%}%>
+                            
+                        <%}%>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+<!--            <div class="rxh_btnMore rxh_btnMore_blue"><a>查看更多<i class="icon-arrow2_D"></i></a></div>-->
+        </ul>
+    </div>
+
+    <script>
+
+        var H5url = '<%= bigSearchUrl %>'
+      var bigSearchView<%- sn %> = {
+        onViewReady: function () {
+        },
+        openDetail: function (id, url) {
+          // try {
+          //   openDetail(id);
+          // } catch (e) {
+          //   console.log(e.toString());
+          //   if(url){
+          //     window.open(url,"_bank");
+          //   }
+          // }
+          try {
+              this.naviToDetail(id);
+          } catch (e) {
+              console.log(e.toString());
+              window.open(url,"_bank");
+          }
+        },
+        naviToDetail:function (caseId,url) {
+          console.log(url)
+            console.log(caseId);
+            var t = new Date().getTime();
+            if (caseId.length == 0){
+                return;
+            }
+            pa.navigationNative({
+                pageId: "webView",//  http://big-data.rxhui.com/
+                url: H5url+'/#/detail?type=全部&back=app&id='+caseId+ '&highLight=' + '<%= info.highLight%>' + '&t='+ t
+            });
+        }
+      }
+      window.ycBtn = function(name,index) {
+        var data = {
+            stock: name,
+        }
+        
+        
+        $.ajax({
+            type: 'GET',
+            url: '<%= host %>' + '/api/log/marketPrediction',
+            data: data,
+            dataType: "json",
+            success: function (res) {
+                var data = res.data;
+                var prob = (data.prob*100).toFixed(2) +'%'
+                var label = data.label;
+                $('.allBox').eq(index).find('.ycDom').text(prob+label)
+            }
+        })
+      }
+
+      <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, bigSearchView<%- sn %>.onViewReady)
+      <% } %>
+    </script>
+
+
+<% }else{ %>
+
+<% } %>

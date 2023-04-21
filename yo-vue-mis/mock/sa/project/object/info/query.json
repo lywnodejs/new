@@ -1,0 +1,51 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "data": {
+    "object_id": 1000,
+    "object_name": "金融风险专项评估项目",
+    "object_mgrs": [{
+      "user_id": 1,
+      "user_email": "zhangdijasper@didichuxing.com",
+      "user_name": "张三"
+    }],
+    "inner_domain_list": "1.1.1.1\n1.2.2.2",
+    "out_domain_list": "1.1.1.1\n1.2.2.2",
+    "ip_address_list": "1.1.1.1\n1.2.2.2",
+    "room_location": "cccc",
+    "interface_list": "1.1.1.1\n1.2.2.2",
+    "dev_mgr_list": [{
+      "user_id": 1,
+      "user_email": "zhangdijasper@didichuxing.com",
+      "user_name": "张三"
+    }],
+    "test_mgr_list": [{
+      "user_id": 1,
+      "user_email": "zhangdijasper@didichuxing.com",
+      "user_name": "张三"
+    }],
+    "product_mgr_list": [{
+      "user_id": 1,
+      "user_email": "zhangdijasper@didichuxing.com",
+      "user_name": "张三"
+    }],
+    "system_mgr_list": [{
+      "user_id": 1,
+      "user_email": "zhangdijasper@didichuxing.com",
+      "user_name": "张三"
+    }],
+    "system_scope": "xxxx",
+    "sensitive_level": 1881,
+    "account_type": 1891,
+    "auth_level": 1911,
+    "sec_log": 1921,
+    "api_doc": 1921,
+    "api_doc_name": "xxxxxx",
+    "out_access": 1921,
+    "data_level": 1931,
+    "test_env": "xxxxxx",
+    "test_account": "xxxxxx",
+    "test_password": "xxxxxx",
+    "description": "xxxxxx"
+  }
+}

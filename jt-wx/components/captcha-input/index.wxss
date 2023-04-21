@@ -1,0 +1,54 @@
+/* components/captcha-input/index.wxss */
+.captcha-input .input-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.captcha-input .input-view text{
+  width: 40px;
+  text-align: center;
+  border-bottom: 1px solid #D5D8E4;
+  font-family: PingFangSC-Semibold,PingFang SC;
+  font-size: 20px;
+  color: #333333;
+  padding: 13px 0;
+  display: block;
+}
+@keyframes blink {
+  0%, 100% {
+      color: transparent;
+  }
+  50% {
+      color: #333333;
+  }
+}
+.captcha-input .input-view text.focus{
+  border-color: #595959;
+  animation: blink 1s infinite steps(1, start);
+}
+.captcha-input input{
+  position: absolute;
+  left: -150px;
+  top: 5px;
+  height: 50px;
+  width: 1000rpx;
+  background-color: transparent;
+  color: transparent;
+  caret-color: transparent;
+}
+.captcha-input.error .input-view text{
+  border-color: #FF2C43;
+}
+
+.captcha-input>text{
+  color: #FF2C43;
+  font-size: 13px;
+  display: block;
+  margin-top: 11px;
+  visibility: hidden;
+}
+.captcha-input.error>text{
+  visibility: visible;
+}

@@ -1,0 +1,8 @@
+<!--components/header/index.wxml-->
+<view class="header">
+  <slot name="title"></slot>
+  <view wx:if="{{multipleSlots}}" class="more" bindtap="onClick">
+    <slot name="more"></slot>
+    <image wx:if="{{isright}}" src="/image/arrow.png"/>
+  </view>
+</view>

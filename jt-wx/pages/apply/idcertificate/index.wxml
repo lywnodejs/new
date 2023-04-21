@@ -1,0 +1,30 @@
+<!--pages/apply/idcertificate/index.wxml-->
+<bloc wx:if="{cateInfo !== undefined && cateInfo !== null}">
+  <xy-nav-bar bind:navLeftClick="onClickLeft" platform="{{platform}}" title="{{cateInfo.name}}" />
+
+  <view wx:if="{{idAttrs !== undefined && idAttrs !== null && idAttrs.length > 0}}" class="id-card-box">
+    <view class="id-card-title">拍摄身份证照片</view>
+    <view class="front-back-box">
+      <block wx:for="{{idAttrs}}" wx:key="index">
+        <block wx:if="{{item.attrType === 'idCardFrontOcr'}}">
+          <id-front-view class="id-card-item" attribute="{{item}}" bind:valuechange="onValueChange" />
+        </block>
+        <block wx:if="{{item.attrType === 'idCardBackOcr'}}">
+          <id-back-view class="id-card-item" attribute="{{item}}" bind:valuechange="onValueChange" idAttrs="{{idAttrs}}"/>
+        </block>
+      </block>
+    </view>
+  </view>
+
+  <view wx:if="{{liveAttr !== undefined && liveAttr !== null }}" class="face-box">
+    <view class="face-title">根据提示做动作</view>
+    <live-view idAttrs="{{idAttrs}}" attribute="{{liveAttr}}" bind:valuechange="onValueChange"/>
+  </view>
+
+
+  <shoot-require-view wx:if="{{idAttrs !== undefined && idAttrs !== null && idAttrs.length > 0}}" />
+
+    <xy-confirm contentText="{{cateInfo.detainTips}}" rightText="继续" bind:cancel="onCancelStay" bind:ok="onContinue"
+    show="{{showStay && cateInfo.detainTips}}" />
+
+</bloc>

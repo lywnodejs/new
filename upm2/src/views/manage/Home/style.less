@@ -1,0 +1,148 @@
+.manage-dashboard {
+  &__header {
+    .ant-form-item {
+      margin-bottom: 12px;
+    }
+    .ant-form-item-label {
+      float: left;
+    }
+  }
+  &__hint {
+    text-align: right;
+    line-height: 41px;
+    > span:first-of-type {
+      &::after {
+        content: ':';
+        margin: 0 5px;
+      }
+    }
+    .anticon {
+      margin-right: 5px;
+    }
+  }
+  &__statistics{
+    background-color: #ffffff;
+    margin-bottom: 12px;
+    overflow: hidden;
+    &__header {
+      padding: 10px 10px 15px
+    }
+    &__title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    &__content {
+      padding: 0 10px 10px 10px;
+      margin-bottom: 30px;
+      overflow: auto;
+    }
+    &__item {
+      text-align: center;
+    }
+    &__number {
+      font-size: 40px;
+    }
+    &__description {
+      font-weight: bold;
+    }
+    &__list {
+      padding: 0 20px;
+      &:first-of-type {
+        padding: 0 10px 0 20px
+      }
+    }
+    &__lhead {
+      text-align: center;
+      background-color: #f6f6f6;
+      padding: 10px;
+      position: relative;
+      &__title {
+        font-size: 20px;
+      }
+      &__subtitle {
+
+      }
+      &__appnumber {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+  &__span {
+    // padding: 10px;
+
+    p {
+      text-align: center;
+      margin-bottom: 0px;
+      font-size: 13px;
+
+      span {
+        font-size: 24px;
+      }
+    }
+  }
+  &__tooltip .ant-tooltip-content {
+    .ant-tooltip-arrow {
+      display: none;
+    }
+    .ant-tooltip-inner {
+      background-color: #ddd;
+      color: #ff7d4c;
+    }
+  }
+  &__chart, &__table {
+    background-color: #ffffff;
+  }
+  &__table {
+    // padding-left: 12px;
+    // padding-right: 12px;
+
+    .ant-table-body {
+      table {
+        table-layout: fixed;
+      }
+      .ant-table-tbody > tr > td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  &__index {
+    border: 1px solid #eaeaea;
+    padding: 2px 0px;
+    margin-right: 8px;
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    &--hgl {
+      color: #ffffff;
+      background-color: #FFC107;
+      border: none;
+    }
+  }
+  &__title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  &-daterange {
+    background-color: #ffffff;
+  }
+  &__card {
+    cursor: pointer;
+  }
+  &__type {
+    margin-right: 3px;
+  }
+  &__count {
+    margin-right: 3px;
+    // :not(:last-of-type) {
+    //   &:after {
+    //     content: '；'
+    //   }
+    // }
+  }
+}

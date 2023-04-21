@@ -1,0 +1,112 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+<%
+var inStocks = info.data.inStocks || [];
+var tMarHkshscTop10Stocks = info.data.tMarHkshscTop10Stocks;
+var stockInfo = info.data.tMarHkshscTop10Stocks
+var buy = Math.abs(stockInfo.netFlowValue.toFixed(2));
+var volume = stockInfo.totalValue.toFixed(2);
+var time = commonUtil.generateDate(stockInfo.tradeDt);
+var rank = stockInfo.netFlowRank;
+var stockName = stockInfo.secName;
+var stockCode = stockInfo.secCode;
+var type = info.data.netFlowType==1 ? '流入' : '流出';
+
+let ris = stockInfo.buyValue - stockInfo.sellValue;
+
+var item;
+// 流入
+var tagIn = '';
+var len = inStocks.length>10?10:inStocks.length;
+for(var i=0; i<len; i++)
+{
+    item = inStocks[i];
+    tagIn +=
+            '<ul>'+
+            '<li>'+
+            '<h4>'+item.secName+'</h4>'+
+            '<h6>'+item.secCode+'</h6>'+
+            '</li>'+
+            '<li>'+commonUtil.formatAmount(item.netFlowValue*1e4)+'</li>'+
+            '<li>'+commonUtil.formatAmount(item.totalValue*1e4)+'</li>'+
+            '</ul>'
+}
+
+%>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <!--答案框-->
+    截止<%- time %>，近20个交易日<%- stockName %>(<%- stockCode %>) 北上资金净<%- type%><%- buy %>
+    万元，总成交额<%- volume %>万元，北上资金净<%- type%>股票排名第<b><%- rank %></b>。
+    <h6 class="rxh_note">近20个交易日北上资金净流入前十</h6>
+    <div class="rxh_tlBox_3col">
+        <ol>
+            <li>股票名称</li>
+            <li>资金净流入</li>
+            <li>总成交额</li>
+        </ol>
+        <%- tagIn%>
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <h4>伊利股份</h4>-->
+<!--                <h6>600887</h6>-->
+<!--            </li>-->
+<!--            <li>3.65亿</li>-->
+<!--            <li>16.23亿</li>-->
+<!--        </ul>-->
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <h4>伊利股份</h4>-->
+<!--                <h6>600887</h6>-->
+<!--            </li>-->
+<!--            <li>3.65亿</li>-->
+<!--            <li>16.23亿</li>-->
+<!--        </ul>-->
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <h4>伊利股份</h4>-->
+<!--                <h6>600887</h6>-->
+<!--            </li>-->
+<!--            <li>3.65亿</li>-->
+<!--            <li>16.23亿</li>-->
+<!--        </ul>-->
+    </div>
+</div>
+<% include ../component/footer %>
+<script>
+
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray)%>');;
+  var jsNo = 0;
+  var northboundFundsView = {
+    onViewReady: function () {
+      callback()
+    }
+  }
+
+  <% if(!params.noSource) {%>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray)%>');
+    loadJs(jsSource,northboundFundsView.onViewReady);
+  <%}%>
+
+  function callback() {
+  }
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>
+
+
+

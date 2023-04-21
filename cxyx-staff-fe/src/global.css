@@ -1,0 +1,112 @@
+.ant-select-selection {
+  max-height: 51px;
+  overflow: auto;
+}
+.home-relation{
+  width: 30px;
+  position: fixed;
+  right: 0;
+  bottom: 50px;
+  z-index: 999;
+  border: 1px solid #eee;
+  border-radius: 2px 0 0 2px;
+  -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px 0 rgba(122, 118, 118, 0.12);
+  background: #fff;
+  padding: 10px;
+  padding-left: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.home-relation__help{
+  position: fixed;
+  right: 0;
+  bottom: 74px;
+  z-index: 999;
+  border: 1px solid #eee;
+  border-radius: 2px 0 0 2px;
+  -webkit-box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px 0 rgba(122, 118, 118, 0.12);
+  background: #fff;
+  padding: 10px;
+  padding-left: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.home-relation__help__text{
+  width: 30px;
+  text-align: center;
+}
+.ding-qrcode{
+  text-align: left;
+}
+.ding-qrcode img{
+  width: 160px;
+}
+.home-relation:hover{
+  background-color: #FC9153;
+  color: #ffffff;
+}
+.home-relation__help:hover{
+  background-color: #FC9153;
+  color: #ffffff;
+}
+.common-feedback{
+  right: 0 !important;
+  bottom: 10px !important;
+  z-index: 1 !important;
+}
+.common-feedback p{
+  margin-bottom: 0;
+}
+.common-feedback .guide-box{
+  transform: scale(0.9) translate(0px,0);
+}
+.ant-popover{
+  position: fixed;
+}
+/* .project-title__icon__sunquan,.project-title__icon__chengxing{
+  height: auto !important;
+} */
+
+@media only screen and (max-width: 768px) {
+  .project-title__icon__sunquan,.project-title__icon__chengxing{
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .project-title__icon__sunquan{
+    margin-left: 10px;
+    width: 110px;
+  }
+  .project-title__icon__chengxing{
+    width: 30px;
+  }
+  .project-title__icon__sunquan,.project-title__icon__chengxing{
+    margin-top: 15px;
+    height: auto !important;
+  }
+  .ant-layout-sider-collapsed .project-title__icon__sunquan{
+      display: none;
+  }
+  .ant-layout-sider-collapsed .project-title__icon__chengxing{
+    display: block !important;
+  }
+}
+
+
+@keyframes NoticeScroll {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    -webkit-transform: translate3d(-1230px, 0, 0);
+    transform: translate3d(-1230px, 0, 0);
+  }
+}
+
+.ant-collapse-header{
+  background-color: #f5f5f5 !important;
+}

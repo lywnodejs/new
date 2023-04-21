@@ -1,0 +1,118 @@
+
+<div>
+	<div class="p-form-item form-flex">
+		<div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.pageData.repairPeople || !ctrl.pageData.repairPeople.length)  &amp;&amp; ctrl.showErrors}">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th width="20%">风险评估</th>
+						<th width="20%">白帽自评</th>
+						<th>安全建议</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>危害性(Damage)</td>
+						<td></td>
+						<td>
+							{{ctrl.pageConfig.effectBizOptions}}
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.effectBiz && myForm.effectBiz.$touched}">
+									<select class="p-form-control" name="effectBiz"
+									ng-required="true"
+									ng-model="ctrl.pageData.effectBiz">
+											<option value="">请选择</option>
+											<option ng-repeat="option in ctrl.pageConfig.effectBizOptions" index="{{$index}}" value="{{option.dName}}"> {{option.dName}}</option>
+									</select>
+									<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>复现难度(Reproducibity)</td>
+						<td></td>
+						<td>
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.recurrentLevel && myForm.recurrentLevel.$touched}">
+								<select class="p-form-control" name="recurrentLevel"
+								ng-required="true"
+								ng-model="ctrl.pageData.recurrentLevel">
+										<option value="">请选择</option>
+										<option ng-repeat="option in ctrl.pageConfig.recurrentLevelOptions" index="{{$index}}" value="{{option.dName}}"> {{option.dName}}</option>
+								</select>
+								<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>利用难度(Exploitability)</td>
+						<td></td>
+						<td>
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.holeSource1 && myForm.usedLevel.$touched}">
+								<select class="p-form-control" name="usedLevel"
+								ng-required="true"
+								ng-model="ctrl.pageData.usedLevel">
+										<option value="">请选择</option>
+										<option ng-repeat="option in ctrl.pageConfig.usedLevelOptions" index="{{$index}}" value="{{option.dName}}"> {{option.dName}}</option>
+								</select>
+								<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>受影响用户(Affected users)</td>
+						<td></td>
+						<td>
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.volumeLevel && myForm.volumeLevel.$touched}">
+								<select class="p-form-control" name="volumeLevel"
+								ng-required="true"
+								ng-model="ctrl.pageData.volumeLevel">
+										<option value="">请选择</option>
+										<option ng-repeat="option in ctrl.pageConfig.volumeLevelOptions" index="{{$index}}" value="{{option.dName}}"> {{option.dName}}</option>
+								</select>
+								<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td>发现难度DIscoverability)</td>
+						<td></td>
+						<td>
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.discoverLevel && myForm.discoverLevel.$touched}">
+								<select class="p-form-control" name="discoverLevel"
+								ng-required="true"
+								ng-model="ctrl.pageData.discoverLevel">
+										<option value="">请选择</option>
+										<option ng-repeat="option in ctrl.pageConfig.discoverLevelOptions" index="{{$index}}" value="{{option.dName}}"> {{option.dName}}</option>
+								</select>
+								<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>综合评价等级</td>
+						<td></td>
+						<td>
+							<div style="width:100%;" class="wrap-input" ng-class="{'p-error':!ctrl.pageData.selfLevel && myForm.selfLevel.$touched}">
+								<select class="p-form-control" name="selfLevel"
+								ng-required="true"
+								ng-model="ctrl.pageData.selfLevel">
+										<option value="">请选择</option>
+										<option ng-repeat="option in ctrl.pageConfig.selfLevelOptions" index="{{$index}}" value="{{option.id}}"> {{option.dName}}</option>
+								</select>
+								<span class="p-error-msg">请选择</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>等级不一致说明</td>
+						<td colspan="2">
+							<div class="wrap-input form-flex-item">
+								<input class="p-form-control" name="holeSourceAddress" ng-model="ctrl.pageData.holeSourceAddress" maxlength="200" type="text">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

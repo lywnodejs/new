@@ -1,0 +1,164 @@
+<style>
+    .infoDetail span {
+        margin-right: .875rem;
+        font-size: .875rem;
+        color: #a7aabe;
+    }
+
+    .infoDetail p {
+        text-indent: 2rem;
+        font-weight: 300;
+        line-height: 1.875em;
+    }
+</style>
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb infoAndResearch'>
+        <%- data %>
+    </div>
+</div>
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var sn = 0;
+  var frameId = '<%= frameId %>';
+  var ssn = '<%= sn %>'
+
+  var infoAndResearch = {
+    onViewReady: function () {
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/popUtil', '/static/js/utils/timeUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, infoAndResearch.onViewReady)
+
+
+  /**
+   * 点全部时查询详情
+   * @param preAnswerContent
+   * @param id  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   * @param indexId  个性化首页资讯  传参 indexId
+   */
+
+  function showInformationDetail(id, preAnswerContent, type, indexId) {
+
+
+    // var divCircle = document.createElement("DIV");
+    // divCircle.className = 'spinnerCircle';
+    // document.getElementById("bottomAnswerContainer").appendChild(divCircle);
+
+    if (type === "homePage") {
+      popupQuestionForHomepage(id, indexId, preAnswerContent);
+    } else {
+      popupQuestionForInfoAndRe(id, preAnswerContent);
+    }
+
+  }
+
+  /**
+   * 资讯和研报详情弹层
+   * @param params
+   */
+  function popupQuestionForInfoAndRe(id, preAnswerContent) {
+    var url = "";
+    if (preAnswerContent == "资讯") {
+      url = '<%= host %>' + '/news/detail';
+    } else if (preAnswerContent == "研报") {
+      url = '<%= host %>' + '/report/detail';
+    }
+    $.ajax({
+      type: "get",
+      url: url,
+      data: {
+        id: id
+      },
+      timeout: 10000,
+      success: function (json) {
+        commonInfoDetail(json,"",preAnswerContent);
+        // $(".showLoading").hide();
+      },
+      complete: function (XMLHttpRequest) {
+        $(".showLoading").hide();
+      }
+    });
+  }
+
+  /**
+   * 资讯和研报详情弹层
+   * @param json  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   */
+  function commonInfoDetail(json, type, preAnswerContent) {
+    var temp = "", title = '', mediaFrom = '', publishAt, stock = [], content = '';
+    if (type == "homePage") {
+      if (json.data) {
+        title = json.data.title;
+        mediaFrom = json.data.mediaFrom;
+        publishAt = timeUtil.getDataGridTimeFormat(json.data.publishAt);
+        content = json.data.content;
+        stock = json.data.stock;
+      }
+    } else {
+      title = json.title;
+      mediaFrom = json.mediaFrom;
+      publishAt = timeUtil.getDataGridTimeFormat(json.publishAt);
+      content = json.content;
+      stock = json.stock;
+    }
+    temp += "<div class='box_show box_show_btn infoDetail'><h3 style='font-weight: 500;padding: .33rem 0;padding-top: .33rem;padding-bottom: .13rem;margin-bottom: .5rem;'><b>" + title + "</b></h3><span>来源:" + mediaFrom + "</span><span>" + publishAt + "</span><h4 style='margin-top: .5rem;'>相关个股:";
+    for (var i = 0; i < stock.length; i++) {
+      temp += "<span style='color: #2c3e50!important;font-weight: 500;font-size: 0.875rem;'>" + stock[i].name + "</span>";
+    }
+    temp += "</h4><p>" + content + "</p></div>";
+
+
+    popUtil.appendAnswerToPopup(temp);
+    popUtil.showPopup(preAnswerContent + "详情");
+  }
+
+  /**
+   * 个性化首页资讯详情弹层
+   * @param id  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   */
+  function popupQuestionForHomepage(id, indexId, preAnswerContent) {
+    var url = '<%= host %>' + '/riskNotices/api/qa/fix';
+    var data = {
+      predicateType: '资讯详情',
+      question: id,
+      userId: userId,
+      clientId: clientId,
+      fundAccount: fundAccount,
+      userQuestionId: indexId,
+      organization: 'appEzt'
+    };
+    $.ajax({
+      type: "get",
+      url: url,
+      data: data,
+      dataType: "jsonp",
+      timeout: 15000,
+      jsonp: "callback",
+      success: function (result) {
+        commonInfoDetail(result, "homePage", preAnswerContent);
+        // $(".showLoading").hide();
+      },
+      complete: function (XMLHttpRequest) {
+        $(".showLoading").hide();
+      }
+    });
+  }
+</script>
+
+
+
+
+

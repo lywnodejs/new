@@ -1,0 +1,147 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var inStocks = [];
+    if(type == "风险提示"){
+      inStocks = info.data.riskNotices;
+    }else{
+      inStocks = info.data;
+    }
+
+    let item = {};
+    if(inStocks.length>0){
+      if(!begin){
+        item = inStocks[0];
+      }
+      for(var i=0;i<inStocks.length;i++){
+        if(inStocks[i].pubDateTimestamp<begin){
+            item = inStocks[i];
+        }
+      }
+    }
+%>
+<div class="rxh_list rxh_list_1n">
+    <ul class="rxh_gap">
+        <li>
+            <div class="rxh_text rxh_text03 rxh_gap">
+                <h5><strong>激励方式：</strong><%= toolsUtil.incSubject(item.incSubject) %></h5>
+                <h5><strong>公布日期：</strong><%= commonUtil.changeTime1(item.pubDateTimestamp) %></h5>
+                <h5><strong>授予起始日：</strong><%= commonUtil.changeTime1(item.incBeginTimestamp) %></h5>
+                <h5><strong>授予结束日：</strong><%= commonUtil.changeTime1(item.incEndTimestamp) %></h5>
+                <h5><strong>激励进度：</strong><%= item.progress %></h5>
+                <h5><strong>激励金源：</strong><%= toolsUtil.incSubject(item.incType) %></h5>
+                <h5><strong>激励总数：</strong><%= toolsUtil.incAmount(item.incAmount, item.incSubject) %></h5>
+                <h5><strong>期权初始行权价格：</strong><%= toolsUtil.formatAmount(item.incPrice) %></h5>
+                <h5><strong>激励总数占当时总股本比例：</strong><%= toolsUtil.addPer(item.incTotsharePercent) %></h5>
+            </div>
+        </li>
+        <div class="rxh_dl">
+            <dl>
+                <dd>
+                    <p>激励授予条件</p>
+                    <p class="rxh_ellipsis3 rxh_color4"><%= item.incCond %></p>
+                    <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+                </dd>
+            </dl>
+        </div>
+        <div class="rxh_dl">
+            <dl>
+                <dd>
+                    <p>激励股票出售条件</p>
+                    <p class="rxh_ellipsis3 rxh_color4"><%= item.incSellDetail %></p>
+                    <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+                </dd>
+            </dl>
+        </div>
+        <div class="rxh_dl">
+            <dl>
+                <dd>
+                    <p>期权行权特别条件</p>
+                    <p class="rxh_ellipsis3 rxh_color4"><%= item.optExeCond %></p>
+                    <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+                </dd>
+            </dl>
+        </div>
+    </ul>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var eventListView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    openDetail: function (id, url) {
+      try{
+        pa.navigationNative({
+          pageId: "rh_node",
+          url: url
+        });
+      } catch (e) {
+        try {
+          openDetail(id);
+        } catch (e) {
+          console.log(e.toString());
+          window.open(url,"_bank");
+        }
+      }
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, eventListView<%- sn %>.onViewReady)
+  <% } %>
+
+
+  /**
+   * 点击加载更多
+   * @param hideClass
+   * @param moreId
+   * @param stepSize 步长，即每次展示的条数，默认值为2
+   * @param getQuota 1, 0  股票推荐答案中的股票行情分页取，否则多了取不到
+   */
+  function showMoreArticle(hideClass, moreId, stepSize, getQuota) {
+    if (!stepSize)
+      stepSize = 2;
+    else
+      stepSize = parseInt(stepSize);
+
+    //根据隐藏项的class，取出标签列表
+    var list = $('.' + hideClass);
+    var arrStockCode = [];
+    for (var i = 0; i < list.length && i < stepSize; i++) {
+      var divReport = $(list[i]);
+      divReport.show();
+      divReport.removeClass(hideClass); //移除
+      //处理文字内容多的情况
+      var contentIds = divReport.find('[id^=contentId]');
+      var expandBtnIds = divReport.find('[id^=expandBtnId]');
+      if (contentIds && expandBtnIds) {
+        for (var j = 0; j < contentIds.length; j++) {
+        }
+      }
+
+
+    }
+    //再取一遍看是否还有隐藏项，判断是否显示加载更多
+    list = $('.' + hideClass);
+    if (list.length === 0){
+      $('#' + moreId).remove();
+    }
+  }
+</script>

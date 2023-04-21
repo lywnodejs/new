@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/tabList.css">
+    <title>知识抽取</title>
+</head>
+<body>
+<div class="header">
+    <img src="./image/images/login_02.png" alt="">
+</div>
+<div class="content">
+    <div class="left">
+        <ul>
+            <li onclick="window.location.href='indexbase.html';">
+                <p></p>
+                <img src="./image/images/item01_02.png" />
+                <span>OCR识别</span>
+                <span>普通版</span>
+            </li>
+            <li onclick="window.location.href='indexnormal.html';">
+                <p></p>
+                <img src="./image/images/item02_02.png" />
+                <span>OCR识别</span>
+                <span>自定义版</span>
+            </li>
+            <li onclick="window.location.href='indexWrite.html';">
+                <p></p>
+                <img src="./image/images/item03_02.png" />
+                <span>OCR识别</span>
+                <span>手写版</span>
+            </li>
+            <li onclick="window.location.href='indexbaseMode.html';">
+                <p></p>
+                <img src="./image/images/item04_14.png" />
+                <span>OCR识别</span>
+                <span>公文识别</span>
+            </li>
+            <li class="line_left" onclick="window.location.href='tablist.html';">
+                <p></p>
+                <img src="./image/images/item05_02.png" />
+                <span>知识抽取</span>
+            </li>
+            <li onclick="window.location.href='wordAnalyze.html'">
+                <p></p>
+                <img src="./image/images/item-6_02.png" />
+                <span>词法分析</span>
+            </li>
+            <li onclick="window.location.href='sentenceAnalyze.html';">
+                <p></p>
+                <img src="./image/images/item07_24.png" />
+                <span>句法分析</span>
+            </li>
+            <li onclick="window.location.href='synonymsAnalyze.html';">
+                <p></p>
+                <img src="./image/images/item08_02.png" />
+                <span>同义词 </span>
+            </li>
+        </ul>
+    </div>
+    <div class="right">
+        <div class="rightTop">
+            <textarea class="inp" placeholder="请输入一个句子/段落"></textarea>
+            <button>分析</button>
+        </div>
+        <div id="rightBottom">
+            <div id="contentSVG">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loading">
+    加载中...
+</div>
+</body>
+</html>
+<script type="text/javascript" src="./js/jquery1.11.3.min.js"></script>
+<script type="text/javascript" src="./js/Highcharts-7.1.2/code/highcharts.js"></script>
+<script src="./js/Highcharts-7.1.2/code/themes/dark-unica.js"></script>
+<script src="./js/Highcharts-7.1.2/code/modules/exporting.js"></script>
+<script src="./js/Highcharts-7.1.2/code/modules/oldie.js"></script>
+<script src="./js/Highcharts-7.1.2/code/modules/networkgraph.js"></script>
+<script type="text/javascript" src="./js/getdata.js?t=7"></script>

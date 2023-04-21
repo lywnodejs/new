@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    //不需要显式地声明变量的类型any, 可以部分实现ts与js的混编
+    "target": "es5",
+    //编译的目标js版本, 一般是ES5, 能够被浏览器使用
+    "lib": [
+      //编译期间所包括的文件
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    //允许混合编译js文件
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    //允许使用common.js的方法进行import
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    //使用node的方法编译
+    "resolveJsonModule": true,
+    //使用json需要设置为true
+    "isolatedModules": true,
+    //把每个文件单独作为一个模块来分析
+    "noEmit": true,
+    //编译出错误的时候, 不会生产JS代码
+    "jsx": "react-jsx",
+    //允许编译器支持编译React代码
+  },
+  "include": [
+    //需要编译的文件, 使用需要编译文件的绝对或相对路径
+    // **任意子目录; *任意文件; ?可忽略字符
+    "src",
+    // "custom.d.ts"
+  ]
+}

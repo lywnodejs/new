@@ -1,0 +1,17 @@
+<div class="red-color">请慎重选择延期操作！</div>
+<div class="p-form-item form-flex align-start">
+    <label class="item-label">期望修复时间：</label>
+    <div class="wrap-input form-flex-item">
+        <div class="input-group p-col-6">
+            <input id="occured_time" class="form-control js-date-picker" type="text" name="expireTime" readonly="readonly" uib-datepicker-popup
+                close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd" datepicker-options="expireTimeOptions"
+                ng-required="true" is-open="expireTimeIsOpen" onclose="expireTimeClose()" ng-model="expireTime" ng-click="expireTimeOpen()">
+            <span class="input-group-btn" ng-click="expireTimeOpen()">
+                <button type="button" class="btn btn-default">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+<div>延期需您的上级和安全工程师共同审批后方可生效。若未延期将逐级向上通报到CTO。</div>

@@ -1,0 +1,78 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 回购信息 赵波 2019.10.22 -->
+<%
+ var list = info.data ? (info.data.messageDisps || []) : [];
+ var pageSize = 5;
+ var hideClass = commonUtil.generateRandomClassName('hideClass');
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_timeLine box_timeLine_factor">
+            <div class="timeLine">
+                <ul>
+                    <% for (var i=0; i<list.length; i++) {
+                        var item = list[i];
+                        var ifHideClass = i > 4 ? 'none' : 'flex';
+                        var hideClassLine = i > 4 ? hideClass : '';
+                    %>
+                    <li style="display:<%= ifHideClass %>" class="<%= hideClassLine %>">
+                        <dt>
+                            <b></b>
+                            <s><i></i></s>
+                        </dt>
+                        <dd>
+                            <div class="space_between">
+                                <span><%= JSON.parse(item.messageContent).status || '' %></span>
+                                <span class="date"><%= commonUtil.changeTime(item.publishAt) %></span>
+                                </div>
+                            <h5 class="b_fa"><%= item.messageDisp || '' %></h5>
+                        </dd>
+                    </li>
+                    <% } %>
+                    <% if (list.length === 0 ) { %>
+                        <li>
+                            <dt>
+                                <b></b>
+                                <s><i></i></s>
+                            </dt>
+                            <dd>
+                                <div class="space_between">
+                                    <span>暂无信息</span>
+                                </div>
+                            </dd>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <%
+        if (list.length > pageSize) {
+            var moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+        <div id="<%= moreId %>" class="box_load" style="padding: 5px 0 18px 0; margin-top: 0;" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+            <a>查看更多</a>
+        </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var financialBuyback = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, financialBuyback.onViewReady)
+
+</script>

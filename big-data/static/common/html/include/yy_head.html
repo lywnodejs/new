@@ -1,0 +1,77 @@
+<!-- 顶部 -->
+
+<div class="rxhBD_head_all">
+  <div class="rxhBD_search">
+    <div class="rxhBD_box">
+      <i class="icon-search"></i>
+      <input placeholder="锂电池 行业竞争">
+      <i class="icon-close2_full"></i>
+    </div>
+  </div>
+  <div class="rxhBD_nav">
+    <div class="rxhBD_box">
+      <a class="rxhBD_on" href="yy_all.html">全部<b></b></a>
+      <a href="yy_information.html">资讯<b></b></a>
+      <a href="yy_notice.html">公告<b></b></a>
+      <a href="#">政策<b></b></a>
+      <a href="yy_researchReport.html">研报<b></b></a>
+      <a href="yy_event.html">事件<b></b></a>
+      <a href="yy_industryChain.html">产业链<b></b></a>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function () {
+
+    // 屏幕宽度
+    var _rxh_winW = $(window).width(),
+      _rxh_winW2 = window.screen.availWidth;
+    if (_rxh_winW != _rxh_winW2){
+      _rxh_winW = _rxh_winW2;
+    }
+
+    var $rxhBD_head_a = $(".rxhBD_head_all .rxhBD_nav a");
+
+    // 标签切换
+    $rxhBD_head_a.click(function () {
+      $(this).addClass("rxhBD_on").siblings().removeClass();
+
+      var _thisW = $(this).outerWidth() + 32; // a标签的宽度
+      var _this_a_L = $(this).offset().left;  // 计算距左距离
+      var _this_rightL = Math.ceil(_thisW + _this_a_L);  // 标签右侧距左
+
+      if( _this_rightL > _rxh_winW){
+        console.log(_this_rightL);
+        console.log($(this));
+        $(this).parents(".rxhBD_box").animate({
+          scrollLeft: _this_rightL
+        }, 300);
+      }
+
+    });
+
+    // 当前页面状态
+    var rxh_htmlHref = window.location.href;
+    var rxhBD_i = rxh_htmlHref.lastIndexOf(".");
+    rxh_htmlHref = rxh_htmlHref.substr(0, rxhBD_i).replace(/^http:\/\/[^/]+/, "");
+    var rxh_addr = rxh_htmlHref.substr(rxh_htmlHref.lastIndexOf('/', rxh_htmlHref.lastIndexOf('/') - 1) + 1);
+    var rxh_index = rxh_addr.lastIndexOf("\/");
+    var rxh_addrLast = decodeURI(rxh_addr.substring(rxh_index + 1, rxh_addr.length));
+    // console.log(rxh_addrLast);
+
+    if( rxh_addrLast == "yy_all"){
+      $rxhBD_head_a.eq(0).addClass("rxhBD_on").siblings().removeClass();
+    } else if( rxh_addrLast == "yy_information"){
+      $rxhBD_head_a.eq(1).addClass("rxhBD_on").siblings().removeClass();
+    } else if( rxh_addrLast == "yy_notice"){
+      $rxhBD_head_a.eq(2).addClass("rxhBD_on").siblings().removeClass();
+    } else if( rxh_addrLast == "yy_researchReport"){
+      $rxhBD_head_a.eq(4).addClass("rxhBD_on").siblings().removeClass();
+    } else if( rxh_addrLast == "yy_event"){
+      $rxhBD_head_a.eq(5).addClass("rxhBD_on").siblings().removeClass();
+    } else if( rxh_addrLast == "yy_industryChain"){
+      $rxhBD_head_a.eq(6).addClass("rxhBD_on").siblings().removeClass();
+    }
+  });
+</script>

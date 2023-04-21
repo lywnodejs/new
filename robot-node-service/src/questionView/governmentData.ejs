@@ -1,0 +1,278 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% if(isShow){ %>
+    <% include ./component/preAnswer %>
+        <div class="mb" id="<%= randomn %>">
+            <div class="box_dataComparison">
+
+                <div class="hd_ddList">
+                    <h4><%= info.data.dataTitle %>对比</h4>
+
+                    <div class="box_ddList">
+                        <a><%= info.data.data[arr[0]][info.data.data[arr[0]].length - 1].years %>年<i
+                                    class="icon-arrow2_B_small"></i></a>
+                        <!-- 下拉框 -->
+                        <ul class="ddList">
+                            <li>2017年</li>
+                            <li>2016年</li>
+                            <li>2015年</li>
+                            <li>2014年</li>
+                            <li>2013年</li>
+                            <b></b>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="hd_comparison">
+                    <li><%= arr[0] %>
+                        <b><i></i></b>
+                    </li>
+                    <li><%= arr[1] %>
+                        <b><i></i></b>
+                    </li>
+                    <div class="box_vs">
+                        <b><span>v</span><em>s</em></b>
+                    </div>
+                </ul>
+                <div class="tlBox_comparison_box">
+                    <% for(var l = 0;l < info.data.data[arr[0]].length;l++){
+                        var years_ = info.data.data[arr[0]][info.data.data[arr[0]].length - 1].years;
+                        if (info.data.data[arr[0]][l].years !== years_) {
+                            continue;
+                        }
+                        value = "--";
+
+                        if (info.data.data[arr[0]][l].indexValue) {
+                            value = info.data.data[arr[0]][l].indexValue
+                        }
+                        var value2 = "--";
+                        if (info.data.data[arr[1]][l].indexValue) {
+                            value2 = info.data.data[arr[1]][l].indexValue
+                        }
+                        var number_ = '--';
+                        if (value !== '--' && value2 !== '--') {
+                            var number_ = "--";
+                            if (info.data.data[arr[1]][l].indexValue && info.data.data[arr[0]][l].indexValue) {
+                                number_ = (parseInt(info.data.data[arr[1]][l].indexValue) / parseInt(info.data.data[arr[0]][l].indexValue)).toFixed(2)
+                            }
+                        } else {
+                            var number_ = '--';
+                        }
+                    %>
+                    <div class="tlBox_comparison">
+                        <h5><%= info.data.data[arr[0]][l].dimensionIndex %></h5>
+                        <ul>
+                            <% if(info.data.data[arr[0]][l].dimensionIndex == '土地收入占总比' && arr[0] == '贵州省' && arr[1] == '四川省'){ %>
+                            <li>
+                                <span><%= 35.7 %></span>
+                                <em><%= '%' %></em>
+                            </li>
+                            <li>
+                                <span><%= 39.3 %></span>
+                                <em><%= '%' %></em>
+                            </li>
+                            <% }else{ %>
+                            <li>
+                                <span><%= value %></span>
+                                <em><%= info.data.data[arr[0]][l].units %></em>
+                            </li>
+                            <li>
+                                <span><%= value2 %></span>
+                                <em><%= info.data.data[arr[0]][l].units %></em>
+                            </li>
+                            <% } %>
+                            <% if(info.data.data[arr[0]][l].dimensionIndex == '土地收入占总比' && arr[0] == '贵州省' && arr[1] == '四川省'){ %>
+                                <div class="tBox_center">1 : 1.1</div>
+                            <% }else{ %>
+                                <div class="tBox_center">1 : <%= number_ == 'NaN' ? '--' : number_ %></div>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!--点评-->
+            <% if(req.query.appKey != 'guoxin'){ %>
+                <div class="box_appraisal">
+                    <% if(req.query.appKey == 'appZxcxHide'){ %>
+                        <a class="a_search">
+                            <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                            <span>精准查找政策</span>
+                            <i class="icon-arrow2_R_small"></i>
+                        </a>
+                    <% } %>
+                    <a><i id="up<%= randomn %>" class="icon-good"></i></a>
+                    <a><i id="down<%= randomn %>" class="icon-bad"></i></a>
+                </div>
+            <% } %>
+        </div>
+<% } %>
+
+<% if(!isShow){ %>
+    <div class="mb md_tlbox">
+        <div class="box_shadow">
+            政策大脑没有为您找到相关数据
+        </div>
+    </div>
+<% } %>
+
+
+<script>
+
+  var governmentData = {
+    onViewReady: function () {
+      var num = '<%= randomn %>';
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('知行财讯外');
+        }
+      })
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+
+      //点赞或踩
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+
+      //切换时间
+      $('#' + num + ' .box_ddList a').click(function () {
+        if ($('#' + num + ' .box_ddList ul').hasClass('show')) {
+          $('#' + num + ' .box_ddList ul').removeClass('show');
+        } else {
+          $('#' + num + ' .box_ddList ul').addClass('show');
+        }
+      })
+      $('#' + num + ' .box_ddList ul li').click(function () {
+        $('#' + num + ' .box_ddList ul li').removeClass('on');
+        $(this).addClass('on');
+        $('#' + num + ' .box_ddList a').html($(this).text() + '<i class="icon-arrow2_B_small"></i>');
+        $('#' + num + ' .box_ddList ul').removeClass('show');
+        getDateYear(num, $(this).text());
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, governmentData.onViewReady)
+
+
+  function date_info(val) {
+    var now = new Date(val);
+    var year = now.getFullYear(); //年
+    var month = now.getMonth() + 1; //月
+    var day = now.getDate(); //日
+    var hh = now.getHours(); //时
+    var mm = now.getMinutes(); //分
+    var clock = year + "-";
+    if (month < 10)
+      clock += "0";
+    clock += month + "-";
+    if (day < 10)
+      clock += "0";
+    clock += day;
+    return (clock);
+  }
+
+  //请求其他年份
+  function getDateYear(num, year) {
+    var obj = '<%- JSON.stringify(info.questionAnalyse[0]) %>';
+    var data_ = {
+      questionAnalyseJson: obj,
+      predicateType: '政府数据对比',
+      question: year
+    }
+    var arr = JSON.parse('<%- JSON.stringify(arr) %>');
+    $.ajax({
+      url: '<%= host %>' + '/api/getDateYear',
+      type: 'get',
+      dataType: 'json',
+      data: data_,
+      success: function (data) {
+        $('#' + num).find('.tlBox_comparison_box').html('');
+        var element = '';
+        for (var l = 0; l < data.data.data[arr[0]].length; l++) {
+          var item = data.data.data[arr[0]][l];
+          var value = data.data.data[arr[0]][l].indexValue ? data.data.data[arr[0]][l].indexValue : '--';
+          var value2 = data.data.data[arr[1]][l].indexValue ? data.data.data[arr[1]][l].indexValue : '--';
+          if (value !== '--' && value2 !== '--') {
+            var number_ = (parseInt(data.data.data[arr[1]][l].indexValue) / parseInt(data.data.data[arr[0]][l].indexValue)).toFixed(2)
+          } else {
+            var number_ = '--';
+          }
+          element += `
+                    <div class="tlBox_comparison">
+                        <h5>${item.dimensionIndex}</h5>
+                        <ul>
+                            <li>
+                                <span>${value}</span>
+                                <em>${item.units}</em>
+                            </li>
+                            <li>
+                                <span>${value2}</span>
+                                <em>${item.units}</em>
+                            </li>
+                            <div class="tBox_center">1 : ${number_}</div>
+                        </ul>
+                    </div>
+                    `
+        }
+        $('#' + num).find('.tlBox_comparison_box').html(element);
+      }
+    })
+  }
+
+  //点赞或踩
+  function feedback(num) {
+    var id = '<%- info.spanId %>';
+    var data_ = {
+      spanId: id,
+      commentFeedback: num
+    }
+    $.ajax({
+      url: '<%= host %>' + '/api/feedback?',
+      type: 'get',
+      dataType: 'json',
+      data: data_,
+      success: function (data) {
+        if (data.message.code == 0) {
+          try {
+            if (num == 1) {
+              thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+            } else {
+              thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+            }
+            ;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    })
+  }
+
+
+</script>

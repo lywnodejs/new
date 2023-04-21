@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选择行业</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/static/css/pick-industry.css">
+    <script src="/static/js/libs/jBaidu.js"></script>
+</head>
+<body class="body_index" style="background-color: #FFFFFF">
+    <div class="searchPanel">
+        <div class="search">
+            <input id="txtIndustry" type="text" placeholder="请输入您想选择的行业" class="search" oninput="filterList(event)">
+        </div>
+    </div>
+    <div class="pop"></div>
+    <div id="item-container">
+        <!-- 无数据 -->
+        <div id="noMatchView" class="noData" style="display: none">
+            <i></i>
+            <h5>暂无相关行业</h5>
+        </div>
+
+        <!-- 有数据 -->
+        <ul id="industryList"></ul>
+
+        <!-- 搜索数据 -->
+        <ul id="searchList" style="display: none"></ul>
+    </div>
+</body>
+</html>
+<script src="/static/js/libs/jquery-1.11.2.min.js"></script>
+<script src="/static/client/js/utils/commonUtil.js"></script>
+<script src="/static/client/js/utils/logUtil.js"></script>
+<script src="/static/client/js/utils/functionForApp.js"></script>
+<script src="/static/client/js/robots/changeRem.js"></script>
+<script src="/static/client/js/robots/jUrlParams.js"></script>
+<script src="/static/client/js/robots/jCommon.js"></script>
+<script src="/static/client/js/robots/jIndustryData.js"></script>
+<script src="/static/client/js/robots/jIndexSidebar.js"></script>
+<script src="/static/client/js/robots/jPickIndustry.js"></script>

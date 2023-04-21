@@ -1,0 +1,8 @@
+<!--components/apply/item-view/id-back-view/index.wxml-->
+<view class="card-img-box {{attribute.completed && 'has-auth-success'}}" bindtap="{{attribute.editFlag ? 'onTap' :''}}">
+  <image src="/image/ocr/id2.png" class="id-img"></image>
+  <view >
+    {{attribute.completed ? '重新' : ''}}拍摄<text class="desc">国徽面</text>
+  </view>
+</view>
+<xy-confirm contentText="{{errorTip}}" bind:close="onCloseTip" is-alert show="{{showErrorTip}}" />

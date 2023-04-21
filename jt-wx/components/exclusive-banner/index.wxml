@@ -1,0 +1,32 @@
+
+<view class="exclusive-banner">
+  <swiper bindchange="onChange" indicator-dots="{{indicatorDots}}"
+    autoplay="{{autoplay}}" circular="{{circular}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{datas}}" wx:key="idx" wx:for-index="idx">
+      <swiper-item>
+        <view class="swiper-item">
+          <image class="bg" src="../../image/bannerBG.png"></image>
+          <view class="top">
+            专属推荐
+          </view>
+          <view class="title">{{item.productName}}</view>
+          <view class="tag" wx:if="{{item.type === '1'}}">
+            <view wx:for="{{item.tags}}" wx:key="idx" wx:for-index="idx">
+              {{item}}
+            </view>
+          </view>
+          <view wx:else  style="margin-bottom: 24rpx;"></view>
+          <view class="num">{{item.productType ==='2'? item.yearRate : item.availableLendAmount}}</view>
+          <view class="info">{{item.title}}</view>
+          
+          <view class="button" bindtap="onClick" data-item="{{item}}">立即查看</view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class="swiper-dots" wx:if="{{datas.length > 1}}">
+    <block wx:for="{{datas}}" wx:key="idx" wx:for-index="idx">
+      <view class="{{index === idx ? 'selected' : ''}}"></view>
+    </block>
+  </view>
+</view>

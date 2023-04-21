@@ -1,0 +1,44 @@
+{
+    "userId": 576094,
+    "username": "ganhuan",
+    "displayName": "甘焕",
+    "cn": null,
+    "permission": null,
+    "accessToken": null,
+    "expiresIn": null,
+    "mobile": "18500136001",
+    "redirectUri": null,
+    "department": null,
+    "mail": "ganhuan@didichuxing.com",
+    "ticket": "bacc54a08670a821bbfd2d9da0ecd6e9000452000",
+    "roles": [{
+        "id": "16546",
+        "name": "bizSec",
+        "name_zh": "业务安全"
+    }, {
+        "id": "17108",
+        "name": "dutyMgr",
+        "name_zh": "值班管理员"
+    }, {
+        "id": "17112",
+        "name": "inStats",
+        "name_zh": "指标监控用户"
+    }, {
+        "id": "15321",
+        "name": "alarm",
+        "name_zh": "安全告警"
+    }, {
+        "id": "15756",
+        "name": "superAdmin",
+        "name_zh": "后台管理员"
+    }, {
+        "id": "12559",
+        "name": "admin",
+        "name_zh": "管理员"
+    }, {
+        "id": "12560",
+        "name": "sec_event_user",
+        "name_zh": "管理员"
+    }],
+    "isAdmin": false
+}

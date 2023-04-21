@@ -1,0 +1,181 @@
+.product-cell {
+  background: #fff;
+}
+.product-cell .loop{
+  box-sizing: border-box;
+  padding-bottom: 30rpx;
+  position: relative;
+}
+
+.product-cell .loop .title{
+  display: flex;
+  align-items: center;
+  margin-top: 30rpx;
+}
+.product-cell .loop .title image{
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.product-cell .loop .title text{
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  line-height: 40rpx;
+}
+
+.product-cell .loop .content{
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+.product-cell .loop .content text{
+  display: block;
+}
+.product-cell .loop .content view text:last-child{
+  font-size: 24rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #999999;
+  line-height: 34rpx;
+  margin-top: 10rpx;
+}
+.product-cell .loop .content view text:first-child{
+  font-size: 60rpx;
+  font-family: DIN-Medium, DIN;
+  font-weight: bold;
+  color: #F65348;
+  line-height: 66rpx;
+}
+.product-cell .loop .content>text{
+  position: absolute;
+  top: 55rpx;
+  right: 15rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #73AF2B;
+  line-height: 72rpx;
+  padding: 0 44rpx;
+  height: 72rpx;
+  border-radius: 40rpx;
+  border: 2rpx solid #73AF2B;
+}
+.product-cell .loop .content>text.disabled{
+  background-color: #D9D9D9;
+  color: #ffffff;
+  border: 2rpx solid #D9D9D9;
+}
+.product-cell .loop .content .totalAmount{
+  background-color: #73AF2B;
+  color: #ffffff;
+}
+
+.product-cell .loop .info {
+  display: flex;
+  margin-top: 7px;
+}
+.product-cell .loop .info view+view {
+  margin-left: 40px;
+}
+.product-cell .loop .info view text+text{
+  margin-left: 13px;
+}
+.product-cell .loop .info view text:first-child{
+  font-size: 13px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #999999;
+  line-height: 18px;
+}
+.product-cell .loop .info view text:last-child{
+  font-size: 15px;
+  font-family: DIN-Medium, DIN;
+  font-weight: 500;
+  color: #4D4D4D;
+  line-height: 18px;
+}
+.product-cell .loop .info>text{
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #999999;
+  line-height: 17px;
+}
+
+
+.product-cell .tag {
+  display: flex;
+  justify-content: space-around;
+  margin: 28rpx auto 0;
+  border-radius: 4rpx;
+  box-sizing: border-box;
+  width: 630rpx;
+  height: 82rpx;
+  background-color: #F8F9FB;
+  font-size: 24rpx;
+  color: #666666;
+  line-height: 82rpx;
+  border: 2rpx solid #F3F3F5;
+}
+
+.product-cell .tag view {
+  display: flex;
+  align-items: center;
+}
+
+.product-cell .tag image {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 8rpx;
+}
+.footer{
+  width: 630rpx;
+  height: 74rpx;
+  background-color: #F8FBF4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 34rpx;
+  border: 1px solid #EDF5E3;
+  position: relative;
+}
+.footer>view{
+  width: 50%;
+  font-size: 24rpx;
+  color: #73AF2B;
+  line-height: 34rpx;
+  font-weight: 500;
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  display: flex;
+}
+.footer>view text{
+  font-weight: bold;
+  color: #666666;
+  font-size:34rpx;
+  line-height: 36rpx;
+  margin-left: 10rpx;
+}
+.footer image:nth-of-type(1){
+  position: absolute;
+  top: -16rpx;
+  left: 46rpx;
+  width: 22rpx;
+  height: 22rpx;
+}
+.footer image:nth-of-type(2){
+  position: absolute;
+  top: 0rpx;
+  left: 0rpx;
+  width: 24rpx;
+  height: 20rpx;
+}
+.footer image:nth-of-type(3){
+  position: absolute;
+  bottom: 0rpx;
+  right: 0rpx;
+  width: 24rpx;
+  height: 20rpx;
+}

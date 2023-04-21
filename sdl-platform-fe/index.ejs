@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+</head>
+<body>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+
+<!-- <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark1.0.js"></script> -->
+<!-- <script type="text/javascript" charSet="utf-8" async="" src="https://shares-static.xiaojukeji.com/static/ep_survey_img/track.js"></script> -->
+
+<!--dll-->
+<% if (htmlWebpackPlugin.options.dll) { %>
+<% for(var i = 0, v; v = htmlWebpackPlugin.options.dll[i]; i++) { %>
+<script src="<%= v %>"></script>
+<%  } %>
+<%  } %>
+
+</body>
+</html>

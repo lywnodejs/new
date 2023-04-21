@@ -1,0 +1,114 @@
+<%
+var query = queryParams.searchParams?queryParams.searchParams:queryParams;
+var templateTitle = query.templateTitle;
+var templateTitleLeval = query.templateTitleLeval;
+var templateUrl = query.templateUrl;
+if (templateTitle) {
+        switch (templateTitleLeval) {
+case 0:
+%>
+
+<div class="rxh_public_hd01 rxh_between">
+    <div><b></b><span><%= templateTitle %></span></div>
+    <%
+    if (templateUrl) {
+    %>
+    <div class="rxh_mR10" onclick="templateTitle<%- sn %>.titleOnClick('<%= templateUrl %>')"><i
+                class=" icon-arrow_R"></i></div>
+    <% } %>
+</div>
+<%
+    break;
+case 1:
+%>
+<%
+if (templateUrl) {
+%>
+
+<div class="rxh_public_hd02 rxh_between">
+    <div><%= templateTitle %></div>
+    <div class="rxh_mR10" onclick="templateTitle<%- sn %>.titleOnClick('<%= templateUrl %>')"><i
+                class=" icon-arrow_R_small"></i></div>
+</div>
+
+<% } else{ %>
+<div class="rxh_public_hd02">
+    <div><%= templateTitle %></div>
+</div>
+
+<% } %>
+<%
+    break;
+case 2:
+%>
+
+<div class="rxh_public_hd03">
+    <span><%= templateTitle %>
+        <%
+        if (templateUrl) {
+        %>
+        <div id="a<%= sn %>" onclick="templateTitle<%- sn %>.titleOnClick('<%= templateUrl %>')"><i
+                    class="icon-arrow_R_small"></i></div>
+        <% } %>
+    </span>
+</div>
+<%
+    break;
+}
+}
+%>
+<%
+if (templateUrl) {
+%>
+<script>
+
+    var templateTitle<%- sn %> = {
+        titleOnClick: function (url) {
+            templateTitle<%- sn %>.navigationNative({
+                'pageId': 'rh_node',
+                'url': url + "&navbar=1" + "&name=" + stockName
+            })
+        },
+        navigationNative: function (args) {
+            var appArg = args;
+            if (typeof(args) == 'object') {
+                appArg = JSON.stringify(args);
+            }
+            if (templateTitle<%- sn %>.isAndroidApp()) {
+                window.contestapp.navigationNative(appArg);
+            } else if (templateTitle<%- sn %>.isIOSApp()) {
+                window.webkit.messageHandlers.navigationNative.postMessage(appArg);
+            } else {
+                var argsObj;
+                if (!(typeof(args) == "object" && Object.prototype.toString.call(args).toLowerCase() == "[object object]" && !args.length)) {
+                    argsObj = JSON.parse(args);
+                } else {
+                    argsObj = args;
+                }
+                // var argsObj = JSON.parse(args);
+                // var argsObj = args;
+                if (typeof (argsObj) == 'object') {
+                    if (argsObj.url) {
+                        window.open(argsObj.url);
+                    }
+                }
+            }
+        },
+        isAndroid: function () {
+            return (/Android/i).test(navigator.userAgent);
+        },
+        isIOS: function () {
+            return (/iPhone|iPad|iPod/i).test(navigator.userAgent);
+        },
+        isAndroidApp: function () {
+            return templateTitle<%- sn %>.isAndroid() && (/com.hundsun.stockwinner.hczq/i).test(navigator.userAgent);
+        },
+        isIOSApp: function () {
+            return templateTitle<%- sn %>.isIOS() && (/com.hczq.officialApp/i).test(navigator.userAgent);
+        }
+    }
+</script>
+
+<%
+}
+%>

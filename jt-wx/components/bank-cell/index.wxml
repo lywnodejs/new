@@ -1,0 +1,25 @@
+<!--components/bank-cell/index.wxml-->
+<view class="bank-cell custom-class">
+  <view class="header">
+    <text>储蓄卡号</text>
+    <view class="i">
+      <image src="/image/i.png"/>
+      <text data-type="2" bindtap="jumpBank">支持银行</text>
+    </view>
+  </view>
+
+  <view class="input" wx:if="{{showInput}}">
+    <input type="number" value="{{cardNo}}" maxlength="{{23}}" placeholder="{{placeholder}}" bind:input="changeCardNo" placeholder-class="placeholder"/>
+    <!-- <image bindtap="onCamera" class="camera" src="/image/item_camera.png"/> -->
+  </view>
+
+  <view class="info">
+    <image class="logo" wx:if="{{bankInfo.bankIconUrl}}" src="{{bankInfo.bankIconUrl}}"/>
+    <text class="name">{{bankInfo.bankName}}</text>
+    <!-- <text class="btn" bindtap="jumpBank">{{btnText}}</text> -->
+  </view>
+
+  <view class="info error" wx:if="{{isError}}">
+    <text class="name">{{errorMessage}}</text>
+   </view>
+</view>

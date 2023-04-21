@@ -1,0 +1,136 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var inStocks = info.data.list;
+    var hideClass = "";
+    var pageSize = 2;
+%>
+
+<!-- 四周有间距，加样式名：rxh_gap -->
+<%
+    if (inStocks.length > pageSize) {
+        hideClass = commonUtil.generateRandomClassName('hide');
+    }
+for(var i=0;i<inStocks.length;i++){
+    var item = inStocks[i];
+    var txt = "";
+    if(type == "竞争优势"){
+        txt = item.analyseResults[item.stocks[0]+'竞争优势'];
+    }else if(type == "经营分析"){
+        txt = item.analyseResults[item.stocks[0]+'经营分析'];
+    }
+%>
+<div class="<%= i>=pageSize?hideClass:'' %> rxh_text rxh_gap" style="display: <%= i >= pageSize?'none':'' %>">
+    <div class="rxh_between">
+        <div class="rxh_text_hd">
+            <b></b><span><%= item.organization %> / <%= item.author %></span>
+
+            <!--
+            标签
+            1. 红色带箭头，买入，样式名：rxh_label_buy，且加标签：<i class="rxh-icon-arrow4_l"></i>
+            2. 绿色带箭头，卖出，样式名：rxh_label_sell，且加标签：<i class="rxh-icon-arrow4_l"></i>
+            3. 红色，样式名：rxh_label_red
+            4. 黄色的书签，样式名：rxh_label_mark
+            -->
+    <!--        <div class="rxh_label_red">增持</div>-->
+        </div>
+        <%if(type == '经营分析'){%>
+        <div>
+            <div class="rxh_label_mark"><span>经营分析</span><b></b><i></i></div>
+        </div>
+        <%}%>
+    </div>
+    <h6 class="rxh_date">发布日期：<%= commonUtil.changeTime(item.publishAt)%></h6>
+    <div class="rxh_tBox">
+        <h5 class="rxh_row3 rxh_ellipsis3"><%= txt %></h5>
+        <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+    </div>
+</div>
+<%}%>
+<%
+if (inStocks.length > pageSize) {
+    moreId = commonUtil.generateRandomClassName('moreId');
+%>
+<div id="<%= moreId %>" class="rxh_btnMore rxh_btnMore_blue"><a onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">查看更多<i class="rxh-icon-arrow2_d"></i></a></div>
+<% } %>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var eventListView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    openDetail: function (id, url) {
+      try{
+        pa.navigationNative({
+          pageId: "rh_node",
+          url: url
+        });
+      } catch (e) {
+        try {
+          openDetail(id);
+        } catch (e) {
+          console.log(e.toString());
+          window.open(url,"_bank");
+        }
+      }
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, eventListView<%- sn %>.onViewReady)
+  <% } %>
+
+
+  /**
+   * 点击加载更多
+   * @param hideClass
+   * @param moreId
+   * @param stepSize 步长，即每次展示的条数，默认值为2
+   * @param getQuota 1, 0  股票推荐答案中的股票行情分页取，否则多了取不到
+   */
+  function showMoreArticle(hideClass, moreId, stepSize, getQuota) {
+    if (!stepSize)
+      stepSize = 2;
+    else
+      stepSize = parseInt(stepSize);
+
+    //根据隐藏项的class，取出标签列表
+    var list = $('.' + hideClass);
+    var arrStockCode = [];
+    for (var i = 0; i < list.length && i < stepSize; i++) {
+      var divReport = $(list[i]);
+      divReport.show();
+      divReport.removeClass(hideClass); //移除
+      //处理文字内容多的情况
+      var contentIds = divReport.find('[id^=contentId]');
+      var expandBtnIds = divReport.find('[id^=expandBtnId]');
+      if (contentIds && expandBtnIds) {
+        for (var j = 0; j < contentIds.length; j++) {
+        }
+      }
+
+
+    }
+    //再取一遍看是否还有隐藏项，判断是否显示加载更多
+    list = $('.' + hideClass);
+    if (list.length === 0){
+      $('#' + moreId).remove();
+    }
+  }
+</script>

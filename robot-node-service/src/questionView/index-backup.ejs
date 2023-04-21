@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="keywords" content="小e,智能小e,小E,智能小E,robot.rxhui.com,小e首页,小e机器人,智能机器人,robot.rxhui,问答,智能">
+    <meta name="description" content="智能小e，智能化时代投资助手和全语音问答交互模式，内容覆盖7x24小时金融市场投资标的研判、k线形态量化分析、专家估值评级，及时挖掘投资机会。">
+    <meta name="application-name" content="智能小e 首页">
+    <title><%= robotName %></title>
+    <link rel="stylesheet" href="<%= reportUrl %>/stylesheets/mindleGroundReport.css">
+    <link rel="stylesheet" href="<%= reportUrl %>/stylesheets/yy_OnekeyResearchReport.css">
+    <link rel="stylesheet" href="static/css/yy_icon.css">
+    <link rel="stylesheet" href="static/css/yy_style_v1.css">
+    <link rel="stylesheet" href="static/css/yy_style_v2.css">
+    <link rel="stylesheet" href="static/css/hpc_style.css">
+    <link rel="stylesheet" href="static/css/jser_style.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?v=<%= cssLibVersion %>">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?v=<%= cssLibVersion %>">
+    <script>
+        var env = '<%= env %>';
+        var assetUrl = '<%= assetsUrl %>'
+        var headImg = '<%= logoUrl %>';
+        if (headImg) {
+          headImg = assetUrl + headImg;
+        } else {
+          headImg = 'static/images/avatar-min.png';
+        }
+        var disclaimer = '<%= disclaimer %>' !== '';
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?e7cbeb67daeb6e557032c7c5e7be5b9b";
+            var url=window.location.href;
+            if(url.indexOf('staging')!=-1){
+                if(url.indexOf('robot2')!=-1){
+                    hm.src = "https://hm.baidu.com/hm.js?66548e10166010dd461a52bf76842d81";//测试  robot2
+                }else{
+                    hm.src = "https://hm.baidu.com/hm.js?20335e1190caaea984e5768c7acde2c3";//测试环境
+                }
+            }
+            if(url.indexOf('dev')!=-1){
+                if(url.indexOf('robot')!=-1){
+                    hm.src = "https://hm.baidu.com/hm.js?1a8e0abe8142e717cc5cb82183f8fb10";//dev robot
+                }
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+        // 解决四舍六入五成双不统一的问题
+        Number.prototype.toFixed=function (d) {
+            var s=this+"";
+            if(!d)d=0;
+            if(s.indexOf(".")==-1)s+=".";
+            s+=new Array(d+1).join("0");
+            if(new RegExp("^(-|\\+)?(\\d+(\\.\\d{0,"+(d+1)+"})?)\\d*$").test(s)){
+                var s="0"+RegExp.$2,pm=RegExp.$1,a=RegExp.$3.length,b=true;
+                if(a==d+2){
+                    a=s.match(/\d/g);
+                    if(parseInt(a[a.length-1])>4){
+                        for(var i=a.length-2;i>=0;i--){
+                            a[i]=parseInt(a[i])+1;
+                            if(a[i]==10){
+                                a[i]=0;
+                                b=i!=1;
+                            }else break;
+                        }
+                    }
+                    s=a.join("").replace(new RegExp("(\\d+)(\\d{"+d+"})\\d$"),"$1.$2");
+                }if(b)s=s.substr(1);
+                return (pm+s).replace(/\.$/,"");
+            }return this+"";
+        };
+    </script>
+    <script>
+        // 供报告类答案加载js用
+      var jsNo = 0;
+      var jsArr = [];
+
+      function loadJsE(arr, callback, jsHost, sn) {
+        jsNo = 0;
+        jsArr = arr;
+        if (arr && arr.length > 0) {
+          beginLoadE(jsNo, callback, jsHost, sn)
+        }
+      }
+
+      function beginLoadE(jIndex, callback, jsHost, sn) {
+        if (jsArr[jIndex].indexOf('highstock') !== -1) {
+          jsNo++;
+          checkLoadedE(callback, jsHost, sn)
+          return
+        }
+        // onViewReady
+        var js = document.createElement('script');
+        js.type = 'text/javascript';
+        js.src = jsHost + jsArr[jIndex] + ".js";
+        // console.log('loadJs:'+ js.src)
+        if (js.addEventListener) {
+          js.addEventListener('load', function () {
+            jsNo++;
+            checkLoadedE(callback, jsHost, sn)
+          }, false);
+        } else if (js.attachEvent) {
+          js.attachEvent('onreadystatechange', function () {
+            var target = window.event.srcElement;
+            if (target.readyState == 'loaded') {
+              jsNo++;
+              checkLoadedE(callback, jsHost, sn)
+            }
+          });
+        }
+
+        var es=document.getElementsByTagName(js?'script':'link');
+        var isLoaded = false;
+        for(var i=0;i<es.length;i++){
+          if(es[i][js?'src':'href'].indexOf(jsArr[jIndex])!=-1){
+            isLoaded = true;
+          }
+        }
+        if(!isLoaded){
+          document.body.appendChild(js);
+        }else{
+          jsNo++;
+          checkLoadedE(callback, jsHost, sn)
+        }
+      }
+
+      function checkLoadedE(callback, jsHost, sn) {
+        if(jsNo < jsArr.length){
+          beginLoadE(jsNo, callback, jsHost, sn);
+        }else{
+          setTimeout(function () {
+            if (typeof callback === 'string') {
+              var fun = callback+sn+'()'
+              eval(fun)
+            } else {
+              callback();
+            }
+          },200)
+        }
+      }
+    </script>
+    <script src="static/js/libs/sensorsdata.min.js"></script>
+    <script src="static/js/libs/shenceApp.js"></script>
+</head>
+
+<body class="body_hideFoot" onbeforeunload="onbeforeunloadHandler(event)">
+
+    <!--标题栏-->
+    <header id="titleBar" style="display: none;">
+        <a class="arrowL icon-arrowL"></a>
+        <p><%= robotName %></p>
+<!--        <p>智能小e 股票问答</p>-->
+    </header>
+
+    <!--内容部分-->
+    <div id="mainContent" class="page_body_v2 pt_0">
+
+        <!--免责声明-->
+        <div class="md_pact_v2" style="display: none">
+            <label>
+                <i class="icon-radioOn"></i>
+                <span>我已经阅读并同意</span>
+            </label>
+            <a class="a_pact" onclick="showDisclaimer()">《
+                <em>免责声明</em>》</a>
+        </div>
+
+        <!-- 历史问题 -->
+        <div id="divShowHistory" class="md_time_v2" style="display: none;">
+            <a class="box" onclick="showHistoryQuestion()">历史提问
+                <span class="t_blue">查看</span>
+            </a>
+        </div>
+        <div id="oldVersionAppend"></div>
+        <div id="morningPush1"></div>
+        <div id="morningPush2"></div>
+        <div id="morningPush3"></div>
+        <div id="morningPush4"></div>
+        <!--帮助引导问题-->
+        <div id="divHelp" style="display: none;"></div>
+    </div>
+
+    <!--底部-->
+    <div class="bottom">
+        <nav>
+            <ul>
+            </ul>
+        </nav>
+        <footer id="footer" class="f_keyboard hide">
+            <a id="icon-keyboard" class="icon-keyboard" style="display: none" onclick="hideVoice()"></a>
+            <a id="icon-voice" class="icon-voice" onclick="goVoice()"></a>
+            <div id="divTxtInput" class="box_input">
+                <textarea id="txtInput" contenteditable="true" placeholder="请输入问题..." onkeydown="sendQ(event)" onfocus="txtInputOnFocus()"></textarea>
+                <a id="icon-Send" class="icon-Send" onclick="doSend()"></a>
+            </div>
+            <a id="icon-help" class="icon-help" onclick="helpClickSwitch()"></a>
+            <!--语音输入-->
+            <div id="recBtn" class="sayBg" style="display: none">
+                <div class="say"></div>
+            </div>
+        </footer>
+    </div>
+
+    <!--免责正文-->
+    <div id="divDisclaimer" class="pop_v2 pop_pact_v2">
+        <div class="bg"></div>
+        <div id="divDisContent" class="box">
+            <div id="txtDisclaimer" class="txt">
+                <%- disclaimerContent || '' %>
+            </div>
+            <div class="btn">
+                <a onclick="agreeDisclaimer()">我已知晓，关闭页面</a>
+            </div>
+        </div>
+    </div>
+
+    <!--引导页 begin-->
+    <div class="page_guide" style="display: none;">
+        <div class="bg1"></div>
+        <div class="bg2"></div>
+        <div class="box">
+            <div class="txt_01">
+                <h3>你可以这样问我：</h3>
+                <img src="static/images/guide_avatar-min.png">
+            </div>
+            <img class="i_txt01" src="static/images/guide_txt01-min.png">
+
+            <div class="btn">
+                <a onclick="iKnowGuide()">我知道了</a>
+            </div>
+
+            <!--帮助-->
+            <img class="i_txt02" src="static/images/guide_txt02-min.png">
+            <img class="i_arrow01" src="static/images/guide_arrow01-min.png">
+            <div class="help">
+                <i class="icon-help"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__重新输入 -->
+    <div class="pop_v2 box_reEnter_v2">
+        <div class="bg"></div>
+        <div class="box">
+            <input id="txtSymbol" type="text" placeholder="输入股票名称或代码">
+            <ul class="btn">
+                <li class="a_close">取消</li>
+                <li class="a_submit" onclick="confirmInputSymbol(event)">确定</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 技术分析优化v1.2 ++   begin -->
+    <!-- 弹窗__短线决策，提示弹窗 -->
+    <div id="popShortTermPolicyExplain" class="pop_v2 pop_analysis_1_2_shortPolicy">
+<!--        <div class="bg"></div>-->
+<!--        <div class="box">-->
+<!--            <div class="txt">-->
+<!--                <h4>应用前提</h4>-->
+<!--                <h5>“决策点”指标是基于趋势交易思想研发的短线技术择时指标，当一只股票的长、中、短期的空方力量在同一时点力量衰竭，同时多方力量开始占据优势时，系统会提示参考信号，表示股价形成短期波段底部的概率较大。</h5>-->
+<!--                <h4>指标适用场景</h4>-->
+<!--                <h5>1.如果您希望在上升趋势的股票行情中建仓，又怕买在高点，那么决策点指标会为您提供一个波段的相对低点作为上升趋势中的建仓参考位置。<br><br>-->
+<!--                    2.如果您希望在股票处于震荡行情时进行高抛低吸操作，决策点指标同样会提供一个波段相对低点作为震荡行情中的操作参考。</h5>-->
+<!--                <h4>不适用的场景</h4>-->
+<!--                <h5>在股票处于下跌趋势时不建议使用决策点指标。</h5>-->
+<!--                <h4>操作方法参考<span>（数据在每个交易日收盘后15:30左右更新）</span></h4>-->
+<!--                <h5>1. 加仓方法：根据大数据的回测发现，决策点指标在出现信号后的第二个交易日加仓最佳，若信号出现后的第二个交易日开盘时股价正向或负向波动超过2%，则应放弃此次交易机会。<br><br>-->
+<!--                    2. 止盈方法：加仓后3个交易日内（T+2日内），任何时间只要盈利超过2%即可考虑平仓止盈，若盈利未达到2%，也需在(T+2)日收盘前平仓。<br><br>-->
+<!--                    3. 止损方法：加仓后任何时间出现-2%浮亏时，建议止损离场。</h5>-->
+<!--                <h4>风险提示</h4>-->
+<!--                <h5>1. “决策点”指标的信号仅供参考与借鉴，不构成买卖建议。<br><br>-->
+<!--                    2. “决策点”指标的历史表现仅供参考与借鉴，不代表未来趋势。<br><br>-->
+<!--                    3. “决策点”指标属于技术指标决策范畴，其未考虑宏观经济政策、股票所处行业以及个股基本面和消息面等因素，其应用的前提是在投资者自己已经选定股票、自己有建仓意愿，并且希望选择波段低点进行建仓的情景下使用。</h5>-->
+<!--            </div>-->
+<!--            <div class="btn"><a>关闭</a></div>-->
+<!--        </div>-->
+    </div>
+
+    <!-- 弹窗__趋势体系说明，提示弹窗 -->
+    <div id="popTrendSystemExplain" class="pop_v2 pop_analysis_1_2_trendQuantization">
+<!--        <div class="bg"></div>-->
+<!--        <div class="box">-->
+<!--            <div class="txt">-->
+
+<!--                <h4>小e趋势量化系统说明</h4>-->
+
+<!--                <h5 class="center">技术分析原理</h5>-->
+<!--                <h6>趋势量化系统之所以有效，是因为它能记录买方卖方的行为，股价产生波动的根本力量，是买卖双方的市场行为。任何消息本身，并不会造成股价的变动。即使有些消息确实使对某只股票的真实价值产生影响，也需要经过投资者的认可。</h6>-->
+<!--                <h6>市场存在着重复的形态，这些形态反应投资者的行为与情绪，以及群众的聚散。</h6>-->
+
+<!--                <h5 class="center">应用场景</h5>-->
+<!--                <h5>1. 找合适的买点介入？</h5>-->
+<!--                <h6>朋友推荐了“xxx”这只股票，说这家公司财务很好，业绩稳定，可以长拿，我想找合适的买点介入。</h6>-->
+<!--                <h6>例：个股上市趋势保持良好，且回调到位时介入</h6>-->
+<!--                <img class="img_01" src="static/images/trendQuantization_01-min.png">-->
+<!--                <h6 class="center">趋势中继</h6>-->
+
+<!--                <h5>2. 找合适的卖点止盈？</h5>-->
+<!--                <h6>我持有贵州茅台，盈利可观，但不知道何时止盈</h6>-->
+<!--                <h6>例：个股上升趋势跌破时分批离场</h6>-->
+<!--                <img class="img_02" src="static/images/trendQuantization_02-min.png">-->
+<!--                <h6 class="center">趋势转折</h6>-->
+
+<!--                <h5>3. 个股走势诊断</h5>-->
+<!--                <h6>我持有贵州茅台，想每天看看它的走势是否良好</h6>-->
+
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <b>01</b>-->
+<!--                        <h5>个股趋势动态把握<br>及时判断趋势转折</h5>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <b>02</b>-->
+<!--                        <h5>短期决策把握波段<br>顺势操作</h5>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <b>03</b>-->
+<!--                        <h5>区域分析<br>评估个股大势</h5>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <b>04</b>-->
+<!--                        <h5>macd、kd、rsi<br>指标信号密切跟踪</h5>-->
+<!--                    </li>-->
+<!--                </ul>-->
+
+<!--                <h5>4. 牛熊波段解套</h5>-->
+<!--                <h6>我的股票被套，想找合适的方法波段解套，根据信号买卖波段操作</h6>-->
+<!--                <h6>不换股的情况下根据决策信号波段操作，摊低成本</h6>-->
+<!--                <img class="img_03" src="static/images/trendQuantization_03-min.png">-->
+
+<!--                <h5 class="center">使用说明</h5>-->
+<!--                <h6>e智通里各个模块里的小e入口&ndash;&gt;进入智能小e&ndash;&gt;问xx个股技术分析？&ndash;&gt;展示对应个股技术分析答案</h6>-->
+<!--                <img class="img_04" src="static/images/trendQuantization_04-min.png">-->
+<!--                <img class="img_05" src="static/images/trendQuantization_05-min.jpg">-->
+
+<!--                <h5 class="center">风险提示</h5>-->
+<!--                <h6>1、突发利好，利空造成的股价异常，走势随机性较大，这种场景很可能会导致判断不准</h6>-->
+<!--                <h6>2、趋势性信号在大的趋势或宽幅震荡行情里表现较好，窄幅震荡容易打脸，胜率可能不高，但趋势盈利靠的是截断亏损让利润奔跑</h6>-->
+<!--                <h6>3、技术分析表现仅供参考与借鉴，不代表未来趋势，不构成买卖时机建议</h6>-->
+<!--                <h6>4、技术分析功能会分期上线，逐渐完善趋势分析体系</h6>-->
+
+<!--            </div>-->
+<!--            <div class="btn"><a>关闭</a></div>-->
+<!--        </div>-->
+    </div>
+    <!-- 技术分析优化v1.2 ++   end -->
+
+    <!-- 弹窗__操盘线说明，提示弹窗 -->
+    <div id="popExpmaExplain" class="pop_v2 pop_analysis_1_3_expma">
+<!--        <div class="bg"></div>-->
+<!--        <div class="box">-->
+<!--            <div class="txt">-->
+<!--                <h4>研发理念</h4>-->
+<!--                <h5>操盘线源于趋势理论和均线理论，秉持“大赚小赔“的操盘理念，并经过AI 量化技术的调整和改进而研发出的大赚小赔的操盘参考工具。它的主要作用，是帮助投资者克服人性弱点，智能提示股票中长线趋势性机会。</h5>-->
+<!--                <h4>操作方法参考<span>（数据在每个交易日收盘后15:30左右更新）</span></h4>-->
+<!--                <h5>操盘线反应了个股当前市场下的中长线趋势状态，为投资者判断个股中长线趋势状态提供简单便捷的参考依据。</h5>-->
+<!--                <h5>1.操盘线为红色时，代表中长线趋势看多，无论短线或中线操作，建议以加仓或持有为主；<br><br>-->
+<!--                    2.操盘线为绿色时，代表中长线趋势看空，无论短线或中线操作，建议以减仓或空仓为主；-->
+<!--                 </h5>-->
+<!--                <h4>风险提示</h4>-->
+<!--                <h5>1.操盘线无法避免系统性风险及个股突发风险<br><br>-->
+<!--                    2.操盘线是基于历史价格数据的计算和分析得出的对个股所处中长线趋势的判断，仅可作为技术面参考，投资者据此操作风险自负。-->
+<!--                </h5>-->
+<!--            </div>-->
+<!--            <div class="btn"><a>关闭</a></div>-->
+<!--        </div>-->
+    </div>
+    <!-- 技术分析优化v1.3 ++   end -->
+
+    <!--底部弹窗浮层-->
+    <div id="bottomPopup" class="pop_BTT pop_BottomToTop" style="display: none">
+        <!--遮罩-->
+        <div class="bg" style="display: none"></div>
+        <!--白框容器-->
+        <div id="bottomContainer" class="box">
+            <!--关闭按钮-->
+            <a class="close icon-pop_close" onclick="closePopup()"></a>
+            <div class="sumUp">
+                <!--浮层_title-->
+                <div class="sumUp_tech">
+                    <div id="bottomPopupTitle" class="pop_hd">
+                    </div>
+                    <!--答案容器-->
+                    <div id="bottomAnswerContainer" class="pop_bd mb_tab">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--条件选股说明弹窗-->
+    <div id="expContainer" class="expCon">
+        <div id="expBox" style="width: 100%; height: 100%;"></div>
+        <span class="closeBtn" onclick="closeConditionExp()"></span>
+    </div>
+
+    <!--弹窗 请输入其他选股条件-->
+    <div id="pickStockConditionBox" class="pop_v2 pop_condition">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="tbox">
+                <h5>请输入其他选股条件</h5>
+                <div class="tArea">
+                    <textarea id="txaConditions" placeholder="请输入筛选条件" onkeyup="conditionKeyup()"></textarea>
+                </div>
+                <h6 class="note">
+                    <span>多个条件用"，"隔开</span>
+                    <a id="btnShowConditionExp" onclick="showConditionExp()">条件选股怎么问？</a>
+                </h6>
+                <ul class="btn">
+                    <li style="color: #639df5 !important;" onclick="closeConditionBox()">取消</li>
+                    <li id="btnConditionConfirm" class="btnGray" onclick="conditionChange()">确定</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__投入产出分析，说明弹窗 -->
+<!--    <div id="inOutputAnalysisExpBox" class="pop_v2 pop_outAnalysis_v2">-->
+<!--        <div class="bg"></div>-->
+<!--        <div class="box">-->
+<!--            <div class="txt">-->
+<!--                <h3>样用ROIC、ROE、WACC进行公司估值</h3>-->
+<!--                <h5>-->
+<!--                    <b>投资回报率（ROIC）：</b>是指投出和/或使用资金与相关回报（回报通常表现为获取的利息和/或分得利润）之比例。用于衡量投出资金的使用效果。</h5>-->
+<!--                <h5>-->
+<!--                    <b>净资产收益率（ROE）：</b>反映股东权益的收益水平，用以衡量公司运用自有资本的效率。指标值越高，说明投资带来的收益越高。该指标体现了自有资本获得净收益的能力。</h5>-->
+
+<!--                <h5>-->
+<!--                    <b>加权平均成本（WACC）：</b>是指企业以各种资本在企业全部资本中所占的比重为权数，对各种长期资金的资本成本加权平均计算出来的资本总成本。加权平均资本成本可用来确定具有平均风险投资项目所要求收益率。</h5>-->
+<!--                <h5>-->
+<!--                    <b>怎么用？</b>-->
+<!--                    <br> (1)&nbsp;ROIC应大于WACC，若ROIC小于WACC说明公司投资回报率不如加权平均成本。则投资价值不高（一般公司的WACC在8%-12%）-->
+<!--                    <br> (2)&nbsp;ROE和ROIC都是越高越好，可作为长期投资价值的指标-->
+<!--                    <br> (3)&nbsp;ROE和ROIC两者关联如下，可以看出ROE和ROIC的差值体现公司的财务杠杆：两者差值大说明杠杆高-->
+<!--                </h5>-->
+<!--            </div>-->
+<!--            <div class="btn" onclick="closeInOutputAnalysisExpBox()">-->
+<!--                <a>关闭</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <!-- 弹窗__提示弹窗（自动） -->
+    <div class="pop_v2 pop_prompt pop_prompt_risk pdfForAuto">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="txt">
+                公告原文链接已复制，请打开浏览器在地址框粘贴查看
+            </div>
+            <div class="btn">
+                <a id="lnkCopyPdfUrl" data-clipboard-action="copy" data-clipboard-text="" onclick="closePDFPop()">好&nbsp;&nbsp;的</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 弹窗__提示弹窗（手动）-->
+    <div class="pop_v2 pop_prompt pop_prompt_risk pdfForHand" style="display:none">
+        <div class="bg"></div>
+        <div class="box">
+            <div class="txt">
+                当前不支持公告原文链接的自动复制，需手动复制，复制后请打开浏览器在地址框粘贴查看
+                <h5 class="PDFUrlTxt autoLine"></h5>
+            </div>
+            <div class="btn">
+                <a class="PDFUrlBtn" onclick="closePDFPopForHand()">好&nbsp;&nbsp;的</a>
+            </div>
+        </div>
+    </div>
+
+    <!--  底部导航浮层    从底部弹出 高度占40% -->
+    <div class="pop_BTT pop_bottomNav">
+        <div class="bg"></div>
+        <div class="box">
+            <a class="close icon-pop_close"></a>
+            <div class="bottomNav">
+                <div class="pop_hd">
+                    你还想了解
+                </div>
+                <div class="pop_bd">
+                    <div class="pop_nav">
+                        <ul>
+                        </ul>
+                    </div>
+                    <div class="pop_con">
+                        <div class="box show">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文字弹窗，底部有关闭按钮的 -->
+    <div id="popMsg" class="pop_bottomClose">
+        <div class="pop_bg"></div>
+        <div class="pop_box">
+            <div class="pop_bd">
+                <div id="popHead" class="hd">板块关联：</div>
+                <div id="popContent" class="bd">
+<!--                    <h4 id="popTitle">标题</h4>-->
+<!--                    <h5>文字</h5>-->
+                </div>
+            </div>
+            <a class="a_close" onclick="closePopupMsg()"><i class="icon-pop_close2"></i></a>
+        </div>
+    </div>
+
+    <!-- 选择弹窗，热点偏好筛选 -->
+    <div id="popFocusFilter" class="pop_screen pop_hotPreScreen">
+<!--        <div class="pop_bg"></div>-->
+<!--        <div class="pop_box">-->
+<!--            <div class="pop_bd">-->
+<!--                <div class="hd">-->
+<!--                    <div class="col_l"><span>热点偏好筛选</span><em>(可多选)</em></div>-->
+<!--                    <div class="col_r" onclick="closePopupFilter('popFocusFilter')"><a class="a_close"><i class="icon-pop_close"></i></a></div>-->
+<!--                </div>-->
+<!--                <ul id="focusOptions" class="bd">-->
+<!--                    &lt;!&ndash;-->
+<!--                    1. 未选，i标签样式名： icon-select_no-->
+<!--                    2. 已选，i标签样式名： icon-select-->
+<!--                    &ndash;&gt;-->
+<!--                    <li onclick="filterItemClick(event,'popFocusFilter')">-->
+<!--                        <span>行情趋势好</span>-->
+<!--                        <i index="0" text="行情趋势好" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popFocusFilter')">-->
+<!--                        <span>近5日阶段涨幅高</span>-->
+<!--                        <i index="1" text="近5日阶段涨幅高" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popFocusFilter')">-->
+<!--                        <span>资金关注度高</span>-->
+<!--                        <i index="2" text="资金关注度高" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popFocusFilter')">-->
+<!--                        <span>估值偏低</span>-->
+<!--                        <i index="3" text="估值偏低" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li class="all" onclick="filterItemClick(event,'popFocusFilter')">-->
+<!--                        <span>以上综合考虑</span>-->
+<!--                        <i index="4" text="all" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <a class="btn" onclick="confirmFocusFilter()">确定</a>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+
+    <!-- 选择弹窗，个股偏好筛选 -->
+    <div id="popStockFilter" class="pop_screen pop_hotPreScreen">
+<!--        <div class="pop_bg"></div>-->
+<!--        <div class="pop_box">-->
+<!--            <div class="pop_bd">-->
+<!--                <div class="hd">-->
+<!--                    <div class="col_l"><span>个股偏好筛选</span><em>(可多选)</em></div>-->
+<!--                    <div class="col_r" onclick="closePopupFilter('popStockFilter')"><a class="a_close"><i class="icon-pop_close"></i></a></div>-->
+<!--                </div>-->
+<!--                <ul id="stockOptions" class="bd">-->
+<!--                    &lt;!&ndash;-->
+<!--                    1. 未选，i标签样式名： icon-select_no-->
+<!--                    2. 已选，i标签样式名： icon-select-->
+<!--                    &ndash;&gt;-->
+<!--                    <li onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>上升趋势</span>-->
+<!--                        <i index="0" text="上升趋势" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>5日涨跌幅高</span>-->
+<!--                        <i index="1" text="5日涨跌幅高" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>5日资金流向高</span>-->
+<!--                        <i index="2" text="5日资金流向高" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>财务面好</span>-->
+<!--                        <i index="3" text="财务面好" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>估值低</span>-->
+<!--                        <i index="4" text="估值低" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                    <li class="all" onclick="filterItemClick(event,'popStockFilter')">-->
+<!--                        <span>以上综合考虑</span>-->
+<!--                        <i index="5" text="all" class="icon-select_no"></i>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <a class="btn" onclick="confirmStockFilter()">确定</a>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript" src="static/js/libs/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="static/js/libs/lazyload-min.js"></script>
+<script type="text/javascript" src="static/js/libs/jquery.jsonp.js"></script>
+<script type="text/javascript" src="static/js/libs/clipboard.min.js"></script>
+<script type="text/javascript" src="static/js/libs/swiper.min.js"></script>
+<script type="text/javascript" src="static/js/libs/socket.io.js"></script>
+<script type="text/javascript" src="static/js/libs/base64.js"></script>
+<script type="text/javascript" src="static/js/libs/md5.js"></script>
+
+<!--注意：注释为打包时脚本，不可删除！！！-->
+<!-- build:replace '<script type="text/javascript" src="static/client/js/util.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/utils/logUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/UrlConfig.js"></script>
+<script type="text/javascript" src="static/client/js/utils/commonUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/requestUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/versionUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/visibleUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/appConfig.js"></script>
+<script type="text/javascript" src="static/client/js/utils/moduleUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/timeUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/functionForApp.js"></script>
+<script type="text/javascript" src="static/client/js/utils/toolsUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/yy_tab.js"></script>
+<!-- /build -->
+
+<!--图表相关的日期格式化函数-->
+<!-- build:replace '<script type="text/javascript" src="static/client/js/chart.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/charts/chartRequestUtil.js"></script>
+<script type="text/javascript" src="static/client/js/charts/jKline_stock_analysis.js"></script><!--技术分析改版1.2-->
+<script type="text/javascript" src="static/client/js/charts/jKline_stock_analysis_9area.js"></script>
+<!--<script type="text/javascript" src="static/client/js/charts/jKline_history_9area_xym.js?v=201701290"></script>-->
+<!--技术分析 data有数据-->
+<script type="text/javascript" src="static/client/js/charts/st_kLine.js"></script>
+<!--st新股-->
+<script type="text/javascript" src="static/client/js/charts/KLineByType_1.js"></script>
+<!--技术分析 data无数据-->
+<script type="text/javascript" src="static/client/js/charts/sh_kLine.js"></script>
+<!--上证指数-->
+<script type="text/javascript" src="static/client/js/charts/KLineSmall.js"></script>
+<!--相似K线用-->
+<script type="text/javascript" src="static/client/js/charts/jKlineCYQInit.js"></script>
+<!--筹码分布-->
+<script type="text/javascript" src="static/client/js/charts/jKlineCYQ.js"></script>
+<script type="text/javascript" src="static/client/js/charts/jCreateKline.js"></script>
+<script type="text/javascript" src="static/client/js/charts/lineColumnChart.js"></script>
+<script type="text/javascript" src="static/client/js/charts/jStockComparision.js"></script>
+<script type="text/javascript" src="static/client/js/charts/polygonChart.js"></script>
+<script type="text/javascript" src="static/client/js/charts/lineChart.js"></script>
+<script type="text/javascript" src="static/client/js/charts/columnChart.js"></script>
+<script type="text/javascript" src="static/client/js/charts/baseChart.js"></script>
+<!-- /build -->
+
+<!-- build:replace '<script type="text/javascript" src="static/client/js/robot.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/robots/index.js"></script>
+
+<script type="text/javascript" src="static/client/js/robots/yy_lowVer.js"></script>
+<script type="text/javascript" src="static/client/js/robots/yy_compatible.js"></script>
+<script type="text/javascript" src="static/client/js/robots/yy_autoTextarea.js"></script>
+
+<script type="text/javascript" src="static/client/js/robots/robotCommon.js"></script>
+<script type="text/javascript" src="static/client/js/robots/eztCommon.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-3.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-2.js"></script>
+<script type="text/javascript" src="static/client/js/robots/answer-1.js"></script>
+<script type="text/javascript" src="static/client/js/robots/financialAnalyze.js"></script>
+<!-- /build -->

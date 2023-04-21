@@ -1,0 +1,16 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 2,
+  "data": [
+    {
+      "id": 1,
+      "project_id": 1,
+      "business_id": 1,
+      "object_id": 1,
+      "git_path": "https://git.xiaojukeji.com/aegis/soc-static",
+      "info_id": 2,
+      "module_name": "soc-static"
+    }
+  ]
+}

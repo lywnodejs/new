@@ -1,0 +1,51 @@
+<!--pages/apply/material/index.wxml-->
+
+<bloc wx:if="{cateInfo !== undefined && cateInfo !== null}">
+  <xy-nav-bar bind:navLeftClick="onClickLeft" platform="{{platform}}" title="{{cateInfo.name}}" />
+  <view wx:if="{{cateInfo.catTips}}" class="top-tips">
+    <image src="/image/bulb-fill.png"></image>
+    {{cateInfo.catTips}}
+  </view>
+
+  <block wx:for="{{attrs}}" wx:key="index">
+    <block wx:if="{{item.attrType === 'area'}}">
+      <area-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'enum'}}">
+      <enum-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'string' || item.attrType === 'number' || item.attrType === 'text'}}">
+      <string-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'date'}}">
+      <date-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'ocr'}}">
+      <ocr-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'verifyCode'}}">
+      <verify-code-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'upload'}}">
+      <upload-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'supply'}}">
+      <supply-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block
+      wx:if="{{item.attrType === 'special_dwgqtzxx' || item.attrType === 'special_ggxx' || item.attrType === 'special_gdxx'}}">
+      <special-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'licenseOcr'}}">
+      <license-ocr-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+  </block>
+
+  <view wx:if="{{attrs.length > 0 && editFlag}}" class="btn-box">
+    <button class="submit-btn" disabled="{{!isAllAttrCompleted}}" bindtap="onSubmit">确定</button>
+  </view>
+
+  <xy-confirm contentText="{{cateInfo.detainTips}}" rightText="继续" bind:cancel="onCancelStay" bind:ok="onContinue"
+    show="{{showStay && cateInfo.detainTips}}" />
+
+</bloc>

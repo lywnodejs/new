@@ -1,0 +1,6 @@
+/* components/checkbox/index.wxss */
+.checkbox-img{
+  width: 14px;
+  height: 14px;
+  display: block;
+}

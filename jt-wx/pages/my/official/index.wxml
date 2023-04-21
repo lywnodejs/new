@@ -1,0 +1,13 @@
+<view class="account">
+  <view class="card">
+    <text class="title">关注方式一</text>
+    <image class="qrCode" src="/image/qrcode_for_gh.jpg" style="width:120px ;height:120px;margin-top:10px;margin-bottom:10px;" mode="aspectFill" />
+    <text class="method1">截图或保存二维码后，微信扫一扫关注</text>
+    <button class="btn" bind:tap="saveImg" >保存</button>
+  </view>
+  <view class="card">
+    <text class="title">关注方式二</text>
+    <rich-text nodes="{{copyDesc}}"></rich-text>
+    <button class="btn"  bind:tap="copyGzh">复制</button>
+  </view>
+</view>

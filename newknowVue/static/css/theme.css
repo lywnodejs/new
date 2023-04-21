@@ -1,0 +1,97 @@
+@charset "UTF-8";
+@import url(//at.alicdn.com/t/font_1125268_v4an1jvyogl.css);
+@font-face { font-family: 'Conv_DIN Alternate Bold'; src: url("../font/DINAlternateBold.eot"); src: local("☺"), url("../font/DINAlternateBold.woff") format("woff"), url("../font/DINAlternateBold.otf") format("truetype"), url("../font/DINAlternateBold.svg") format("svg"); font-weight: normal; font-style: normal; }
+
+.indexBox, .knowBox { background: #0B0E1C; }
+
+.indexBox .header p, .knowBox .header p { color: #F8F8F8; }
+
+.indexBox .nav li, .knowBox .nav li { background: #1D202D; }
+
+.indexBox .nav p, .knowBox .nav p { color: #D5D9E7; font-family: 'Conv_DIN Alternate Bold'; }
+
+.indexBox .footer, .knowBox .footer { background: #181C2B; }
+
+.indexBox .footer p, .knowBox .footer p { color: #63636E; }
+
+.indexBox .footer .scroll span, .knowBox .footer .scroll span { color: #D5D9E7; border: 1px solid #3a3a41; }
+
+.indexBox .footer .inpBox i, .knowBox .footer .inpBox i { color: #9F9F9F; }
+
+.indexBox .footer .inpBox, .knowBox .footer .inpBox { background: #242839; }
+
+.indexBox .footer .inpBox input, .knowBox .footer .inpBox input { background: #242839; color: #fff; }
+
+.indexBox .footer button, .knowBox .footer button { background: #3E85FF; color: #FFFFFF; }
+
+.indexBox .footer .history .linkLi, .knowBox .footer .history .linkLi { background: #181C2B; }
+
+.indexBox .footer .history li, .knowBox .footer .history li { border-bottom: 0.5px solid rgba(224, 230, 255, 0.11); }
+
+.indexBox .footer .history li p, .knowBox .footer .history li p { color: #F3F3F3; }
+
+.indexBox .footer .history li i, .knowBox .footer .history li i { color: #AAAFBB; }
+
+.indexBox2, .knowBox2 { background: #F6F6F6; }
+
+.indexBox2 .header, .knowBox2 .header { background: #F6F6F6; }
+
+.indexBox2 .header p, .knowBox2 .header p { color: #1B1B1C; }
+
+.indexBox2 .nav li, .knowBox2 .nav li { background: #FFFFFF; box-shadow: 0px 0px 5px 1px #cdcfd5; }
+
+.indexBox2 .nav p, .knowBox2 .nav p { color: #696C6F; font-family: 'Conv_DIN Alternate Bold'; }
+
+.indexBox2 .footer, .knowBox2 .footer { background: #FFFFFF; box-shadow: 0px 0px 10px 1px #cdcfd5; }
+
+.indexBox2 .footer p, .knowBox2 .footer p { color: #9599A1; }
+
+.indexBox2 .footer .scroll span, .knowBox2 .footer .scroll span { color: #696C6F; border: 1px solid #bbc2cd; }
+
+.indexBox2 .footer .inpBox i, .knowBox2 .footer .inpBox i { color: #9F9F9F; }
+
+.indexBox2 .footer .inpBox, .knowBox2 .footer .inpBox { background: #EEEFF3; }
+
+.indexBox2 .footer .inpBox input, .knowBox2 .footer .inpBox input { background: #EEEFF3; color: #000; }
+
+.indexBox2 .footer button, .knowBox2 .footer button { background: #3E85FF; color: #FFFFFF; }
+
+.indexBox2 .footer .history .linkLi, .knowBox2 .footer .history .linkLi { background: #ffffff; }
+
+.indexBox2 .footer .history li, .knowBox2 .footer .history li { border-bottom: 0.5px solid rgba(0, 0, 0, 0.11); }
+
+.indexBox2 .footer .history li p, .knowBox2 .footer .history li p { color: #272e40; }
+
+.indexBox2 .footer .history li i, .knowBox2 .footer .history li i { color: #696c6f; }
+
+.knowBox { width: 100%; height: 100%; background: #0B0E1C; }
+
+.knowBox .knowheader { background: #0B0E1C; }
+
+.knowBox .knowheader > i { color: #fff; }
+
+.knowBox .knowheader .inpBox i { color: #FFFFFF; }
+
+.knowBox .knowheader .inpBox input { color: #ffffff; background: #0B0E1C; }
+
+.knowBox2 { width: 100%; height: 100%; background: #F6F6F6; }
+
+.knowBox2 .knowheader { background: #F6F6F6; }
+
+.knowBox2 .knowheader > i { color: #1B1B1C; }
+
+.knowBox2 .knowheader .inpBox i { color: #1B1B1C; }
+
+.knowBox2 .knowheader .inpBox input { color: #1B1B1C; background: #F6F6F6; }
+
+.alertBox { background: #181C2B; }
+
+.alertBox span, .alertBox i, .alertBox h4, .alertBox p { color: #F3F3F3; }
+
+.alertBox button { background: #202f55; color: #3e7aff; }
+
+.alertBox2 { background: #FFFFFF; box-shadow: 0 0 10px 4px #cfcfe2; }
+
+.alertBox2 span, .alertBox2 i, .alertBox2 h4, .alertBox2 p { color: #272E40; }
+
+.alertBox2 button { background: #d8e4ff; color: #3e7aff; }

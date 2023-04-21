@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "contact-view": "/components/apply/item-view/contact-view/index"
+  },
+  "navigationStyle": "custom"
+}

@@ -1,0 +1,66 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var result = info;
+    var htop10 = result.data.htop10 || [];
+    var ltop10 = result.data.ltop10 || [];
+    var tMarStkLiquidInfo = result.data.tMarStkLiquidInfo;
+
+    var pageSize = 10;
+    var hideClass = '';
+    var item;
+
+    var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+    var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+%>
+
+<div class="rxh_grid rxh_mT10">
+    <ul class="rxh_grid_col2">
+        <li class="rxh_grid_gray rxh_txtCenter">
+            <h5 class="rxh_font14">月日均成交额</h5>
+            <h3 class="rxh_font18b"><%= commonUtil.formatAmount(tMarStkLiquidInfo.m1Avgamount*1e4) %></h3>
+        </li>
+        <li class="rxh_grid_gray rxh_txtCenter">
+            <h5 class="rxh_font14">月平均换手率</h5>
+            <h3 class="rxh_font18b"><%= tMarStkLiquidInfo.m1Turnrate.toFixed(2) %>%</h3>
+        </li>
+        <li class="rxh_grid_gray rxh_txtCenter">
+            <h5 class="rxh_font14">行业内排名</h5>
+            <h3 class="rxh_font18b"><%= tMarStkLiquidInfo.m1AvgamountRank||'--' %>/<%= tMarStkLiquidInfo.induSecNum||'--' %></h3>
+        </li>
+        <li class="rxh_grid_gray rxh_txtCenter">
+            <h5 class="rxh_font14">全市场排名</h5>
+            <h3 class="rxh_font18b"><%= tMarStkLiquidInfo.m1TotRank||'--' %>/<%= tMarStkLiquidInfo.totSecNum||'--' %></h3>
+        </li>
+    </ul>
+    <h6>数据更新时间：<%= commonUtil.generateDate(tMarStkLiquidInfo.tradeDt) %></h6>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var mobilityView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, mobilityView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

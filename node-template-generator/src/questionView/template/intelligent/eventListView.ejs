@@ -1,0 +1,109 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var inStocks = [];
+    var pageSize = 10;
+    var hideClass = '';
+    var inStocks = info.data;
+    console.log(inStocks)
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <%
+        for (var i=0; i<inStocks.length; i++) {
+            item = inStocks[i];
+        %>
+        <ul class="rxh_gap" class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+            <li>
+                <p onclick="eventListView<%= sn%>.openDetail('<%= item.id %>','<%= item.url || item.annUrl %>')"><%= item.title || item.annTitle %></p>
+                <!--
+                灰字，加样式名：rxh_gray
+                上间距4px，加样式名：rxh_mT4
+                -->
+                <h6 class="rxh_gray rxh_mT4"><%= commonUtil.changeTimeForMinNoHours(item.time || item.pubAt)%></h6>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var eventListView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    openDetail: function (id, url) {
+      try{
+        pa.navigationNative({
+          pageId: "rh_node",
+          url: url
+        });
+      } catch (e) {
+        try {
+          openDetail(id);
+        } catch (e) {
+          console.log(e.toString());
+          window.open(url,"_bank");
+        }
+      }
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, eventListView<%- sn %>.onViewReady)
+  <% } %>
+
+
+  /**
+   * 点击加载更多
+   * @param hideClass
+   * @param moreId
+   * @param stepSize 步长，即每次展示的条数，默认值为2
+   * @param getQuota 1, 0  股票推荐答案中的股票行情分页取，否则多了取不到
+   */
+  function showMoreArticle(hideClass, moreId, stepSize, getQuota) {
+    if (!stepSize)
+      stepSize = 2;
+    else
+      stepSize = parseInt(stepSize);
+
+    //根据隐藏项的class，取出标签列表
+    var list = $('.' + hideClass);
+    var arrStockCode = [];
+    for (var i = 0; i < list.length && i < stepSize; i++) {
+      var divReport = $(list[i]);
+      divReport.show();
+      divReport.removeClass(hideClass); //移除
+      //处理文字内容多的情况
+      var contentIds = divReport.find('[id^=contentId]');
+      var expandBtnIds = divReport.find('[id^=expandBtnId]');
+      if (contentIds && expandBtnIds) {
+        for (var j = 0; j < contentIds.length; j++) {
+        }
+      }
+
+
+    }
+    //再取一遍看是否还有隐藏项，判断是否显示加载更多
+    list = $('.' + hideClass);
+    if (list.length === 0){
+      $('#' + moreId).remove();
+    }
+  }
+</script>

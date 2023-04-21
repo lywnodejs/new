@@ -1,0 +1,67 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+    <%
+        var list = info.data || [];
+    %>
+    <div class="rxh_gap">
+        <div class="rxh_list rxh_list_colN_fix">
+            <div class="rxh_list_hd">
+                <ol>
+                    <li class="rxh_li_shrink6"><span>项目</span></li>
+                </ol>
+                <ul class="rxh_li_line1-5">
+                    <%
+                    for(var i=0; i<list.length && i<10; i++) {
+                        var item = list[i];
+                    %>
+                    <li class="rxh_ellipsis2">
+                        <h5 class="rxh_ellipsis2"><%= item.displayName %></h5>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+            <div class="rxh_list_bd">
+                <div class="rxh_list_scroll">
+                    <i class="rxh-icon-arrow4_r"></i>
+                    <ol>
+                        <li><span class="rxh_right">本报告期</span></li>
+                        <li><span class="rxh_right">上年同期</span></li>
+                        <li><span class="rxh_right">增减变动幅度<i class="rxh-icon-arrow5_t_small"></i></span></li>
+                    </ol>
+                    <%
+                    for(var i=0; i<list.length && i<10; i++) {
+                        var item = list[i];
+                    %>
+                    <ul class="rxh_li_line1-5">
+                        <li class="rxh_ellipsis2">
+                            <h6 class="rxh_right"><%= commonUtil.moneyFormatter(item.thisYearValue)%></h6>
+                        </li>
+                        <li>
+                            <h6 class="rxh_right"><%= commonUtil.moneyFormatter(item.lastYearValue)%></h6>
+                        </li>
+                        <li>
+                            <h6 class="rxh_right"><%= item.changeRangeValue?item.changeRangeValue.toFixed(2):"--" %>%</h6>
+                        </li>
+                    </ul>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+</script>

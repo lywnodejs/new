@@ -1,0 +1,49 @@
+<form class="p-form" name="reasonForm">
+    <div class="p-form-item" ng-show="isInsertTask">
+        <label class="p-12-percent"><i class="i-must ">*</i>加签方式：</label>
+        <div class="wrap-input" ng-class="{'p-error':isInsertTask && !op}" >
+            <select class="p-form-control" ng-model="op" ng-required="isInsertTask">
+                <option value="">请选择</option>
+                <option value="0">加签在当前审批人之前</option>
+                <option value="1">加签在当前审批人之后</option>
+            </select>
+            <span class="p-error-msg" ng-class="{'ng-invalid':isInsertTask && !op}"  ng-show="isInsertTask && !op">请选加签方式</span>
+        </div>
+        <div class="wrap-input" ng-show="op==='0'"> 需要准备加签的人审批，审批后回到当前处理人 </div>
+        <div class="wrap-input" ng-show="op==='1'"> 需要准备加签的人审批，审批后直接到下一流程</div>
+    </div>
+
+    <div class="p-form-item" ng-show="isAdmin">
+        <label class="p-12-percent"><i class="i-must ">*</i>任务属性：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':!taskId&& showErrors && isAdmin}">
+                <select class="p-form-control" ng-model="taskId" name="taskId" ng-required="isAdmin" >
+                    <option value="">请选择</option>
+                    <option ng-repeat="o in taskInfoOptions" value="{{o.taskId}}">{{o.taskId+'-'+o.processer.join('-')}}</option>
+                </select> 
+            <span class="p-error-msg" ng-class="{'ng-invalid':!taskId && showErrors && isAdmin}"  ng-show="!taskId">请选转任务属性</span>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-12-percent"><i class="i-must ">*</i>转移给：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':!followers.length&& showErrors}">
+            <ui-my-auto-complete url="userList" placeholder="请输入关注人" ng-model="followers" ng-cloak>
+                <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}}</ui-select-match-item>
+                <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+            </ui-my-auto-complete>
+            <span class="p-error-msg" ng-class="{'ng-invalid':!followers.length && showErrors}"  ng-show="!followers.length">请选转移人</span>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-12-percent p-muti"><i class="i-must ">*</i>原因：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':reasonForm.reason.$error.required && reasonForm.reason.$touched}">
+            <textarea class="p-form-control p-reason" ng-required="true" name="reason" placeholder="请输入原因" ng-model="reason"></textarea>
+            <span ng-show="reasonForm.reason.$error.required" class="p-error-msg">请输入原因</span>
+        </div>
+    </div>
+</form>
+<div class="wrap-center-btn">
+    <button class="p-btn" ng-click="pageAgree()">确认</button>
+    <button class="p-btn p-btn-gray" ng-click="dialogClose($event)">取消</button>
+</div>

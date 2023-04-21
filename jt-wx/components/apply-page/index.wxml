@@ -1,0 +1,16 @@
+<view class="top-box">
+    <image src="{{img}}"></image>
+    <view class="top-process">{{title}}</view>
+    <view class="top-desc">{{desc}}</view>
+</view>
+
+<view class="tips-box">
+    <view class="title">小贴士</view>
+    <view class="tips">您可在<text bindtap="toOrder">我的贷款</text>主动查询进度</view>
+    <view class="tips">2. 审核结果会通过短信消息及时通知到您</view>
+    <!-- <view class="qr-code">
+        <image src="{{qrCode}}"></image>
+        <view>截图或保存二维码后，微信扫一扫关注</view>
+        <button bind:tap="saveImg">保存</button>
+    </view> -->
+</view>

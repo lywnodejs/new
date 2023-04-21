@@ -1,0 +1,53 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb mb_tab'>
+        <%- data %>
+    </div>
+</div>
+<script>
+
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var eventOverview = {
+    onViewReady: function () {
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, eventOverview.onViewReady)
+
+
+  function showMoreh5AndShowUp(className) {
+    $("." + className).find("h5").removeClass("show_row5");
+    $(".a" + className).removeClass("show").addClass("hide");
+    $(".aShow" + className).show();
+  }
+
+  function hideMoreh5AndShowUp(className) {
+    $("." + className).find("h5").addClass("show_row5");
+    $(".a" + className).removeClass("hide").addClass("show");
+    $(".aShow" + className).hide();
+  }
+
+  // 事件概述tab的切换
+  function changeTabs(event) {
+    $(event.target).addClass("on").siblings().removeClass("on");
+    var order = $(event.target).index();
+    $(event.target).parent().siblings().each(function () {
+      $(this).removeClass("show");
+    });
+    $(event.target).parent().siblings().eq(order).addClass("show");
+  }
+</script>
+
+
+
+
+

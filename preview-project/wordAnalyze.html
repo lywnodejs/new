@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>词法分析</title>
+    <meta name="viewport" content="width=device-width">
+    <!-- <meta name="description" content="description here"> -->
+    <link rel="root" href=""/> <!-- for JS -->
+    <!-- Base jQuery-UI styles -->
+    <link rel="stylesheet" href="nlp/styles/jquery-ui-redmond.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="nlp/styles/main.css">
+    <link rel="stylesheet" href="./css/tabList.css">
+    <!-- CSS for embedded visualizations -->
+    <link rel="stylesheet" href="nlp/styles/style-vis.css">
+
+    <!-- head.js, required for embedding -->
+    <script type="text/javascript" src="/scripts/head.load.min.js"></script>
+
+    <style>
+        svg {
+            border: none;
+        }
+
+        .sentnum {
+            display: none;
+        }
+        #rightBottom>p{
+            width:100%;
+            padding-top: 20px;
+            text-align:center;
+        }
+    </style>
+
+</head>
+
+
+<body>
+<div class="header">
+    <img src="./image/images/login_02.png" alt="">
+</div>
+<div class="left">
+    <ul>
+        <li onclick="window.location.href='indexbase.html';">
+            <p></p>
+            <img src="./image/images/item01_02.png"/>
+            <span>OCR识别</span>
+            <span>普通版</span>
+        </li>
+        <li onclick="window.location.href='indexnormal.html';">
+            <p></p>
+            <img src="./image/images/item02_02.png"/>
+            <span>OCR识别</span>
+            <span>自定义版</span>
+        </li>
+        <li onclick="window.location.href='indexWrite.html';">
+            <p></p>
+            <img src="./image/images/item03_02.png"/>
+            <span>OCR识别</span>
+            <span>手写版</span>
+        </li>
+        <li onclick="window.location.href='indexbaseMode.html';">
+            <p></p>
+            <img src="./image/images/item04_14.png"/>
+            <span>OCR识别</span>
+            <span>公文识别</span>
+        </li>
+        <li onclick="window.location.href='tablist.html';">
+            <p></p>
+            <img src="./image/images/item05_02.png"/>
+            <span>知识抽取</span>
+        </li>
+        <li class="line_left">
+            <p></p>
+            <img src="./image/images/item-6_02.png"/>
+            <span>词法分析</span>
+        </li>
+        <li onclick="window.location.href='sentenceAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item07_24.png" />
+            <span>句法分析</span>
+        </li>
+        <li onclick="window.location.href='synonymsAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item08_02.png" />
+            <span>同义词 </span>
+        </li>
+    </ul>
+</div>
+
+<div class="right">
+    <div class="rightTop">
+        <textarea class="inp" placeholder="请输入一个句子/段落"></textarea>
+        <button>分析</button>
+    </div>
+    <div id="rightBottom"></div>
+</div>
+
+
+</body>
+
+<!-- support for embedded visualizations -->
+<script type="text/javascript">
+    var root = 'scripts/'; // filled in by jekyll
+    head.js(
+        // External libraries
+        root + 'lib/ext/jquery.min.js',
+        root + 'lib/ext/jquery.svg.min.js',
+        root + 'lib/ext/jquery.svgdom.min.js',
+        root + 'lib/ext/jquery-ui.min.js',
+        root + 'lib/ext/waypoints.min.js',
+        // brat helper modules
+        root + 'lib/brat/configuration.js',
+        root + 'lib/brat/util.js',
+        root + 'lib/brat/annotation_log.js',
+        root + 'lib/ext/webfont.js',
+        // brat main modules
+        root + 'lib/brat/dispatcher.js',
+        root + 'lib/brat/url_monitor.js',
+        root + 'lib/brat/visualizer.js',
+        // external parsing libraries
+        root + 'lib/local/conllu.js',
+        // annotation documentation support
+        root + 'lib/local/annodoc.js',
+        // project-specific collection data
+        root + 'lib/local/collections.js',
+        // project-specific configuration
+        root + 'lib/local/config.js'
+    );
+
+    root = '';
+    var webFontURLs = [
+//    root + 'static/fonts/PT_Sans-Caption-Web-Regular.ttf',
+//    root + 'static/fonts/Liberation_Sans-Regular.ttf'
+    ];
+
+    head.ready(function () {
+        // mark current collection (filled in by Jekyll)
+        // Collections.listing['_current'] = '';
+
+        // performs all embedding and support functions
+        // Annodoc.activate(Config.bratCollData, Collections.listing);
+        useClcik();
+    });
+</script>
+<!-- Google Analytics -->
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-116083299-1', 'auto');
+    ga('send', 'pageview');
+
+    var activeNum=0;
+    var activeNumArr=[]
+    function useClcik() {
+        $('.rightTop button').click(function () {
+            $('#rightBottom').html('<p>加载中...</p>');
+            activeNum=0;
+            activeNumArr=[]
+            var data = {
+                content: $('.inp').val(),
+                customDicEnable: true
+            };
+            $.ajax({
+                url: '/information/platform/public/morphology/analyze',
+                data: data,
+                dataType: 'json',
+                success: function (res) {
+                    if (res && res.data && res.data.length !== 0) {
+                        $('#rightBottom').html('');
+                        for (var i = 0; i < res.data.length; i++) {
+                            var str = '';
+                            var nerText = '';
+                            for (var k = 0; k < res.data[i].result.length; k++) {
+                                var item = res.data[i].result[k];
+                                str += item.word+' ';
+                                if (item.ner === '') {
+                                    nerText += 'T' + k + '\t' + item.nature + '\t' + formatting(str,item.word,0,item.offset) + '\t' + formatting(str,item.word,1,item.offset) + '\t' + item.word + '\n' +
+                                               '#' + k + '\t' + 'AnnotatorNotes' + '\t' + 'T'+ k +'\t' + isType(item.nature) + '\n'
+                                }else{
+                                    nerText+='T' + k +'\t'+  item.ner +'\t' + formatting(str,item.word,0,item.offset) + '\t' + formatting(str,item.word,1,item.offset) + '\t' + item.word +'\n'+
+                                             '#' + k + '\t' + 'AnnotatorNotes' + '\t' + 'T'+ k +'\t' + '' + '\n'
+                                }
+                            }
+                            $('#rightBottom')[0].innerHTML+='<pre style="margin: 10px;"><code class="language-ann">'+str + '\n'+nerText+'</code></pre>';
+                        }
+
+
+                        Collections.listing['_current'] = '';
+                        Annodoc.activate(Config.bratCollData, Collections.listing);
+                    }
+                }
+            })
+        })
+    }
+
+    /**
+     * @description 获取文字下标
+     * @param txt  整段文字
+     * @param val  指定文字
+     * @param type  开始或者结束  0：开始  1：结束
+     */
+    function formatting(txt,val,type,num) {
+        var index = 0;
+        activeNumArr.push(val);
+        if(activeNumArr.indexOf(val)!==-1){
+            activeNum = txt.indexOf(val,activeNum);
+        }
+        if(type===0){
+            index = txt.indexOf(val,activeNum);
+        }else{
+            index = txt.indexOf(val,activeNum)+val.length;
+        }
+        return index;
+    }
+
+
+    /**
+     * @description 判断是什么类型
+     * @param txt  文字
+     */
+    function isType(txt) {
+        var type = '';
+
+        switch (txt) {
+            case 'Ag':
+                type='形语素';
+                break;
+            case 'a':
+                type='形容词';
+                break;
+            case 'ad':
+                type='副形词';
+                break;
+            case 'an':
+                type='名形词';
+                break;
+            case 'Bg':
+                type='区别语素';
+                break;
+            case 'b':
+                type='区别词';
+                break;
+            case 'c':
+                type='连词';
+                break;
+            case 'Dg':
+                type='副语素';
+                break;
+            case 'd':
+                type='副词';
+                break;
+            case 'e':
+                type='叹词';
+                break;
+            case 'f':
+                type='方位词';
+                break;
+            case 'h':
+                type='前接成分';
+                break;
+            case 'i':
+                type='成语';
+                break;
+            case 'j':
+                type='简称略语';
+                break;
+            case 'k':
+                type='后接成分';
+                break;
+            case 'l':
+                type='习用语';
+                break;
+            case 'Mg':
+                type='数语素';
+                break;
+            case 'm':
+                type='数词';
+                break;
+            case 'Ng':
+                type='名语素';
+                break;
+            case 'n':
+                type='名词';
+                break;
+            case 'nr':
+                type='人名';
+                break;
+            case 'ns':
+                type='地名';
+                break;
+            case 'nt':
+                type='机构团体';
+                break;
+            case 'nx':
+                type='外文字符';
+                break;
+            case 'nz':
+                type='其他专名';
+                break;
+            case 'o':
+                type='拟声词';
+                break;
+            case 'p':
+                type='介词';
+                break;
+            case 'q':
+                type='量词';
+                break;
+            case 'Rg':
+                type='代语素';
+                break;
+            case 'r':
+                type='代词';
+                break;
+            case 's':
+                type='处所词';
+                break;
+            case 'Tg':
+                type='时语素';
+                break;
+            case 't':
+                type='时间词';
+                break;
+            case 'u':
+                type='助词';
+                break;
+            case 'Vg':
+                type='动语素';
+                break;
+            case 'v':
+                type='动词';
+                break;
+            case 'vd':
+                type='副动词';
+                break;
+            case 'vn':
+                type='名动词';
+                break;
+            case 'w':
+                type='标点符号';
+                break;
+            case 'x':
+                type='非语素字';
+                break;
+            case 'Yg':
+                type='语气语素';
+                break;
+            case 'y':
+                type='语气词';
+                break;
+            case 'z':
+                type='状态词';
+                break;
+            default:
+                type='';
+        }
+        return type;
+    }
+
+
+
+</script>
+<!-- End Google Analytics -->
+</html>

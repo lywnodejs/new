@@ -1,0 +1,64 @@
+.strategy-panel {
+  // width: 800px;
+  padding: 10px;
+
+  background-color: #fff;
+  border: 1px solid #ddd;
+
+  .panel-header {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    padding-top: 4px;
+    font-weight: bold;
+    position: relative;
+
+    .strategy-title {
+      color: #444444;
+      font-size: 14px;
+      display: inline-block;
+      .strategy-title-name {
+        font-weight: normal;
+        color: #666666;
+        margin-left: 16px;
+        font-size: 14px;
+        // color: #848484;
+      }
+    }
+
+    .strategy-edit-button {
+      // float: right;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .panel-bodyer {
+    min-height: 20px;
+    padding: 10px;
+
+    .strategy-type-block {
+      margin-bottom: 8px;
+
+      .strategy-type-name {
+        margin-bottom: 2px;
+        font-weight: 500;
+      }
+
+      .dimension-row {
+        margin-bottom: 2px;
+        font-size: 12px;
+
+        .dimension-name {
+          text-align: right;
+        }
+
+        .dimension-value {
+          .empty-dimension-value-hint {
+            color: red;
+          }
+        }
+      }
+    }
+  }
+}

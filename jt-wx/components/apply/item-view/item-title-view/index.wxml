@@ -1,0 +1,10 @@
+<!--components/apply/item-view/item-title-view/index.wxml-->
+<view class="title-box">
+  <block wx:if="{{title}}">
+    <text class="title">{{title}}</text>
+  </block>
+
+  <block wx:if="{{desc}}">
+    <text class="desc">{{desc}}</text>
+  </block>
+</view>

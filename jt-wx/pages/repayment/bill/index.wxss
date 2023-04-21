@@ -1,0 +1,148 @@
+.repayment-bill {
+  background-color: #F9FAFB;
+  height: 100%;
+}
+.repayment-bill .top{
+  height: 173px;
+  background: #404254;
+  background-size: 70px 67px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: content-box;
+}
+.repayment-bill .top text:first-child{
+  font-size:14px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(255,255,255,1);
+}
+.repayment-bill .top .top-postscript text{
+  font-size:12px;
+  font-weight:400;
+  color:rgba(255,255,255,0.4);
+  margin-top: 8px;
+  overflow: hidden;
+  float: right;
+}
+.repayment-bill .top .top-postscript text:first-child{
+  float: left;
+}
+.repayment-bill .card {
+  margin: -130px 15px 0;
+  background-color: white;
+  padding: 15px 20px 13px;
+  border-radius: 5px;
+  box-shadow:0px 5px 40px -5px rgba(0,0,0,0.04);
+}
+.repayment-bill .card>view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.repayment-bill .card>view:first-child>text{
+  font-size:16px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+}
+.repayment-bill .card>view:first-child view{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.repayment-bill .card>view:first-child view text{
+  font-size:12px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(179,179,179,1);
+}
+.repayment-bill .card>view:first-child view text:first-child{
+  font-size: 14px;
+  color: #333333;
+}
+
+.repayment-bill .card>view:nth-child(2) view {
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0 13px;
+}
+.repayment-bill .card>view:nth-child(2) view text:first-child{
+  font-size: 34px;
+  color: #1A1A1A;
+  font-family:PingFangSC-Medium,PingFang SC;
+}
+.repayment-bill .card>view:nth-child(2) view text:last-child{
+  font-size: 14px;
+  color: #4D4D4D;
+}
+.repayment-bill .card>view:nth-child(2) button::after{
+  display: none;
+}
+.repayment-bill .card>view:nth-child(2) button {
+  background-color: #EEA900;
+  border-radius: 25px;
+  height: 40px;
+  padding: 0 18px;
+  line-height: 40px;
+  font-size:16px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(255,255,255,1);
+  margin: 0;
+}
+.repayment-bill .card>view:last-child{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  color: #4D4D4D;
+  padding-top: 13px;
+  border-top: 1px dotted #D9D9D9;
+}
+.repayment-bill .card>view:last-child text:nth-child(2) {
+  margin-right: 30px;
+}
+.repayment-bill .card>view:last-child .number{
+  color: #333333;
+  font-size: 14px;
+  font-family:PingFangSC-Medium,PingFang SC;
+}
+
+.repayment-bill .tabs{
+  margin-top: 23px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 30px 0;
+  background-color: white;
+  border-bottom: 1px solid #E6E6E6;
+}
+.repayment-bill .tabs text{
+  margin-right: 29px;
+  position: relative;
+  padding: 20px 0 13px;
+}
+.repayment-bill .tabs text.action{
+  font-size:16px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+}
+.repayment-bill .tabs text.action::after{
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  background-color: #EEA900;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  margin-left: -18px;
+}
+.repayment-bill .list{
+  background-color: white;
+  padding: 15px 20px;
+}

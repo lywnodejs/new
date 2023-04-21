@@ -1,0 +1,20 @@
+<van-popup show="{{ show }}"
+           overlay="{{overlay}}"
+           position="{{position}}"
+           custom-style="height: {{height}};"
+           closeable
+           close-on-click-overlay="{{false}}"
+           close-icon="{{isBack && '/image/close_left.png' || 'cross'}}"
+           closeIconPosition="{{closeIconPosition}}"
+           bind:close="onClosePopup" custom-class="xy-popup">
+    <view class="xy-popup">
+        <view class="xy-popup-tit">{{title}}</view>
+        <scroll-view wx:if="{{hasScroll}}" class="xy-popup-content scroll-class" scroll-y="true" style="height: {{scrollHeight}};" catchtouchmove="catchMove">
+           <slot></slot>
+        </scroll-view>
+        <view wx:else>
+            <slot></slot>
+        </view>
+        <slot name="footer"></slot>
+    </view>
+</van-popup>

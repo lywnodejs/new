@@ -1,0 +1,55 @@
+/* components/captcha-popup/index.wxss */
+.verify-popup>view{
+  width: 300px;
+  padding: 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 5px;
+}
+.verify-popup text.title{
+  color: #333333;
+  font-size: 19px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  text-align: center;
+  display: block;
+}
+.verify-popup text.subtitle{
+  display: block;
+  color: #999999;
+  font-size: 14px;
+  margin-top: 7px;
+  text-align: center;
+}
+.verify-popup .countdown{
+  text-align: right;
+}
+.verify-popup .imgs{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.verify-popup .imgs>image{
+  width: 129px;
+  height: 35px;
+  display: block;
+  background-color: #F6F6F6;
+}
+.verify-popup .imgs view {
+  width: 33px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #F6F6F6;
+  border: 0.5px solid #CBCBCB;
+  box-sizing: border-box;
+}
+.verify-popup .imgs view image {
+  display: block;
+  width: 16px;
+  height: 18px;
+}

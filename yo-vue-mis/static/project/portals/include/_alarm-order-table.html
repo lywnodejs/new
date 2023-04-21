@@ -1,0 +1,87 @@
+<div class="wrap-table" ng-cloak>
+    <loading opacity=".75" isloading="isShowTableLoading" ng-if="isShowTableLoading"></loading>
+    <button ng-if="totalItems && totalItems>10" class="p-btn p-btn-sm i-fr" style="margin:0 5px 5px 0" ng-click="exportAlarmList()">导出告警</button>
+    <table class="p-table table-bordered table-header-bg table-hover">
+        <thead>
+            <tr>
+                <th ng-repeat="key in showTableHeaderFields track by $index" ng-switch on="key">
+                    <span ng-switch-when="checkbox">
+                        <input type="checkbox" id="js-checkbox" ng-click="changeCheck($event)"> 
+                    </span>
+                    <div ng-switch-default class="wrap-table-sort">
+                        <span> {{key}}</span>
+                        <span class="table-header-sort" ng-if="sortFields.indexOf(key)>=0" ng-class="{
+                                ascending: $index===tableSortIndex && tableSortIsAsc===true,
+                                descending: $index===tableSortIndex && tableSortIsAsc===false
+                            }">
+                            <span class="glyphicon glyphicon-triangle-top ascending" ng-click="sortFieldByName($index,true)"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom descending" ng-click="sortFieldByName($index,false)"></span>
+                        </span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!datas || !datas.length">
+                <td colspan="20">
+                    <h5>{{alarmControl===1 || alarmControl===0 ? "没有相关数据" : "没有权限"}}</h5>
+                </td>
+            </tr>
+            <!--可以做成指令  -->
+            <tr ng-repeat-start="data in datas">
+                <td ng-repeat="field in showTableFields track by $index" ng-switch on="field">
+                    <span ng-switch-when="checkbox">
+                        <input type="checkbox" ng-if="data.state==1 || data.state==4" ng-model="data.isChecked" ng-checked="data.isChecked">
+                    </span>
+                    <span ng-switch-when="expand" class="expand-span" ng-class="{ 'is-expand':data.isExpand }" ng-click="tableExpand(data)">
+                       <span class="glyphicon glyphicon-menu-right" ></span>
+                    </span>
+                    <div ng-switch-when="remark">
+                        <span title="{{data[field]||'无'}}">{{sliceRemark(data[field])}}<span ng-if="alarmControl===1" class="glyphicon glyphicon-pencil" title="编辑" ng-click="showDialogDesc(data)" ></span></span>
+                    </div>
+                    <span ng-switch-when="state"> {{[data[field]-1] | getStateText}} </span>
+                    <span ng-switch-when="processerJson"> <span ng-bind-html="data.processerJson | getName | to_trusted"></span></span>
+                    <span ng-switch-default> {{data[field] || "无"}} </span>
+                </td>
+            </tr>
+            <tr ng-repeat-end ng-if="isShowRows(data)">
+                <td colspan="{{showTableFields.length}}">
+                    <div class="table-expand-list" ng-style="{'max-width': maxWidth || '100%' }">
+                        <div class="list-item" ng-repeat="fe in tableFields" ng-switch on="fe">
+                            <label>{{tableHeaderFields[$index]}}</label>
+                            <span ng-switch-when="processerJson"> <span ng-bind-html="data.processerJson | getName | to_trusted"></span></span>
+                            <span ng-switch-when="state"> {{[data[fe]-1] | getStateText}} </span>
+                            <span ng-switch-default> {{data[fe] || "无"}} </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="wrap-pagination" ng-show="totalItems && totalPage" ng-cloak>
+     <ul uib-pagination
+     ng-show="totalItems && totalPage"
+     first-text="首页"
+     last-text="最后一页"
+     previous-text="上一页"
+     next-text="下一页"
+     boundary-link-numbers="true"
+     force-ellipses="true"
+     class="pagination-sm"
+     total-items="totalItems"
+     ng-model="currentPage"
+     max-size="maxSize"
+     items-per-page="pageSize"
+     ng-change="getData()"
+     ></ul>
+     <select ng-change="changePageSize()" ng-model="pageSize" ng-init="pageSize = pageSize + '' || pageSizeOptions[0] + '' ">
+         <!--  -->
+         <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}} 条/页</option>
+     </select>
+     <div class="jump" ng-show="totalItems && totalPage > 5">
+          <input type="number" name="jumpPageNum" ng-model="jumpPageNum" ng-keyup="jumpPage($event)" placeholder="输入页码" />
+          <a href="javascript:" ng-click="jumpPage()">GO</a>
+     </div>
+     <div class="i-fr">{{totalItems}}条记录，共{{totalPage}}页</div>
+ </div>

@@ -1,0 +1,9 @@
+<div class="p-form-item form-flex">
+    <label class="item-label"><span class="i-placeholder">x</span>标签:</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':ctrl.pageData.<%- fieldName || tags%> && ctrl.pageData.<%- fieldName || tags%>.length  && ctrl.pageData.<%- fieldName || tags%>.length>10}">
+        <ui-my-add-mark placeholder="请输入标签，回车添加，最多添加十个标签" name="<%- fieldName || tags%>" maxlength="6" ng-model="ctrl.pageData.<%- fieldName || tags%>">
+            <ui-select-mark-item>{{$item}} </ui-select-match-item>
+        </ui-my-add-mark>
+        <span class="p-error-msg" ng-class="{'ng-invalid':ctrl.pageData.<%- fieldName || tags%> && ctrl.pageData.<%- fieldName || tags%>.length  && ctrl.pageData.<%- fieldName || tags%>.length>10}">标签最多十个</span>
+    </div>
+</div>

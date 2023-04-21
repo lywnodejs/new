@@ -1,0 +1,192 @@
+<!-- 组件 custom-component.wxml -->
+<view hidden="{{display}}" class='testkbid' catchtouchstart="defaultfn">
+  <!-- <custom-component>
+    <view>{{myProperty}}{{values}}</view>
+    <button bindtap='onMyButtonTap'>Button</button>
+    <button bindtap='_myPrivateMethod'>_myPrivateMethod</button>
+    <button bindtap="onTap">点击这个按钮将触发“myevent”事件</button>
+  </custom-component> -->
+  <view class="char_keyboard" style="display:{{display1}};">
+    <view class="row1">
+      <block wx:for="{{postList1}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+           <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view> 
+        </block>
+      </block>
+    </view>
+    <view class="row2">
+      <block wx:for="{{postList2}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row3">
+      <view class="cap" data-p="cap" catchtouchend="CAP" style="background:{{cap == 'cap' ? '#fff':'#adb4be'}}">
+        <image src="{{green}}"  mode="widthFix"/>
+      </view>
+      <block wx:for="{{postList3}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+20}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+20) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+20}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+20) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+      <view class="del" catchtouchstart="delect" catchtouchend="undelect" style="background:{{select == 'del' ? '#fff':'#adb4be'}}">
+        <image src="{{del}}" mode="widthFix"/>
+      </view>
+    </view>
+    <view class="row4">
+      <view class="c_N" catchtouchstart="switch_N">.?123</view>
+      <view class="space" catchtouchstart="tapspace" catchtouchend="tapspace2" catchtouchcancel="tapspace2" style="background:{{select == 'space' ? '#adb4be':'#fff'}}">space</view>
+      <view class="close" catchtouchstart="close" style="background:{{select == 'close' ? '#fff':'#adb4be'}}">
+        <image src="{{H5close}}" mode="widthFix" />
+      </view>
+    </view>
+  </view>
+  <!--数字-->
+  <view class="purenumber_keyboard" style="display:{{display2}};">
+    <view class="row1">
+      <block wx:for="{{postListN1}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName3" catchtouchcancel="tapName3" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row5">
+      <block wx:for="{{postListN2}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row6">
+      <view class="c_S" catchtouchstart="switch_S">#+=</view>
+      <block wx:for="{{postListN3}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+21}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+21) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+21}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+21) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+      <view class="del" catchtouchstart="delect" catchtouchend="undelect" style="background:{{select == 'del' ? '#fff':'#adb4be'}}">
+        <image src="{{del}}" mode="widthFix" />
+      </view>
+    </view>
+    <view class="row4">
+      <view class="c_C" catchtouchstart="switch_C">ABC</view>
+      <view class="space" catchtouchstart="tapspace" catchtouchend="tapspace2" catchtouchcancel="tapspace2" style="background:{{select == 'space' ? '#adb4be':'#fff'}}">space</view>
+      <view class="close" catchtouchstart="close" style="background:{{select == 'close' ? '#fff':'#adb4be'}}">
+        <image src="{{H5close}}" mode="widthFix"/>
+      </view>
+    </view>
+  </view>
+
+  <!--符号-->
+  <view class="symble_keyboard" style="display:{{display3}};">
+    <view class="row1">
+      <block wx:for="{{postListS1}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row5">
+      <block wx:for="{{postListS2}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+11}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+11) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row6">
+      <view class="c_N" catchtouchstart="switch_N">123</view>
+      <block wx:for="{{postListS3}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+21}}" catchtouchstart="tapName" catchtouchend="tapName2" catchtouchcancel="tapName2" style="background:{{select == (idx+21) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+21}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+21) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+      <view class="del" catchtouchstart="delect" catchtouchend="undelect" style="background:{{select == 'del' ? '#fff':'#adb4be'}}">
+        <image src="{{del}}"  mode="widthFix"/>
+      </view>
+    </view>
+    <view class="row4">
+      <view class="c_C" catchtouchstart="switch_C">ABC</view>
+      <view class="space" catchtouchstart="tapspace" catchtouchend="tapspace2" catchtouchcancel="tapspace2" style="background:{{select == 'space' ? '#adb4be':'#fff'}}">space</view>
+      <view class="close" catchtouchstart="close" style="background:{{select == 'close' ? '#fff':'#adb4be'}}">
+        <image src="{{H5close}}"  mode="widthFix"/>
+      </view>
+    </view>
+  </view>
+
+  <!--纯数字-->
+  <view class="purenumber_keyboard" style="display:{{display4}};">
+  <view class="logo"> <image src="/image/logo_1.png"></image> 九台农商银行安全键盘</view>
+    <view class="row7">
+      <block wx:for="{{postListP1}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName3" catchtouchcancel="tapName3" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+1}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+1) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row7">
+      <block wx:for="{{postListP2}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+4}}" catchtouchstart="tapName" catchtouchend="tapName3" catchtouchcancel="tapName3" style="background:{{select == (idx+4) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+4}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+4) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row7">
+      <block wx:for="{{postListP3}}" wx:for-item="item" wx:for-index="idx" wx:key="dataP">
+        <block wx:if="{{chaosMode==2}}">
+          <view data-p="{{item.dataP}}" data-index="{{idx+7}}" catchtouchstart="tapName" catchtouchend="tapName3" catchtouchcancel="tapName3" style="background:{{select == (idx+7) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+        <block wx:else>
+          <view data-p="{{item.dataP}}" data-index="{{idx+7}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+7) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+        </block>
+      </block>
+    </view>
+    <view class="row7">
+      <view class="del1" catchtouchstart="delect" catchtouchend="undelect" style="background:{{select == 'del' ? '#fff':'#adb4be'}}">
+        <image src="{{del}}"  mode="widthFix"/>
+      </view>
+      <block wx:if="{{chaosMode==2}}">
+        <view wx:for="{{postListP4}}" wx:key="dataP" wx:for-item="item" wx:for-index="idx" class="{{select == item.dataP ? 'gray':'red'}}" data-p="{{item.dataP}}" data-index="{{idx+10}}" catchtouchstart="tapName" catchtouchend="tapName3" catchtouchcancel="tapName3" style="background:{{select == (idx+10) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+      </block>
+      <block wx:else>
+        <view wx:for="{{postListP4}}" wx:key="dataP" wx:for-item="item" wx:for-index="idx" data-p="{{item.dataP}}" data-index="{{idx+10}}" catchtouchstart="tapName" catchtouchend="tapName5" catchtouchcancel="tapName5" style="background:{{select == (idx+10) ? '#adb4be':'#fff'}}">{{item.dataP}}</view>
+      </block>
+      <view class="close1" catchtouchstart="close" style="background:{{select == 'close' ? '#fff':'#adb4be'}}">
+        <image src="{{H5close}}" mode="widthFix" />
+      </view>
+    </view>
+  </view>
+</view>

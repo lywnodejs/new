@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "exclusive-banner":"/components/exclusive-banner/index",
+    "wealth-item":"/components/wealth-item/index",
+    "van-loading": "@vant/weapp/loading/index"
+  },
+  "navigationBarTextStyle": "white",
+  "navigationStyle": "custom",
+  "disableScroll": true
+}

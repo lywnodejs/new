@@ -1,0 +1,136 @@
+<% if(!params.noSource){ %>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+<link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+
+<%
+let data = info.data;
+let p = "";
+if (!info.isError) {
+    for (let i = 0; i < conditionParams.selectedIndexList.length; i++) {
+        let item = conditionParams.selectedIndexList[i];
+        var precision= (item.xsdNumberVal  != undefined )? item.xsdNumberVal:2;
+        var valueType = item.valueType;
+        if (item.text) {
+            if (item.domFlag) {
+                p += item.domText
+            } else {
+                p += item.value
+            }
+        } else {
+            if (data[item.timeIndex]) {
+                let resultItem = data[item.timeIndex][0];
+
+
+                let val = resultItem.indicatorValue;
+                if (resultItem.indicatorValue || resultItem.indicatorValue === 0) {
+                    
+                    if (resultItem.unit_change && resultItem.unit_change == 1) {
+                        let countUnit = item.countUnit || ''
+                        //<!-- val = commonUtil.fundFilterToMoney(val,countUnit) -->
+                        if (resultItem.dispUnit) {
+                            val = commonUtil.returnInitMoney(resultItem.indicatorValue,resultItem.dispUnit)
+                            if (countUnit) {
+                                if (item.jlVlaueFlag) {
+                                    val = val + countUnit;
+                                } else {
+                                    val = commonUtil.fundFilterToMoney(val,countUnit,precision);
+                                }
+                            } else {
+                                val = commonUtil.fundFilterToMoney(val,resultItem.dispUnit,precision);
+                            }
+                        } else {
+                            val = commonUtil.getTwoNumberDot(val,precision);
+                        }
+                        p += val;
+                        <!-- p += val + (resultItem.dispUnit ? resultItem.dispUnit : ''); -->
+                    }else if ( String(resultItem.indicatorValue).indexOf('http') !== -1){
+                        var str = resultItem.indicatorValue;
+                        val = "<img src="+str+">"
+                        p += val;
+                    }else{
+                        if (resultItem.dispUnit == "%" ) {
+                            val = commonUtil.getTwoNumberDot(val,precision);
+                        }else if (resultItem.dispUnit == "元") {
+                            val = commonUtil.fundFilter2(val,precision);
+                        }  else if(valueType ==1){
+                            val = commonUtil.getTwoNumberDot(val,precision);
+                        }
+
+                        if (resultItem.index_flag == 1) {
+                            val = "(" + resultItem.indicatorValue.substring(2, resultItem.indicatorValue.length) + ")";
+                        }else if(resultItem.index_flag == 3 || resultItem.index_flag == 4){
+                            val = commonUtil.formatDataDay(val);
+                        }
+
+
+                        if(val.replace){
+                            val = val.replace(/,/g,"，")
+                            val = val.replace(/:/g,"：")
+                            val = val.replace(/;/g,"；")
+                        }
+
+
+                        // val = val.replace(/\./g,"。")
+                        p += val + (resultItem.dispUnit ? resultItem.dispUnit : '');
+
+                        
+                    }
+
+                    
+
+
+                } else {
+                    p += ''
+                }
+            } else {
+                if (item.specialHandlingFlag && item.specialHandlingFlag === 101) {
+                    if (item.unit) {
+                        p += '0'+ item.unit
+                    } else {
+                        p += '0'
+                    }
+                    
+                } else if (item.correlationIndexVal != undefined) {
+                    let outItem = data[item.correlationIndexVal][0];
+                    let trade_dt = outItem.trade_dt;
+                    if (!item.changeIndexTimeType) {
+                        p += commonUtil.formatDataDay(trade_dt);
+                    } else {
+                        p += trade_dt
+                    }
+                    
+                } else {
+                    p += '--'
+                }
+            }
+            // console.log(data[item.timeIndex])
+            // p += data[item.timeIndex].indicatorValue + data[item.timeIndex].dispUnit;
+        }
+    }
+} else {
+    for (let i = 0; i < conditionParams.selectedIndexList.length; i++) {
+        let item = conditionParams.selectedIndexList[i];
+        if (item.text) {
+            p += item.value;
+        } else {
+            p += '--'
+        }
+    }
+}
+%>
+<div class="rxh_bd" style="padding: 0 .625rem;line-height: 1.5rem;">
+    <%- p %>
+</div>
+
+<script>
+
+  var speechTemplateView<%= sn %> = {
+    onViewReady: function () {
+    }
+  }
+
+
+</script>

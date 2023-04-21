@@ -1,0 +1,53 @@
+<div class="flux-container portal-container">
+    <div class="row">
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞整体指标</strong>
+                    <button type="button" class="btn btn-primary btn-sm" style="float:right;margin-top:-4px;" ng-click="toggle()" ng-bind="leakText"></button>
+                </div>
+                <div class="panel-body">
+                    <div id="leakAll" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞等级分布趋势图</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakCategory" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞处理状态按业务线统计分布图</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakDepts" class="portal-chart" style="height:450px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>发现漏洞数量的时间趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakTime" class="portal-chart" style="height:450px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>        
+        
+    </div>
+</div>

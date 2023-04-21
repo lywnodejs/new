@@ -1,0 +1,48 @@
+<!--pages/deposit/message/index.wxml-->
+<view style="background-color: #ffffff; width: 100%; height: {{statusBarHeight}}px"></view>
+<view class="nav">
+  <text bindtap="doneBack">完成</text>
+  <text>操作结果</text>
+  <text style="width:100rpx;"></text>
+</view>
+<view class="message">
+  <view class="header">
+    <image src="/image/card_yes.png"></image>
+    <view class="text">存款产品购买申请已提交</view>
+    <view class="content">
+      <view class="item">
+        <view class="item_top">
+          <image src="/image/start_01.png"></image>
+          <text>购买日（起息日）</text><text>{{valueDate || ''}}</text>
+        </view>
+      </view>
+      <view class="item">
+        <view class="item_top">
+          <image src="/image/end_01.png"></image>
+          <text>到期日（结息日）</text><text>{{expiryDate || ''}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="list">
+      <view class="item">
+        九惠存（季富存)
+        <text>{{moneyVal || ''}}</text>
+      </view>
+      <view class="item">
+        资金账户
+        <text>{{eleCardNo || ''}}</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="tips-box">
+    <view class="title">小贴士</view>
+    <view class="tips">您可在<text bindtap="toOrder">我的存款</text>主动查询进度</view>
+    <view class="tips">2. 审核结果会通过短信消息及时通知到您</view>
+    <!-- <view class="qr-code">
+        <image src="{{qrCode}}"></image>
+        <view>截图或保存二维码后，微信扫一扫关注</view>
+        <button bind:tap="saveImg">保存</button>
+    </view> -->
+</view>

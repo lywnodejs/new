@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "tie-card": "/components/tie-card/index",
+    "bank-cell": "/components/bank-cell/index",
+    "captcha-popup": "/components/captcha-popup/index",
+    "protocol-view": "/components/protocol-view/index"
+  },
+  "navigationBarTitleText": "绑定银行卡"
+}

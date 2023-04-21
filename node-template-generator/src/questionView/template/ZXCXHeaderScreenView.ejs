@@ -1,0 +1,146 @@
+<% include ../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="<%= config %>/static/css/lywscreenList.css">
+    <link rel="stylesheet" href="<%= config %>/static/css/yy_bigData.css">
+<% }%>
+<div class="ZXCXScreenBox">
+    <div class="top">
+        <p class="active_li"><span>按综合排序</span> <i class="iconfont">&#xe65a;</i></p>
+        <p class="active_li"><span>搜全部</span> <i class="iconfont">&#xe65a;</i></p>
+<!--        <p><span>筛选</span> <i class="iconfont">&#xe621;</i></p>-->
+        <div class="alertLi zh hide">
+            <li onclick="zhClick('按综合排序',0)" class="active_li">按综合排序</li>
+            <li onclick="zhClick('按相关度排序',1)">按相关度排序</li>
+            <li onclick="zhClick('按发布时间从新到旧',2)">按发布时间从新到旧</li>
+            <li onclick="zhClick('按发布时间从旧到新',3)">按发布时间从旧到新</li>
+        </div>
+        <div class="alertLi nr hide">
+            <li onclick="searchClassClick('搜全部',0)" class="active_li">搜全部</li>
+            <li onclick="searchClassClick('搜标题',1)">搜标题</li>
+            <li onclick="searchClassClick('搜正文',2)">搜正文</li>
+            <li onclick="searchClassClick('搜文号',3)">搜文号</li>
+            <li onclick="searchClassClick('搜附件',4)">搜附件</li>
+        </div>
+    </div>
+    <div class="itemBottomBox">
+        <div class="topItem"><span>体裁</span> <i class="iconfont">&#xe65a;</i></div>
+        <div class="topItem"><span>机构</span> <i class="iconfont">&#xe65a;</i></div>
+        <div class="topItem"><span>人物</span> <i class="iconfont">&#xe65a;</i></div>
+        <div class="topItem"><span>时间</span> <i class="iconfont">&#xe65a;</i></div>
+    </div>
+
+    <!--    体裁-->
+    <div class="alertItem tc">
+        <div class="scroll">
+        </div>
+        <div class="footer_enter">
+            <button onclick="clearAll()">重置</button>
+            <button onclick="enterOK()">确定</button>
+        </div>
+    </div>
+    <!--    机构-->
+    <div class="alertItem jg">
+        <div class="scroll">
+        </div>
+        <div class="footer_enter">
+            <button onclick="clearAll()">重置</button>
+            <button onclick="enterOK()">确定</button>
+        </div>
+    </div>
+    <!--    人物-->
+    <div class="alertItem rw">
+        <div class="scroll">
+        </div>
+        <div class="footer_enter">
+            <button onclick="clearAll()">重置</button>
+            <button onclick="enterOK()">确定</button>
+        </div>
+    </div>
+    <!--    时间-->
+    <div class="alertItem sj">
+        <div class="sjItem">
+            <li onclick="getDate_shijian('最近七天',0)">最近七天</li>
+            <li onclick="getDate_shijian('最近一年',1)">最近一年</li>
+            <li onclick="getDate_shijian('十九大以来',2)">十九大以来</li>
+        </div>
+        <div class="selectionDate">
+            <p id="selectionDate">选择开始时间</p> -
+            <p id="selectionDate2">选择结束时间</p>
+        </div>
+        <div class="footer_enter">
+            <button onclick="clearAll()">重置</button>
+            <button onclick="getDate_shijian('',3)">确定</button>
+        </div>
+    </div>
+    <div class="module_Box"></div>
+
+</div>
+
+<div class="listBox" id="zhpx">
+    <div class="loading_box">
+        <i class="iconfont">&#xe6ae;</i>
+    </div>
+    <div class="listItem" id="list_xx" data-cp="1" data-txt="学习之旅">
+        <div class="title">学习之旅(<span></span>) <i class="iconfont">&#xe65a;</i></div>
+        <div class='ul'>
+
+        </div>
+
+    </div>
+    <div class="listItem" id="list_dzjg" data-cp="1" data-txt="最高党政机关">
+        <div class="title">最高党政机关(<span></span>) <i class="iconfont">&#xe65a;</i></div>
+        <div class='ul'>
+
+        </div>
+
+    </div>
+    <div class="listItem " id="list_gbw" data-cp="1" data-txt="各部委">
+        <div class="title">各部委(<span></span>) <i class="iconfont">&#xe65a;</i></div>
+        <div class='ul'>
+
+        </div>
+
+    </div>
+    <div class="listItem" id="list_dfdz" data-cp="1" data-txt="地方党政机关">
+        <div class="title">地方党政机关(<span></span>) <i class="iconfont">&#xe65a;</i></div>
+        <div class='ul'>
+
+        </div>
+
+    </div>
+    <div class="listItem" id="list_qt" data-cp="1" data-txt="其他">
+        <div class="title">其他(<span></span>) <i class="iconfont">&#xe65a;</i></div>
+        <div class='ul'>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="listBox" id="zhpxH">
+    <div class="listItem rxh_show3" id="list_xxx" data-cp="1">
+        <div class='ul'>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+
+    var HeaderScreenView = {
+        onViewReady: function () {
+            callback();
+        },
+        openDetail:function (id) {
+            
+        }
+    }
+
+
+    <% if(!params.noSource) { %>
+    loadJs(jsSource, HeaderScreenView.onViewReady);
+    <% } %>
+</script>
+<% include ../component/infoJs %>
+

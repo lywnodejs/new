@@ -1,0 +1,22 @@
+.login-img {
+    background: url("../../assets/image/login-bg.png") center center;
+    background-size: cover;
+    width: calc(100vw - 400px);
+}
+
+.login-form {
+    padding: 20px 10px;
+    /*background: white;*/
+    width: 400px;
+    height: 100vh;
+}
+
+@media screen and (max-width: 900px) {
+    .login-img {
+        display: none;
+    }
+
+    .login-form {
+        width: 100vw;
+    }
+}

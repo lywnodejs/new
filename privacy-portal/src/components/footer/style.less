@@ -1,0 +1,50 @@
+@import '~variables';
+
+.privacy-footer{
+  width: 100%;
+  margin: auto;
+  &__content{
+    &-feedback{
+      text-align: center;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+      color: #3f3f3f;
+      text-decoration: underline;
+      margin: 0 auto 24px;
+      width: 1280px;
+      background: #fff;
+      box-shadow: 0 2px 16px rgba(0,0,0,.07);
+      height: 70px;
+      line-height: 70px;
+      span{
+        &:hover{
+          cursor:pointer
+        }
+      }
+    }
+    &-copyRight{
+      text-align: center;
+      font-family: PingFangSC-Regular;
+      font-size: 12px;
+      color: #444444;
+      line-height: 17px;
+      opacity: 0.44;
+      margin-bottom: 40px;
+      span{
+        display: block;
+        a {
+          color: #444444;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+.ant-input{
+  resize: none !important;
+}
+.ant-btn{
+ margin: 0 4px;
+}

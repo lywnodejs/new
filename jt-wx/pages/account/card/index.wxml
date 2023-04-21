@@ -1,0 +1,17 @@
+<!--pages/account/card/index.wxml-->
+<view class="account-card">
+  <view class="header">
+    <tie-card data="{{userInfo}}" />
+  </view>
+  <bank-cell bindemitBank="onBankInfo" selectBank="{{selectBank}}" placeholder="{{placeholder}}" showInput="{{placeholder != ''}}" bindType="{{bindType}}"/>
+  <view>
+    <block wx:if="{{protocolList !== null && protocolList !== undefined && protocolList.length>0}}">
+      <protocol-view isSelected="{{isSelect}}" protocols="{{protocolList}}" bindonSelect="changeSelect" bindonShow="onShowChange" showInput="{{placeholder != ''}}" />
+    </block>
+    <button disabled="{{!isSelect}}" class="{{isgodown?'':'ccc'}}"  bindtap="onSubmit">确认</button>
+  </view>
+
+</view>
+
+<captcha-popup show="{{show}}" phone="{{card.reservedMobile}}" isCountdown="{{isCountdown}}" bindonSend="onSend"
+  isError="{{isCodeError}}" bindonComplete="onComplete" />

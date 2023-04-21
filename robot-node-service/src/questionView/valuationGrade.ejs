@@ -1,0 +1,148 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% if(!ispop){ %>
+<% include ./component/preAnswer %>
+<div class="bd" id="answer<%= sn %>">
+    <% } %>
+    <div class="<%= ispop ? '' : 'mb' %> sumUp_InsRating" id="<%= divId %>">
+        <h5 class="hd rating">机构评级
+            <% ispop %>
+        </h5>
+        <h6 class="hd"><%= ratingPaint %></h6>
+        <div class="box_columnar">
+            <div class="col_img">
+                <% for(var i = 0;i < ratingArr.length;i++){
+                    var item = ratingArr[i];
+                    var percentage = (item / arrMax * 100).toFixed(2);
+                    if (percentage < 5) {
+                        percentage = 5
+                    }
+                %>
+                <ul class="columnar">
+                    <li>
+                        <div class="txt" style="bottom: <%= percentage %>%"><%= item %></div>
+                        <div class="bar" style="height: <%= percentage %>%"></div>
+                    </li>
+                </ul>
+                <% } %>
+            </div>
+            <div class="col_note">
+                <% for(var i = 0;i < ratingList.length;i++){
+                    var item = ratingList[i];
+                %>
+                <div class="txt"><%= item.ratingName %></div>
+                <% } %>
+            </div>
+        </div>
+        <h5 class="hd">研报精选</h5>
+        <ul class="resReport">
+            <%
+            var contentIds = [];
+            %>
+            <% for(var i = 0;i < reportList.length;i++){
+                var item = reportList[i];
+                var sourceFrom = item.docType,
+                        summary = item.title,
+                        organization = sourceFrom === "weixin" ? item.weChatName : item.organization,
+                        author = item.author,
+                        ratingName = item.ratingName ? item.ratingName : '';
+                //提取要点集合
+                var tempArray = [];
+                for (var x in item.analyseFlags) {
+                    var strategyName = item.analyseFlags[x];
+                    tempArray.push(strategyName);
+                }
+                var index = 0;
+            %>
+            <li class="<%= i >= 3 ? hideClass : '' %> box_show" style="display: <% i >= 3 ? 'none' : 'block' %>">
+                <% for(var j = 0; j < tempArray.length; j++){
+                    var subType = tempArray[j];
+                    summary = item.analyseResults[symbol + subType];
+                    summary = commonUtil.replaceLineBreak(summary);
+                %>
+                <% if(index === 0){
+                    var clsRes = '';
+                    if (ratingName) {
+                        if (ratingName.indexOf('买入') !== -1) {
+                            clsRes = 'icon-ir_mr'
+                        } else if (ratingName.indexOf('增持') !== -1) {
+                            clsRes = 'icon-ir_zc'
+                        } else if (ratingName.indexOf('中性') !== -1) {
+                            clsRes = 'icon-ir_zx'
+                        } else if (ratingName.indexOf('减持') !== -1) {
+                            clsRes = 'icon-ir_jc'
+                        } else if (ratingName.indexOf('卖出') !== -1) {
+                            clsRes = 'icon-ir_mc'
+                        }
+                    } else {
+                        clsRes = '';
+                    }
+                %>
+                <div class="hd2">
+                    <div>
+                        <i class="<%= clsRes %>"></i><%= organization %>／<%= author %>
+                    </div>
+                    <div><%= commonUtil.changeTime(item.publishAt) %></div>
+                </div>
+                <% } %>
+                <%
+                    var contentId = commonUtil.generateRandomClassName('contentId');
+                    var expandBtnId = commonUtil.generateRandomClassName('expandBtnId');
+                    contentIds.push([contentId, expandBtnId]);
+                %>
+                <% if(index > 0){ %>
+                    <div class="box_bRed box_bRed_r2 box_bBlue">
+                        <i><%= subType.replace('大盘', '').replace('日策略', '') %></i>
+                    </div>
+                    <% index++; %>
+                <% } %>
+                <h5 id="<%= contentId %>"><%= summary %></h5>
+                <a id="<%= expandBtnId %>" class="a_more"
+                   onclick="expandResContent('<%= expandBtnId %>','<%= contentId %>','<%= answerResultType %>')">展开<i
+                            class="icon-arrowD"></i></a>
+                <% } %>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+    <% if(!ispop){ %>
+</div>
+<% } %>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  /**
+   * 展开研报精选隐藏内容
+   * @param expandBtnId
+   * @param contentId
+   */
+  function expandResContent(expandBtnId, contentId, title) {
+    $('#' + expandBtnId).hide();
+    $('#' + contentId).removeClass('show_row3').addClass('show_all');
+  }
+
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var valuationGrade = {
+    onViewReady: function () {
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, valuationGrade.onViewReady)
+
+
+</script>
+
+
+
+
+

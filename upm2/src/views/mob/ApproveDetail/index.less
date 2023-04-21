@@ -1,0 +1,51 @@
+@import '~antd/lib/style/themes/default.less';
+
+.approve-detail {
+  .card-head {
+    .card-button {
+      .approve-doing-text {
+        color: @info-color;
+      }
+      .approve-success-text {
+        color: @primary-color;
+      }
+      .approve-fail-text {
+        color: @error-color;
+      }
+      .approve-recall-text {
+        color: @warning-color;
+      }
+    }
+  }
+
+  .shortcut-wrapper {
+    display: flex;
+    .shortcut-title {
+      display: inline;
+      line-height: 32px;
+      font-size: 16px;
+      margin-right: 5px;
+    }
+    .shortcut-approve-input {
+      width: 500px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .approve-detail {
+    .card-head {
+      .shortcut-wrapper {
+        display: block;
+        // padding-bottom: 5px;
+        button {
+          margin: 4px 0;
+        }
+
+        .shortcut-approve-input {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}

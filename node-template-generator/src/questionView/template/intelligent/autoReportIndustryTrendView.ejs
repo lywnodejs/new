@@ -1,0 +1,77 @@
+<% include ../../component/jsLoad %>
+<%
+    let list = info.data || [];
+%>
+
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+    <script src="//weblibs.rxhui.com/compLibrary_rxh/js/yy_tab.js"></script>
+<% } %>
+
+<!--<div class="rxh_public_hd01">-->
+<!--    <b></b><span><%= params.name || '' %></span>-->
+<!--</div>-->
+
+<!--行业发展趋势-->
+<% if(list.length > 0){ %>
+        <div class="rxh_tab rxh_tab03">
+            <!--
+            1. 标签2行文字时，在rxh_scrollBox样式名后加：rxh_scrollBox2
+            2. 文字居中，加样式名：rxh_txtCenter
+            3. 数字字体，加样式名：rxh_din
+            -->
+            <div class="rxh_scrollBox rxh_scrollBox2">
+                <% for(let i = 0; i < list.length; i++){ %>
+                    <%
+                        let item = list[i];
+                        let cls = i === 0 ? 'rxh_on' : '';
+                    %>
+                <a class="<%= cls %> rxh_txtCenter" style="height: auto">
+                    <h5><%= item.organization || '--' %></h5>
+                    <h6 class="rxh_din"><%- commonUtil.changeTimeForMinNoHours(item.publishTime) || '' %></h6>
+                </a>
+                <% } %>
+<!--                    <div class="rxh_rollTips"><i class="icon-arrow4_R"></i></div>-->
+            </div>
+        </div>
+        <div class="rxh_tabCon rxh_bg">
+            <% for(let i = 0; i < list.length; i++){ %>
+                <%
+                    let item = list[i];
+                    let cls2 = i === 0 ? 'rxh_show' : '';
+                %>
+            <div class="item <%= cls2 %>"><%= item.text || '' %></div>
+            <% } %>
+        </div>
+<% }else{ %>
+    <div class="rxh_text rxh_gap rxh_bg">
+        <h5>暂无数据</h5>
+    </div>
+<% } %>
+
+<script>
+  var autoReportIndustryTrendView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    //行业简介的文字的展开收起
+    openDetail: function (obj) {
+      var thisObj = $(obj);
+      var $this_parent = thisObj.parent();
+      if($this_parent.hasClass("open")){
+        $this_parent.attr("class","takeUp");
+        thisObj.text("[收起]");
+      }else{
+        $this_parent.attr("class","open");
+        thisObj.text("[展开]");
+      }
+    },
+  }
+
+  <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, autoReportIndustryTrendView<%- sn %>.onViewReady)
+  <% } %>
+</script>

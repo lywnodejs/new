@@ -1,0 +1,8 @@
+<!--components/applyPotocol/index.wxml-->
+<view class="apply-protocol">
+    <view class="pro-title">昆山农商行授信协议</view>
+    <view class="pro-content">
+        <web-view src="{{url}}" bindload="onWebLoad" binderror="onWebError"></web-view>
+    </view>
+</view>
+

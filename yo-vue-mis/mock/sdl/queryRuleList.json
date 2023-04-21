@@ -1,0 +1,29 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "total": 100,
+    "data": [
+        {
+            "rule_id": 123456,
+            "rule_name": "SQL_Injection",
+            "type_name": "SQL注入",
+            "level_name": "高",
+            "language": "JAVA",
+            "knowledge_id": 123,
+            "description": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578",
+            "harm": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578",
+            "advice": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578"
+        },
+        {
+            "rule_id": 123457,
+            "rule_name": "SQL_Injection",
+            "type_name": "SQL注入",
+            "level_name": "高",
+            "language": "PHP",
+            "knowledge_id": 123,
+            "description": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578",
+            "harm": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578",
+            "advice": "http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=112499578"
+        }
+    ]
+}

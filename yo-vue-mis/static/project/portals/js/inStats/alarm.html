@@ -1,0 +1,359 @@
+<div class="flux-container portal-container">
+    <ul class="nav nav-tabs">
+        <li role="presentation" ng-class="{'active' : active == 0}">
+            <a href="javascript:void(0);" ng-click="activeTab(0)">整体指标</a>
+        </li>
+        <li role="presentation" ng-class="{'active' : active == 1}">
+            <a href="javascript:void(0);" ng-click="activeTab(1)">每周指标</a>
+        </li>
+        <li role="presentation" ng-class="{'active' : active == 2}">
+            <a href="javascript:void(0);" ng-click="activeTab(2)">相对指标</a>
+        </li>
+        <li role="presentation" ng-class="{'active' : active == 3}">
+            <a href="javascript:void(0);" ng-click="activeTab(3)">告警分析</a>
+        </li>
+    </ul>
+    <!-- tabset组件与日期组件冲突 -->
+    <div class="row portal-panel" ng-show='active == 0'>
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警类型的数量分布图</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="input-group" style="font-size: 10px;">
+                                <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="typeStart" is-open="typeStartOpened"
+                                    datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}" clear-text="{{clearText}}"
+                                    current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="typeStartOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="input-group" style="font-size: 10px;">
+                                <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="typeEnd" is-open="typeEndOpened"
+                                    datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}" clear-text="{{clearText}}"
+                                    current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="typeEndOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-primary" ng-click="typeSubmit()">确定</button>
+                        </div>
+                    </div>
+                    <div id="typeChart" class="portal-chart" style="height:350px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警等级的数量分布图</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <div class="input-group" style="font-size: 10px;">
+                                <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="levelStart"
+                                    is-open="levelStartOpened" datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}"
+                                    clear-text="{{clearText}}" current-text="{{currentText}}" alt-input-formats="altInputFormats"
+                                />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="levelStartOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="input-group" style="font-size: 10px;">
+                                <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="levelEnd" is-open="levelEndOpened"
+                                    datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}" clear-text="{{clearText}}"
+                                    current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="levelEndOpen()">
+                                        <i class="glyphicon glyphicon-calendar"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-primary" ng-click="levelSubmit()">确定</button>
+                        </div>
+                    </div>
+                    <div id="levelChart" class="portal-chart" style="height:350px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>各类型告警处理状态数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>类型|
+                                    <span style="float:right;">状态&等级</span>
+                                </th>
+                                <th>未处理</th>
+                                <th>已处理</th>
+                                <th>误报库</th>
+                                <th>问题库</th>
+                                <th>已发单</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(key, ds) in states">
+                                <td>{{key}}</td>
+                                <td class="td-value">{{ds[0] | numFilter}}</td>
+                                <td class="td-value">{{ds[1] | numFilter}}</td>
+                                <td class="td-value">{{ds[2] | numFilter}}</td>
+                                <td class="td-value">{{ds[3] | numFilter}}</td>
+                                <td class="td-value">{{ds[4] | numFilter}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本年度告警处理的SLA趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="sla-chart" class="portal-chart" style="height:350px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>超期未关闭告警工单列表</strong>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>工单ID</th>
+                                <th>状态</th>
+                                <th>等级</th>
+                                <th>告警类型</th>
+                                <th>标题</th>
+                                <th>部门</th>
+                                <th>安全工程师</th>
+                                <th>上报时间</th>
+                                <th>超期时间(天)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="order in orders">
+                                <td>{{order.id}}</td>
+                                <td>{{order.state_zh}}</td>
+                                <td>{{order.level_zh}}</td>
+                                <td>{{order.d_name}}</td>
+                                <td>
+                                    <a ng-href="/project/portals/pages/alarm-order-detail.html?id={{order.id}}">{{order.name}}</a>
+                                </td>
+                                <td>{{order.dept_info}}</td>
+                                <td>{{order.username}}</td>
+                                <td>{{order.create_time}}</td>
+                                <td>{{order.expire}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- tabset组件与日期组件冲突 -->
+    <div class="row portal-panel" ng-show='active == 1'>
+        <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+            <div class="form-group">
+                <label for="effectYear" style="width:100px;">请选择年度：</label>
+                <select ng-model="effectYear" id="effectYear" class="form-control" ng-options=" year for year in yearEnums" style="width : 200px;"
+                    ng-change="changeEffectYear()">
+                </select>
+            </div>
+            <div class="form-group" style="margin-left:15px;">
+                <label for="effectWeek" style="width:100px;">请选择周数：</label>
+                <select ng-model="effectWeek" id="effectWeek" class="form-control" ng-options="(index|toInt:1) as week for (index, week) in effectEnums"
+                    style="width : 200px;">
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="effectSure()" style="margin-left:15px;">确定</button>
+        </form>
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本周各类型告警增量趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="weekChart" class="portal-chart" style="height:400px; width : 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本周告警增量及处理趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="handleChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本周新增告警以及超时告警的数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="expireChart" class="portal-chart" style="height:450px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row portal-panel" ng-show='active == 2'>
+        <form class="navbar-form navbar-left" role="search" style="padding-left:15px;margin-top:0px;">
+            <div class="form-group">
+                <label for="timeCount" min="1" style="width:150px;">请选择相对时间：</label>
+                <input ng-model="timeCount" type="number" class="form-control" style="width : 100px;">
+                <select ng-model="timeUnit" id="timeUnit" class="form-control" ng-options=" unit.name as unit.label for unit in timeEnums"
+                    style="width : 100px;">
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="changeUnit()" style="margin-left:15px;">确定</button>
+        </form>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警类型增量趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="relativeChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row portal-panel" ng-show='active == 3'>
+        <div class="row" style="margin-bottom: 15px;">
+            <div class="col-xs-2">
+                <div class="input-group" style="font-size: 10px;">
+                    <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="analysisStart"
+                        is-open="typeStartOpened" datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}"
+                        clear-text="{{clearText}}" current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="typeStartOpen()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="input-group" style="font-size: 10px;">
+                    <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="analysisEnd"
+                        is-open="typeEndOpened" datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}"
+                        clear-text="{{clearText}}" current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="typeEndOpen()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-1">
+                <button class="btn btn-primary" ng-click="analysisSubmit()">确定</button>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警准确率</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="AlarmAccuracyChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警闭环率</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="AlarmCloseLoopChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警工单闭环率</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="AlarmOrderCloseLoopChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警MTTD（分钟）</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="AlarmMTTDFChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>告警MTTR（分钟）</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="AlarmMTTRChart" class="portal-chart" style="height:400px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

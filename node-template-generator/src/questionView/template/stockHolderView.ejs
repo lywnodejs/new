@@ -1,0 +1,55 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <!--答案框-->
+    <%
+      let shareholderAmountList = info.data.shareholderAmountList;
+      let lastItem = shareholderAmountList[0];
+      let chartId = commonUtil.generateRandomClassName('chart');
+      let endDate = commonUtil.generateDate(lastItem.endDate);
+    %>
+    截止到<%= endDate %>，股东人数<%= lastItem.shldAmount.toFixed(0)%>户，较上期<b><%= (lastItem.chanOfLast>0?"增加":"减少")+Math.abs(lastItem.chanOfLast).toFixed(2) %>%</b>，前十大股东占比<%= info.data.tenHoldPercent %>%。
+    <div class="rxh_chartBox">
+<!--        <ul class="rxh_legend">-->
+            <!--
+                            1. 方形，b标签无样式名
+                            2. 圆形，b标签加样式名：rxh_circle
+                            3. 蓝色，b标签加样式名：rxh_cBlue
+                            3. 浅蓝色，b标签加样式名：rxh_cBlueLight
+                            3. 红色，b标签加样式名：rxh_cRed
+                            3. 浅红色，b标签加样式名：rxh_cRedLight
+                            3. 黄色，b标签加样式名：rxh_cYellow
+                            3. 浅黄色，b标签加样式名：rxh_cYellowLight
+                        -->
+<!--            <li><b class="rxh_cBlue"></b><span>股东人数(左:万户)</span></li>-->
+<!--            <li><b class="rxh_circle rxh_cYellow"></b><span>股价(右:元)</span></li>-->
+<!--        </ul>-->
+        <div class="rxh_chart">
+            <div id="<%=chartId %>" class="box_chart01">
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../component/footer %>
+
+<script>
+
+  var arr = '<%- JSON.stringify(shareholderAmountList) %>';
+  var shareholderAmountList = JSON.parse(arr);
+
+  var stockHolderView = {
+    onViewReady: function () {
+      new LineColumnChart('<%=chartId%>', shareholderAmountList.reverse());
+    }
+  }
+  <% if(!params.noSource) {%>
+   var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray)%>');
+   loadJs(jsSource,stockHolderView.onViewReady);
+  <%}%>
+
+</script>
+
+
+

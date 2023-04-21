@@ -1,0 +1,15 @@
+<!--pages/apply/verify-phone/index.wxml-->
+<xy-nav-bar bind:navLeftClick="onClickLeft" platform="{{platform}}" title="{{attribute.name}}" />
+
+<string-view attribute="{{attribute}}" bind:valuechange="onValueChange" />
+
+<view wx:if="{{attribute.editFlag}}" class="btn-box">
+  <button class="submit-btn" disabled="{{!isAttrCompleted}}" bindtap="onSubmit">确定</button>
+</view>
+
+<captcha-popup show="{{showCodePopup}}"
+               phone="{{attribute.value}}"
+               isCountdown="{{isCountdown}}"
+               bindonSend="sendCode"
+               isError="{{isCodeError}}"
+               bindonComplete="checkCode" />

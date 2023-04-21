@@ -1,0 +1,108 @@
+/* components/apply/loan-info/index.wxss */
+.card {
+	background-color: white;
+	border-radius: 4px;
+}
+
+.loan-info {
+	padding: 15px 20px;
+}
+
+.loan-info .title {
+	font-size: 18px;
+	font-weight: 400;
+	color: #333333;
+	line-height: 25px;
+}
+
+.loan-info .tip {
+	font-size: 13px;
+	font-weight: 400;
+	color: #B3B3B3;
+	line-height: 18px;
+}
+
+.loan-info .secondary-tip {
+	font-size: 12px;
+	font-weight: 400;
+	color: #B3B3B3;
+	line-height: 17px;
+}
+
+.loan-info .error-tip {
+	font-size: 12px;
+	font-weight: 400;
+	color: #FF2C43;
+	line-height: 17px;
+}
+
+.input-box {
+	margin-top: 15px;
+	display: flex;
+	align-items: center;
+	padding-bottom: 8px;
+	border-bottom: 0.5px solid rgba(217, 217, 217, 1);
+	margin-bottom: 10px;
+}
+
+.invalid-amount {
+	border-bottom-color: #FF2C43;
+}
+
+
+.input-box .yuan {
+	flex: 0 0 25px;
+	align-self:flex-end;
+	font-size: 20px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	margin-bottom: 2px;
+	font-weight: 500;
+	line-height: 28px;
+	color: #000;
+}
+
+.input-box .input {
+	font-size: 34px;
+	font-family: DIN-Medium, DIN, PingFangSC-Regular, PingFang SC;
+	color: #333333;
+	font-weight: 500;
+	height: 41px;
+	flex: 1;
+}
+
+
+
+.input-close-icon {
+	flex: 0 0 30px;
+	text-align: right;
+}
+
+.input-close-icon .close-img {
+	width: 12px;
+	height: 12px;
+}
+
+.input-edit-icon {
+	flex: 0 0 30px;
+	text-align: right;
+}
+
+.input-edit-icon .edit-img {
+	width: 16px;
+	height: 16px;
+}
+
+.loan-info .term-title-view {
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.loan-info .term-tip-view {
+	display: flex;
+	justify-content: space-between;
+}
+
+.loan-info .slider-view .slider {
+	margin: 8px 0;
+}

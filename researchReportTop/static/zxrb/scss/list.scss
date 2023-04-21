@@ -1,0 +1,125 @@
+/**
+ * @description  知行日报
+ * @Author   刘亚伟
+ * @DateTime 2018-11-23T11:05:59+0800
+ */
+
+
+ @function n($a) {
+    @return $a/67.5+rem;
+}
+*{
+    padding: 0;
+    margin:0;
+    list-style: none;
+    text-decoration: none;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+
+html,body{
+    width: 100%;
+    height:100%;
+    background: #fff;
+}
+.zxrb_list{
+    width: 100%;
+    height:100%;
+    float: left;
+    background:#fefefe;
+}
+header{
+    width: 100%;
+    height: n(139);
+    background-size: 100% 100%;
+    position: fixed;
+    background: #fefefe;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #e6e3e363;
+    p{
+        width: 100%;
+        height: n(139);
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: n(60);
+        line-height: n(134);
+        z-index: 10;
+        color: #000000;
+    }
+    i{
+        font-size: n(50);
+        color: #000000;
+        line-height: n(150);
+        position: absolute;
+        top: 0;
+        left: n(50);
+        z-index: 11;
+    }
+}
+main{
+    width: 100%;
+    height: auto;
+    margin-top: n(139);
+    .list{
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #e6e3e363;
+    }
+    dl{
+        width: n(984);
+        height: n(278);
+        margin:0 auto;
+        position: relative;
+        dt{
+            width: n(180);
+            height: n(180);
+            padding-top: n(50);
+            margin-right: n(36);
+            float: left;
+            img{
+                width: 100%;
+            }
+        }
+        dd{
+            width: auto;
+            padding-top: n(55);
+            font-size: n(48);
+            color: #050505;
+            font-weight: bold;
+        }
+        p{
+            width: n(655);
+            height: n(90);
+            margin-top: n(10);
+            font-size: n(36);
+            color: #888888;
+            float: left;
+            line-height: n(50);
+            overflow: hidden;
+        }
+        i{
+            float: right;
+            font-size: n(33);
+            color: #888888;
+        }
+        span{
+            width: n(200);
+            height: n(40);
+            font-size: n(36);
+            display: block;
+            color: #88888893;
+            line-height: n(50);
+            position: absolute;
+            top: n(185);
+            right: n(100);
+            background: #fefefe;
+            box-shadow: n(-30) n(10) n(60) n(3) #fff;
+        }
+    }
+}
+
+

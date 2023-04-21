@@ -1,0 +1,13 @@
+<form class="p-form" name="reasonForm">
+    {{desc}}
+    <div class="p-form-item">
+        <div class="wrap-input p-col-12" ng-class="{'p-error':reasonForm.reason.$error.required && reasonForm.reason.$touched}">
+            <textarea class="p-form-control p-reason" ng-required="true" name="reason" placeholder="请输入原因" ng-model="reason"></textarea>
+            <span ng-show="reasonForm.reason.$error.required" class="p-error-msg">请输入原因</span>
+        </div>
+    </div>
+</form>
+<div class="wrap-center-btn">
+    <button class="p-btn" ng-click="pageAgree()">{{confirmText}}</button>
+    <button class="p-btn p-btn-gray" ng-click="dialogClose($event)">{{cancelText}}</button>
+</div>

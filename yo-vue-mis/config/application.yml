@@ -1,0 +1,3 @@
+server:
+  port: 8000
+  path: /__webpack_hmr

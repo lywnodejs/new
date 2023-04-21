@@ -1,0 +1,65 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data.length > 0){%>
+<%
+let pageSize = 10;
+var data = info.data;
+var hideClass = "";
+if (data.length > 10) {
+    hideClass = commonUtil.generateRandomClassName('hide');
+}
+%>
+<div class="rxh_gap">
+    <div class="rxh_timeAxis">
+        <%
+        for (var i=0; i<data.length; i++) {
+            item = data[i];
+        %>
+        <ul class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+            <li><%= commonUtil.generateDate(item.chanEnd) %></li>
+            <li><b></b><i><s></s></i></li>
+            <li>
+                <h4><%= item.shldName %></h4>
+                <h5><%= item.chanDetail %></h5>
+            </li>
+        </ul>
+        <%}%>
+    </div>
+    <%
+    if (data.length > 10) {
+        moreId = commonUtil.generateRandomClassName('moreId');
+    %>
+    <div id="<%= moreId %>" class="rxh_btnMore rxh_btnMore_blue"><a onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">查看更多<i class="rxh-icon-arrow2_d"></i></a></div>
+    <% } %>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var companyInfoView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+        stringIsEmpty: function (str) {
+            return this.stringIsNull(str) || str == "";
+        },
+        stringIsNull: function (str) {
+            return typeof str == "undefined" || str === null;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, companyInfoView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>

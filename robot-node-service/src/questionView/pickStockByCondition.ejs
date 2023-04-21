@@ -1,0 +1,106 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--条件选股-->
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+<!-- 文字弹窗，底部有关闭按钮的 -->
+<div id="popMsg" class="pop_bottomClose">
+    <div class="pop_bg"></div>
+    <div class="pop_box">
+        <div class="pop_bd">
+            <div id="popHead" class="hd">板块关联：</div>
+            <div id="popContent" class="bd">
+                <!--                    <h4 id="popTitle">标题</h4>-->
+                <!--                    <h5>文字</h5>-->
+            </div>
+        </div>
+        <a class="a_close" onclick="closePopupMsg()"><i class="icon-pop_close2"></i></a>
+    </div>
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  function nodeQuestion(item) {
+    try {
+      thas.nodeFunction('info', item);
+    } catch (error) {
+
+    }
+  }
+
+  var sn = 0;
+  var frameId = '<%= frameId %>';
+  var ssn = '<%= sn %>'
+
+
+  var pickStockByCondition = {
+    onViewReady: function () {
+      requestUtil.params.local = "<%= config%>";
+      resizeUtils.init(frameId, sn);
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/resizeUtils', '/static/js/utils/requestUtil', '/static/js/utils/logUtil'];
+  loadJs(jsArr, pickStockByCondition.onViewReady)
+
+
+  //条件选股：查询热点关联原因，并在弹窗中展示
+  function getRelatedReason(subjectCode, subjectName, subjectMarket, subjectRawValue) {
+    requestUtil.expoitFixedAnswerForShare(subjectCode, subjectName, subjectMarket, subjectRawValue, '行业个股推荐理由', function (result) {
+      var content = '';
+      if (result.answerResultType !== '呼叫投顾' && result.data.list && result.data.list.length > 0) {
+        var item = result.data.list[0];
+        content = item.analyseText || item.text;
+        content = toolsUtil.replaceLineBreak(content);
+        var cludeTitleContent = "";
+        if (item.title)
+          cludeTitleContent = "<h4 style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</h4>";
+        var redH = "<s class='t_red'>" + subjectRawValue + "</s>";
+        if (cludeTitleContent.indexOf(subjectRawValue) !== -1) {
+          var regH = "/" + subjectRawValue + "/g";
+          cludeTitleContent = cludeTitleContent.replace(eval(regH), redH);
+        }
+        var redT = "<s class='t_red'>" + subjectName + "</s>";
+        if (cludeTitleContent.indexOf(subjectName) !== -1) {
+          var regT = "/" + subjectName + "/g";
+          cludeTitleContent = cludeTitleContent.replace(eval(regT), redT);
+        }
+        var redM = "<s class='t_red'>" + subjectCode + "</s>";
+        if (cludeTitleContent.indexOf(subjectCode) !== -1) {
+          var regM = "/" + subjectCode + "/g";
+          cludeTitleContent = cludeTitleContent.replace(eval(regM), redM);
+        }
+        cludeTitleContent += '<h5>' + content + '</h5>';
+      } else {
+        cludeTitleContent = '<h5>暂无数据</h5>';
+      }
+      showPopupMsg(subjectName + '与' + subjectRawValue, cludeTitleContent)
+    }, null)
+  }
+
+  // 关联原因弹窗：显示
+  function showPopupMsg(title, content) {
+    $('#popHead').html(title + '关联原因')
+    $('#popContent').html(content)
+    $('#popMsg').show()
+  }
+
+  function closePopupMsg() {
+    $('#popMsg').hide()
+  }
+</script>
+
+
+
+
+
+

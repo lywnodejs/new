@@ -1,0 +1,29 @@
+<% if(!params.noSource){%>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh/style.css">
+    <link rel="stylesheet" href="<%= config %>/static/css/yy_OnekeyResearchReport.css">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="keywords" content="小e">
+    <meta name="description" content="智能小e">
+    <meta name="application-name" content="智能小e 首页">
+<%}%>
+<%if(params.titleSize == 1){%>
+    <div class="rxh_hd rxh_line_halfB" id="title<%= sn %>" style="margin-top: 10px">
+        <b></b><span id="titleSpan<%= sn %>"><%= params.name %></span>
+    </div>
+<%}else{%>
+    <%if(risk.risk == "add"){%>
+        <div class="rxh_hd2"  id="title<%= sn %>"><%= params.name %></div>
+    <%}else{%>
+        <div class="rxh_hd3"  id="title<%= sn %>"><%= params.name %></div>
+    <%}%>
+<%}%>
+<%if(params.titleSize == 1){%>
+<div class="rxh_bd">
+<%}%>
+<!--  默认 红色header-->
+<!--  1  绿色header-->

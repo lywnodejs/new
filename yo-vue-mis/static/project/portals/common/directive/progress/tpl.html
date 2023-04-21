@@ -1,0 +1,9 @@
+<div class="p-progress-new">
+    <ul ng-cloak>
+        <li ng-repeat="item in processState" class="p-animated fadeIn" ng-class="{done:item.state==1,end:item.state==2}" ng-style="{'animation-delay':$index/4+'s', '-webkit-animation-delay':$index/4+'s'}">
+            <span class="in-text">{{ :: item.name}}</span>
+            <span class="circle" ng-class="{done:item.state==1,end:item.state==2}">{{ :: $index+1}}</span>
+            <span class="line" ng-class="{done:item.state==2,end:item.state==1,hide:$index===processState.length-1}"></span>
+        </li>
+    </ul>
+</div>

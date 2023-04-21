@@ -1,0 +1,175 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+
+<div class="bd" id="<%= random %>">
+
+    <!--答案框-->
+    <div class="mb">
+
+        <div class="box_timeLine box_timeLine_factor">
+            <div class="timeLine">
+                <ul class="box_tl02">
+
+                </ul>
+            </div>
+        </div>
+
+
+        <!--加载更多-->
+        <!-- <div class="box_load"> -->
+        <!-- <a>查看更多</a> -->
+        <!-- </div> -->
+
+        <!--点评-->
+        <% if(req.query.appKey != 'guoxin'){ %>
+            <div class="box_appraisal">
+                <% if(req.query.appKey == 'appZxcxHide'){ %>
+                    <a class="a_search">
+                        <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                        <span>精准查找政策</span>
+                        <i class="icon-arrow2_R_small"></i>
+                    </a>
+                <% } %>
+                <a><i id="up<%= random %>" class="icon-good"></i></a>
+                <a><i id="down<%= random %>" class="icon-bad"></i></a>
+            </div>
+        <% } %>
+    </div>
+
+</div>
+
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+</style>
+
+<script>
+  var policyMeeting = {
+    onViewReady: function () {
+
+      var num = '<%= random %>',
+        urlParams = '<%- info.data.urlParams %>';
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+
+      //点赞或踩
+      function feedback(num) {
+        var id = '<%- info.spanId %>';
+        var data_ = {
+          spanId: id,
+          commentFeedback: num
+        }
+        $.ajax({
+          url: '<%= host %>' + '/api/feedback?',
+          type: 'get',
+          dataType: 'json',
+          data: data_,
+          success: function (data) {
+            if (data.message.code == 0) {
+              try {
+                if (num == 1) {
+                  thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+                } else {
+                  thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+                }
+                ;
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+        })
+      }
+
+      var num = '<%= random %>';
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+      addinit();
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, policyMeeting.onViewReady)
+
+
+  //打开弹窗
+  function alert_pop_policy(ele, item) {
+    $(ele).addClass('show');
+    console.log(item);
+    $(ele).find('.txt').html(item);
+  }
+
+  //初始化页面
+
+  function addinit() {
+    var data_pop = JSON.parse('<%- JSON.stringify(info.data) %>');
+    var str = '';
+    var random = '<%= random %>'
+    for (var i = 0; i < data_pop.length; i++) {
+      var item = data_pop[i];
+      str += `
+            <li onclick="openPolicyDetail('${item.dataId}','<%= boolean %>')">
+                <dt>
+                    <b></b>
+                    <s><i></i></s>
+                </dt>
+                <dd>
+                    <div class="space_between">
+                        <span class="date">${item.beginAtStr}</span>
+                        <span>
+                            <b class='${item.subjects.length >= 2 ? 'show' : 'hide'}' onclick="alert_pop_policy('.policy_pop${random}','${item.subjects.join(',')}')">…</b>
+                        </span>
+                    </div>
+                    <h5 class="b_fa">
+                        考察人：${item.subjects[0]}<br>
+                        考察地点：${item.locations}
+                    </h5>
+                </dd>
+            </li>
+            `
+    }
+    $('#' + '<%= random %>').find('.timeLine ul').html(str);
+
+  }
+
+
+</script>
+
+<% include ./component/reportDetail %>

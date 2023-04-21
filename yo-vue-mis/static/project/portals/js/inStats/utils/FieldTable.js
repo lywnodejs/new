@@ -1,0 +1,1 @@
+define("js/inStats/utils/FieldTable",[],function(){return function(t,e,r,a){var n='<table class="table table-bordered table-striped">',l={};return n+="<thead><tr>"+e+"</tr></thead>",t.forEach(function(t){var e="<tr>";e+=r(t,l),e+="</tr>",n+=e}),a&&(n+=a(l)),n+"</table>"}});

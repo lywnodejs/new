@@ -1,0 +1,164 @@
+{
+    "errno": 0,
+    "errmsg": "login success",
+    "data": {
+        "userName": "甘焕",
+        "name": "ganhuan",
+        "email": "ganhuan@didichuxing.com",
+        "department": null,
+        "menus": [{
+                "name": "安全事件",
+                "url": "#",
+                "sort_val": "0",
+                "menu": [{
+                        "name": "安全事件列表",
+                        "url": "/project/mis/sdl.html#/secEvent/event",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "邮件通知配置",
+                        "url": "/project/mis/sdl.html#/secEvent/config",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    }
+                ],
+                "action": []
+            },
+            {
+                "name": "数据安全",
+                "url": "/project/portals/pages/application-list.html",
+                "sort_val": "2",
+                "menu": [],
+                "action": [{
+                    "name": "数据申请",
+                    "url": "/project/portals/pages/application.html",
+                    "sort_val": "0",
+                    "menu": [],
+                    "action": []
+                }]
+            },
+            {
+                "name": "业务安全",
+                "url": "#",
+                "sort_val": "3",
+                "menu": [{
+                        "name": "SDK作弊事件",
+                        "url": "/project/portals/pages/busiCheat.html#/",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "菜单测试",
+                        "url": "/project/mis/sdl.html#/sdl-rule",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    }
+                ],
+                "action": []
+            },
+            {
+                "name": "安全告警",
+                "url": "#",
+                "sort_val": "3",
+                "menu": [{
+                        "name": "告警列表",
+                        "url": "/project/portals/pages/alarm.html",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "工单列表",
+                        "url": "/project/portals/pages/alarm-order-list.html",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "可疑事件管理",
+                        "url": "/portals/pages/alarm-event.html#/alarm/event",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "安全事件管理",
+                        "url": "/portals/pages/alarm-event.html#/secEvent/event",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    }
+                ],
+                "action": []
+            },
+            {
+                "name": "白盒测试",
+                "url": "#",
+                "sort_val": "4",
+                "menu": [{
+                        "name": "任务列表",
+                        "url": "/project/mis/sdl.html#/sdl-index",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "项目列表",
+                        "url": "/project/mis/sdl.html#/sdl-proj",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "检测规则配置",
+                        "url": "/project/mis/sdl.html#/sdl-rule",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    }
+                ],
+                "action": []
+            },
+            {
+                "name": "安全合规",
+                "url": "#",
+                "sort_val": "5",
+                "menu": [{
+                        "name": "安全评估",
+                        "url": "/project/mis/sdl.html#/compliance/evaluation",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    },
+                    {
+                        "name": "安全评估检查项",
+                        "url": "/project/mis/sdl.html#/compliance/evaluation/checklist",
+                        "sort_val": "0",
+                        "menu": [],
+                        "action": []
+                    }
+                ],
+                "action": []
+            },
+            {
+                "name": "安全产品",
+                "url": "/project/portals/pages/product.html",
+                "sort_val": "5",
+                "menu": null,
+                "action": []
+            },
+            {
+                "name": "安全规范",
+                "url": "/project/portals/pages/spec.html",
+                "sort_val": "6",
+                "menu": null,
+                "action": []
+            }
+        ]
+    }
+}

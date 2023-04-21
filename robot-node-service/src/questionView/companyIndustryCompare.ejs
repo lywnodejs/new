@@ -1,0 +1,448 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<%
+    var result = info;
+    var property = commonUtil.getPropertyByEntity(result.questionAnalyse[0].entity);
+    var marketType = property.marketType,
+        stockCode = property.code;
+    var randomNum = commonUtil.generateRandomClassName();
+
+    var industryCode = result.data.induSortCode || '';
+    // 所属行业
+    var industry = result.data.induSortName || '';
+
+    var tagSpecialTab = '',
+        tagSpecialContent = '';
+
+    var tagOperationTab =
+            '<li tabType="operation" onclick="industryCompareSubTabClick(event, \''+randomNum+'\')">'+
+                '<span>运营能力<b></b></span>'+
+            '</li>';
+
+    var tagOperationTabContent =
+            '<div id="operation'+randomNum+'" dataLoad="false" class="item">'+
+                '<ul id="operation_ul'+randomNum+'" class="box_label box_label2" onclick="indexSubTabClick2(event, \'operation\', \''+randomNum+'\')">'+
+                    '<li indexType="sFaAssetsturn" class="on">总资产周转率</li>'+
+                    '<li indexType="sFaTurndays">营业周期</li>'+
+                    '<li indexType="sFaInvturndays">存货周转天数</li>'+
+                    '<li indexType="sFaArturn">应收账款周转率</li>'+
+                '</ul>'+
+
+                '<div id="operation_chart'+randomNum+'" class="tlBox_indComparison">'+
+                '</div>'+
+            '</div>';
+
+    var tabType = '';
+    if (['S4901', 'S4801', 'S4902'].indexOf(industryCode) !== -1) {
+        tagOperationTab = '';
+        tagOperationTabContent = '';
+        // 银行
+        if (industryCode === 'S4801') { //银行
+            tabType = 'yinhangSpec';
+            tagSpecialContent =
+                '<div id="'+tabType+randomNum+'" dataLoad="false" class="item">'+
+                    '<ul id="'+tabType+'_ul'+randomNum+'" class="box_label box_label2" onclick="indexSubTabClick2(event, \''+tabType+'\', \''+randomNum+'\')">'+
+                        '<li indexType="capiAdeRatio" class="on">资本充足率</li>'+
+                        '<li indexType="nplRatio">不良贷款率</li>'+
+                        '<li indexType="netCapital">资本净额</li>'+
+                        '<li indexType="loanDepoRatio">存贷比率</li>'+ ///
+                    '</ul>'+
+
+                    '<div id="'+tabType+'_chart'+randomNum+'" class="tlBox_indComparison">'+
+                    '</div>'+
+                '</div>';
+        } else if (industryCode === 'S4902') { //保险
+            tabType = 'zhengquanSpec';
+            tagSpecialContent =
+                '<div id="'+tabType+randomNum+'" dataLoad="false" class="item">'+
+                    '<ul id="'+tabType+'_ul'+randomNum+'" class="box_label box_label2" onclick="indexSubTabClick2(event, \''+tabType+'\', \''+randomNum+'\')">'+
+                        // '<li indexType="sFaAssetsturn" class="on">内含价值</li>'+
+                        '<li indexType="lossRatioProperty" class="on">赔付率(产险)</li>'+
+                        '<li indexType="intrinsicValueLife">内含价值(寿险)</li>'+
+                        '<li indexType="insurPremUnearned">已赚保费</li>'+ ///
+                    '</ul>'+
+
+                    '<div id="'+tabType+'_chart'+randomNum+'" class="tlBox_indComparison">'+
+                    '</div>'+
+                '</div>';
+        } else if (industryCode === 'S4901') { //证券
+            tabType = 'baoxianSpec';
+            tagSpecialContent =
+                '<div id="'+tabType+randomNum+'" dataLoad="false" class="item">'+
+                    '<ul id="'+tabType+'_ul'+randomNum+'" class="box_label box_label2" onclick="indexSubTabClick2(event, \''+tabType+'\', \''+randomNum+'\')">'+
+                        '<li indexType="netCapitalVal" class="on">净资本</li>'+
+                    '</ul>'+
+
+                    '<div id="'+tabType+'_chart'+randomNum+'" class="tlBox_indComparison">'+
+                    '</div>'+
+                '</div>';
+        }
+        tagSpecialTab =
+            '<li tabType="'+tabType+'" onclick="industryCompareSubTabClick(event, \''+randomNum+'\')">'+
+                '<span>'+industry+'专项指标<b></b></span>'+
+            '</li>';
+    }
+
+    // 底部链接
+    var tagLink =
+        '<ul class="tlBox_link box_topLine">'+
+            '<li onclick="stockFinancialAnalysis(\''+randomNum+'\')">查看财务分析</li>'+
+            '<li onclick="stockMoreFinancialIndex(\''+randomNum+'\')">查看更多财务指标</li>'+
+        '</ul>';
+
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_indComparison">
+            <ul id="stock<%= randomNum %>" marketType="<%= marketType %>" stockCode="<%= stockCode %>" stockName="<%= property.name %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <h6 id="industry<%= randomNum %>" class="box_bgBlueGray">
+            </h6>
+
+            <div class="TAB2 TAB2_scroll">
+                <div id="tabContainer<%= randomNum %>" class="scroll">
+                    <ul>
+                        <li tabType="companySize" class="on" onclick="industryCompareSubTabClick(event, '<%= randomNum %>')">
+                            <span>公司规模<b></b></span>
+                        </li>
+                        <%- tagSpecialTab %>
+                        <li tabType="profit" onclick="industryCompareSubTabClick(event, '<%= randomNum %>')">
+                            <span>盈利能力<b></b></span>
+                        </li>
+                        <li tabType="cash" onclick="industryCompareSubTabClick(event, '<%= randomNum %>')">
+                            <span>现金流<b></b></span>
+                        </li>
+                        <li tabType="debt" onclick="industryCompareSubTabClick(event, '<%= randomNum %>')">
+                            <span>偿债能力<b></b></span>
+                        </li>
+<!--                        // 运营能力-->
+                        <%- tagOperationTab %>
+                        <li tabType="growup" onclick="industryCompareSubTabClick(event, '<%= randomNum %>')">
+                            <span>成长能力<b></b></span>
+                        </li>
+                    </ul>
+                    </div>
+                <div class="bottom"></div>
+                </div>
+
+            <div id="industryCompare<%= randomNum %>" class="content" style="min-height: 360px">
+<!--                // 公司规模-->
+                <div id="companySize<%= randomNum %>" dataLoad="false" class="item show">
+                    <ul id="companySize_ul<%= randomNum %>" class="box_label box_label2" onclick="indexSubTabClick2(event, 'companySize', '<%= randomNum %>')">
+                        <li indexType="marValue" class="on">总市值</li>
+                        <li indexType="floatMarValue">流通市值</li>
+                    </ul>
+
+                    <div id="companySize_chart<%= randomNum %>" class="tlBox_indComparison">
+                    </div>
+                </div>
+
+<!--                // 专项指标-->
+                <%- tagSpecialContent %>
+
+<!--                // 盈利能力-->
+                <div id="profit<%= randomNum %>" dataLoad="false" class="item">
+                    <ul id="profit_ul<%= randomNum %>" class="box_label" onclick="indexSubTabClick2(event, 'profit', '<%= randomNum %>')">
+                        <li indexType="sFaGrossprofitmargin" class="on">毛利率</li>
+                        <li indexType="sFaNetprofitmargin">净利率</li>
+                        <li indexType="sFaRoa">ROA</li>
+                        <li indexType="waaRoe">ROE</li>
+                        <li indexType="roic">ROIC</li>
+                        <li indexType="epsBasic">EPS</li>
+                        <li indexType="sFaOptogr">营业利润率</li>
+                        <li indexType="operExpenseRatio">营业费用率</li>
+                    </ul>
+
+                    <div id="profit_chart<%= randomNum %>" class="tlBox_indComparison">
+                    </div>
+                </div>
+
+<!--                // 现金流-->
+                <div id="cash<%= randomNum %>" dataLoad="false" class="item">
+                    <ul id="cash_ul<%= randomNum %>" class="box_label box_label2" onclick="indexSubTabClick2(event, 'cash', '<%= randomNum %>')">
+                        <li indexType="sFaOcftoprofit" class="on">经营现金流/净利润</li>
+                        <li indexType="freeCashFlow">自由现金流</li>
+                        <li indexType="cashReRatio">现金再投资比率</li>
+                        <li indexType="cashAdequacyRatio">现金流量允当比率</li>
+<!--                         <li indexType="netCashFlowsInvAct">投资现金流</li>-->
+<!--                         <li indexType="netCashFlowsFncAct">融资现金流</li>-->
+                    </ul>
+
+                    <div id="cash_chart<%= randomNum %>" class="tlBox_indComparison">
+                    </div>
+                </div>
+
+<!--                // 偿债能力-->
+                <div id="debt<%= randomNum %>" dataLoad="false" class="item">
+                    <ul id="debt_ul<%= randomNum %>" class="box_label box_label2" onclick="indexSubTabClick2(event, 'debt', '<%= randomNum %>')">
+                        <li indexType="sFaCurrent" class="on">流动比率</li>
+                        <li indexType="sFaQuick">速动比率</li>
+                        <li indexType="sFaDebttoassets">资产负债率</li>
+                        <li indexType="sFaCurrentdebttodebt">流动负债率</li>
+                    </ul>
+
+                    <div id="debt_chart<%= randomNum %>" class="tlBox_indComparison">
+                    </div>
+                </div>
+
+<!--                // 运营能力-->
+                <%- tagOperationTabContent %>
+
+<!--                // 成长能力-->
+                <div id="growup<%= randomNum %>" dataLoad="false" class="item">
+                    <ul id="growup_ul<%= randomNum %>" class="box_label box_label2" onclick="indexSubTabClick2(event, 'growup', '<%= randomNum %>')">
+                        <li indexType="sFaYoynetprofit" class="on">净利润同比增长率</li>
+                        <li indexType="sFaYoyTr">营业收入同比增长率</li>
+                        <li indexType="sgr">可持续增长率</li>
+                        <li indexType="sFaYoyEquity">净资本增长率</li>
+                    </ul>
+
+                    <div id="growup_chart<%= randomNum %>" class="tlBox_indComparison">
+                    </div>
+                </div>
+            </div>
+        <h6 class="t_gray">诊断数据依赖于个股与业内其它公司对比；</br>当前数据报告期：<%= commonUtil.generateDate(result.data.displayDate) %></h6>
+            <%- tagLink %>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var companyIndustryCompare = {
+    onViewReady: function () {
+      companyIndustryCompare.initData();
+    },
+
+    initData: function () {
+      // 取图表数据
+      var params = {
+        marketType: '<%= marketType %>',
+        stockCode:'<%=  stockCode %>',
+        indicatorName: 'marValue',
+        cache: true,
+        tabType: 'companySize',
+        randomNum: '<%= randomNum %>'
+      };
+      updateIndexChart(params);
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/utils/commonUtil'
+  ];
+  loadJs(jsArr, companyIndustryCompare.onViewReady)
+
+  /*
+   * ajax封装
+   */
+  var newAjax = {
+    //ajax封装：增加时间戳t，loaing相关处理
+    get: function (o) {
+      var success = o.success;
+      o.success = function (rs) {
+        success(rs);
+      };
+      $.ajax($.extend(true, {
+        method: 'get',
+        data: $.extend({
+          _: Date.now()
+        }, o.param),
+        complete: function () {
+
+        }
+      }, o));
+    },
+    post: function (o) {
+      o.method = 'post';
+      $.ajax.post(o);
+    },
+    jsonp: function (o) {
+      o.dataType = 'jsonp';
+      o.jsonp = 'jsoncallback';
+      $.ajax.get(o);
+    }
+  };
+
+  // tab切换：公司规模，盈利能力...
+  function industryCompareSubTabClick(event, randomNum) {
+    // console.log(event)
+    // 当前点击对象
+    var curTarget = $(event.currentTarget);
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // tab索引
+    var index = curTarget.index();
+    $('#industryCompare'+randomNum).find('> div').eq(index).addClass('show').siblings().removeClass('show');
+
+    var tabType = curTarget.attr('tabType');
+    // 点击时如果tab没有完全展示，那么滚动一下
+    var tabContainer = $('#tabContainer'+randomNum)[0];
+    if(tabType === 'operation' || tabType === 'growup'){
+      tabContainer.scrollLeft = tabContainer.scrollWidth - tabContainer.clientWidth;
+      // console.log(tabContainer.scrollWidth, tabContainer.clientWidth)
+    }else if(tabType === 'companySize' || tabType === 'profit'){
+      tabContainer.scrollLeft = 0;
+    }
+
+    // 主要指标对象
+    var stock = $('#stock'+randomNum);
+    var container = $('#'+tabType+randomNum);
+    var dataLoad = container.attr('dataLoad');
+    // 当前选中的指标
+    var tagIndex = $('#'+tabType+'_ul'+randomNum).find('li.on');
+    if (dataLoad === 'false') {
+      var param = {
+        marketType: stock.attr('marketType'),
+        stockCode: stock.attr('stockCode'),
+        indicatorName: tagIndex.attr('indexType'),
+        cache: true,
+        tabType: tabType,
+        randomNum: randomNum
+      };
+      updateIndexChart(param);
+    }
+  }
+  // 指标内部子Tab点击：总市值，毛利率...
+  function indexSubTabClick2(event, tabType, randomNum) {
+    // console.log(event.target.tagName)
+    var tagName = event.target.tagName;
+    if (tagName === 'UL')
+      return;
+    // 当前点击对象
+    var curTarget = $(event.target);
+    // 当前如果为高亮选中状态则不再查询数据
+    if (curTarget.hasClass('on')) {
+      return;
+    }
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // 当前指标(英文)
+    var indexType = curTarget.attr('indexType');
+    // console.log(indexType)
+    var stock = $('#stock'+randomNum);
+    // 当前选中的指标
+    var tagIndex = $('#'+tabType+'_ul'+randomNum).find('li.on');
+    var param = {
+      marketType: stock.attr('marketType'),
+      stockCode: stock.attr('stockCode'),
+      indicatorName: indexType || tagIndex.attr('indexType'),
+      tabType: tabType,
+      cache: true,
+      randomNum: randomNum
+    };
+    updateIndexChart(param);
+  }
+
+    // 更新柱图数据列表
+    function updateIndexChart(params) {
+      var p = {
+        url: '/financeAnalysis/financeInduCompare',
+        param: params,
+        success: function (result) {
+            // console.log(result)
+            // 话术
+            var industry = result.data ? result.data.induSortName : '';
+            var nums = result.data ? result.data.induSecNum : '';
+            if (industry) {
+                var tagIndustry = '所在的<b>'+(industry || '')+'</b>行业，共<b>'+(nums || '')+'</b>家公司。';
+                $('#industry'+params.randomNum).html(tagIndustry);
+            }
+
+            var chartContainer = $('#'+params.tabType+'_chart'+params.randomNum);
+            var list = [];
+            if (result.data && result.data.data && result.data.data.length>0) {
+                list = result.data.data;
+            } else {
+                chartContainer.html('<div class="nodata" style="padding-top: 5rem;"><img src="/static/images/nodata-min.png"></div>');
+                $('#'+params.tabType+params.randomNum).attr('dataLoad', true);
+                return;
+            }
+
+            // 行业均值
+            var induAvgValue = result.data.induAvgValue;
+            // 选出最大值
+            var maxValue = 0;
+            maxValue = induAvgValue ? Math.max(induAvgValue, maxValue) : 0;
+            list.forEach(function (value) {
+                maxValue = Math.max(value.indicatorValue||0, maxValue);
+            });
+
+            // 指标的配置项
+            var option = getOptionByIndex(params.indicatorName);
+            var barWidthPercent = induAvgValue ? Math.max(induAvgValue/maxValue*100, 1) : 0;
+            var tagList =
+                '<ul>'+
+                    '<li></li>'+
+                    '<li>行业均值</li>'+
+                    '<li><b style="width: '+barWidthPercent+'%"></b></li>'+
+                    '<li>'+formatNumber(induAvgValue/option.dividedBy)+option.unit+'</li>'+
+                '</ul>';
+
+            var i=0;
+            list.forEach(function (value, index) {
+                // 当前股票标红
+                var cls = '';
+                if (value.stockCode === params.stockCode)
+                    cls = 'on';
+                barWidthPercent = Math.max(value.indicatorValue/maxValue*100, 1);
+                tagList +=
+                    '<ul class="'+cls+'">'+
+                        '<li>'+value.induRank+'</li>'+
+                        '<li>'+value.stockName+'</li>'+
+                        '<li><b style="width: '+barWidthPercent+'%"></b></li>'+
+                        '<li>'+formatNumber(value.indicatorValue/option.dividedBy)+option.unit+'</li>'+
+                    '</ul>';
+                if (value.indicatorValue !== undefined) {
+                    i++
+                }
+            });
+
+            if (i === 0) {
+                chartContainer.html('<div class="nodata" style="padding-top: 5rem;"><img src="/static/images/nodata-min.png"></div>');
+            } else {
+                chartContainer.html(tagList);
+            }
+            $('#'+params.tabType+params.randomNum).attr('dataLoad', true);
+        }
+    };
+      newAjax.get(p);
+    }
+
+
+  // 查看财务分析
+  function stockFinancialAnalysis(randomNum) {
+    var stock = $('#stock'+randomNum);
+    requestFixedAnswer({
+      subjectCode: stock.attr('stockCode'),
+      subjectType: '股票',
+      subjectName: stock.attr('stockName'),
+      subjectMarket: stock.attr('marketType'),
+      predicateType: '财务分析'
+    }, stock.attr('stockName')+'财务分析', stock.attr('marketType'), true);
+    closePopup();
+    scrollToQuestion();
+  }
+
+  // 查看更多财务指标
+  function stockMoreFinancialIndex(randomNum) {
+    var stock = $('#stock'+randomNum);
+    requestFixedAnswer({
+      subjectCode: stock.attr('stockCode'),
+      subjectType: '股票',
+      subjectName: stock.attr('stockName'),
+      subjectMarket: stock.attr('marketType'),
+      predicateType: '财务数据是'
+    }, stock.attr('stockName')+'财务数据', stock.attr('marketType'), true);
+    closePopup();
+    scrollToQuestion();
+  }
+
+</script>

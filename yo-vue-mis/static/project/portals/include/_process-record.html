@@ -1,0 +1,14 @@
+<div class="info-con p-col-dis" ng-cloak ng-show="processRecord && processRecord.length">
+    <span class="info-title">审批记录</span>
+    <div class="approval-record">
+        <ul ng-cloak>
+            <li ng-repeat="item in processRecord" class="p-animated fadeIn" ng-class="{done:item.state==1,end:item.state==2}" ng-style="{'animation-delay':$index/4+'s', '-webkit-animation-delay':$index/4+'s'}">
+                <i class="circle" ng-class="{done:item.state==1,end:item.state==2}">{{ :: $index}}</i>
+                <i class="line" ng-class="{done:item.state==2,end:item.state==1}" ng-if="$index!==getProcessRecord.length-1"></i>
+                <p class="deep-color">{{ :: item.name}}</p>
+                <p class="light-color">{{ :: item.info}}</p>
+                <p class="light-color" ng-if="item.time">{{ :: item.time}}</p>
+            </li>
+        </ul>
+    </div>
+</div>

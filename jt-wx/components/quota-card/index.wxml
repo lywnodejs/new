@@ -1,0 +1,29 @@
+<!--components/quota-card/index.wxml-->
+<view class="quota-card">
+  <view class="title">
+    <view>
+      <!-- <image src="{{data.logo}}"/> -->
+      <text>{{data.productName}}</text>
+    </view>
+    <text class="year-rate" wx:if="{{data.yearRate}}">{{data.yearRate}}</text>
+  </view>
+  <image class="line" src="/image/line.png"/>
+  <text class="explain">{{data.title}}</text>
+  <view class="content">
+    <text class="quota">{{data.availableLendAmount}}</text>
+    <text bindtap="onClick" class="{{data.button.enable ? 'quota-button' : 'quota-button disabled'}}">{{data.button.text}}</text>
+  </view>
+  <view class="info">
+    <text wx:if="{{data.content}}">{{data.content || ''}}</text>
+    <block wx:else>
+      <view>
+        <text>总额度</text>
+        <text>{{data.totalAmount || 0}}</text>
+      </view>
+      <view>
+        <text>已用额度</text>
+        <text>{{data.usedAmount || 0}}</text>
+      </view>
+  </block>
+  </view>
+</view>

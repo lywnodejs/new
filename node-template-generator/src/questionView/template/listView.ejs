@@ -1,0 +1,48 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<div class="rxh_timeLine">
+
+    <%
+    if (commonUtil.stringIsNotEmpty(info.data) && commonUtil.stringIsNotEmpty(info.data.list)) {
+        var list = info.data.list;
+    for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        var publishAt = commonUtil.changeTime(item.publishAt);
+        var messageDisp = item.messageDisp;
+    %>
+
+    <dl>
+        <dt>
+            <b></b>
+            <s></s>
+        </dt>
+        <dd>
+            <h5><%= publishAt %></h5>
+            <h4><%= messageDisp %></h4>
+        </dd>
+    </dl>
+
+    <%
+    }
+    }
+    %>
+
+</div>
+
+<% include ../component/footer %>
+<script>
+
+    var exchangeLetterView = {
+        onViewReady: function () {
+        }
+    }
+
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, exchangeLetterView.onViewReady)
+    <% } %>
+
+
+</script>

@@ -1,0 +1,51 @@
+<%if(params.appKey !='guoxin' && params.appKey !='appAvata'){%>
+<div class="box_appraisal">
+    <%if(params.showInteractiveView){%>
+    <ul>
+        <li  class='deleteOptional<%=params.sn%>' onclick="nodeClearOptionalGo()"><i class='icon-reduce'></i><span>删自选</span></li>
+        <li style='display:none;' class='addOptional<%=params.sn%>' onclick="nodeAddOptional()"><i class='icon-plus'></i><span>加自选</span></li>
+        <li  class='deleteWarning<%=params.sn%>'  onclick="warningGoApp()"><i class='icon-warning_ok'></i><span>预警</span></li>
+        <li style='display:none;' class='addWarning<%=params.sn%>'  onclick="warningGoApp()"><i class='icon-warning'></i><span>预警</span></li>
+    </ul>
+    <%}%>
+    <a><i id="upId<%=params.sn%>>" class="icon-good" onclick=nodeRating("2")></i><span></span></a>
+    <a><i id="downId<%=params.sn%>" class="icon-bad" onclick=nodeRating("1")></i><span></span></a>
+</div>
+<%}%>
+<script>
+    function nodeClearOptionalGo() {
+      try{
+
+      }catch (e) {
+        clearOptionalGo('<%=params.stockInfo.code%>','<%= params.stockInfo.name%>','<%=params.stockInfo.marketType%>','<%=params.sn%>')
+      }
+    }
+    function nodeAddOptional() {
+      try{
+
+      }catch (e) {
+        addOptional('<%=params.stockInfo.code%>','<%= params.stockInfo.name%>','<%=params.stockInfo.marketType%>','<%=params.sn%>')
+      }
+    }
+    function nodeRating(sn) {
+      var labelId;
+        if(sn == "1"){
+          labelId = "up"+"<%params.sn%>";
+        }else if(sn == "2"){
+          labelId = "down"+"<%params.sn%>";
+        }
+        try{
+          ratingAnswer('<%params.resultId%>', sn, labelId);
+        }catch (e) {
+
+        }
+    }
+    try{
+      var result = '<%=JSON.stringify(info)%>';
+      var oldResult = JSON.parse(result.replace(/\&#34;/g, "\""));
+      getQuestionTabs(oldResult);
+    }catch (e) {
+
+    }
+
+</script>

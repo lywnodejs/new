@@ -1,0 +1,102 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% include ./component/preAnswer %>
+<div class="bd" id="answer<%= sn %>">
+    <!--答案框-->
+    <div class="mb">
+
+        <!--股票信息-->
+        <div class="box_stoInfo">
+            <li>
+                <p><%= subject.property.name %> (<%= subject.property.code %>) </p>
+                <h6><%= commonUtil.changeTimeForMin(quota.time * 1000) %></h6>
+            </li>
+            <!--
+                1. 默认，黑色：无样式名
+                2. 涨，红色：t_red
+                3. 跌，绿色：t_green
+            -->
+            <li class="<% if(quota.change > 0){ %>t_red<% }else if(quota.change < 0){ %>t_green<% } %>">
+                <p><%= commonUtil.fixed2(quota.newPrice) %></p>
+                <h6><%= commonUtil.fixedSign2(quota.change) %>(<%= commonUtil.fixedSign2(quota.rise) %>%）</h6>
+            </li>
+        </div>
+
+        <div class="box_bRed" id="legend<%= sh_kLineUtil.sn %>">
+            <%- sh_kLineUtil.html %>
+        </div>
+        <div id="report<%= sh_kLineUtil.sn %>" style="height:18px; width: 280px; margin:0 auto;">
+
+        </div>
+        <div id="container_sh<%= sh_kLineUtil.sn %>" class="box_chart01">
+
+        </div>
+
+
+        <h5><b>技术面分析：</b><%= subject.analysisText %></h5>
+
+    </div>
+    <div class="bd">
+        <div class="mb">
+            <div><%- reportResult %></div>
+            <% include ./component/ratingLabel %>
+        </div>
+    </div>
+
+
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var sn = '<%= sn %>'
+  var frameId = '<%= frameId %>';
+  var obj = '<%- chartData %>';
+  obj = JSON.parse(obj);
+
+  var sshTech = {
+    onViewReady: function () {
+      sh_kLine.createChart(obj);
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/charts/sh_kLine',
+    '/static/js/libs/7.0/highstock',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, sshTech.onViewReady)
+
+
+  /**
+   * 展开隐藏内容
+   * @param expandBtnId
+   * @param contentId
+   * @param foldBtnId
+   */
+  function expandContent(expandBtnId, contentId, foldBtnId) {
+    $('#' + expandBtnId).hide();
+    $('#' + foldBtnId).show();
+    $('#' + contentId).removeClass('show_row3');
+  }
+
+  /**
+   * 收缩内容
+   * @param foldBtnId
+   * @param contentId
+   * @param expandBtnId
+   */
+  function foldContent(foldBtnId, contentId, expandBtnId) {
+    $('#' + foldBtnId).hide();
+    $('#' + contentId).addClass('show_row3');
+    $('#' + expandBtnId).show();
+  }
+
+</script>
+

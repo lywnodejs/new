@@ -1,0 +1,14 @@
+<!--pages/account/result/index.wxml-->
+<view class="account-result">
+  <image wx:if="{{type!=4000}}" src="/image/{{type!=2 ? 'right' : 'error'}}.png"/>
+  <image wx:if="{{type==4000}}" src="/image/error.png"/>
+  <text class="title" wx:if="{{type==1}}">成功还款￥{{amount}}</text>
+
+  <text class="title" wx:if="{{type==2}}">还款失败</text>
+  <text class="title" wx:if="{{type==4000}}">还款失败</text>
+
+  <text class="info" wx:if="{{type!=1}}">{{desc || '系统繁忙，请稍后再试'}}</text>
+  <button class="fill" wx:if="{{type==1}}" bindtap="toAccount">查看订单</button>
+
+  <button class="error" bindtap="toBack">{{type==2 ? '重新还款' : '返回首页'}}</button>
+</view>

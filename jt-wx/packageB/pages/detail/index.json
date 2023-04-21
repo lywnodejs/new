@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "get-code": "/components/get-code/index",
+    "password-popup":"/packageB/components/password-popup/index",
+    "captcha-popup": "/components/captcha-popup/index"
+  },
+  "navigationBarTitleText": "交易管理"
+}

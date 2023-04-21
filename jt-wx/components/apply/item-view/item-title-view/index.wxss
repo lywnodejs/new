@@ -1,0 +1,13 @@
+/* components/apply/item-view/item-title-view/index.wxss */
+
+.title {
+  font-size: 15px;
+  color: #49525c;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+.desc {
+  font-size: 15px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #A1A4A8;
+}

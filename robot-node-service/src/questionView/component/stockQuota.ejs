@@ -1,0 +1,30 @@
+<!--
+    答案模板上方的股票行情头部
+    赵波
+    2019.10.18
+-->
+
+<%
+    var result = quotaResult || {};
+    var riseCls = 't_gray';
+    if(result.rise > 0)
+        riseCls = 't_red';
+    else if(result.rise < 0)
+        riseCls = 't_green';
+ %>
+
+<a onclick="gotoStockDetail('<%= result.stkCode %>','<%= result.stkName %>','<%= result.symbol.replace(result.stkCode, '') %>')">
+    <li>
+        <h4><%= result.stkName || '' %>
+            <span class="num"><%= result.stkCode || '' %></span>
+        </h4>
+        <h6><%= timeUtil.getTimeStr_more(result.time*1000) %></h6>
+    </li>
+    <li>
+        <div class="icon"><i class="icon-arrow_closed"></i></div>
+        <div class="<%= riseCls %>">
+            <h3><%= result.newPrice.toFixed(2) %></h3>
+            <h6><%= result.change.toFixed(2) %>&nbsp;&nbsp;<%= result.rise.toFixed(2) %>%</h6>
+        </div>
+    </li>
+</a>

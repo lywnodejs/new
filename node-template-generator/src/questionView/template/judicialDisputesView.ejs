@@ -1,0 +1,62 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+<div class="rxh_bd">
+
+    <% let chartId = commonUtil.generateRandomClassName('chart'); %>
+
+    <!--
+        1. 积极信号：rxh_hd2
+        2. 谨慎提示：rxh_hd3
+    -->
+    <!--<div class="rxh_hd2">净资产收益率</div>-->
+    <div class="rxh_bd2">
+        白酒行业上市公司<b>18家</b>，贵州茅台净资产收益率排名行业<b>第1名</b>。
+
+        <!-- 图表 -->
+        <div class="rxh_chartBox">
+            <ul class="rxh_legend">
+                <!--
+                    1. 方形，b标签无样式名
+                    2. 圆形，b标签加样式名：rxh_circle
+                    3. 蓝色，b标签加样式名：rxh_cBlue
+                    3. 浅蓝色，b标签加样式名：rxh_cBlueLight
+                    3. 红色，b标签加样式名：rxh_cRed
+                    3. 浅红色，b标签加样式名：rxh_cRedLight
+                    3. 黄色，b标签加样式名：rxh_cYellow
+                    3. 浅黄色，b标签加样式名：rxh_cYellowLight
+                -->
+                <li><b class="rxh_cBlue"></b><span>贵州茅台</span></li>
+                <li><b class="rxh_circle rxh_cBlueLight"></b><span>行业平均</span></li>
+            </ul>
+            <div id="<%= chartId %>" class="rxh_chart">
+            </div>
+        </div>
+
+        <div class="rxh_bd2">
+            近一年贵州茅台司法纠纷高于/低于/等于行业平均水平，原告xx起，被告xx起。
+        </div>
+
+        <div class="rxh_bd2">
+            展示最近1年的失信人名单：“xxx（公司职务）于xx年xx月xx日被xx法院纳入失信被执行人名单。” （失信人每行文案之前加一个符号进行强调）
+        </div>
+
+    </div>
+</div>
+
+<% include ../component/footer %>
+<script>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    <% if(!params.noSource) { %>
+    loadJs(jsArr, createHistograms)
+    <% } %>
+
+
+    function createHistograms() {
+        createHistogram(<%= chartId %>)
+    }
+</script>
+
+
+

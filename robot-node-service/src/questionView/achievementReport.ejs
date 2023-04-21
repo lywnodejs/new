@@ -1,0 +1,89 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 业绩快报 赵波 2019.10.22 -->
+<%
+var list = info.data || [];
+var col1 = ''; //第一列
+var arrCol = ['','','']; // 其余列
+var arrColName = ['thisYearValue','lastYearValue','changeRangeValue']; // 其余列字段
+
+for (var i=0; i<list.length; i++){
+    col1 += '<li style="height: 2.8rem;font-size: .75rem;">'+list[i].displayName+'</li>';
+    for(var j=0; j<arrCol.length; j++){
+        var value = list[i][arrColName[j]] || '--';
+        if(['thisYearValue','lastYearValue'].indexOf(arrColName[j]) === -1)
+            value = value !== '--' ? value : value;
+        var unit = '';
+        if(['changeRangeValue'].indexOf(arrColName[j]) > -1)
+            unit = value!== '--' ? '%' : '';
+        if(unit=='%'){
+            arrCol[j] += '<li style="height: 2.8rem;font-size: .75rem;line-height: 2.8rem">'+value.toFixed(2)+unit+'</li>';
+        }else {
+            arrCol[j] += '<li style="height: 2.8rem;font-size: .75rem;line-height: 2.8rem">'+ value.toLocaleString() +unit+'</li>';
+        }
+    }
+}
+ %>
+
+<p style="text-align: right;font-size: 0.875rem">单位：元</p>
+<div class="bd">
+    <div class="mb">
+        <div class="box_conStock" style="margin-top: -1rem">
+            <i class="icon-arrow_shape_left"></i>
+            <b></b>
+            <div class="conStock_hd conStock_hd_190301">
+                <ul>
+                    <li>项目</li>
+                    <%- col1 %>
+                </ul>
+                </div>
+            <div class="conStock" onscroll="tableScrollHandler(event)">
+                <div class="box">
+                    <ul>
+                        <li>本报告期</li>
+                        <%- arrCol[0] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>上年同期</li>
+                        <%- arrCol[1] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>增减变动幅度</li>
+                        <%- arrCol[2] %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var achievementReport = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+  ];
+  loadJs(jsArr, achievementReport.onViewReady)
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>

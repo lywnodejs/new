@@ -1,0 +1,48 @@
+<div class="wrap-editor-content p-form-item form-flex" ng-class="{'info-con':ctrl.isEdit}">
+    <span class="info-title" ng-if="ctrl.isEdit">漏洞详情</span>
+    <label class="item-label p-muti" ng-if="!ctrl.isEdit"><i class="i-must">*</i>漏洞详情：</label>
+    <div class="wrap-input form-flex-item">
+        <textarea id="js-holeDetail" name="holeDetail" class="p-ueditor"></textarea>
+        <span class="p-error-msg">请填写漏洞描述</span>
+    </div>
+</div>
+<div class="p-form-item form-flex" ng-class="{'info-con':ctrl.isEdit}">
+    <span class="info-title" ng-if="ctrl.isEdit">漏洞附件</span>
+    <label class="item-label" ng-if="!ctrl.isEdit">
+        <span class="i-placeholder">x</span>漏洞附件：</label>
+    <div class="wrap-input form-flex-item">
+        <a class="hole-attachment-name" href="{{ctrl.pageData.holeAttachments[0]}}" ng-if="ctrl.pageData.holeAttachments.length > 0">{{ctrl.holeAttachments[0] || '附件'}}</a>
+        <a class="hole-attachment-delete" href="" ng-click="ctrl.deleteAttachment()" ng-if="ctrl.pageData.holeAttachments.length > 0">x</a>
+        <label class="p-btn p-btn-sm upload-file" ng-if="ctrl.pageData.holeAttachments.length === 0" for="hole-attachment">
+            上传附件
+            <input id="hole-attachment" type="file" class="form-control-file" id="exampleFormControlFile1" ng-model="ctrl.pageData.attachment"
+                onchange="angular.element(this).scope().ctrl.upload()">
+        </label>
+    </div>
+</div>
+<div class="p-form-item form-flex" ng-class="{'info-con':ctrl.isEdit}">
+    <span class="info-title" ng-if="ctrl.isEdit">修复建议</span>
+    <label class="item-label p-muti" ng-if="!ctrl.isEdit"><i class="i-must">*</i>修复建议：</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':!ctrl.pageData.repairRecommend && myForm.repairRecommend.$touched}">
+        <textarea id="repairRecommend" class="p-form-control" name="repairRecommend" maxlength="2000" ng-required="true" ng-model="ctrl.pageData.repairRecommend"></textarea>
+        <span class="p-error-msg">请填写修复建议</span>
+    </div>
+</div>
+
+<!-- <div class="p-form-item form-flex" ng-class="{'info-con':ctrl.isEdit}">
+    <span class="info-title" ng-if="ctrl.isEdit">漏洞危害</span>
+    <label class="item-label p-muti" ng-if="!ctrl.isEdit"><i class="i-must">*</i>漏洞危害：</label>
+    <div class="wrap-input form-flex-item">
+        <textarea class="p-form-control" name="holeHarm" maxlength="2000" ng-model="ctrl.pageData.holeHarm"></textarea>
+        <span class="p-error-msg">请填写漏洞危害</span>
+    </div>
+</div> -->
+
+<div class="p-form-item form-flex" ng-class="{'info-con':ctrl.isEdit}">
+    <span class="info-title" ng-if="ctrl.isEdit">漏洞危害</span>
+    <label class="item-label p-muti" ng-if="!ctrl.isEdit"><i class="i-must">*</i>漏洞危害：</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':!ctrl.pageData.holeHarm && myForm.holeHarm.$touched}">
+        <textarea ng-required="true" class="p-form-control" name="holeHarm" maxlength="2000" ng-model="ctrl.pageData.holeHarm"></textarea>
+        <span class="p-error-msg">请填写漏洞危害</span>
+    </div>
+</div>

@@ -1,0 +1,304 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+<!--答案框-->
+<% if(info.data.length !== 0){ %>
+    <div class="mb" id="<%= randomn %>">
+        <div class="box_govData">
+            <!-- <div class="hd_ddList">
+                <h4>全国营商环境数据</h4>
+
+                <div class="box_ddList">
+                    <a>2017年<i class="icon-arrow2_B_small"></i></a>
+                    <ul class="ddList">
+                        <li>2018年</li>
+                        <li class="on">2017年</li>
+                        <li>中报</li>
+                        <li>一季报</li>
+                        <li>三季报</li>
+                        <b></b>
+                    </ul>
+                </div>
+            </div> -->
+
+            <!-- 表格 -->
+            <div class="box_conStock">
+                <% if(data.length > 1){ %>
+                    <i class="icon-arrow_shape_left"></i>
+                <% } %>
+                <div class="conStock_hd">
+                    <ul>
+                        <li>序号/年份</li>
+                        <% for(var i = 0;i < data[0].years.length;i++){ %>
+                        <li><em><%= i+1 %></em><span><b><%= data[0].years[i].years %></b></span></li>
+                        <% } %>
+                    </ul>
+                </div>
+                <div class="conStock">
+                    <div class="box">
+                        <!--
+                            1. 无样式名：列表中答案是纯文字
+                            2. ul加样式名num：列表中答案是数字、百分比
+                                （需要加num样式名的，目前有：市盈率、市净率、涨跌幅、换手率、振幅、成交额、成交量、股价、总市值、流通市值、量比、委比、X日主力资金、每股净收益、发行价、历史最高价、历史最低价）
+                            3. ul加样式名ul_pop：弹窗
+                        -->
+                        <% for(var i = 0;i < data.length;i++){
+                            var str = '';
+                            switch (data[i].dimensionIndex) {
+                                case 'GDP':
+                                    str = '亿元';
+                                    break;
+                                case '第一产业总产值':
+                                    str = '亿元';
+                                    break;
+                                case '规模以上工业企业营收':
+                                    str = '亿元';
+                                    break;
+                                case '进出口总额':
+                                    str = '亿美元';
+                                    break;
+                                case '人均可支配收入':
+                                    str = '元';
+                                    break;
+                                case '商品房销售额':
+                                    str = '亿元';
+                                    break;
+                                case '私人汽车拥有量':
+                                    str = '万量';
+                                    break;
+                                case '固定资产投资总额':
+                                    str = '亿元';
+                                    break;
+                                case '房地产投资额':
+                                    str = '亿元';
+                                    break;
+                                case '本外币贷款余额':
+                                    str = '亿元';
+                                    break;
+                                case '上市公司市值':
+                                    str = '亿元';
+                                    break;
+                                case '上市公司数量':
+                                    str = '家';
+                                    break;
+                                case '法人企业数量':
+                                    str = '家';
+                                    break;
+                                case '常住人口':
+                                    str = '万人';
+                                    break;
+                                case '新增发明专利':
+                                    str = '项';
+                                    break;
+                                case '政府科技支出':
+                                    str = '亿元';
+                                    break;
+                                case '每十万人高等学校在校生人数':
+                                    str = '人';
+                                    break;
+                                case '一般公共预算收入':
+                                    str = '亿元';
+                                    break;
+                                case '转移支付收入':
+                                    str = '亿元';
+                                    break;
+                                case '国有土地出让收入':
+                                    str = '亿元';
+                                    break;
+                                case '一般公共预算支出':
+                                    str = '亿元';
+                                    break;
+                                case '政府存款':
+                                    str = '亿元';
+                                    break;
+                                case '国有企业总资产':
+                                    str = '亿元';
+                                    break;
+                                case '政府性债务余额':
+                                    str = '亿元';
+                                    break;
+                                case '国有企业负债':
+                                    str = '亿元';
+                                    break;
+                                case '城投债余额':
+                                    str = '亿元';
+                                    break;
+                                default :
+                                    str = '';
+                                    break;
+                            } %>
+                        <ul class="num">
+                            <!--
+                                1. 不加样式是黑色
+                                2. 涨，在li加样式名：t_red
+                                3. 跌，在li加样式名：t_green
+                                4. 停，在li加样式名：t_gray
+                            -->
+                            <li>
+                                <a><%= data[i].dimensionIndex %>(<%= data[i].units %>)
+                                    <!--
+                                        两种：
+                                        1. 下箭头是蓝色，sequence样式名后面加样式名：sequenceD
+                                        2. 上箭头是蓝色，sequence样式名后面加样式名：sequenceT
+                                    -->
+                                    <!-- <b class="sequence sequenceD"><i class="icon-sequenceT"></i><i class="icon-sequenceD"></i></b> -->
+                                    <!--<b class="sequence sequenceT"><i class="icon-sequenceT"></i><i class="icon-sequenceD"></i></b>-->
+                                </a>
+                            </li>
+                            <% for(var l = 0;l < data[i].years.length;l++){var str = data[i].years[l].indexValue || '--' %>
+                            <li><%= str %></li>
+                            <% } %>
+                        </ul>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <h6>你可能感兴趣</h6>
+            <div class="box_tl_hot">
+                <h5><a>您还想了解中长期有投资价值的个股吗？</a></h5>
+                <h5><a>最近热点概念？</a></h5>
+            </div> -->
+        </div>
+
+        <!--点评-->
+        <% if(req.query.appKey != 'appAvatar' && req.query.appKey != 'guoxin'){ %>
+            <div class="box_appraisal">
+                <% if(req.query.appKey == 'appZxcxHide'){ %>
+                    <a class="a_search">
+                        <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                        <span>精准查找政策</span>
+                        <i class="icon-arrow2_R_small"></i>
+                    </a>
+                <% } %>
+                <a><i id="up<%= randomn %>" class="icon-good"></i></a>
+                <a><i id="down<%= randomn %>" class="icon-bad"></i></a>
+            </div>
+        <% } %>
+    </div>
+<% } %>
+<% if(info.data.length == 0){ %>
+    <div class="mb md_tlbox">
+        <div class="box_shadow">
+            政策大脑没有为您找到相关数据
+        </div>
+    </div>
+<% } %>
+<script>
+  var latitudeAll = {
+    onViewReady: function () {
+      var data_num = JSON.parse('<%- JSON.stringify(data) %>')
+      var num = '<%= randomn %>';
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+      $("#" + num + " .box_conStock .conStock").scroll(function () {
+        if ($(this).scrollLeft() > 20) {
+          $(this).siblings(".icon-arrow_shape_left").hide();
+        } else {
+          $(this).siblings(".icon-arrow_shape_left").show();
+        }
+      });
+
+      //点赞或踩
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+
+      //切换时间
+      $('#' + num + ' .box_ddList a').click(function () {
+        if ($('#' + num + ' .box_ddList ul').hasClass('show')) {
+          $('#' + num + ' .box_ddList ul').removeClass('show');
+        } else {
+          $('#' + num + ' .box_ddList ul').addClass('show');
+        }
+      })
+      $('#' + num + ' .box_ddList ul li').click(function () {
+        $('#' + num + ' .box_ddList ul li').removeClass('on');
+        $(this).addClass('on');
+        $('#' + num + ' .box_ddList a').html($(this).text() + '<i class="icon-arrow2_B_small"></i>');
+        $('#' + num + ' .box_ddList ul').removeClass('show');
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, latitudeAll.onViewReady)
+
+
+  function date_info(val) {
+    var now = new Date(val);
+    var year = now.getFullYear(); //年
+    var month = now.getMonth() + 1; //月
+    var day = now.getDate(); //日
+    var hh = now.getHours(); //时
+    var mm = now.getMinutes(); //分
+    var clock = year + "-";
+    if (month < 10)
+      clock += "0";
+    clock += month + "-";
+    if (day < 10)
+      clock += "0";
+    clock += day;
+    return (clock);
+  }
+
+  //点赞或踩
+  function feedback(num) {
+    var id = '<%- info.spanId %>';
+    var data_ = {
+      spanId: id,
+      commentFeedback: num
+    }
+    $.ajax({
+      url: '<%= host %>' + '/api/feedback?',
+      type: 'get',
+      dataType: 'json',
+      data: data_,
+      success: function (data) {
+        if (data.message.code == 0) {
+          try {
+            if (num == 1) {
+              thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+            } else {
+              thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+            }
+            ;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    })
+  }
+
+
+</script>

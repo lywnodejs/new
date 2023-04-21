@@ -1,0 +1,101 @@
+@import '~variables';
+
+.privacy-treeContent{
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f5;
+  // padding: 56px 80px 58px;
+  &-container{
+    width: 1080px;
+    height: 100%;
+    background: #FFFFFF;
+    border-radius: 4px;
+    // display: flex;
+    // padding-top: 40px;
+    padding-left: 280px;
+    position: relative;
+    border: none !important;
+
+    &__left{
+      width: 280px;
+      height: 100%;
+      border: none !important;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-right: 1px solid #eeeeee !important;
+      //border-left: 1px solid #eeeeee !important;
+      overflow: auto;
+      display: inline-block;
+      position: absolute;
+      left: 0px;
+      padding: 32px 32px 32px 8px;
+
+      .ant-tree {
+        &-node-selected {
+          color: #FF7F41;
+          background: transparent;
+        }
+        &-title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 194px;
+          display: block;
+        }
+        & li .ant-tree-node-content-wrapper:hover {
+          color: #FF7F41;
+          background: #fff;
+        }
+        & li .ant-tree-node-selected {
+          color: #FF7F41;
+          background: #fff;
+        }
+      }
+    }
+    .scrollCenter{
+      position: fixed !important;
+      top: 82px !important;
+      left: 50% !important;
+      transform: translateX(-440px) !important;
+    }
+    .scrollBottom{
+      bottom: 0 !important;
+      // left: 50% !important;
+      // transform: translateX(-420px) !important;
+    }
+    // &__left-scroll{
+    //   width: 220px;
+    //   height: 100%;
+    //   border: none !important;
+    //   border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+    //   border-right: 1px solid #eeeeee !important;
+    //   overflow: auto;
+    //   display: inline-block;
+    //   // position: absolute;
+    //   left: 50% !important;
+    //   position: fixed !important;
+    //   top: 82px !important;
+    //   // margin-left: -600px;
+    //   transform: translateX(-420px) !important;
+    // }
+    &__right{
+      border: none !important;
+      width: 800px;
+      height: 100%;
+    }
+    &__left-noTree{
+      width: 1px;
+      height: 100%;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-left: 1px solid #eeeeee !important;
+      position: absolute;
+      left: 0;
+    }
+    &__right-noTree{
+      border: none !important;
+      width: 1079px;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      // top: 0;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "repayment-cell-order": "/components/repayment-cell-order/index",
+    "order-cell": "/components/order-cell/index"
+  },
+  "navigationBarTitleText": "我的贷款",
+  "disableScroll": true
+}

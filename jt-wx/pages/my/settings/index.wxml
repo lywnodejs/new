@@ -1,0 +1,19 @@
+<!--pages/my/settings/index.wxml-->
+<view class="settings">
+  <view> 
+    <block wx:for="{{settings}}" wx:key="id" wx:for-index="idx">
+      <cell bind:click="onClick" icon="{{item.icon}}" data="{{item}}" title="{{item.name}}" line="{{idx < (settings.length - 1)}}"/>
+    </block>
+  </view>
+  <text class="button" bindtap="onExit">退出登录</text>
+</view>
+
+<van-popup class="settings-alter" show="{{show}}" >
+    <view class="content">
+      <text>确认退出吗？</text>
+    </view>
+    <view class="footer">
+      <text bindtap="onClose">取消</text>
+      <text bindtap="onDefine">确定</text>
+    </view>
+</van-popup>

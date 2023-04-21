@@ -1,0 +1,290 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+<!--答案框-->
+<div class="bd" id="answer<%= random %>">
+<div class="mb" id="<%= random %>">
+    <% for(var i in info.data.data){
+        var item = ['学习之旅', '最高党政机关', '各部委', '地方党政机关', '其他'];
+    %>
+    <% if(info.data.data[i][item[i]].list.length != 0){ %>
+        <div class="box_hotPolTop">
+            <h5 class="note"><%= item[i] == '最高党政机关' ? '中央党政机关' : item[i] %>
+                (<%= info.data.data[i][item[i]].totalCount %>)</h5>
+            <ul>
+                <% for(var l = 0;l < info.data.data[i][item[i]].list.length;l++){
+                    function date_info(val) {
+                        var now = new Date(val);
+                        var year = now.getFullYear(); //年
+                        var month = now.getMonth() + 1; //月
+                        var day = now.getDate(); //日
+                        var hh = now.getHours(); //时
+                        var mm = now.getMinutes(); //分
+                        var clock = year + "-";
+                        if (month < 10)
+                            clock += "0";
+                        clock += month + "-";
+                        if (day < 10)
+                            clock += "0";
+                        clock += day;
+                        return (clock);
+                    }
+                    var huiyi = info.data.data[i][item[i]].list[l].contentType.split('|')[0] + ' · '
+                    var shijian = date_info(info.data.data[i][item[i]].list[l].publishAt)
+                    if (info.data.data[i][item[i]].list[l].persons) {
+                        var persons = " · " + info.data.data[i][item[i]].list[l].persons[0]
+                    } else {
+                        var persons = ''
+                    }
+                    if (info.data.data[i][item[i]].list[l].organization) {
+                        var organization = " · " + info.data.data[i][item[i]].list[l].organization
+                    } else {
+                        var organization = ''
+                    }
+                    if (info.data.data[i][item[i]].list[l].themes) {
+                        if (info.data.data[i][item[i]].list[l].themes.length !== 0) {
+                            var themes = ' #' + info.data.data[i][item[i]].list[l].themes[0];
+                        } else {
+                            var themes = ''
+                        }
+                    } else {
+                        var themes = ''
+                    }
+                %>
+                <li data_id='<%= info.data.data[i][item[i]].list[l].id %>'
+                    onclick="openPolicyDetail('<%= info.data.data[i][item[i]].list[l].id %>')">
+                    <h5><%- info.data.data[i][item[i]].list[l].title %></h5>
+                    <h6><%= huiyi %><%= shijian %><%= persons %><%= organization %> <%= themes %></h6>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+
+        <!--加载更多-->
+        <% if(info.data.data[i][item[i]].totalCount > 3){ %>
+        <div class="box_load">
+            <a data_info='<%= item[i] %>' data_cp='1'>查看更多</a>
+        </div>
+        <% } %>
+    <% } %>
+
+    <% } %>
+
+    <!--点评-->
+
+    <% if(req.query.appKey != 'guoxin'){ %>
+        <div class="box_appraisal">
+            <% if(req.query.appKey == 'appZxcxHide'){ %>
+                <a class="a_search">
+                    <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                    <span>精准查找政策</span>
+                    <i class="icon-arrow2_R_small"></i>
+                </a>
+            <% } %>
+            <a><i id="up<%= random %>" class="icon-good"></i></a>
+            <a><i id="down<%= random %>" class="icon-bad"></i></a>
+        </div>
+    <% } %>
+</div>
+</div>
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+</style>
+
+
+<script>
+
+  var policyFiles = {
+    onViewReady: function () {
+
+      // reportInit();
+
+      var num = '<%= random %>',
+        urlParams = '<%- info.data.urlParams %>';
+
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+
+      //加载跟多
+      $(`#${num} .box_load a`).click(function () {
+        infinity($(this).attr('data_info'), $(this).attr('data_cp'), $(this));
+      })
+      var num2 = 1;
+
+      function infinity(info, cp_, thas) {
+        var cp = Number(cp_) + 1;
+        $.ajax({
+          url: '<%= host %>' + '/api/policyInterfaces?' + `priorities=${info}&cp=${cp}&ps=3&${urlParams}`,
+          type: 'get',
+          dataType: 'json',
+          success: function (data) {
+            if (data.data.list.length !== 0) {
+              var element = '';
+              for (var l = 0; l < data.data.list.length; l++) {
+                var item = data.data.list[l];
+                var huiyi = item.contentType.split('|')[0] + ' · '
+                var shijian = date_info(item.publishAt)
+                if (item.persons) {
+                  var persons = " · " + item.persons[0]
+                } else {
+                  var persons = ''
+                }
+                if (item.organization) {
+                  var organization = " · " + item.organization
+                } else {
+                  var organization = ''
+                }
+                if (item.themes) {
+                  if (item.themes.length !== 0) {
+                    var themes = ' #' + item.themes[0];
+                  } else {
+                    var themes = ''
+                  }
+                } else {
+                  var themes = ''
+                }
+                element += `
+                            <li data_id=${item.id} onclick="openPolicyDetail('${item.id}')">
+                                <h5>${item.title}</h5>
+                                <h6>${huiyi}${shijian}${persons}${organization} ${themes}</h6>
+                            </li>
+                            `
+              }
+              num2 += 1;
+              if (data.data.totalCount <= num2 * 3) {
+                $(`#${num} .box_load`).hide();
+              }
+              thas.parent().prev().find('ul').append(element);
+              thas.attr('data_cp', cp);
+            } else {
+              thas.parent().hide();
+            }
+          },
+        })
+      }
+
+      //加载跟多end
+
+
+      //点赞或踩
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, policyFiles.onViewReady)
+
+
+  function date_info(val) {
+    var now = new Date(val);
+    var year = now.getFullYear(); //年
+    var month = now.getMonth() + 1; //月
+    var day = now.getDate(); //日
+    var hh = now.getHours(); //时
+    var mm = now.getMinutes(); //分
+    var clock = year + "-";
+    if (month < 10)
+      clock += "0";
+    clock += month + "-";
+    if (day < 10)
+      clock += "0";
+    clock += day;
+    return (clock);
+  }
+
+  //获取详情页数据
+  function detail(id) {
+    var num = '<%= random %>';
+    $.ajax({
+      url: '<%= host %>' + '/api/policyInterfacesDetail?' + `id=${id}`,
+      type: 'get',
+      dataType: 'json',
+      success: function (data) {
+        if (data.message.code == 0) {
+          reportInit();
+          $('.policy_' + num).find('h3 b').html(data.data.title);
+          $('.policy_' + num).find('span').eq(0).html('来源: ' + data.data.mediaFrom);
+          $('.policy_' + num).find('span').eq(1).html(date_info(data.data.publishAt));
+          $('.policy_' + num).find('h4').html(data.data.content);
+          getTG(id);
+        }
+      }
+    })
+  }
+
+  //点赞或踩
+  function feedback(num) {
+    var id = '<%- info.spanId %>';
+    var data_ = {
+      spanId: id,
+      commentFeedback: num
+    }
+    $.ajax({
+      url: '<%= host %>' + '/api/feedback?',
+      type: 'get',
+      dataType: 'json',
+      data: data_,
+      success: function (data) {
+        if (data.message.code == 0) {
+          try {
+            if (num == 1) {
+              thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+            } else {
+              thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+            }
+            ;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    })
+  }
+
+  /**
+   * @description: 获取详情页要点
+   * @param {type} txt
+   */
+
+
+</script>
+
+<% include ./component/reportDetail %>

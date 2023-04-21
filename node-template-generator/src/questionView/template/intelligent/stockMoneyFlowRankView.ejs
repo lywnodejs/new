@@ -1,0 +1,55 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<!-- 港股通资金流向 范怡 2019.10.22 -->
+
+<%if(info.data){%>
+<%
+    var strInOut = info.data.netFlowValue>0 ? '入' : '出';
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_equal"><span>股票名称</span></li>
+            <li class="rxh_li_equal"><span class="rxh_right">总成交量</span></li>
+            <li class="rxh_li_equal"><span>净流<%= strInOut%>排名</span></li>
+        </ol>
+        <ul>
+            <li class="rxh_li_equal">
+                <p><%= info.data.secName %></p>
+                <h6 class="rxh_gray"><%= info.data.secCode %></h6>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatNumber(info.data.totalValue * 10000) %></p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= info.data.netFlowRank %></p>
+            </li>
+        </ul>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+  var stockMoneyFlowRankView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, stockMoneyFlowRankView<%- sn %>.onViewReady)
+  <% } %>
+
+</script>

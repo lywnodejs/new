@@ -1,0 +1,35 @@
+.header {
+  width: calc(100% - 68px);
+  padding-right: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  .notice {
+    max-width: 85%;
+    overflow: hidden;
+    position: relative;
+
+    .NoticeContent :global {
+      white-space: nowrap;
+      color: orange !important;
+      display: inline-block;
+      -webkit-animation: 20s NoticeScroll linear 3s infinite normal;
+      animation: 20s NoticeScroll linear infinite 3s normal;
+    }
+  }
+
+  .user {
+    min-width: 10%;
+
+    :global {
+      .ant-btn {
+        border-color: transparent;
+        box-shadow: none;
+      }
+
+      .ant-btn:focus {
+        border-color: transparent;
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+<h2 class="p-dialog-title">{{dialog.title}}</h2>
+<form name="myForm">
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>告警类型：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="typeId" id="type" ng-required="!type">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.typeId" value="{{item.id}}">{{item.dName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>告警等级：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="riskLevel" id="level" ng-change="levelChange()" ng-required="!level">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.riskLevel" value="{{::$index}}">{{::item}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><span class="i-placeholder">x</span><i class="i-must">*</i>告警时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div class="p-col-8">
+                    <div class="input-group" style="margin-top: 36px;">
+                        <input id="alarmTime" class="form-control js-date-picker" type="text" name="alarmTime" readonly="readonly" uib-datepicker-popup
+                            close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd HH:mm:ss" datepicker-options="alarmTimeOptions"
+                            required is-open="alarmTimeIsOpen" onclose="alarmTimeClose()" ng-model="alarmTime" ng-click="alarmTimeOpen()">
+                        <span class="input-group-btn" ng-click="alarmTimeOpen()">
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="p-col-4" uib-timepicker ng-model="alarm_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><span class="i-placeholder">x</span><i class="i-must">*</i>发生时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div class="p-col-8">
+                    <div class="input-group" style="margin-top: 36px;">
+                        <input id="occuredTime" class="form-control js-date-picker" type="text" name="occuredTime" readonly="readonly" uib-datepicker-popup
+                            close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd HH:mm:ss" datepicker-options="occuredTimeOptions"
+                            ng-required="true" is-open="occuredTimeIsOpen" onclose="occuredTimeClose()" ng-model="occuredTime" ng-click="occuredTimeOpen()">
+                        <span class="input-group-btn" ng-click="occuredTimeOpen()">
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="p-col-4" uib-timepicker ng-model="occured_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 动态字段 -->
+    <div class="p-form-item flex-between" ng-repeat="item in dynamicFields" ng-cloak>
+        <div class="p-col-5 form-flex" ng-repeat="innerItem in item">
+            <label class="item-label p-col-3"><i class="i-must">*</i>{{innerItem.fieldNameZh}}：</label>
+            <div class="wrap-input form-flex-item">
+                <input class="p-form-control" name="{{innerItem.fieldNameEn}}" ng-model="alarmData[innerItem.fieldNameEn]" ng-maxlength="200"
+                type="text" ng-required="true">
+            </div>
+        </div>
+    </div>
+
+    <div class="p-form-item flex-around">
+        <button class="p-btn" type="submit" ng-click="handleSubmitClick($event)">保存</button>
+        <button class="p-btn" type="button" ng-click="handleCloseClick($event)">关闭</button>
+    </div>
+</form>

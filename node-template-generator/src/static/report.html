@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta name="keywords" content="小e,智能小e,小E,智能小E,robot.rxhui.com,小e首页,小e机器人,智能机器人,robot.rxhui,问答,智能">
+    <meta name="description" content="智能小e，智能化时代投资助手和全语音问答交互模式，内容覆盖7x24小时金融市场投资标的研判、k线形态量化分析、专家估值评级，及时挖掘投资机会。">
+    <meta name="application-name" content="智能小e 首页">
+    <script type="text/javascript" src="/static/js/libs/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/utils/toolsUtil.js"></script>
+    <script type="text/javascript" src="/static/js/charts/lineColumnChart.js"></script>
+    <script type="text/javascript" src="/static/js/libs/6.0/highstock.src.js"></script>
+    <script type="text/javascript" src="/static/js/utils/resizeUtils.js"></script>
+
+</head>
+<body >
+<input class="answerResultType" style="display: none" value="股东人数变化"/>
+
+
+<div class="bd" id="answer1562038722110">
+
+    <!--答案框-->
+
+    <div class="mb">
+        <div class="box_shareholders">
+            <h6>截止到2019-03-31，股东人数354508户，较上期减少3.96%，前十大股东占比%</h6>
+        </div>
+        <div class="box_chart_shareholders">
+            <div class="txt">
+                <span>单位：户</span>
+                <span>单位：元</span>
+            </div>
+            <!-- 图表 -->
+            <div id="chart15620387221185974" class="box_chart01">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+  var jsSource = JSON.parse('["/static/js/libs/jquery-1.11.2.min","/static/js/utils/toolsUtil","/static/js/charts/lineColumnChart","/static/js/libs/6.0/highstock.src","/static/js/utils/resizeUtils"]');
+  var arr = '[{"ashldAmount":354508,"chanOfLast":-3.9583,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1556065019000,"endDate":20190331,"endDateTimestamp":1553961600000,"endPrice":12.22,"id":51886056,"isvalid":1,"marType":"sz","pubDate":20190424,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":354508,"updateAt":1556065022000},{"ashldAmount":369119,"chanOfLast":-14.0402,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1551917732000,"endDate":20190228,"endDateTimestamp":1551283200000,"endPrice":12.36,"id":42400450,"isvalid":1,"marType":"sz","pubDate":20190307,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":369119,"updateAt":1551917732000},{"ashldAmount":429409,"chanOfLast":5.7028,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1551917732000,"endDate":20181231,"endDateTimestamp":1546185600000,"id":42400452,"isvalid":1,"marType":"sz","pubDate":20190307,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":429409,"updateAt":1551917732000},{"ashldAmount":406242,"chanOfLast":-6.8205,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1540298336000,"endDate":20180930,"endDateTimestamp":1538236800000,"endPrice":11.05,"id":26330610,"isvalid":1,"marType":"sz","pubDate":20181024,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":406242,"updateAt":1540298338000},{"ashldAmount":435978,"chanOfLast":3.3915,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1534336687000,"endDate":20180630,"endDateTimestamp":1530288000000,"endPrice":9.09,"id":19262266,"isvalid":1,"marType":"sz","pubDate":20180816,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":435978,"updateAt":1534336688000},{"ashldAmount":421677,"chanOfLast":7.2991,"comCode":"1000001","comName":"平安银行股份有限公司","createAt":1525922275000,"endDate":20180331,"endDateTimestamp":1522425600000,"endPrice":10.9,"id":3726990,"isvalid":1,"marType":"sz","pubDate":20180420,"secCode":"000001","secName":"平安银行","secType":"A股","shldAmount":421677,"updateAt":1525922305000}]';
+  var shareholderAmountList = JSON.parse(arr);
+
+  var stockHolderView = {
+    onViewReady: function () {
+      new LineColumnChart('chart15620387221185974', shareholderAmountList.reverse());
+    }
+  }
+
+  stockHolderView.onViewReady();
+</script>
+
+</body>
+</html>

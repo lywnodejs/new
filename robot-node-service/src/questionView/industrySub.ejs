@@ -1,0 +1,106 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+    <!--答案框-->
+    <div class="mb">
+        <div class="nav_con show">
+            <div class='box_sxy box_show_tl box_show_tlBD'>
+                <% for(var i = 0; i < list.length; i++){
+                    var lineClass = commonUtil.generateRandomClassName("hideArticle");
+                    var item = list[i] %>
+                <li class="<%= lineClass %>">
+                    <div class='box_hd'>
+                        <span onclick="nodeClick('<%= item.name %>')"><%= i+1 %>、<%= item.name %></span>
+                        <a class='icon-arrow_open'
+                           onclick="showMoreIndustry('<%= lineClass %>','<%= item.name %>','<%= item.text %>')"></a>
+                    </div>
+                    <h5></h5>
+                </li>
+                <%}%>
+            </div>
+            <% include ./component/ratingLabel %>
+        </div>
+    </div>
+</div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var industrySub = {
+    onViewReady: function () {
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, industrySub.onViewReady)
+
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+
+  function nodeClick(industryName) {
+    try{
+      freeQuestion(industryName);
+    }catch (e) {
+
+    }
+  }
+
+
+  //展示更多行业
+  function showMoreIndustry(className, subjectName, subjectText) {
+    if ($("." + className).hasClass("on") == false) {
+      $("." + className).siblings().removeClass("on");
+      $("." + className).addClass("on");
+    } else {
+      $("." + className).removeClass("on");
+    }
+    $("." + className).siblings().find("h5").slideUp();
+    $("." + className).find("h5").slideToggle();
+    var ifRequest = $("." + className).find("h5")[0].innerHTML != '' ? true : false;
+    if (!$('.' + className).hasClass('on') || ifRequest) {
+
+    } else {
+      var content = "";
+      content = "<p style='height:10px;'></p>" + subjectText;
+      var redT = "<s class='t_red'>" + subjectName + "</s>";
+      if (content.indexOf(subjectName) !== -1) {
+        var regT = "/" + subjectName + "/g";
+        content = content.replace(eval(regT), redT);
+      }
+
+      $("." + className).find("> h5").html(content);
+      $(".box_show_tl .on>h5").show();
+    }
+  }
+
+  //点击tab切换事件
+  function stockHolderTabClick(event) {
+    // console.log(event)
+    var target = event.target;
+    $(target).addClass("on").siblings().removeClass("on");
+    var index = $(target).index();
+    $(target).parent().siblings().each(function () {
+      $(this).removeClass("show");
+    });
+    $(target).parent().siblings().eq(index).addClass("show");
+  }
+
+  var speechAnwser = '<%- info.speechAnswerContent %>';
+  var info_app = '<%-info.answerResultType%>';
+  if (window.contestapp) {
+    try {
+      window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+    } catch (error) {
+    }
+  } else {
+  }
+
+</script>
+

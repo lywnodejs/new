@@ -1,0 +1,270 @@
+{
+  "description": "Project configuration file",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "enableEngineNative": false,
+    "useIsolateContext": true,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "disableUseStrict": false,
+    "showES6CompileOption": false,
+    "useCompilerPlugins": false,
+    "minifyWXML": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.11.2",
+  "appid": "wxcd1af2be286ccae4",
+  "projectname": "jt-wx",
+  "debugOptions": {
+    "hidedInDevtools": []
+  },
+  "isGameTourist": false,
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": 0,
+          "name": "申请资料",
+          "pathName": "pages/apply/index/index",
+          "query": "type=my1",
+          "scene": null
+        },
+        {
+          "name": "还款.",
+          "pathName": "pages/repayment/index/index",
+          "query": "orderNum=IBFP220201021191023125",
+          "scene": null
+        },
+        {
+          "name": "还款结果",
+          "pathName": "pages/repayment/result/index",
+          "query": "type=-2&amount=1900.00&orderNum=IBFP220201019171432125",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "提现",
+          "pathName": "pages/repayment/index/index",
+          "query": "type=-1&amount=20191008000000005",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "提现结果页",
+          "pathName": "pages/withdraw/result/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "开通电子账户",
+          "pathName": "pages/account/open/form/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "存款购买结果页面",
+          "pathName": "pages/deposit/message/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 6,
+          "name": "开户结果",
+          "pathName": "pages/account/open/result/index",
+          "query": "type=1&cardNo=21392394293942893423",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "银行列表",
+          "pathName": "pages/withdraw/bank/index",
+          "query": "type=1&cardNo=21392394293942893423",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/order/index/index",
+          "pathName": "pages/order/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/my/ticket/index",
+          "pathName": "pages/my/ticket/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/account/card/index",
+          "pathName": "pages/account/card/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/repayment/bill/index",
+          "pathName": "pages/repayment/bill/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 12,
+          "name": "首页",
+          "pathName": "pages/index/index",
+          "query": "type=-1&amount=20191008000000005",
+          "scene": null
+        },
+        {
+          "id": 13,
+          "name": "pages/login/phone/index",
+          "pathName": "pages/login/phone/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/test/index",
+          "pathName": "pages/test/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 15,
+          "name": "pages/my/index/index",
+          "pathName": "pages/my/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "个人信息",
+          "pathName": "pages/apply/info/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/account/transfer/index",
+          "pathName": "pages/account/transfer/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "我的联系人",
+          "pathName": "pages/apply/contact/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "申请结果",
+          "pathName": "pages/apply/result/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/my/invite/index",
+          "pathName": "pages/my/invite/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "ocr",
+          "pathName": "pages/apply/ocr/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/account/face/index",
+          "pathName": "pages/account/face/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/account/transfer/index",
+          "pathName": "pages/account/transfer/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/account/index/index",
+          "pathName": "pages/account/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/account/open/result/index",
+          "pathName": "pages/account/open/result/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/account/open/result/index",
+          "pathName": "pages/account/open/result/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/test/index",
+          "pathName": "pages/test/index",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

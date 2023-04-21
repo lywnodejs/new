@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="application-name" content="">
+    <title>智能问答网页版</title>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_color_libs.css">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css">
+    <link rel="stylesheet" href="../css/yy_robot_web.css">
+<body class="body_e_web">
+
+<!-- 导航 -->
+<div class="rxhE_web_header">
+    <div class="rxhE_web_warp">
+        <div class="rxhE_web_wl">
+            <i class="rxh_logo_e"></i>
+            <h2>智能小e 股票问答</h2>
+            <ul>
+                <li class="rxhE_web_on rxh_geekBlue5">问答首页<b class="rxh_bg_geekBlue5"></b></li>
+            </ul>
+        </div>
+        <div class="rxhE_web_wr">
+
+        </div>
+    </div>
+</div>
+
+<!-- 内容区域 -->
+<div class="rxhE_web_main">
+    <div class="rxhE_web_warp">
+
+        <!-- 左侧 -->
+        <div class="rxhE_web_wl">
+            <div class="rxhE_web_scroll">
+                <!--
+                iframe中body的背景颜色改成： background: #EDEDED;
+                -->
+                <!--        <iframe src="http://robot.rxhui.com/" frameborder="0" height="100%" width="100%"></iframe>-->
+                <iframe src="http://192.168.111.60:20006/src/static/html/yy_index.html" frameborder="0" height="100%" width="100%"></iframe>
+            </div>
+        </div>
+
+        <!-- 右侧-->
+        <div class="rxhE_web_wr">
+
+            <!-- 基本信息 -->
+            <div class="rxhE_web_md rxhE_web_info">
+                <i><img src="../images/rxh_e_avatar_80.png" alt="智能问答"></i>
+                <div class="rxhE_web_bd">
+                    <h4>智能小e 股票问答</h4>
+                    <h6>结合人工智能和问答交互模式的智能投资助手。</h6>
+                    <h6>用户采用问答的形式向小e提问，小e结合人工智能和语义识别精准理解识别问题并给出专业的解答，是人工智能领域赋能投资顾问业务。</h6>
+                </div>
+            </div>
+
+
+            <!-- 版权 -->
+            <div class="rxhE_web_copyright">
+                <h6><a href="http://www.rxhui.com/" target="_blank">北京融汇金信信息技术有限公司</a></h6>
+                <h6> Copyright &#169 2016 </h6>
+                <h6>rxhui.com版权所有</h6>
+                <h6>京ICP备11003964号-5</h6>
+            </div>
+
+
+
+
+        </div>
+        <div class="rxh_clear_float"></div>
+    </div>
+</div>
+
+
+<!-- 底部 -->
+<div class="rxhE_web_footer">
+  <div class="rxhE_web_warp">
+      <div class="box_input">
+          <i class="rxh-icon-search"></i>
+          <textarea contenteditable="true"></textarea>
+      </div>
+      <a class="icon-Send">提问</a>
+  </div>
+</div>
+
+
+
+
+<script src="//weblibs.rxhui.com/mobile/js/jquery1.11.3.min.js"></script>
+<script src="//weblibs.rxhui.com/compLibrary_rxh/js/jquery.nicescroll.min.js"></script>
+<script>
+
+
+    $(function () {
+
+        // main的高度
+        function _rxhE_web_main_h(){
+            var _rxhE_web_winH = $(window).height();
+            var _rxhE_web_headH = $(".rxhE_web_header").height();
+            var _rxhE_web_footH = $(".rxhE_web_footer").height();
+            var _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_headH - _rxhE_web_footH - 38;
+            // console.log(_rxhE_web_mainH);
+
+            $(".rxhE_web_main .rxhE_web_wl").height(_rxhE_web_mainH);
+        }
+
+        _rxhE_web_main_h();
+
+        $(window).resize(function () {
+            _rxhE_web_main_h();
+        });
+
+
+
+        // 一体机
+        var rxhE_parameter = location.search.substring(1);
+        if (rxhE_parameter == "appHcVtm"){
+            console.log(111);
+            $("body").addClass("oneMachine");
+            var _rxhE_web_winH = $(window).height();
+            var _rxhE_web_headH = $(".rxhE_web_header").height();
+            var _rxhE_web_footH = $(".rxhE_web_footer").height();
+            // var _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_footH -14;
+            // var oneMachine_H = _rxhE_web_mainH / 1.1;
+            // var _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_footH - 16;
+            // var oneMachine_H = _rxhE_web_mainH / 1.25;
+
+            var _rxhE_web_mainH = _rxhE_web_winH - _rxhE_web_footH - 30;
+            var oneMachine_H = _rxhE_web_mainH / 1.6;
+            console.log(_rxhE_web_mainH +"     "+oneMachine_H);
+            $(".rxhE_web_main .rxhE_web_wl").height(oneMachine_H);
+        }
+
+
+    });
+</script>
+
+</body>
+</html>

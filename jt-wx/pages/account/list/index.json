@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "bill-cell": "/components/bill-cell/index"
+  },
+  "navigationBarTitleText": "交易明细"
+}

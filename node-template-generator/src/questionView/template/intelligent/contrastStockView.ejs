@@ -1,0 +1,152 @@
+<%include ../../component/params%>
+<%include ../../component/minddleGroundHeader%>
+<%include ../../component/jsLoad%>
+<!-- 图+表 -->
+
+<div class="rxh_public_bd01 ">
+  <%if(info.showTable){%>
+  <div class="rxh_t">
+     <table>
+         <% var tableData = info.tableData%>
+         <% for (var i=0; i< tableData.length; i++){%>
+         <tr>
+           <%var item = tableData[i]%>
+             <% for (var j=0;j< item.length; j++){%>
+             <td
+                     <%if(i==0){%>
+                     style="background-color: #F6F7F9"
+                     <%}%>
+             >
+               <span> <%=item[j]%></span>
+             </td>
+           <%}%>
+         </tr>
+       <%}%>
+     </table>
+  </div>
+  <%}%>
+</div>
+<div class="rxh_bd2" id="test" style="width:100%;">
+
+</div>
+
+<script>
+  var info = JSON.parse('<%-JSON.stringify(info)%>');
+  var contrastStockView<%- sn%> = {
+    onViewReady: function () {
+      var seriesOptions = [],
+        seriesCounter = 0,
+        names = ['<%- stock[0].name%>', '<%- stock[1].name%>']
+      // create the chart when all data is loaded
+      createChart = function () {
+        var config =  {
+          colors: "#eab537 #4479ef #f45b5b #7798BF #aaeeee #ff0066 #eeaaee #55BF3B #DF5353 #7798BF #aaeeee".split(" "),
+          rangeSelector: {
+            enabled: false
+          },
+          navigator: {
+            buttonOptions: {
+              enabled: false
+            },
+            enabled: false
+          },
+          scrollbar: {
+            enabled: false
+          },
+          credits: {
+            enabled: false
+          },
+          // rangeSelector: {
+          //   selected: 4
+          // },
+          legend: {
+            enabled: true,
+            align: "center", //程度标的目标地位
+            verticalAlign: "bottom", //垂直标的目标地位
+            x: 0, //间隔x轴的间隔
+            y: 0, //间隔Y轴的间隔
+            margin: 3,
+            padding: 12
+          },
+          xAxis: {
+            dateTimeLabelFormats: {
+              millisecond: '%H:%M:%S.%L',
+              second: '%H:%M:%S',
+              minute: '%H:%M',
+              hour: '%H:%M',
+              day: '%m-%d',
+              week: '%m-%d',
+              month: '%y-%m',
+              year: '%Y'
+            }
+          },
+          yAxis: {
+            gridLineColor: '#E5E5E5',
+            opposite: false,
+            labels: {
+              formatter: function () {
+                return (this.value > 0 ? ' + ' : '') + this.value + '%';
+              }
+            },
+            plotLines: [{
+              value: 0,
+              width: 2,
+              color: 'silver'
+            }]
+          },
+          plotOptions: {
+            series: {
+              compare: 'percent'
+            }
+          },
+          tooltip: {
+            headerFormat: '',
+            borderColor: '#e6e6ec',         // 边框颜色
+            borderRadius: 4,             // 边框圆角
+            borderWidth: 1,               // 边框宽度
+            shadow: true,
+            shared: true,
+            animation: false,
+            useHTML: true,
+            padding: 6,
+            crosshairs: true,
+            backgroundColor: '#fff',
+            formatter: function () {
+              var txt = '', t = 0, val = 0;
+              for (var i = 0; i < this.points.length; i++) {
+                txt += '<span style="color: ' + this.points[i].color + ';font-size:0.75rem;line-height:1rem;">';
+                txt += this.points[i].point.series.name;//'总市值字段';
+                val = this.points[i].y;
+                val = Number(val).toFixed(2);
+                t = Highcharts.dateFormat('%Y-%m-%d', this.points[i].x);
+                txt += '</span>';
+                txt += ' : ' + val + '<br/>';
+              }
+              txt += '<span style="color: #333;font-size:0.75rem;line-height:1rem;">' + t + '</span>';
+              return txt;
+            }
+          },
+          series: seriesOptions
+        };
+        console.log("config：" + JSON.stringify(config))
+        Highcharts.stockChart('test',config);
+      };
+      for (var i = 0; i < names.length; i++) {
+        seriesOptions.push({
+          name: names[i],
+          data: info.data[i]
+        })
+        seriesCounter += 1;
+        if (seriesCounter === names.length) {
+          createChart();
+        }
+      }
+
+    }
+  }
+  <%if (!params.noSource && info.showChart) {%>
+  var jsSource = JSON.parse('<%-JSON.stringify(params.jsArray)%>');
+  loadJs(jsSource, contrastStockView<%- sn%>.onViewReady);
+  <%}%>
+
+</script>

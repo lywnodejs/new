@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "loan-info": "/components/apply/loan-info/index",
+    "cate-group": "/components/apply/cate-group/index",
+    "apply-force-protocol": "/components/apply/apply-force-protocol/index",
+    "protocol-view": "/components/protocol-view/index"
+  },
+  "navigationBarTitleText": "完善资料"
+}

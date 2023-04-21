@@ -1,0 +1,90 @@
+@import '~variables';
+
+.privacy-generalPolicy{
+  box-shadow: 0 2px 16px rgba(0,0,0,.07);
+  width: 1280px;
+  height: 100%;
+  margin: 56px auto 58px;
+  min-height: 100vh;
+  // margin-top: 100px;
+  &-container{
+    width: 1280px;
+    height: 100%;
+    background: #FFFFFF;
+    border-radius: 4px;
+    // display: flex;
+    // padding-top: 40px;
+    padding-left: 280px;
+    position: relative;
+    &__left{
+      width: 280px;
+      // height: 100%;
+      border: none !important;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-right: 1px solid #eeeeee !important;
+      overflow: auto;
+      display: inline-block;
+      position: absolute;
+      left: 0px;
+      height: calc(~"100vh - 82px");
+      // position: fixed !important;
+      // top: 0;
+      padding: 32px 32px 32px 8px;
+    }
+    &__left-scroll{
+      width: 280px;
+      height: calc(~"100vh - 82px");
+      border: none !important;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-right: 1px solid #eeeeee !important;
+      overflow: auto;
+      display: inline-block;
+      left: 50% !important;
+      position: fixed !important;
+      top: 82px !important;
+      transform: translateX(-640px) !important;
+      padding: 32px 32px 32px 8px;
+    }
+    &__left-scrollBottom{
+      width: 280px;
+      height: calc(~"100vh - 82px");
+      border: none !important;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-right: 1px solid #eeeeee !important;
+      overflow: auto;
+      display: inline-block;
+      position: absolute;
+      left: 0px;
+      padding: 32px 32px 32px 8px;
+      bottom: 0;
+    }
+    .ant-tree {
+      &-node-selected {
+        color: #FF7F41;
+        background: transparent;
+      }
+      &-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 194px;
+        display: block;
+      }
+      & li .ant-tree-node-content-wrapper:hover {
+        color: #FF7F41;
+        background: #fff;
+      }
+      & li .ant-tree-node-selected {
+        color: #FF7F41;
+        background: #fff;
+      }
+    }
+    &__right{
+      // position: absolute;
+      // top: 40px;
+      width: 1000px;
+      // overflow: visible !important;
+      height: 100%;
+      border: none !important;
+    }
+  }
+}

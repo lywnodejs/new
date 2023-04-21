@@ -1,0 +1,47 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "total": 2,
+    "data": [{
+            "id": 1,
+            "business_name": "汽车金融",
+            "object_name": "汽车金融平台",
+            "address": "http://test.didichuxing.com",
+            "users": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }],
+            "risk_h": [11, 11],
+            "risk_m": [11, 11],
+            "risk_l": [11, 11],
+            "no_risk": "2",
+            "not_applicable": "3",
+            "repair_status_name": "已整改",
+            "feedback_status_name": "已反馈",
+            "assessment_self_status_name": "已自评",
+            "assessment_status_name": "已评估",
+            "check_status_name": "待检查"
+        },
+        {
+            "id": 2,
+            "business_name": "汽车金融",
+            "object_name": "汽车金融平台",
+            "address": "http://test.didichuxing.com",
+            "users": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }],
+            "risk_h": [0, 0],
+            "risk_m": [11, 31],
+            "risk_l": [11, 11],
+            "no_risk": "2",
+            "not_applicable": "3",
+            "repair_status_name": "待整改",
+            "feedback_status_name": "已反馈",
+            "assessment_self_status_name": "已自评",
+            "assessment_status_name": "已评估",
+            "check_status_name": "已检查"
+        }
+
+    ]
+}

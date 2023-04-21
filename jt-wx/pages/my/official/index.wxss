@@ -1,0 +1,81 @@
+.account {
+  background-color: rgba(249, 250, 251, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: auto;
+}
+
+.card {
+  margin: 20px 15px 0 15px;
+  background: #ffffff;
+  box-shadow: 0px 5px 40px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+}
+
+.title {
+  height: 26px;
+  font-size: 19px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 600;
+  color: #333333;
+  line-height: 26px;
+}
+
+.title::before,
+.title::after {
+  content: '';
+  display: inline-block;
+  margin: 0 10px;
+  width: 17px;
+  height: 10px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAUBAMAAAAaSvJBAAAAGFBMVEUAAAB8hI58g459gpF8g45/hZB9hI5xjo6bJDZYAAAACHRSTlMATukz5i56CRnSiE8AAABwSURBVBjTYwABdgZ0ECKAJsDqpghhCCKUGIEVMSoJQJU4MjCDFQkZKyJMASliVAZSUCUMYEVCBkAKpgSkiFEZTEGUgBUJGYAphFuMlCGUAKYIXJcjTBdMmwnMZLjtjnDbMV2I6QtMn2KGBmaIYYYqAG2QDss0wCUhAAAAAElFTkSuQmCC') no-repeat 0 0;
+  background-size: 17px 10px;
+}
+
+.title::after {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.method1 {
+  height: 17px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #808080;
+  line-height: 17px;
+}
+
+.btn {
+  width: 90px;
+  height: 36px;
+  border-radius: 18px;
+  background-color: white;
+  color: rgba(255, 44, 67, 1);
+  border: 1px solid rgba(255, 44, 67, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.copyDiv {
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #808080;
+  line-height: 22px;
+  margin: 20px 0 10px 0;
+}
+
+.copySpan{
+  color: rgba(255, 44, 67, 1);
+}

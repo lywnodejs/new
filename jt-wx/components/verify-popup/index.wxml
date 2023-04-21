@@ -1,0 +1,28 @@
+<!--components/captcha-popup/index.wxml-->
+<van-popup 
+  class="verify-popup" 
+  show="{{ show }}" 
+  bind:close="onClose" 
+  closeable
+  close-icon-position="top-right"
+  custom-style="margin-top: -{{height}}px">
+  <view>
+    <text class="title">请输入验证码</text>
+    <view class="imgs">
+      <image src="{{'data:image/png;base64,' + img}}"/>
+      <view bindtap="onRefresh">
+        <image src="/image/refresh.png"/>
+      </view>
+    </view>
+    <captcha-input 
+      length="{{length}}" 
+      bind:onHeight="onHeight" 
+      clean="{{!show}}" 
+      focus="{{focus}}" 
+      width="{{42}}" 
+      isError="{{isError}}" 
+      type="text"
+      bind:onComplete="onComplete"/>
+    
+  </view>
+</van-popup>

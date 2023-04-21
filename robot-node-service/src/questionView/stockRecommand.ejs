@@ -1,0 +1,327 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+
+        <% if(timeType === "短期"){ %>
+            <!-- 带背景色的标题框 蓝色-->
+            <div class="box_hd2 box_hd2_blue">
+                <span>技术选股</span>
+                <b><i class="i_t"></i><i class="i_b"></i></b>
+                <em>专注趋势，捕捉操作机会</em>
+            </div>
+
+            <!--2列股票列表-->
+            <div class="box_show_ol2">
+                <ol>
+                    <li>股票名称</li>
+                    <li>最新价</li>
+                </ol>
+                <% for(var i = 0; i < arrRecStock.length; i++){
+                    var stock = arrRecStock[i] %>
+                <ul>
+                    <li>
+                        <p><%= stock.stockName %></p>
+                        <h6><%= stock.stockCode %></h6>
+                    </li>
+                    <!--
+                        1. 默认，黑色：无样式名
+                        2. 涨，红色：t_red
+                        3. 跌，绿色：t_green
+                    -->
+                    <% if(priceDict[stock.stockCode].change > 0 ){ %>
+                    <li class="t_red">
+                        <% }else if(priceDict[stock.stockCode].change < 0){ %>
+                    <li class="t_green">
+                        <% }else{ %>
+                    <li class="">
+                        <% } %>
+                        <p><%= priceDict[stock.stockCode].newPrice.toFixed(2) %></p>
+
+                        <h6>
+                            <% if(priceDict[stock.stockCode].change > 0 ){ %>
+                                +
+                            <% } %>
+                            <%= priceDict[stock.stockCode].rise.toFixed(2) %>%</h6>
+                    </li>
+                </ul>
+                <% } %>
+                <!--<div class="clear_float"></div>-->
+            </div>
+
+        <% } %>
+        <!-- 带背景色的标题框 红色-->
+        <% if(timeType != '行业短期股票推荐'){ %>
+            <div class="box_hd2 box_hd2_red">
+                <span>专家观点</span>
+                <b><i class="i_t"></i><i class="i_b"></i></b>
+                <em>跟踪市场热点，深挖个股投资价值</em>
+            </div>
+        <% } %>
+
+        <!--带标题栏的收缩列表-->
+        <div class="box_show_ol">
+            <ol>
+                <li>股票名称</li>
+                <li></li>
+                <li>强相关概念</li>
+            </ol>
+            <% for(var i = 0; i < arrIndustry.length; i++){
+                var stock = arrIndustry[i] %>
+            <div class="box_bd <%= stock.lineClass %> <%= i > 9 ? 'hideClass' + sn : '' %>"
+                 style='display:<%= i > 9 ? 'none' : '' %>'>
+                <ul>
+                    <li>
+                        <p><%= stock.stockName %></p>
+                        <h6><%= stock.stockCode %></h6>
+                    </li>
+                    <!--
+                        1. 默认，黑色：无样式名
+                        2. 涨，红色：t_red
+                        3. 跌，绿色：t_green
+                    -->
+                    <% if(priceDict[stock.stockCode].change > 0 ){ %>
+                    <li class="t_red">
+                        <% }else if(priceDict[stock.stockCode].change < 0){ %>
+                    <li class="t_green">
+                        <% }else{ %>
+                    <li class="">
+                        <% } %>
+                        <p><%= priceDict[stock.stockCode].newPrice.toFixed(2) %></p>
+
+                        <h6>
+                            <% if(priceDict[stock.stockCode].change > 0 ){ %>
+                                +
+                            <% } %>
+                            <%= priceDict[stock.stockCode].rise.toFixed(2) %>%</h6>
+                    </li>
+                    <li onclick="showMore('<%= JSON.stringify(stock) %>')">
+                        <h5><%= stock.industry %></h5>
+                        <h6>【展开】</h6>
+                    </li>
+                </ul>
+                <h5><%- stock.cludeTitleContent %></h5>
+            </div>
+            <% } %>
+        </div>
+        <% if(timeType === '行业短期股票推荐'){ %>
+            <div id="<%= sn %>" class='box_load'><a
+                        onclick=toolsUtil.showMoreArticle('hideClass<%= sn %>','<%= sn %>',5)>点击加载更多</a>
+            </div>
+        <% } %>
+        <!--文字列表_热点推荐-->
+        <!--<div class="box_tl_hot">-->
+        <!--<h5><a>您还想了解中长期有投资价值的个股吗？</a></h5>-->
+        <!--<h5><a>最近热点概念？</a></h5>-->
+        <!--</div>-->
+
+        <!--点评-->
+        <!--<div class="box_appraisal">-->
+        <!--<a><i class="icon-good"></i><span>10</span></a>-->
+        <!--<a><i class="icon-bad"></i><span>10</span></a>-->
+        <!--</div>-->
+    </div>
+
+</div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var stockRecommand = {
+    onViewReady: function () {
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockRecommand.onViewReady)
+
+
+  var timeType = '<%= timeType %>'
+  var predicateType = '<%= predicateType %>'
+
+  /**
+   * 取条件列表
+   */
+  function ajaxDetail(subjectCode, subjectName, subjectMarket, subjectRawValue, predicateType, success, errorHandler) {
+    var url = '<%= host %>' + '/api/stock/fix';
+    $.ajax({
+      type: "get",
+      url: url,
+      data: {
+        subjectCode: subjectCode,
+        subjectName: subjectName,
+        subjectMarket: subjectMarket,
+        subjectRawValue: subjectRawValue,
+        predicateType: '行业个股推荐理由',
+        // userId: userId,
+        // clientId: clientId,
+        // organization: appKey,
+        // fundAccount:fundAccount
+      },
+      timeout: 10000,
+      success: success,
+      error: errorHandler
+    })
+  }
+
+  function showMore(stock) {
+    stock = JSON.parse(stock);
+    let className = stock.lineClass;
+    let num = stock.industry;
+    let subjectName = stock.stockName;
+    let subjectCode = stock.subjectCode;
+    $("." + className).parents(".box_show_ol").find("li:nth-child(3) h6").html("【展开】");
+    $("." + className).find("li:nth-child(3) h6").html("【收起】");
+    if ($("." + className).hasClass("on")) {
+      $("." + className).removeClass("on");
+      $("." + className).find("li:nth-child(3) h6").html("【展开】");
+    } else {
+      $("." + className).siblings().removeClass("on");
+      $("." + className).addClass("on");
+    }
+    $("." + className).siblings().find("> h5").slideUp();
+    $("." + className).find("ul").siblings("h5").slideToggle();
+
+    var ifRequest = $("." + className).find("h5")[1].innerHTML != '' ? true : false;
+    if (!$('.' + className).hasClass('on') || ifRequest) {
+
+    } else {
+      var attribute = timeType;
+      if (timeType === '行业短期股票推荐') {
+        attribute = '短期';
+      } else if (timeType === '行业中长期股票推荐') {
+        attribute = '中长期';
+      }
+      if (timeType === '行业短期股票推荐' || timeType === '行业中长期股票推荐') {
+        ajaxDetail(stock.stockCode, stock.stockName, stock.marketType, stock.industry, predicateType, function (result) {
+          var content;
+          if (result.answerResultType !== '呼叫投顾' && result.data.list && result.data.list.length > 0) {
+            var item = result.data.list[0];
+            content = item.analyseText || item.text;
+            content = toolsUtil.replaceLineBreak(content);
+            var cludeTitleContent = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</p>";
+            var redH = "<s class='t_red'>" + num + "</s>";
+            if (cludeTitleContent.indexOf(num) !== -1) {
+              var regH = "/" + num + "/g";
+              cludeTitleContent = cludeTitleContent.replace(eval(regH), redH);
+            }
+            var redT = "<s class='t_red'>" + subjectName + "</s>";
+            if (cludeTitleContent.indexOf(subjectName) !== -1) {
+              var regT = "/" + subjectName + "/g";
+              cludeTitleContent = cludeTitleContent.replace(eval(regT), redT);
+            }
+            var redM = "<s class='t_red'>" + subjectCode + "</s>";
+            if (cludeTitleContent.indexOf(subjectCode) !== -1) {
+              var regM = "/" + subjectCode + "/g";
+              cludeTitleContent = cludeTitleContent.replace(eval(regM), redM);
+            }
+            cludeTitleContent += content;
+          } else {
+            cludeTitleContent = handleErrorRequest(className, '暂无数据');
+          }
+          $("." + className).find("> h5").html(cludeTitleContent);
+        }, function (XMLHttpRequest, textStatus, errorThrown) {
+          handleErrorRequest(className);
+          saveLog('ajaxError', 'readyState:' + XMLHttpRequest.readyState + ',status:' + XMLHttpRequest.status + ',statusText:' + XMLHttpRequest.statusText, 'answer-2.js', 0, 0, errorThrown);
+        });
+      } else {
+        if (timeType === "中长期") {
+          var subjectRawValue = num;
+          ajaxDetail(stock.stockCode, stock.stockName, stock.marketType, stock.industry, predicateType, function (result) {
+            var content;
+            if (result.answerResultType !== '呼叫投顾' && result.data.list && result.data.list.length > 0) {
+              var item = result.data.list[0];
+              content = item.analyseText || item.text;
+              content = toolsUtil.replaceLineBreak(content);
+              // content = content.replace(/\s/g, "");
+              var cludeTitleContent = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</p>";
+              var redH = "<s class='t_red'>" + num + "</s>";
+              if (cludeTitleContent.indexOf(num) !== -1) {
+                var regH = "/" + num + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regH), redH);
+              }
+              var redT = "<s class='t_red'>" + subjectName + "</s>";
+              if (cludeTitleContent.indexOf(subjectName) !== -1) {
+                var regT = "/" + subjectName + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regT), redT);
+              }
+              var redM = "<s class='t_red'>" + subjectCode + "</s>";
+              if (cludeTitleContent.indexOf(subjectCode) !== -1) {
+                var regM = "/" + subjectCode + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regM), redM);
+              }
+              cludeTitleContent += content;
+            } else {
+              cludeTitleContent = handleErrorRequest(className, '暂无数据');
+            }
+            $("." + className).find("> h5").html(cludeTitleContent);
+          }, function (XMLHttpRequest, textStatus, errorThrown) {
+            handleErrorRequest(className);
+            saveLog('ajaxError', 'readyState:' + XMLHttpRequest.readyState + ',status:' + XMLHttpRequest.status + ',statusText:' + XMLHttpRequest.statusText, 'answer-2.js', 0, 0, errorThrown);
+          });
+        } else {
+          ajaxDetail(stock.stockCode, stock.stockName, stock.marketType, stock.industry, predicateType, function (result) {
+            var content;
+            if (result.answerResultType !== '呼叫投顾' && result.data.list && result.data.list.length > 0) {
+              var item = result.data.list[0];
+              content = item.analyseText || item.text;
+              content = toolsUtil.replaceLineBreak(content);
+              // content = content.replace(/\s/g, "");
+              var cludeTitleContent = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</p>";
+              var redH = "<s class='t_red'>" + num + "</s>";
+              if (cludeTitleContent.indexOf(num) !== -1) {
+                var regH = "/" + num + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regH), redH);
+              }
+              var redT = "<s class='t_red'>" + subjectName + "</s>";
+              if (cludeTitleContent.indexOf(subjectName) !== -1) {
+                var regT = "/" + subjectName + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regT), redT);
+              }
+              var redM = "<s class='t_red'>" + subjectCode + "</s>";
+              if (cludeTitleContent.indexOf(subjectCode) !== -1) {
+                var regM = "/" + subjectCode + "/g";
+                cludeTitleContent = cludeTitleContent.replace(eval(regM), redM);
+              }
+              cludeTitleContent += content;
+            } else {
+              cludeTitleContent = handleErrorRequest(className, '暂无数据');
+            }
+            $("." + className).find("> h5").html(cludeTitleContent);
+          }, function (XMLHttpRequest, textStatus, errorThrown) {
+            handleErrorRequest(className);
+            saveLog('ajaxError', 'readyState:' + XMLHttpRequest.readyState + ',status:' + XMLHttpRequest.status + ',statusText:' + XMLHttpRequest.statusText, 'answer-2.js', 0, 0, errorThrown);
+          });
+        }
+      }
+    }
+  }
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+
+</script>
+

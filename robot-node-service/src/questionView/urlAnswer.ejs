@@ -1,0 +1,31 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad.ejs %>
+
+<!--页面跳转答案 赵波 2019.11.14-->
+<%
+ var url = info.data.url || '';
+ %>
+
+<% include ./component/recommedQuestions.ejs %>
+
+<script>
+
+  var urlAnswer = {
+    onViewReady: function () {
+      var params = {
+        appKey: '<%= params.appKey %>',
+        appFrom: '<%= params.appFrom %>',
+        appVersion: '<%= params.appVersion %>',
+        url: '<%- url %>'
+      }
+      navigateUtil.navigate(params)
+    }
+  }
+
+  var jsArr = [
+    '/static/client/js/utils/navigateUtil',
+  ];
+  loadJs(jsArr, urlAnswer.onViewReady)
+
+</script>

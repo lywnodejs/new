@@ -1,0 +1,65 @@
+/* components/apply/item-view/video-upload-view/index.wxss */
+.info-box {
+  padding: 16px 0;
+}
+
+.content-box {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0 0 0;
+  flex-wrap: wrap;
+}
+
+.content-box .item {
+  flex: 0 0 calc(50% - 15rpx);
+  height: 120px;
+  box-shadow: 0 2px 13px 0 rgba(3, 29, 55, 0.06);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.thumbnail-box {
+  position: relative;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumbnail-box .video-img {
+  width: 54px;
+  height: 68.4px;
+}
+
+.thumbnail-box .delete-img {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: -6px;
+  right: -6px;
+}
+
+
+
+
+.place-holder-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-img {
+  width: 44px;
+  height: 44px;
+}
+
+.upload-tip {
+  margin-top: 13px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+}
+

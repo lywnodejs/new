@@ -1,0 +1,5 @@
+<template>
+  <nuxt-child/>
+</template>
+
+

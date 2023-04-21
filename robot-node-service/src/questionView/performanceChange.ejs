@@ -1,0 +1,104 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 业绩预告 赵波 2019.10.22 -->
+<%
+var list = info.data || [];
+var col1 = ''; //第一列
+var arrCol = ['','','']; // 其余列
+var arrColName = ['profitNoticeTypeName','profitNoticeChangeMin','profitNoticeChangeMax']; // 其余列字段
+var arrHideCls = []; //隐藏类
+var pageSize = 5;
+
+if(list.length>5){
+    for(var m=0; m<4; m++){
+        arrHideCls.push(commonUtil.generateRandomClassName('hide'));
+    }
+}
+
+for (var i=0; i<list.length; i++){
+    col1 += '<li class="'+(i>4?arrHideCls[0]:'')+'" style="height: 1.5rem;display: '+(i>4?'none':'')+'">'+commonUtil.generateDate(list[i].pubDate)+'</li>';
+
+    for(var j=0; j<arrCol.length; j++){
+        var value = list[i][arrColName[j]] || '--';
+        if(['profitNoticeTypeName'].indexOf(arrColName[j]) === -1)
+            value = value !== '--' ? value.toFixed(2) : value;
+
+        var unit = '';
+        if(['profitNoticeChangeMin', 'profitNoticeChangeMax'].indexOf(arrColName[j]) > -1)
+            unit = value !== '--' ? '%' : '';
+
+        arrCol[j] += '<li class="'+(i>4?arrHideCls[j+1]:'')+'" style="height: 1.5rem; padding: 0.5rem 0;display: '+(i>4?'none':'')+'">'+value+unit+'</li>';
+    }
+}
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_conStock" style="margin: -1rem;">
+            <i class="icon-arrow_shape_left"></i>
+            <b></b>
+            <div class="conStock_hd">
+                <ul>
+                    <li>公告日期</li>
+                    <%- col1 %>
+                </ul>
+            </div>
+            <div class="conStock" onscroll="tableScrollHandler(event)">
+                <div class="box">
+                    <ul>
+                        <li>业绩预告类型</li>
+                        <%- arrCol[0] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>净利润变动幅度下限</li>
+                        <%- arrCol[1] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>净利润变动幅度上限</li>
+                        <%- arrCol[2] %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <%
+        if (list.length > pageSize) {
+            var moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+        <div id="<%= moreId %>" class="box_load" style="margin-top: 1rem" onclick="showMoreListItem('<%= arrHideCls.join('|') %>','<%= moreId %>','<%= pageSize %>')">
+            <a>查看更多</a>
+        </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var performanceChange = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, performanceChange.onViewReady)
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>

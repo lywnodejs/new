@@ -1,0 +1,12 @@
+<view class="xy-select-list">
+    <view class="xy-list-item"
+          wx:for="{{list}}"
+          wx:key="index"
+          data-index="{{index}}"
+          bind:tap="_selectItem">
+        <text class="item-left">{{item.title}}</text>
+        <view class="item-right">
+            <image wx:if="{{selectedIndex === index}}" class="checkbox-img" src="/image/checkbox_selected.png"></image>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,140 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+var inStocks = [];
+var pageSize = 10;
+var hideClass = '';
+if(type == 'new'){
+    inStocks = info.data.shift();
+}else if(type == 'old'){
+    inStocks = info.data;
+}
+console.log(inStocks)
+var moreId;
+%>
+<%if(type== 'new'){%>
+<div class="rxh_gap">
+<div class="rxh_public_hd03"><span>最新分红配股方案</span><i style="float: right;margin-right: 10px"><%= commonUtil.changeTimeForMinNoHours(inStocks.quarterEndAt)%></i></div>
+    <div class="rxh_public_bd02">
+        <b>分红方案：<%= inStocks.boardInstruction%></b>
+    </div>
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_equal"><span>股权登记日</span></li>
+            <li class="rxh_li_equal"><span class="rxh_right">除权日</span></li>
+            <li class="rxh_li_equal"><span>红利发放日</span></li>
+        </ol>
+        <ul>
+            <li class="rxh_li_equal">
+                <p><%= commonUtil.generateDate(inStocks.aStockRecordDay) %></p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.generateDate(inStocks.aStockExdividendDay) %></p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.generateDate(inStocks.aStockPaymentDay) %></p>
+            </li>
+        </ul>
+    </div>
+</div>
+</div>
+<%}%>
+<%if(type == 'old'){%>
+    <div class="rxh_gap">
+        <div class="rxh_public_hd03"><span>历史分红配股方案</span><i style="float: right;margin-right: 10px"><%= commonUtil.changeTimeForMinNoHours(inStocks.quarterEndAt)%></i></div>
+        <div class="rxh_list rxh_list_colN">
+            <ol>
+                <li class="rxh_li_grow"><span>分红方案</span></li>
+                <li class="rxh_li_shrink6"><span class="rxh_right">每股收益</span></li>
+                <li class="rxh_li_shrink6"><span>分红年度</span></li>
+            </ol>
+            <%
+            for (var i=0; i<inStocks.length && i<4; i++) {
+                item = inStocks[i];
+                if(item.basicEps > 0){
+                    item.clsProfit = 'rxh_red'
+                }else if(item.basicEps < 0){
+                    item.clsProfit = 'rxh_green'
+                }
+            %>
+            <ul>
+                <li class="rxh_li_grow">
+                    <p class="rxh_gray rxh_font14"><%= item.boardInstruction %></p>
+                </li>
+                <li class="rxh_li_shrink6">
+                    <p class="rxh_right <%= item.clsProfit %>"><%= commonUtil.fixed2(item.basicEps) %></p>
+                </li>
+                <li class="rxh_li_shrink6">
+                    <p class="rxh_right"><%= commonUtil.changeTime(item.quarterEndAt) %></p>
+                </li>
+            </ul>
+            <%}%>
+        </div>
+    </div>
+    </div>
+    <%}%>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var shareBonusListView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, shareBonusListView<%- sn %>.onViewReady)
+  <% } %>
+
+
+  /**
+   * 点击加载更多
+   * @param hideClass
+   * @param moreId
+   * @param stepSize 步长，即每次展示的条数，默认值为2
+   * @param getQuota 1, 0  股票推荐答案中的股票行情分页取，否则多了取不到
+   */
+  function showMoreArticle(hideClass, moreId, stepSize, getQuota) {
+    if (!stepSize)
+      stepSize = 2;
+    else
+      stepSize = parseInt(stepSize);
+
+    //根据隐藏项的class，取出标签列表
+    var list = $('.' + hideClass);
+    var arrStockCode = [];
+    for (var i = 0; i < list.length && i < stepSize; i++) {
+      var divReport = $(list[i]);
+      divReport.show();
+      divReport.removeClass(hideClass); //移除
+      //处理文字内容多的情况
+      var contentIds = divReport.find('[id^=contentId]');
+      var expandBtnIds = divReport.find('[id^=expandBtnId]');
+      if (contentIds && expandBtnIds) {
+        for (var j = 0; j < contentIds.length; j++) {
+        }
+      }
+
+
+    }
+    //再取一遍看是否还有隐藏项，判断是否显示加载更多
+    list = $('.' + hideClass);
+    if (list.length === 0){
+      $('#' + moreId).remove();
+    }
+  }
+</script>

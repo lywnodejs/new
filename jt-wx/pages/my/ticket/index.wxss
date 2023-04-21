@@ -1,0 +1,41 @@
+/* pages/my/ticket/index.wxss */
+.ticket {
+  height: 100%;
+  background-color: #F9FAFB;
+}
+.ticket .tab{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 48px;
+  background-color: white;
+  border-bottom: 0.5px solid #E6E6E6;
+}
+.ticket .tab text{
+  display: block;
+  height: 48px;
+  line-height: 48px;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 16px;
+  color: #333333;
+}
+.ticket .tab text.active::after{
+  content: '';
+  display: block;
+  width: 36px;
+  height: 4px;
+  background-color: #FF2C43;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  margin-left: -18px;
+}
+.ticket .tab text.active{
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+}
+.ticket .container{
+  padding: 0 15px 20px;
+}

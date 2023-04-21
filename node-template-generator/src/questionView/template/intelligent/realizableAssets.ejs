@@ -1,0 +1,53 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+<% if(info.data && info.data.length >0){ %>
+    
+        <div class="rxh_t">
+            <table class="rxh_table rxh_table3">
+                <thead>
+                    <tr>
+                        <th>资产类型</th>
+                        <th>账面净值（万元）</th>
+                        <th>账面净值占总资产的比例</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for (var i =0 ;i <info.data.length;i++){%>
+                        <%var item = info.data[i]%>
+                        <tr>
+                            <td><span><%=item.indicatorName%></span></td>
+                            <td><span><%=Number(item.indicatorValue/10000).toFixed(2)%></span></td>
+                            <td><span><%=Number(item.indicatorPpt).toFixed(2)%></span></td>
+                        </tr>
+                    <%}%>
+                </tbody>
+                
+            </table>
+        </div>
+        
+<%}else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var sn = '<%= sn %>'
+
+    var robotFinanceIndex<%- sn %> = {
+        onViewReady: function () {
+
+        }
+    }
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, robotFinanceIndex<%- sn %>.onViewReady);
+    <% } %>
+
+</script>

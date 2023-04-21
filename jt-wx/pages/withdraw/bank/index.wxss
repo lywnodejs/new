@@ -1,0 +1,34 @@
+.search-icon image{
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	margin-bottom: 2px;
+
+}
+.field{
+	height: 36px;
+}
+.bank-item{
+	display: flex;
+	align-items: center;
+	height: 50px;
+}
+.img-box{
+	flex: 0 0 65px;
+	text-align: center;
+}
+.img-box image{
+	width: 25px;
+	height: 25px;
+	border-radius: 25px;
+}
+.bank-name{
+	flex: 1;
+	border-bottom: 1px solid #EDEDED;
+	height: 100%;
+	line-height: 50px;
+	padding-left: 5px;
+	font-size:15px;
+	font-family:PingFangSC-Regular,PingFang SC;
+	color: #333;
+}

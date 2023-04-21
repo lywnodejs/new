@@ -1,0 +1,101 @@
+<!--pages/account/transfer/index.wxml-->
+<view class="transfer">
+  <view class="header">
+    <view class="bank">
+      <image src="{{from[0].bankCardIconUrl}}"/>
+      <text class="title">{{from[0].bankName}}</text>
+      <text>尾号{{from[0].endIn}}</text>
+    </view>
+
+    <view class="directive">
+      <text>{{arrivalTimerTips}}</text>
+      <image src="/image/directive.png"/>
+    </view>
+
+    <view class="bank">
+      <image src="{{to[0].bankCardIconUrl}}"/>
+      <text class="title">{{to[0].bankName}}</text>
+      <text>尾号{{to[0].endIn}}</text>
+    </view>
+  </view>
+
+  <view class="content {{type}}">
+    <text class="title">转{{type === 'in' ? "入" : "出"}}金额</text>
+    <view class="input">
+      <text>￥</text>
+      <input
+        bindblur="onBlur"
+        bindfocus="onFocus"
+        bindinput="onChange"
+        focus="{{focus}}"  
+        type="digit" 
+        placeholder="请输入转{{type === 'in' ? '入' : '出'}}金额" 
+        value="{{value}}"
+        placeholder-class="placeholder"/>
+      <image capture-bind:touchstart="onClean" wx:if="{{focus && value.length > 0}}" src="/image/delete.png"/>
+    </view>
+    <text wx:if="{{type === 'in'}}" class="info">{{limitTips}}</text>
+    <view class="all" wx:if="{{type === 'out'}}">
+      <text>{{amountTips}}</text>
+      <text class="btn" bindtap="onAll">全部转出</text>
+    </view>
+    <view class="backList">
+      <view class="title">{{type === 'in' ? '付款账户' : '收款账户'}}</view>
+      <view class="backitem" bindtap="selectBack">
+        <image src="{{activeBank.bankCardIconUrl}}"></image>
+        <text class="name">{{activeBank.bankName}}({{activeBank.endIn}})</text>
+        <!-- <view class="info">{{activeBank.limitTips}}</view> -->
+        <image class="rightC" src="../../../image/arrow.png"></image>
+      </view>
+    </view>
+    <button bindtap="onSubmit" disabled="{{disabled}}">确认转{{type === 'in' ? "入" : "出"}}</button>
+    <text wx:if="{{type === 'out'}}" class="info">{{limitTips}}</text>
+  </view>
+</view>
+
+<captcha-popup 
+  isError="{{isError}}" 
+  phone="{{phone}}" 
+  isCountdown="{{isCountdown}}" 
+  bind:onComplete="onComplete" 
+  show="{{show}}"
+  bind:onSend="onSend"/>
+
+<i-action-sheet show="{{isShow}}" close-on-click-overlay="{{ true }}" bind:close="onClose" title="{{type === 'in' ? '选择付款账户' : '选择收款账户'}}">
+  <view class="backPopList" style="overflow-x: hidden;">
+    <view class="backPopList_list" wx:for="{{type === 'in' ? from : to}}" wx:key="index" >
+    <view bindtap="activeBank" data-item="{{item}}">
+      <image src="{{item.bankCardIconUrl}}"></image>
+      <view class="info">
+        <view class="title">{{item.bankName}}({{item.endIn}})</view>
+        <!-- <view class="title_info">{{item.limitTips}}</view> -->
+      </view>
+      <image class="select" src="../../../image/checkbox_selected.png"></image>
+    </view>
+    </view>
+  </view>
+</i-action-sheet>
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>
+<password-popup 
+  show="{{popShow}}"
+  isError="{{isError}}"
+  isForget="{{isForget}}"
+  error="{{errorText}}"
+  bind:getCode="getCode"
+/>
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />
+
+
+  <xy-confirm leftText='取消' rightText='去重置' contentText="因输入密码错误次数较多，您的账户已被冻结，请重置交易密码" bind:ok="toPassword" bind:cancel='onCloseServer'
+show="{{passwordNumErr}}" />

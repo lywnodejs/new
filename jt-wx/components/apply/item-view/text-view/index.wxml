@@ -1,0 +1,2 @@
+<!--components/apply/item-view/text-view/index.wxml-->
+<text>{{attribute.name}}</text>

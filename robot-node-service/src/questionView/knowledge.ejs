@@ -1,0 +1,152 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <div class="tab_shareholdersTop">
+            <nav onclick="stockHolderTabClick(event)">
+                <% if(upList.length > 0){ %>
+                    <a class="on"><%= type %>上游<b></b></a>
+                <% } %>
+                <% if(downList.length > 0){ %>
+                    <a class="<%= (upList.length == 0) ? 'on' : '' %>"><%= type %>下游<b></b></a>
+                <% } %>
+            </nav>
+
+            <% if(upList.length > 0){ %>
+                <div class="nav_con show">
+                    <div class='box_sxy box_show_tl box_show_tlBD'>
+                        <% for(var i = 0; i < upList.length; i++){
+                            var lineClass = commonUtil.generateRandomClassName("hideArticle");
+                            var item = upList[i] %>
+                        <li class="<%= lineClass %>">
+                            <div class='box_hd'>
+                                <span onclick="nodeIndustryClick('<%= item.name %>','<%= type %>')"><%= i + 1 %>、<%= item.name %></span>
+                                <a class='icon-arrow_open'
+                                   onclick="showMoreIndustry('<%= lineClass %>','<%= item.name %>','<%= item.text %>')"></a>
+                            </div>
+                            <h5></h5>
+                        </li>
+                        <% } %>
+                    </div>
+                </div>
+            <% } %>
+
+            <div class="nav_con <%= (upList.length == 0 && downList.length > 0) ? 'show' : '' %>">
+                <div class='box_sxy box_show_tl box_show_tlBD'>
+                    <% for(var i = 0; i < downList.length; i++){
+                        var lineClass = commonUtil.generateRandomClassName("hideArticle");
+                        var ifOn = i == 0 ? '' : '';
+                        var item = downList[i] %>
+                    <li class="<%= ifOn %> <%= lineClass %>">
+                        <div class='box_hd'>
+                            <span onclick="nodeIndustryClick('<%= item.name %>','<%= type %>')"><%= i + 1 %>、<%= item.name %></span>
+                            <a class='icon-arrow_open'
+                               onclick="showMoreIndustry('<%= lineClass %>','<%= item.name %>','<%= item.text %>')"></a>
+                        </div>
+                        <h5></h5>
+                    </li>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+
+</div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+
+  var knowledge = {
+    onViewReady: function () {
+      var id = 'answer<%= sn %>';
+      if (speechAnwser.indexOf('下游') !== -1) {
+        $('#' + id).find('nav a').eq(1).click();
+      }
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, knowledge.onViewReady)
+
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+
+  function nodeIndustryClick(industryName, type) {
+    try {
+        // 公司暂不支持点击，因为好多没答案
+        if (type === '行业') {
+            freeQuestion(industryName);
+        }
+    } catch (e) {
+
+    }
+  }
+
+
+  //展示更多行业
+  function showMoreIndustry(className, subjectName, subjectText) {
+    if ($("." + className).hasClass("on") == false) {
+      $("." + className).siblings().removeClass("on");
+      $("." + className).addClass("on");
+    } else {
+      $("." + className).removeClass("on");
+    }
+    $("." + className).siblings().find("h5").slideUp();
+    $("." + className).find("h5").slideToggle();
+    var ifRequest = $("." + className).find("h5")[0].innerHTML != '' ? true : false;
+    if (!$('.' + className).hasClass('on') || ifRequest) {
+
+    } else {
+      var content = "";
+      content = "<p style='height:10px;'></p>" + subjectText;
+      var redT = "<s class='t_red'>" + subjectName + "</s>";
+      if (content.indexOf(subjectName) !== -1) {
+        var regT = "/" + subjectName + "/g";
+        content = content.replace(eval(regT), redT);
+      }
+
+      $("." + className).find("> h5").html(content);
+      $(".box_show_tl .on>h5").show();
+    }
+  }
+
+  //点击tab切换事件
+  function stockHolderTabClick(event) {
+    // console.log(event)
+    var target = event.target;
+    $(target).addClass("on").siblings().removeClass("on");
+    var index = $(target).index();
+    $(target).parent().siblings().each(function () {
+      $(this).removeClass("show");
+    });
+    $(target).parent().siblings().eq(index).addClass("show");
+  }
+
+  //传给安卓的语音信息
+  var speechAnwser = '<%- info.speechAnswerContent %>';
+  var info_app = '<%- info.answerResultType %>';
+  if (window.contestapp) {
+    try {
+      window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+    } catch (error) {
+      console.log(speechAnwser, 1, info_app);
+    }
+  } else {
+    console.log(speechAnwser, 1, info_app);
+  }
+
+
+
+</script>
+

@@ -1,0 +1,31 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<%
+var word = info.data.hasOwnProperty('words') ? info.data.words + result.preAnswerContent : info.data.preAnswerContent;
+var temp = "";
+
+temp += info.data.answerContent.replace(/\n/g, '<br>') + "</h5>";
+
+%>
+<div class="bd">
+    <div class="mb">
+        <%- temp %>
+    </div>
+</div>
+<script>
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info) %>');
+} catch (error) {
+    
+}
+
+function nodeQuestion(item) {
+        try {
+            thas.nodeFunction('info',item);
+        } catch (error) {
+            
+        }
+    }
+</script>
+
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>test</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="root" href=""/> <!-- for JS -->
+    <script type="text/javascript" src="./js/jquery1.11.3.min.js"></script>
+    <script type="text/javascript" src="./js/Highcharts-7.1.2/code/highcharts.js"></script>
+<!--    <script src="./js/Highcharts-7.1.2/code/themes/dark-unica.js"></script>-->
+    <script src="./js/Highcharts-7.1.2/code/modules/exporting.js"></script>
+    <script src="./js/Highcharts-7.1.2/code/modules/oldie.js"></script>
+    <script src="./js/Highcharts-7.1.2/code/modules/networkgraph.js"></script>
+    <style>
+        svg {
+            border: none;
+        }
+
+        .sentnum {
+            display: none;
+        }
+    </style>
+
+</head>
+
+
+<body>
+<div id="container"></div>
+</body>
+
+<!-- support for embedded visualizations -->
+<script type="text/javascript">
+  // Add the nodes option through an event call. We want to start with the parent
+  // item and apply separate colors to each child element, then the same color to
+  // grandchildren.
+  Highcharts.addEvent(
+    Highcharts.seriesTypes.networkgraph,
+    'afterSetOptions',
+    function (e) {
+      var colors = Highcharts.getOptions().colors,
+        i = 0,
+        nodes = {};
+        links = {};
+      e.options.data.forEach(function (link) {
+        if (link[0] === 'Proto Indo-European') {
+          nodes['Proto Indo-European'] = {
+            id: 'Proto Indo-European',
+            marker: {
+              radius: 40,
+            },
+          };
+          nodes[link[1]] = {
+            id: link[1],
+            marker: {
+              radius: 30
+            },
+            color: colors[i++]
+          };
+        } else if (nodes[link[0]] && nodes[link[0]].color) {
+          nodes[link[1]] = {
+            id: link[1],
+            color: nodes[link[0]].color,
+
+          };
+        }
+      });
+      e.options.link = {
+        color:"rgba(100,100,100,1)",
+        width:1
+      }
+      e.options.nodes = Object.keys(nodes).map(function (id) {
+        return nodes[id];
+      });
+    }
+  );
+  Highcharts.chart('container', {
+    chart: {
+      type: 'networkgraph',
+      height: '100%',
+    },
+
+    title: {
+      text: 'The Indo-European Laungauge Tree'
+    },
+    subtitle: {
+      text: 'A Force-Directed Network Graph in Highcharts'
+    },
+    plotOptions: {
+      networkgraph: {
+        keys: ['from', 'to'],
+        layoutAlgorithm: {
+          enableSimulation: false
+        },
+      },
+      line:{
+        lineWidth:10
+      }
+    },
+    series: [{
+      dataLabels: {
+        borderWidth:0,
+        verticalAlign:'middle',
+        enabled: true,
+        style:{
+          "textOutline": "0px 0px contrast"
+        },
+        linkFormatter:function(e){
+          if(this.point.from=="Proto Indo-European"){
+            // console.log(e)
+          }
+          return "";
+        },
+      },
+      lineWidth:0,
+      // link:{
+      //   width:1,
+      //   color:"rgba(100,100,100,0.5)"
+      // },
+      // marker:{
+      //   enabled:true,
+      //   lineWidth:10,
+      //   lineColor:"#ff0000",
+      //   radius:40,
+      //   enabledThreshold:2
+      // },
+      data: [
+        ['Proto Indo-European', 'Balto-Slavic'],
+        ['Proto Indo-European', 'Germanic'],
+        ['Proto Indo-European', 'Celtic'],
+        ['Proto Indo-European', 'Italic'],
+        ['Proto Indo-European', 'Hellenic'],
+        ['Proto Indo-European', 'Anatolian'],
+        ['Proto Indo-European', 'Indo-Iranian'],
+        ['Proto Indo-European', 'Tocharian'],
+        ['Indo-Iranian', 'Dardic'],
+        ['Indo-Iranian', 'Indic'],
+        ['Indo-Iranian', 'Iranian'],
+        ['Iranian', 'Old Persian'],
+        ['Old Persian', 'Middle Persian'],
+      ]
+    }]
+  },function (chart) {
+    if (!chart.renderer.forExport) {
+      var list = chart.series[0].data;
+      for(var i=0;i<list.length;i++){
+        console.log(list[i].from)
+        if(list[i].from == "Proto Indo-European"){
+          chart.series[0].data[i].graphic.element.remove();
+        }
+      }
+      var nodes = chart.series[0].nodes;
+      console.log(nodes)
+      for(var i=0;i<nodes.length;i++){
+        if(nodes[i].id == "Proto Indo-European"){
+          nodes[i].graphic.element.remove();
+        }
+      }
+
+      setInterval(function () {
+        // chart.series[0].data[0].graphic.element.remove();
+        // console.log(chart.series[0].data[0].graphic.element)
+      }, 1000);
+    }
+  });
+</script>
+<!-- Google Analytics -->
+</html>

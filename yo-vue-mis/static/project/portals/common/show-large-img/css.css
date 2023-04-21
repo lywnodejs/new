@@ -1,0 +1,1 @@
+.i-img-layer{position:fixed;left:0;right:0;top:0;bottom:0;height:0;width:0;z-index:101;background:#000;opacity:0;transition:opacity .3s ease-in-out;}.i-img-layer.i-show{opacity:.6;height:100%;width:100%;}.i-img-tran.i-tran{transition:all .5s ease-in-out;}.i-img-tran.remove{opacity:.8;}

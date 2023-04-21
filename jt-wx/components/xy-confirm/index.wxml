@@ -1,0 +1,23 @@
+<van-popup show="{{ show }}" bind:close="onClose" close-on-click-overlay="{{false}}" custom-class="confirm-popup">
+    <view class="confirm-popup stay-popup">
+        <view wx:if="{{!!title}}" class="tit-box">
+            <text>{{title}}</text>
+        </view>
+        <view class="content-box {{textLeft && 'text-left'}}" wx:if="{{contentText}}">
+            <text>{{contentText}}</text>
+        </view>
+
+        <view class="content-box" wx:else>
+            <slot name="content"></slot>
+        </view>
+        <slot name="content"></slot>
+
+        <view wx:if="{{isAlert}}" class="btn-group">
+            <text class="right-text" bind:tap="onClose">{{alertBtnText}}</text>
+        </view>
+        <view wx:else class="btn-group">
+            <text class="left-text" bind:tap="onCancel">{{leftText}}</text>
+            <text class="right-text" bind:tap="onOk">{{rightText}}</text>
+        </view>
+    </view>
+</van-popup>

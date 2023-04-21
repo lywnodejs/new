@@ -1,0 +1,32 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%=sn%>">
+    <div class='mb'>
+        <%- data %>
+    </div>
+</div>
+<script>
+
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>');
+} catch (error) {
+    
+}
+function nodeQuestion(item){
+  try {
+    thas.nodeFunction('info',item)
+  } catch (error) {
+    
+  }
+}
+
+  function prependAskDialog(question, value) {
+    // alert(question);
+  }
+</script>
+
+
+
+
+
+

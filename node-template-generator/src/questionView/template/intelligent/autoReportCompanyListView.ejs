@@ -1,0 +1,48 @@
+<% include ../../component/jsLoad %>
+<%
+    let data = info.data;
+    let list = data.companyInfoList || [];
+    let num = Math.min(list.length, 9);
+%>
+
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!--行业上市公司  最多显示9条-->
+<!--<div class="rxh_public_hd01">-->
+<!--    <b></b><span>行业上市公司</span>-->
+<!--</div>-->
+
+<% if(num > 0){ %>
+    <div class="rxh_grid rxh_gap rxh_bg">
+        <ul class="rxh_grid_col3">
+            <% for(var i = 0; i < num; i++){ %>
+                <li class="rxh_grid_gray" onclick="autoReportCompanyListView.companyWinShow('<%= list[i].name %>','<%= list[i].code %>','<%= list[i].marType %>')"><%= list[i].name %></li>
+            <% } %>
+        </ul>
+    </div>
+<% }else{ %>
+    <div class="rxh_text rxh_gap rxh_bg">
+        <h5>暂无数据</h5>
+    </div>
+<% } %>
+
+
+<script>
+  var autoReportCompanyListView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    companyWinShow:function (name, code, marType) {
+      console.log(name);
+    }
+  }
+
+  <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, autoReportCompanyListView<%- sn %>.onViewReady)
+  <% } %>
+</script>

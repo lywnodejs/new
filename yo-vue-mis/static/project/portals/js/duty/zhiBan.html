@@ -1,0 +1,223 @@
+<div class="flux-container portal-container">
+    <div class="col-xs-12 portal">
+         <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>值班信息</strong>
+                    <select ng-model="groupId" id="groupId" class="form-control" ng-options=" item as item.group_name for item in groupOptions" ng-change="changeGroup()" style="width : 200px; display:inline-block;">
+                    </select>
+                    <!-- <select class="form-control" style="width: 200px; display:inline-block;"  ng-model="group_id">
+                        <option ng-repeat="item in groupOptions" value="{{::item.group_id}}">{{::item.group_name}}</option>
+                    </select> -->
+                    <span class="pull-right">您距离下次值班还有&nbsp;<strong class="text-primary" ng-bind="next_days"></strong>&nbsp;天</span>
+                </div>
+                <div class="panel-body">
+                    <div class="col-xs-4">
+                        <div style="display:inline-block; min-height:290px;">
+                            <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+                                <div class="form-group">
+                                    <label for="effectYear">选择年度：</label>
+                                    <select ng-model="year" ng-change="changeTime()" id="effectYear" class="form-control" ng-options=" year for year in yearEnums">
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="effectWeek">选择月份：</label>
+                                    <select ng-model="month" ng-change="changeTime()" id="effectWeek" class="form-control" ng-options="(index|toInt) as month for (index, month) in monthEnums" >
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" ng-click="today()">今天</button>
+                                </div>
+                             </form>
+                             <table class="table table-bordered table-calendar-small">
+                                <thead >
+                                    <tr>
+                                        <th class="text-center">天</th>
+                                        <th class="text-center">一</th>
+                                        <th class="text-center">二</th>
+                                        <th class="text-center">三</th>
+                                        <th class="text-center">四</th>
+                                        <th class="text-center">五</th>
+                                        <th class="text-center">六</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in dates">
+                                        <td ng-repeat="td in row" class="text-center">
+                                           <a class="btn" href="javascript:0" ng-class="{'btn-default': !td.shadow, 'btn-success' : td.planed, 'btn-primary' : td.selected}"  ng-click="changeDate(td)">
+                                               <span ng-class="{'badge' : td.selected && td.planed}" ng-bind="td.day"></span>                                              
+                                           </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                        </div>
+                    </div>
+                    <div class="col-xs-8">
+                        <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+                            <!--
+                             <div class="btn-group" role="group" aria-label="...">
+                              <button type="button" class="btn btn-default">上班</button>
+                              <button type="button" class="btn btn-default" ng-class="{'btn-success'}">下班</button>
+                            </div>
+                            -->
+                            <button type="button" class="btn btn-default" ng-click="onDuty(1)" ng-disabled="disableOn() ">上班</button>
+                            <button type="button" class="btn btn-default" ng-click="onDuty(2)" ng-disabled="disableDown() ">下班</button>
+                        </form>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>值班人员</th>
+                                    <th>邮箱地址</th>
+                                    <th class="text-center">值班状态</th>
+                                    <th class="text-center">上班时间</th>
+                                    <th class="text-center">下班时间</th>
+                                    <th class="text-center">值班时长</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="!records || !records.length">
+                                    <td colspan="7" style="min-height:250px;">
+                                       <div style="min-height:100px" class="text-center">
+                                           <h5>没有相关数据</h5>
+                                       </div>                        
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="re in records" ng-if="!re.hidden">
+                                    <td>{{re.emp_name}}</td>
+                                    <td>{{re.emp_email}}</td>
+                                    <td class="text-center"><strong ng-class="{'text-primary' : re.status==1205, 'text-success' : re.status==1207, 'text-danger' : re.status==1211}">{{re.status_str}}</strong></td>
+                                    <td  class="text-center" ng-class="{'text-primary' : re.status==1205, 'text-success' : re.status==1207, 'text-danger' : re.status==1211}">
+                                        <strong>{{re.begin_work_time}}</strong>
+                                    </td>
+                                    <td class="text-center">{{re.end_work_time}}</td>
+                                    <td class="text-center">{{re.duration}}</td>
+                                </tr>
+                                <tr ng-if="isToday() && notEmpty()">
+                                    <td>{{todayDuty.emp_name}}</td>
+                                    <td>{{todayDuty.emp_email}}</td>
+                                    <td class="text-center" ng-class="{'text-primary' : todayDuty.status==1205, 'text-success' : todayDuty.status==1207, 'text-danger' : todayDuty.status==1211}"><strong>{{todayDuty.status_str}}</strong></td>
+                                    <td ng-class="{'text-primary' : todayDuty.status==1205, 'text-success' : todayDuty.status==1207, 'text-danger' : todayDuty.status==1211}" class="text-center">    <strong>{{todayDuty.begin_work_time}}</strong>
+                                    </td>
+                                    <td class="text-center">{{todayDuty.end_work_time}}</td>
+                                    <td class="text-center">{{durTimeFmt()}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+        <script type="text/ng-template" id="detailModal.html">          
+            <div class="modal-body" id="modal-body">
+                <h3 class="text-center">
+                   <i class="fa fa-info-circle fa-2x text-primary" aria-hidden="true" style="margin-top : 10px;"></i>
+                   请确认是否要执行【{{actionText}}】操作？                 
+                </h3>
+                <div class="alert alert-danger" role="alert" ng-show="errorText">
+                    {{errorText}}
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: center;">
+                <button class="btn btn-primary" type="button" ng-click="save()">确定</button>
+                <button class="btn btn-default" type="button" ng-click="close()">取消</button>
+            </div>
+        </script>
+    </div>
+    
+     <div class="col-xs-12 portal">
+         <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>我的值班记录</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-danger" role="alert" ng-show="queryHit">
+                        {{queryHit}}
+                    </div>
+                     <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+                       <div class="form-group">
+                            <label for="startTime" style="width:100px;">值班日期：</label>
+                            <p class="input-group" style="margin-top : 8px;">
+                              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="startTime" 
+                              is-open="startTimeOpened" datepicker-options="dateOptions"
+                              close-text="{{closeText}}" clear-text="{{clearText}}" current-text="{{currentText}}"
+                              alt-input-formats="altInputFormats" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="startTimeOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </p>
+                            <span>--</span>
+                            <p class="input-group" style="margin-top : 8px;">
+                              <input type="text"  class="form-control" uib-datepicker-popup="{{format}}" ng-model="endTime" 
+                              is-open="endTimeOpened" datepicker-options="dateOptions"                               close-text="{{closeText}}" clear-text="{{clearText}}" current-text="{{currentText}}"
+                              alt-input-formats="altInputFormats" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="endTimeOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </p>
+                            
+                            <button type="button" class="btn btn-primary" ng-click="search()" style="margin-left:15px;">
+                              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
+                            </button>       
+                        </div>
+                          
+                    </form>
+                    
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>业务组</th>
+                                <th>值班人员</th>
+                                <th class="text-center">值班日期</th>
+                                <th class="text-center">上班时间</th>
+                                <th class="text-center">下班时间</th>
+                                <th class="text-right">值班时长</th>
+                                <th class="text-right">告警数量</th>
+                                <th class="text-right">已处理告警数量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-if="searching">
+                                <td colspan="7" style="min-height:250px;text-align:center;">
+                                   <div style="min-height:100px" class="text-success">
+                                       <h4><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i> 
+                                           <div style="margin-top:5px;"><small class="text-success">数据载入中……</small></div>
+                                       </h4>
+                                   </div>                        
+                                </td>
+                            </tr>
+                            <tr ng-if="!searching && (!dutys || !dutys.length)">
+                                <td colspan="7" style="min-height:250px;">
+                                   <div style="min-height:100px" class="text-center">
+                                       <h5>没有相关数据</h5>
+                                   </div>                        
+                                </td>
+                            </tr>
+                            <tr ng-if="!searching" ng-repeat="data in dutys">
+                                <td>{{data.group_name}}</td>
+                                <td>{{data.emp_name}}</td>
+                                <td class="text-center">{{data.cycle}}</td>
+                                <td class="text-center">{{data.begin_work_time}}</td>
+                                <td class="text-center">{{data.end_work_time}}</td>
+                                <td class="text-right">{{data.duration}}</td>
+                                <td class="text-right">{{data.alarms}}</td>
+                                <td class="text-right">{{data.processed_alarms}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- 分页组件 -->
+                    <div class="row" style="margin : 0px;">
+                        <div class="col-xs-6" style="padding-left:0px;">
+                             <ul uib-pagination boundary-links="true" rotate="true" force-ellipses="true" max-size="10"
+                            total-items="totalItems" ng-model="currPage"  items-per-page ="itemsOfPage"
+                            class="pagination-md" ng-change="search()"
+                            previous-text="上一页" next-text="下一页" first-text="第一页" last-text="最后一页"></ul>
+                        </div>
+                        <div class="col-xs-6" style="padding-right:0px;">
+                            <div style="margin-top:20px;padding : 7px 0px;line-height:20px;text-align:right;">
+                                {{totalItems}}条记录，共{{pages}}页
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

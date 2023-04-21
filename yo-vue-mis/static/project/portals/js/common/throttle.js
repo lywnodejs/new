@@ -1,0 +1,1 @@
+define("js/common/throttle",["require","exports","module"],function(n,e,t){return function(n,e){var t,u,l,r,o=0,i=null,a=function(){o=+new Date,i=null,l=n.apply(u,t),i||(u=t=null)};return function(){var c=+new Date;return t=arguments,u=this,r=e-(c-o),r<=0||r>e?(i&&(clearTimeout(i),i=null),o=c,l=n.apply(u,t),i||(u=t=null)):i||(i=setTimeout(a,r)),l}}});

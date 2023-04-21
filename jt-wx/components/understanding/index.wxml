@@ -1,0 +1,9 @@
+<!--components/understanding/index.wxml-->
+<view class="understanding">
+  <block wx:for="{{titles}}" wx:key="*this" wx:for-index="idx">
+    <view class="cell">
+      <image src="/image/icon{{(idx)}}.png"/>
+      <text>{{item}}</text>
+    </view>
+  </block>
+</view>

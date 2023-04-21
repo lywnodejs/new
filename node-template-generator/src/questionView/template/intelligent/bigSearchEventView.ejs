@@ -1,0 +1,93 @@
+<% include ../../component/templateTitleView %>
+<% include ../../component/jsLoad %>
+<%
+var data = info.data;
+var list = [];
+if(data && data.list){
+    list = data.list;
+}
+
+%>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% if(list.length > 0){ %>
+    <div class="rxh_list rxh_list_1n">
+        <ul class="">
+            <% for(var i = 0; i < list.length; i++){ %>
+            <li onclick="bigSearchView<%= sn%>.naviToDetail('<%= list[i].id %>','<%= list[i].url %>')">
+                <div class="rxh_text rxh_text03 rxh_gap rxh_gap0">
+                    <h3>
+                        <%
+                        var title = list[i].title;
+                        // title = title.replace(data.showRed,"<i style='color: red'>"+data.showRed+"</i>");
+                        var content = list[i].content;
+                        // content = content.replace(RegExp(data.showRed,'g'),"<i style='color: red'>"+data.showRed+"</i>");
+                        %>
+                        <span><%- title || '' %></span>
+                        <% if(list[i].attitude == '利多'){%>
+                        <b class="rxh_bg_red"><i class="rxh-icon-smile"></i>利好</b>
+                        <%}%>
+                        <% if(list[i].attitude == '利空'){%>
+                        <b class="rxh_bg_green"><i class="rxh-icon-cry"></i>利空</b>
+                        <%}%>
+                        <h6 class="rxh_date" style="padding-left: 0px">
+                            <span ><%= list[i].mediaFrom || '' %></span>
+                            发布日期：<%- commonUtil.changeTimeForMinNoHours(list[i].publishAt) || '' %></h6>
+                    </h3>
+                </div>
+            </li>
+            <% } %>
+<!--            <div class="rxh_btnMore rxh_btnMore_blue"><a>查看更多<i class="icon-arrow2_D"></i></a></div>-->
+        </ul>
+    </div>
+
+    <script>
+
+        var H5url = '<%= bigSearchUrl %>'
+      var bigSearchView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+        openDetail: function (id, url) {
+          // try {
+          //   openDetail(id);
+          // } catch (e) {
+          //   console.log(e.toString());
+          //   if(url){
+          //     window.open(url,"_bank");
+          //   }
+          // }
+          try {
+              this.naviToDetail(id);
+          } catch (e) {
+              console.log(e.toString());
+              window.open(url,"_bank");
+          }
+        },
+        naviToDetail:function (caseId,url) {
+          console.log(url)
+            console.log(caseId);
+            var t = new Date().getTime();
+            if (caseId.length == 0){
+                return;
+            }
+            pa.navigationNative({
+                pageId: "webView",//  http://big-data.rxhui.com/
+                url: H5url+'/#/detail?type=全部&back=app&id='+caseId+ '&highLight=' + '<%= info.highLight%>' + '&t='+ t
+            });
+        }
+      }
+
+      <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, bigSearchView<%- sn %>.onViewReady)
+      <% } %>
+    </script>
+
+
+<% }else{ %>
+
+<% } %>

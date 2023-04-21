@@ -1,0 +1,69 @@
+/* pages/login/index/index.wxss */
+.login{
+  padding: 0 25px;
+}
+.login view.logo {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+}
+.login view.logo >view{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 162rpx;
+  margin-top: 40rpx;
+  font-size: 34rpx;
+  line-height: 48rpx;
+  color: #333333;
+}
+.login view.logo image{
+  width: 78px;
+  height: 78px;
+  margin-top: 132rpx;
+}
+.login .btn::after, .wx-btn::after{
+  display: none;
+}
+.login .btn, .wx-btn{
+  height: 50px;
+  line-height: 50px;
+  border-radius: 25px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium;
+  color: #FF2C43;
+  background-color: white;
+}
+.login .wx-btn{
+  background-color: #EEA900;
+  color: white;
+}
+.login .wx-btn[disabled] {
+  background-color: #FFD2D7;
+  color: white;
+}
+.login .btn[disabled] {
+  border-color: #FFD2D7;
+  background-color: white;
+  color: #FFD2D7;
+}
+.login .btn{
+  margin: 20px 0 15px;
+  border: 1px solid #EEA900;
+  color: #EEA900;
+}
+.login .protocol{
+  font-size: 12px;
+  color: #B3B3B3;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.login .protocol text:not(:first-child){
+  color: #FF2C43;
+  text-decoration: underline;
+}
+.login .checkbox{
+  margin-top: 2px;
+  margin-right: 5px;
+}

@@ -1,0 +1,53 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% include ./component/preAnswer %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <ul>
+            <% for(var i = 0;i < stockList.length;i++){
+                var item = stockList[i];
+            %>
+            <li class='<%= i >= 8 ? 'showMoreStock' : '' %>' style='display:<% i >= 8 ? 'none' : 'inline' %>'
+                onclick=alterFreeQuestion('<%= item.property.code.replace(/\s+/g, '') %>','<%= item.property.name.replace(/\s+/g, '') %>')>
+                <span><%= item.property.name %></span>
+            </li>
+            <% } %>
+        </ul>
+        <% if(totalCount > 9){ %>
+            <div class='btn'>
+                <a class='btn_view' onclick='showAllStocks(event)'>全部展示</a>
+            </div>
+        <% } %>
+    </div>
+</div>
+<script>
+  /**
+   * 显示的问题跟实际发送给后台的区分
+   * @param sendTxt 发送给后台的
+   * @param showTxt 显示的问题
+   */
+  function alterFreeQuestion(sendTxt, showTxt) {
+  }
+
+  function showAllStocks(sendTxt, showTxt) {
+  }
+
+
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var stockAnalysisMuti = {
+    onViewReady: function () {
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockAnalysisMuti.onViewReady)
+
+
+</script>

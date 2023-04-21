@@ -1,0 +1,23 @@
+<!--components/captcha-popup/index.wxml-->
+<!-- <van-popup 
+  class="captcha-popup" 
+  show="{{ show }}" 
+  bind:close="onClose" 
+  closeable
+  close-on-click-overlay="{{false}}"
+  close-icon-position="top-right"
+  custom-style="margin-top: -{{height}}px"> -->
+<view style="display:{{show? 'flex':'none'}} ;" class="captcha-popup">
+  <view>
+    <image bindtap="onClose" class="closeImg" src="/image/close.png"></image>
+    <text class="title">输入验证码</text>
+    <text class="subtitle">验证码已发送至 {{mobile}}</text>
+    <captcha-input bind:onHeight="onHeight" clean="{{!show}}" focus="{{focus}}" width="{{25}}" isError="{{isError}}"
+      bind:onComplete="onComplete" />
+    <view class="countdown">
+      <send-captcha bind:onSend="onSend" isDoing="{{isCountdown}}" />
+    </view>
+  </view>
+</view>
+
+<!-- </van-popup> -->

@@ -1,0 +1,21 @@
+.tabPaneBox {
+  :global {
+    .imageBox {
+      border: 1px solid #f0f0f0;
+      border-radius: 5px;
+      width: 100px;
+      height: 75px;
+      overflow: hidden;
+      cursor: pointer;
+      -webkit-transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      &:hover {
+        box-shadow: 0 0 15px 2px #e9e9e9;
+      }
+    }
+    .ant-table-cell {
+      word-wrap: break-word;
+      word-break: normal;
+    }
+  }
+}

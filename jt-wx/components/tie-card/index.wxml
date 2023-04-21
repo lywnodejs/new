@@ -1,0 +1,31 @@
+<!--components/tie-card/index.wxml-->
+<view class="tie-card">
+  <view>
+    <text>持卡人</text>
+    <text>{{data.name}}</text>
+  </view>
+  <view class="card">
+    <text>身份证号</text>
+    <text>{{data.idCard}}</text>
+  </view>
+  <view>
+    <text>预留手机号</text>
+    <text>{{data.reservedMobileMsk}}</text>
+    <image bindtap="onTips" wx:if="{{i}}" src="/image/i.png"/>
+  </view>
+</view>
+
+
+<van-popup class="tie-cell-alter" show="{{show}}" >
+    <view class="header">
+      <text>预留手机号说明</text>
+    </view>
+    <view class="content">
+      <text>预留手机号就是你在办理银行卡时留的电话号码。本次绑卡要求预留手机号和注册手机号一致。修改方法如下：</text>
+      <text>1，联系银行将预留手机号修改为当前在用的注册手机号。</text>
+      <text>2，用银行预留手机号重新注册。</text>
+    </view>
+    <view class="footer">
+      <text bindtap="onClose">我知道了</text>
+    </view>
+</van-popup>

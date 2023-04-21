@@ -1,0 +1,51 @@
+<div>
+    <a href="/project/portals/pages/index.html" class="logo">滴滴安全</a>
+    <!-- ul.header-list>(li>(a[href=javascript:]+i))*5 -->
+    <ul class="header-list">
+        <!--        <li ng-repeat="item in navData" ng-class="{hover:isCurrent(item)item.urlName==currPageName}" ng-cloak>-->
+        <li ng-repeat="item in navData" ng-class="{hover:isCurrent(item)}" ng-cloak>
+            <a ng-href="{{item.urlName === 'application-list' ? item.url + '#?formType=0' :item.url}}">{{item.name}}</a>
+            <i></i>
+            <ul class="p-dropdown" ng-if="item.menu && item.menu.length">
+                <li ng-repeat="m in item.menu">
+                    <a ng-href="{{m.url}}">{{m.name}}</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <div class="header-right">
+        <div class="msg">
+            <a href="/project/portals/pages/task.html">
+                <span>待办</span>
+                <b>{{taskCount}}</b>
+            </a>
+            <!--<ul class="p-dropdown">
+                <li><b>3个</b>数据申请</li>
+            </ul>-->
+        </div>
+        <div class="wrap-user-img">
+            <div class="wrap-img">
+                <img err-src="http://static.galileo.xiaojukeji.com/static/tms/api/public/other/8355c3caf02679026151c10588307c5a.png" ng-src="http://home.didichuxing.com/DidiFile/Avatar/{{headerPageData.name}}.jpg">
+            </div>
+            <div class="user">
+                <span class="name" ng-bind="headerPageData.userName || headerPageData.name"></span>
+                <ul class="p-dropdown">
+                    <li ng-if="isDutyEmp()">
+                        <a href="/project/portals/pages/duty.html#/zhiban">值班管理</a>
+                    </li>
+                    <li ng-if="isDutyMgr()">
+                        <a href="/project/portals/pages/duty.html#/paiban">排班管理</a>
+                    </li>
+                    <li>
+                        <a href="/project/mis/sdl.html#/report/list">上报可疑事件</a>
+                    </li>
+                    <li ng-click="loginOut()">
+                        <a href="javascript:">注销</a>
+                    </li>
+                    <!-- <li><b>20个</b>新端口申请</li>
+                    <li>查看全部</li>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

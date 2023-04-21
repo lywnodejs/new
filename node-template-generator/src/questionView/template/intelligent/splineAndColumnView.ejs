@@ -1,0 +1,74 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<%
+if (conditionParams.useTitle) {
+%>
+    <% include ../../component/templateTitleView %>
+<%
+}
+%>
+<% include ../../component/jsLoad %>
+<%
+if (conditionParams.useChart) {
+%>
+    <!-- 图表 -->
+    <div>
+        <div class="rxh_chart" id="chart<%= sn %>">
+        </div>
+    </div>
+<%
+}
+if (conditionParams.useHuashu) {
+%>
+    <div class="rxh_bd2">
+        <%= info.textValue %>
+    </div>
+<%
+}
+%>
+
+<script>
+
+    var splineAndColumnView<%- sn %> = {
+        onViewReady: function () {
+            let info = JSON.parse('<%- JSON.stringify(info) %>');
+            let chartData = info.chartData;
+            let isXCompare = info.isXCompare;
+            let chart = new SplineAndColumnChart();
+            if (isXCompare) {
+                chart.xAxis = {
+                    type: 'category',
+                    uniqueNames: false,
+                    labels: {
+                        enabled: true,
+                        style: {
+                            fontSize: '10px',
+                            color: 'rgba(154,154,156,1)',
+                            fontFamily: 'DINAlternate-Bold'
+                        },
+                        formatter: function () {
+                            return this.value.indexOf('(') !== -1 ? this.value.substring(0, this.value.indexOf('(')):this.value;
+                        }
+                    }
+                };
+            } else {
+                chart.categories = chartData.categories;
+            }
+            chart.containerId = "chart<%= sn %>";
+            chart.height = chartData.height;
+            chart.units = chartData.units;
+            chart.series = chartData.series;
+            chart.isStockLine = info.linePhotoDbTypeVal == '1';
+            chart.initialize();
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, splineAndColumnView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>
+
+
+

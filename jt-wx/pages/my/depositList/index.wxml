@@ -1,0 +1,22 @@
+<scroll-view scroll-y style="width: 100%;height:100vh;position:fixed;top:0;left:0;overflow: hidden;" refresher-enabled="{{true}}" refresher-threshold="{{100}}"
+  refresher-default-style="none" refresher-background="#ffffff" refresher-triggered="{{triggered}}"
+  bindrefresherrefresh="onRefresh">
+<view class="my-deposit-order">
+  <view class="header">
+      <view class="item">
+          <view>定期存款总额(元)</view>
+          <view>{{sumTimeDeposit || 0.00}}</view>
+          <view class="line"></view>
+      </view>
+      <view class="item">
+          <view>累计收益(元)</view>
+          <view>{{sumIncome || 0.00}}</view>
+      </view>
+  </view>
+  <view class="content">
+    <view wx:for="{{products}}" wx:key="index" >
+      <deposit-order-cell order="{{item}}" />
+    </view>
+  </view>
+</view>
+</scroll-view>

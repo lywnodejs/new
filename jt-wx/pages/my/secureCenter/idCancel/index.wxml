@@ -1,0 +1,15 @@
+<!--pages/my/secureCenter/idCancel/index.wxml-->
+
+<view class="cell-item" bindtap="toCard" wx:if="{{isEmpty}}">
+  <cell
+  title="电子账户注销"
+  line="{{false}}"
+></cell>
+</view>
+
+<view class="cell-item" bindtap="toCard2">
+  <cell
+  title="登录账号注销"
+  line="{{false}}"
+></cell>
+</view>

@@ -1,0 +1,74 @@
+/* Layout style */
+// #root {
+//   height: 100%;
+// }
+// .upm-container {
+//   height: 100%;
+// }
+// .upm-container__layout {
+//    flex: 1;
+// }
+// .upm-container__layout__side {
+//    flex: 1;
+//    overflow: auto;
+// }
+// .upm-container__layout__content {
+//    padding: @base-space;
+//    overflow: auto;
+// }
+
+body {
+  background-color: @body-background-color;
+}
+
+#root {
+  height: 100%;
+}
+
+.upm-main-layout, .upm-manage-layout {
+  height: 100%;
+  // padding-top: 48px;
+}
+
+.upm-layout-sider {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 200px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+
+  // .upm-menu {
+  //   float: left;
+  //   overflow-x: hidden;
+  //   overflow-y: auto;
+  //   &::-webkit-scrollbar {
+  //     display:none;
+  //   }
+  // }
+}
+
+.upm-layout-body {
+  height: calc(~"100vh - 48px");
+}
+
+.upm-layout-body-header {
+  display: flex;
+  background-color: #fff;
+  .logo {
+    width: 200px;
+  }
+  .header {
+    flex: 1;
+  }
+}
+
+.upm-layout-body-content {
+  height: 100%;
+  background-color: #f5f7f9;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 24px;
+}

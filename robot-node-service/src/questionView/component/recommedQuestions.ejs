@@ -1,0 +1,18 @@
+<!--
+    答案后追加的推荐问题，一般是在对话管理平台配置
+    赵波
+    2019.10.29
+-->
+
+<%
+ var qlist = info.guidanceQuestions || [];
+ %>
+
+<% if (info && info.robotConfig && info.robotConfig.data.showRecommendedQuestion === 'true' && qlist.length > 0) { %>
+<ul class="tlBox_link" style="padding-top: 0.5rem">
+    <h5 class="t_gray">你可能还想知道：</h5>
+    <% for (var i=0; i<qlist.length; i++) { %>
+    <li onclick="freeQuestion('<%= qlist[i] %>')"><%= qlist[i] %></li>
+    <% } %>
+</ul>
+<% } %>

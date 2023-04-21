@@ -1,0 +1,9 @@
+{
+  "name": "cloud",
+  "script": "server.js",
+  "instances": "2",
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": "3010"
+  }
+}

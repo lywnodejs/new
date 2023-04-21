@@ -1,0 +1,31 @@
+view,
+scroll-view,
+swiper,
+button,
+input,
+textarea,
+label,
+navigator,
+image {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+page {
+  // background: #f5f5f5;
+  height: 100%;
+}
+
+.index{
+  .index_main{
+    .u-time-axis::before{
+      border-left: 1px solid $user-theme_font_color_info !important;
+      // border-left: none;
+    }
+  }
+}
+.flexBetween {
+	display: flex;
+	justify-content: space-between;
+}

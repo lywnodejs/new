@@ -1,0 +1,120 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+
+        <!-- 时间轴 有信息-->
+        <div class="box_show_ol2 box_conExec">
+            <ol>
+                <li>姓名</li>
+                <li>职位</li>
+                <li>持股</li>
+            </ol>
+            <% for(var i = 0; i < data.length; i++){
+                var item = data[i];
+                var itemInfoList = item.infoList[0];
+                var hideClassLine = i > 4 ? 'hideClass' : '';
+                var moreId = "moreId" + sn;
+            %>
+            <ul class="<%= hideClassLine %>" style="display:<%= i > 4 ? 'none' : 'flex' %>"
+                onclick="getExecutiveInfo(<%= JSON.stringify(itemInfoList) %>)">
+                <li><%= item.managerName %></li>
+                <li><h6><%= itemInfoList.post %></h6></li>
+                <li><%= commonUtil.formatNumber(itemInfoList.hldAmount, 2, false) %><i class="icon-arrow_closed"></i>
+                </li>
+            </ul>
+            <% } %>
+
+        </div>
+
+        <!--加载更多-->
+        <div class="box_load" id="<%= moreId %>" onclick="toolsUtil.showMoreArticle('hideClass','<%= sn %>',5)">
+            <a>查看更多</a>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!--底部弹窗浮层-->
+<div id="bottomPopup" class="pop_BTT pop_BottomToTop" style="display: none">
+    <!--遮罩-->
+    <div class="bg" style="display: none"></div>
+    <!--白框容器-->
+    <div id="bottomContainer" class="box">
+        <!--关闭按钮-->
+        <a class="close icon-pop_close" onclick="popUtil.closePopup()"></a>
+        <div class="sumUp">
+            <!--浮层_title-->
+            <div class="sumUp_tech">
+                <div id="bottomPopupTitle" class="pop_hd">
+                </div>
+                <!--答案容器-->
+                <div id="bottomAnswerContainer" class="pop_bd mb_tab">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var companyExecutives = {
+    onViewReady: function () {
+      resizeUtils.init(frameId, sn);
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/logUtil', '/static/js/utils/popUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, companyExecutives.onViewReady)
+
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+  //查询高管详情
+  function getExecutiveInfo(data) {
+    var unit = '股'
+    var tagBody =
+      '<div class="sumUp_conExec">' +
+      '<div class="hd">' +
+      '<h3>' + data.managerName + '</h3>' +
+      '<b>/</b>' +
+      '<h5>' + data.post + '</h5>' +
+      '</div>' +
+      '<h5><strong>任职日<span></span></strong><b>：</b>' + toolsUtil.timeChange(data.managerStartdateTimestamp) + '</h5>' +
+      '<h5><strong>持有股份</strong><b>：</b>' + toolsUtil.formatNumber(data.hldAmount, '', false) + '</h5>' +
+      '<h5><strong>持股比例</strong><b>：</b>' + toolsUtil.addPerForMin(data.hldAmount, data.hldPercent) + '</h5>' +
+      '<h5><strong>股权质押</strong><b>：</b>' + toolsUtil.ifNone(data.pledgeStype) + toolsUtil.formatNumber(data.totalPledgeSamount) + (data.pledgeStype ? '股' : '') + toolsUtil.timeChangeForPledgeUpDate(data.pledgeUpDateTimestamp) + '</h5>' +
+      '<h5><strong>高管简介</strong><b>：</b>' + toolsUtil.ifUndefined(data.resume) + '</h5>' +
+
+      '</div>';
+    popUtil.appendAnswerToPopup(tagBody);
+    popUtil.showPopup('公司高管');
+  }
+
+</script>
+

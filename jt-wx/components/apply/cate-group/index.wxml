@@ -1,0 +1,17 @@
+<!--components/apply/cate-group/index.wxml-->
+<view>
+  <view class="cate-title">{{cateInfo.name}}</view>
+  <view class='card'>
+    <bloc wx:for="{{cateInfo.subCats}}" wx:key="index">
+      <view class="info-item" bindtap="onItemTap" data-info="{{item}}">
+        <image class="left-icon" src="{{item.logo}}"></image>
+        <view class="info-title">{{item.mustFill === 1 ? item.name : item.name+'(选填)'}}</view>
+        <view class="spacer" />
+        <view class="{{item.completed?'completed':'need-add'}}">
+          {{item.completed ?'已完成':(item.mustFill === 1 ? '请补充' : '去补充')}}</view>
+        <image class="right-icon" src="/image/arrow.png"></image>
+      </view>
+      <view wx:if="{{index !== cateInfo.subCats.length - 1}}" class="divider" />
+    </bloc>
+  </view>
+</view>

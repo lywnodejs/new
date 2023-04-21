@@ -1,0 +1,117 @@
+/* components/quota-card/index.wxss */
+.quota-card {
+  background-color: #337EFE ;
+  border-radius: 5px;
+  width: 690rpx;
+  box-sizing: border-box;
+  padding: 26rpx 40rpx 30rpx;
+  position: relative;
+  z-index: 1;
+}
+.quota-card .title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.quota-card .title view{
+  display: flex;
+  align-items: center;
+}
+.quota-card .title image{
+  width: 25px;
+  height: 25px;
+  display: block;
+}
+.quota-card .line {
+  width: 100%;
+  height: 1px;
+  display: block;
+  margin-top: 13px;
+}
+.quota-card .title view text{
+  font-size: 34rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 48rpx;
+  margin-left: 5px;
+}
+.quota-card .title .year-rate{
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.quota-card .explain{
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 42rpx;
+  margin-top: 12px;
+  display: block;
+}
+
+.quota-card .content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0 23px;
+}
+
+.quota-card .content .quota{
+  font-size: 32px;
+  font-family: DIN-Medium, DIN;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 46px;
+}
+
+.quota-card .quota-button {
+  background-color: #FFFFFF;
+  padding: 8px 22px;
+  border-radius: 20px;
+
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #337EFE;
+  line-height: 40rpx;
+}
+.quota-card .quota-button.disabled {
+  color: rgba(255,255,255,0.65);
+  background:rgba(255,255,255,0.3);
+}
+
+.quota-card .info{
+  display: flex;
+}
+
+.quota-card .info>text{
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 17px;
+}
+.quota-card .info view + view {
+  padding-left: 76rpx;
+}
+.quota-card .info>view text{
+  font-size: 15px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #FFE2E5;
+  line-height: 21px;
+}
+.quota-card .info>view text:last-child{
+  font-size: 17px;
+  font-family: DIN-Medium, DIN;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.quota-card .info>view text + text{
+  margin-left: 7px;
+}

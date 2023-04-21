@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<meta charset="utf-8">
+<title>Process</title>
+
+<style id="css">
+    g.type-current>rect {
+        fill: #1E9FFF;
+    }
+
+    g.type-success>rect {
+        fill: green;
+    }
+
+    g.type-fail>rect {
+        fill: red;
+    }
+    svg{
+        width: 100vw;
+        height: 100vh;
+        cursor: pointer;
+    }
+
+    text {
+        font-weight: 300;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serf;
+        font-size: 14px;
+    }
+
+    .node rect {
+        stroke: #999;
+        fill: #fff;
+        stroke-width: 1.5px;
+    }
+
+    .edgePath path {
+        stroke: #333;
+        stroke-width: 1.5px;
+    }
+    #svg-canvas{
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+
+<svg width="900" height="900" id="svg-canvas"></svg>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="./dagre-d3.min.js"></script>
+<script src="https://www.jq22.com/jquery/jquery-3.3.1.js"></script>
+<script>
+
+    var v = [1, 2, 3];
+
+    var a = { 'age': 30, 'sex': 'male' };
+    function count(o) {
+        var t = typeof o;
+
+        if (t == 'string') {
+            return o.length;
+
+        } else if (t == 'object') {
+
+            var n = 0;
+
+            for (var i in o) {
+
+                n++;
+
+            }
+
+            return n;
+        }
+        return false;
+
+    }
+
+    var dataFlow = {
+        0: '事项受理',
+        1: '事项办结',
+        2: '初审',
+        3: '复审',
+        4: '初审回复',
+        5: '初审办结完成',
+        6: '初审补正',
+        7: '复审回复',
+        8: '复审办结完成',
+        9: '复审补正',
+        10: '事项办结',
+    };
+
+
+    var g = new dagreD3.graphlib.Graph()
+        .setGraph({})
+        .setDefaultEdgeLabel(function () { return {}; });
+
+    for (var i = 0; i < count(dataFlow); i++) {
+        g.setNode(i, {
+            label: dataFlow[i],
+            class: "type-no",
+            id: "status" + i
+        });
+    }
+    // g.setNode(20, {
+    //   label: dataFlow[20],
+    //   class:'type-no',
+    //   id: 'status20'
+    // });
+    g.nodes().forEach(function (v) {
+        var node = g.node(v);
+        // Round the corners of the nodes
+        node.rx = node.ry = 5;
+    });
+
+    // Set up edges, no special attributes.
+
+    g.setEdge(0, 1, { label: "不予受理" });
+    g.setEdge(0, 2, { label: "予以受理" });
+    g.setEdge(2, 6, { label: "补正" });
+    g.setEdge(6, 2, { label: "补正完毕" });
+    g.setEdge(2, 4, { label: "不予受理" });
+    g.setEdge(4, 5, { label: "初审不通过" });
+    g.setEdge(2, 3, { label: "初审通过" });
+    g.setEdge(3, 9, { label: "补正" });
+    g.setEdge(3, 7, { label: "复审不通过" });
+    g.setEdge(7, 8, { label: "回复完毕" });
+    g.setEdge(3, 10, { label: "审批通过" });
+
+    // Create the renderer
+    var render = new dagreD3.render();
+
+    // Set up an SVG group so that we can translate the final graph.
+    var svg = d3.select("svg"),
+        svgGroup = svg.append("g");
+
+    // Run the renderer. This is what draws the final graph.
+    render(d3.select("svg g"), g);
+    
+    var xCenterOffset = (svg.attr("width")) / 2;
+    svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
+
+</script>
+
+
+
+</html>

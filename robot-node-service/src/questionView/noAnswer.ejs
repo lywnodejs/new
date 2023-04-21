@@ -1,0 +1,44 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<div class="mb md_tlbox">
+    <div class="box_shadow">
+        <ul>
+            <%for(var i=0;i<info.sugguestQuestion.length;i++){%>
+            <li><span onclick="nodeQuestion('<%=info.sugguestQuestion[i]%>')"><%=info.sugguestQuestion[i]%></span></li>
+            <%}%>
+
+        </ul>
+    </div>
+</div>
+
+<script>
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info.questionAnalyse[0]) %>');
+} catch (error) {
+    
+}
+    function nodeQuestion(item) {
+        try {
+            thas.nodeFunction('info',item);
+        } catch (error) {
+            
+        }
+    }
+</script>
+
+
+
+<!-- nodeFunction交互方式传参type如下 -->
+
+<!-- info :发送当前点击的信息 传item -->
+
+<!-- questionAnalyse:  发送上个问题的questionAnalyse 传questionAnalyse -->
+
+<!-- back:  点击精准查找政策 -->
+
+<!-- feedback:  点赞或踩 -->
+
+
+
+
+

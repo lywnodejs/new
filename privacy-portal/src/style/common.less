@@ -1,0 +1,79 @@
+.dsrc-padding {
+  padding: @base-padding;
+}
+.dsrc-padding--horizontal {
+  padding: 0 @base-padding;
+}
+.dsrc-padding--vertical {
+  padding: @base-padding 0;
+}
+.dsrc-margin--left {
+  margin-left: @base-padding;
+}
+.dsrc-margin--top {
+  margin-top: @base-padding;
+}
+.dsrc-margin--right {
+  margin-right: @base-padding;
+}
+.dsrc-margin--bottom {
+  margin-bottom: @base-padding;
+}
+
+.dsrc-dmargin--top {
+  margin-top: 3 * @base-padding;
+}
+
+.dsrc-dmargin--bottom {
+  margin-bottom: @base-padding;
+}
+
+.dsrc-dpadding--top {
+  padding-top: 3 * @base-padding;
+}
+
+.dsrc-dpadding--bottom {
+  padding-bottom: 3 * @base-padding;
+}
+
+.dsrc-color--primary {
+  color: @default-primary-color;
+}
+.dsrc-page {
+  max-width: @max-width;
+}
+.dsrc-hint {
+  color: @default-color-info;
+}
+.dsrc-tab {
+  &--container {
+    height: 60px;
+  }
+  &--float {
+    width: 100%;
+    background: hsla(0, 0%, 100%, 1);
+    position: fixed;
+    top: 90px;
+    z-index: 99;
+  }
+}
+
+.dsrc-table-row--color {
+  background-color: #fafafa;
+}
+
+.dsrc-border {
+  border: 1px solid @default-border;
+}
+
+.dsrc-text--img {
+  max-width: 1000px;
+}
+
+.dsrc-text--center {
+  text-align: center;
+}
+
+.dsrc-text--right {
+  text-align: right;
+}

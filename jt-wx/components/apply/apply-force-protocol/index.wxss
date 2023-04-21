@@ -1,0 +1,101 @@
+/* components/apply/apply-force-protocol/index.wxss */
+
+.popup-box {
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 480px;
+}
+
+.popup-box .popup-title {
+  font-size: 19px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  text-align: center;
+  padding: 23px 0 12px;
+}
+
+.van-popup__close-icon {
+  top: 26px !important;
+}
+
+.popup-box .protocol-content {
+  flex: 1;
+}
+
+.pro-content-box {
+  -webkit-overflow-scrolling: touch;
+}
+
+.rich-text {
+  font-size: 13px;
+  color: #323232;
+  line-height: 1.5;
+  font-family: PingFangSC-Medium, PingFang SC;
+  overflow-y: scroll;
+  height: 262px;
+}
+
+
+.popup-box .popup-footer {
+  padding-top: 12px;
+  text-align: center;
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.popup-footer .protocol-box  {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b3b3b3;
+  font-family: PingFangSC-Regular, PingFang SC;
+  text-align: start;
+}
+.popup-footer .protocol-box .inline-view {
+  display: inline;
+}
+
+.popup-footer .protocol-box .protocol-name {
+  color: #ff2c43;
+}
+
+.popup-box .popup-footer .apply-btn {
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50px;
+  background: #ff2c43;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  border: none;
+  font-weight: 500;
+}
+
+
+
+.popup-box .popup-footer .apply-btn::after {
+  border: none;
+}
+
+
+.popup-box .popup-footer  .popup-btn {
+  margin-top: 15px;
+}
+
+.popup-box .popup-footer  .popup-btn-dis {
+  background-color: #FFD2D7;
+  border: none;
+  color: white;
+}
+
+.popup-box .popup-footer .popup-btn-dis:after {
+  border: none;
+}
+
+.count-down {
+  padding-left: 10px;
+}
+

@@ -1,0 +1,48 @@
+.content-area {
+  // width: 1000px;
+
+  .search-fields {
+    .ant-form-item {
+      display: flex;
+    }
+
+    .ant-form-item-label {
+      overflow: visible;
+    }
+
+    .ant-form-item-control-wrapper {
+      flex: 1;
+    }
+  }
+
+  .search-button {
+    .ant-form-item {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .close-button {
+    float: right;
+    margin: 5px 5px 0 0;
+  }
+}
+// 防止css全局污染
+// TODO 上面css不确定，是否存在共用情况，暂不调整
+.new-table-selector-modal {
+  .ant-modal-body {
+    padding: 24px 24px 12px;
+    .selected-wrap {
+      display: flex;
+      .title {
+        flex: 0 0 42px;
+      }
+      .ant-tag {
+        margin-bottom: 4px;
+        background: #f2f3f4;
+        border: none;
+        padding: 2px 8px;
+      }
+    }
+  }
+}

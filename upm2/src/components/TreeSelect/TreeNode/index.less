@@ -1,0 +1,46 @@
+.tree-node-container {
+  background-color: #fff;
+  line-height: 1em;
+  .tree-node-current{
+    display: flex;
+    .tree-node-icon {
+      width: 1em;
+      height: 1.5em;
+      padding: 3px;
+      cursor: pointer;
+      .tree-node-icon-img {
+        width: 8px;
+        height: 8px;
+      }
+      .tree-node-icon-img-expand {
+        transform: rotate(90deg);
+      }
+
+    }
+    .tree-node-content {
+      text-align: left;
+      padding: 3px;
+      min-width: 3em;
+      white-space:nowrap;
+      cursor: pointer;
+      height: 1.5em;
+      box-sizing: border-box;
+      background-color: #fff;
+      &:hover {
+        background-color: #ffe8e0
+      }
+
+    }
+  }
+  .tree-node-children {
+    padding-left: 1em;
+  }
+  .tree-node-nochildren {
+    .tree-node-icon {
+      .tree-node-icon-img {
+        display: none;
+
+      }
+    }
+  }
+}

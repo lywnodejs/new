@@ -1,0 +1,4 @@
+<!--pages/withdraw/result/index.wxml-->
+<xy-nav-bar bind:navLeftClick="navLeftClick" title="提现申请结果" platform="{{platform}}" />
+<apply-page title="正在放款中"
+            desc="我行已收到您的额度提现申请信息，放款审核中，请耐心等待" />

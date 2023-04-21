@@ -1,0 +1,21 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<%
+var data = info.data;
+var induName = data.induName;
+var induSecNum = data.induSecNum;
+var level = data.level;
+%>
+
+<div class="rxh_bd2">
+    <%= commonUtil.replaceSpecial(name) %>所属的<%= induName %>行业共有<%= induSecNum %>家上市公司，所属行业上市公司<%= level %>。
+</div>
+<% include ../component/footer %>
+
+<script>
+
+</script>
+
+
+

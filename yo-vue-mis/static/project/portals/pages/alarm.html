@@ -1,0 +1,481 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <title>安全告警</title>
+        <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap.css?_v=eea507">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap-font.css?_v=9753fe">
+    <link  rel="stylesheet" type="text/css"  href="/lib/angular-select2/select.css?_v=3b60b1">
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/css/alarm.css?_v=2928c1">
+</head>
+
+<body>
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    
+    <div class="main page-center">
+        <div class="content alarm-list" ng-controller="alarm-list as ctrl">
+            <div class="content-header pr0">
+                <h1 class="content-header-title">安全告警
+                    <span ng-cloak class="arrow-slide" ng-class="{open:!formIsOpen}" ng-click="slideForm($event)">{{!formIsOpen ? '查询' : '收起'}}</span>
+                </h1>
+                <span>
+                    <a href="javascript:" ng-click="exportData()" class="p-btn i-fr">导出告警数据</a>
+                </span>
+                <span>
+                    <a href="javascript:" ng-click="addAlarm(this)" class="p-btn i-fr">添加告警</a>
+                </span>
+            </div>
+            <div class="p-form list-form">
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">告警类型：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" ng-model="ctrl.pageData.type" ng-change="getNewFiles($event)" ng-cloak>
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="item in ctrl.pageConfig.typeId" value="{{::item.id}}">{{::item.dName}}</option>
+                                </select>                                
+                            </div>
+                            <a ng-if="ctrl.wikiUrl()" target="_blank" ng-href="{{ctrl.wikiUrl()}}" style="margin-left:15px;"><i class="glyphicon glyphicon-question-sign"></i></a>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">告警编号：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.alarmIds" ng-maxlength="200" type="text" placeholder="多个告警编号之间使用逗号分隔">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">告警等级：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" ng-model="ctrl.pageData.level">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="item in ctrl.pageConfig.riskLevel" value="{{::$index}}">{{::item}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">处理人：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.processer" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+                 <div class="p-form-item flex-between">
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3">告警时间：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postStartTimeIsOpen"
+                        onclose="ctrl.postStartTimeClose()"
+                        ng-model="ctrl.pageData.postStartTime"
+                        ng-click="ctrl.postStartTimeOpen()"
+                        ng-change="ctrl.postStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postEndTimeIsOpen"
+                        onclose="ctrl.postEndTimeClose()"
+                        ng-model="ctrl.pageData.postEndTime"
+                        ng-click="ctrl.postEndTimeOpen()"
+                        ng-change="ctrl.postEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3">处理时间：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireStartTimeIsOpen"
+                        onclose="ctrl.expireStartTimeClose()"
+                        ng-model="ctrl.pageData.expireStartTime"
+                        ng-click="ctrl.expireStartTimeOpen()"
+                        ng-change="ctrl.expireStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireEndTimeIsOpen"
+                        onclose="ctrl.expireEndTimeClose()"
+                        ng-model="ctrl.pageData.expireEndTime"
+                        ng-click="ctrl.expireEndTimeOpen()"
+                        ng-change="ctrl.expireEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">研判结果：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" ng-model="ctrl.pageData.audit">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="item in ctrl.pageConfig.analyses" value="{{::$index + 1}}">{{::item}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">处理方式：</label>
+                        <div class="wrap-input form-flex-item">
+                            <div class="p-col-5">
+                                <select class="p-form-control" ng-model="ctrl.pageData.mode">
+                                    <option value="">请选择</option>
+                                    <option ng-repeat="item in ctrl.pageConfig.process" value="{{::$index + 1}}">{{::item}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">部门-产品线：</label>
+                        <div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.deptInfo || !ctrl.deptInfo.length ) && ctrl.showErrors}" ng-cloak>
+                            <ui-my-auto-complete url="ctrl.getDepartmentUrl" placeholder="请输入受影响部门产品线（中文）" removeSelected="false" isSample="true" sampleShowName="productName"
+                                name="deptInfo" ng-model="ctrl.deptInfo">
+                                <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+                                <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+                            </ui-my-auto-complete>
+                            <span class="p-error-msg">请输入并选择一个部门产品线</span>
+                        </div>
+                    </div>
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3">备注：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" ng-model="ctrl.pageData.remark" ng-maxlength="200" type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-form-item flex-between" ng-repeat="item in searchFields" ng-cloak>
+                    <div class="p-col-5 form-flex" ng-repeat="innerItem in item">
+                        <label class="item-label p-col-3">{{innerItem.fieldNameZh}}：</label>
+                        <div class="wrap-input form-flex-item">
+                            <input class="p-form-control" name="{{innerItem.fieldNameEn}}" ng-model="ctrl.pageData.child_condition[innerItem.fieldNameEn]" ng-maxlength="200"
+                                type="text" placeholder="支持模糊搜索">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-form-item flex-between">
+                    <div class="p-col-5 form-flex">
+                        <label class="item-label p-col-3"></label>
+                        <div class="wrap-input form-flex-item operate-btns">
+                            <button class="p-btn" ng-click="getData()">搜索
+                                <dot ng-show="ctrl.isSubmitDataIng" ng-cloak></dot>
+                            </button>
+                            <button class="p-btn" ng-click="resetForm()">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-filter-operate flex-between" ng-cloak>
+                <ul class="p-filter-menu">
+                    <li ng-repeat="item in ['全部','未处理','已处理','问题库']" ng-click="filterData($index)" ng-class="{hover:$index===activeIndex}"
+                        ng-cloak>{{item}}</li>
+                </ul>
+                <div class="wrap-btns" >
+                    <button class="p-btn p-btn-sm" ng-if="state==2" ng-click="resetAlarm()">重置状态</button>
+                    <button class="p-btn p-btn-sm" ng-if="state==1 || state==3" ng-click="analyse()">分析研判</button>
+                    <button class="p-btn p-btn-sm" ng-if="state==1" ng-click="turnAlarm()" >标记为问题</button>
+                    <button class="p-btn p-btn-sm" ng-if="state > 0" ng-click="turnEvent()">转安全事件</button>
+                    <!-- <button class="p-btn p-btn-sm" ng-click="startOrder()">发起工单</button>
+                    <button class="p-btn p-btn-sm" ng-click="alarmConfirm(2)">标记为已处理</button>
+                    <button class="p-btn p-btn-sm" ng-click="alarmConfirm(3)">标记为误报</button>
+                    <button class="p-btn p-btn-sm" ng-click="alarmConfirm(4)" ng-if="state != 4">标记为问题</button> -->
+                    <!-- <button class="p-btn p-btn-sm" ng-click="exportData()">导出数据</button> -->
+                </div>
+                <!-- <button class="p-btn p-btn-sm pull-right" ng-click="resetState()" title="请先选择数据项" ng-class="{'disabled' : !hasCheckeds()}" ng-disabled="!hasCheckeds()" ng-if="[2, 3].indexOf(activeIndex) != -1">重置状态</button> -->
+            </div>
+
+            <div class="wrap-table">
+                <loading></loading>
+                <table class="p-table table-bordered table-header-bg table-hover" ng-cloak>
+                    <thead>
+                        <tr>
+                            <th ng-repeat="key in tableHeaderFields" ng-switch on="key">
+                                <span ng-switch-when="checkbox">
+                                    <input type="checkbox" id="js-checkbox" ng-click="changeCheck($event)">
+                                </span>
+                                <span ng-switch-default>
+                                    {{key}}
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!datas || !datas.length">
+                            <td colspan="20">
+                                <h5>{{alarmControl===1 || alarmControl===0 ? "没有相关数据" : "没有权限"}}</h5>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="data in datas" ng-cloak>
+                            <td ng-repeat="field in tableFields" ng-switch on="field">
+                                <span ng-switch-when="checkbox">
+                                    <input type="checkbox" ng-model="data.isChecked" ng-checked="data.isChecked">
+                                </span>
+                                <span ng-switch-when="audit_name" ng-style="{color: data.event == 1 ? 'red' : null}">
+                                    {{data[field]}}
+                                </span>
+                                <span ng-switch-when="mode_name">
+                                    <a ng-if="data.workorder_id" target="_blank" href="/project/portals/pages/alarm-order-detail.html?id={{data.workorder_id}}">{{data[field]}}</a>
+                                    {{!data.workorder_id ? data[field] : null}}
+                                </span>
+                                <div ng-switch-when="remark">
+                                    <span title="{{data[field]||'无'}}">{{sliceRemark(data[field])}}
+                                        <span ng-if="alarmControl===1" class="glyphicon glyphicon-pencil" title="编辑" ng-click="showDialogDesc(data)"></span>
+                                    </span>
+                                </div>
+                                <span ng-switch-when="state">
+                                    {{[data[field]-1] | getStateText}}
+                                </span>
+                                <span ng-switch-when="alarmWrokOrderId">
+                                    <a target="_blank" ng-show="data.alarmWrokOrderId" href="/project/portals/pages/redirect-page-new.html?id={{data.alarmWrokOrderId}}&routeType=alarm">{{data.alarmWrokOrderId}}</a>
+                                    {{!data.alarmWrokOrderId ? "无" : ""}}
+                                </span>
+                                <span ng-switch-when="processer">
+                                    <span ng-bind-html="data.processer | getName | to_trusted"></span>
+                                </span>
+                                <span ng-switch-when="update_time">
+                                    {{data.update_time == '2017-01-01 00:00:00' ? '' : data.update_time}}
+                                </span>
+                                <div ng-switch-when="operation" style="text-align: left">
+                                    <button class="p-btn p-btn-sm" ng-click="showDetail(data)">查看</button>
+                                    <button class="p-btn p-btn-sm" ng-if="data.state === 1 || data.state === 3" ng-click="analyse(data)">研判</button>
+                                    <button class="p-btn p-btn-sm" ng-if="data.state === 2 && data.mode === 2" ng-click="resetAlarm(data)">重置</button>
+                                </div>
+                                <span ng-switch-default>
+                                    <!-- <span ng-if="tableLinkFields.indexOf(field)>=0 && data[field]">
+                                        <a target="_blank" ng-href="{{data[field]}}">{{data[field]}}</a>
+                                    </span> -->
+                                    <!-- <span ng-if="tableLinkFields.indexOf(field)<0 || !data[field]">
+
+                                        {{data[field] || field}}
+                                    </span> -->
+                                     <span>{{data[field] || "无"}}</span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="wrap-pagination" ng-show="totalItems && totalPage" ng-cloak>
+     <ul uib-pagination
+     ng-show="totalItems && totalPage"
+     first-text="首页"
+     last-text="最后一页"
+     previous-text="上一页"
+     next-text="下一页"
+     boundary-link-numbers="true"
+     force-ellipses="true"
+     class="pagination-sm"
+     total-items="totalItems"
+     ng-model="currentPage"
+     max-size="maxSize"
+     items-per-page="pageSize"
+     ng-change="getData()"
+     ></ul>
+     <select ng-change="changePageSize()" ng-model="pageSize" ng-init="pageSize = pageSize + '' || pageSizeOptions[0] + '' ">
+         <!--  -->
+         <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}} 条/页</option>
+     </select>
+     <div class="jump" ng-show="totalItems && totalPage > 5">
+          <input type="number" name="jumpPageNum" ng-model="jumpPageNum" ng-keyup="jumpPage($event)" placeholder="输入页码" />
+          <a href="javascript:" ng-click="jumpPage()">GO</a>
+     </div>
+     <div class="i-fr">{{totalItems}}条记录，共{{totalPage}}页</div>
+ </div>
+
+        </div>
+        <script type="text/ng-template" id="resetModel.html">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <p class="text-center" style="display:flex;align-items:center;justify-content:center;">
+                    <i class="glyphicon glyphicon-info-sign" style="font-size:48px;color:red;"></i>
+                    <span style="display:inline-block;margin-left:15px;">请确认是否要执行状态重置操作？</span>
+                </p>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button class="btn btn-primary" type="button" ng-click="saveState()">确定</button>
+                <button class="btn btn-default" type="button" ng-click="cancelState()">取消</button>
+            </div>
+        </script>
+    </div>
+    <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+<script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+<script   src="/project/portals/config/config.js?_v=000d11"></script> <script>
+var _hmt = _hmt || [];
+//让业务页面首先加载，footer和统计稍后加载
+ setTimeout(function(){
+    require(['modules/footer/js/footer']);
+    var node = document.createElement("script");
+    node.type = 'text/javascript';
+    node.charset = 'utf-8';
+    node.async = true;
+    node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(node, s);
+ },0)
+</script>
+<footer class="footer" ng-cloak>
+    <!-- <p> 
+        <label style="margin-right: 15px;">滴滴出行安全产品与技术部开发并维护</label>
+        扫码加入钉钉反馈群：<img  width="90" height="90"  src="/project/portals/i/code.png?_v=80763a"/>
+    </p> -->
+    <div class="footer-container">
+        <div class="footer-item" style="width: 50%;">
+            <p class="footer-item--title">安全管理平台</p>
+            <p class="footer-item--desc">我们专注提供一站式安全服务，打造一流安全平台，建设顶级安全服务能力，为滴滴信息安全、业务安全和客户安全保驾护航。</p>
+            <p class="footer-item--desc">反馈邮箱： soc@didichuxing.com</p>
+        </div>
+        <div style="width: 40%;">
+            <p class="footer-item--desc">扫码加入钉钉反馈群</p>
+            <img  width="100" height="100"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </div>
+
+    <!-- <div popover-placement="left-bottom" uib-popover-template="'options-panel.html'" popover-trigger="'mouseenter'"  class="p-btn-scroll-code fadein" style="bottom: 165px;">
+        <img  width="30" height="30"  src="/project/portals/i/code.png?_v=80763a"/>
+    </div>
+    <script type="text/ng-template" id="options-panel.html">
+        <div class="form-group">
+          <div>扫码加入钉钉反馈群:</div>
+          <img  width="150" height="150"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </script> -->
+</footer>
+    <script>
+        require(['js/alarm/index']);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<%
+var word = info.data.hasOwnProperty('words') ? info.data.words + info.data.preAnswerContent : info.data.preAnswerContent;
+var temp = "";
+
+var item = info.data;
+var messageContent = "";
+var updateAt = "";
+var messageTitle = "";
+
+var time = info.hasOwnProperty("time") ? info.time : "";
+temp += time ? "<h6 class='date'>更新日期：" + commonUtil.changeTime(time) + "</h6>" : "";
+temp += "<div class='box_show'>";
+for (var i = 0; i < item.length; i++) {
+    messageContent = item[i].hasOwnProperty("messageContent") ? item[i].messageContent : "";
+    updateAt = item[i].hasOwnProperty("updateAt") ? item[i].updateAt : "";
+    messageTitle = item[i].hasOwnProperty("messageTitle") ? item[i].messageTitle : "";
+    temp += "<h4>" + messageTitle + "</h4>";
+    temp += "<h5><b></b>" + messageContent + "</h5>";
+    temp += "<h6 class='date'>" + commonUtil.changeTime(updateAt) + "</h6>";
+}
+%>
+<div class="bd">
+    <div class="mb">
+        <%- temp %>
+    </div>
+</div>
+<script>
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info) %>');
+} catch (error) {
+    
+}
+
+function nodeQuestion(item) {
+        try {
+            thas.nodeFunction('info',item);
+        } catch (error) {
+            
+        }
+    }
+</script>
+
+

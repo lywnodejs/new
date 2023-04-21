@@ -1,0 +1,52 @@
+<% include ../../component/jsLoad %>
+<%
+    let data = info.data;
+    let list = data.intro || [];
+%>
+
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!--<div class="rxh_public_hd01">-->
+<!--    <b></b><span>行业简介</span>-->
+<!--</div>-->
+
+<% if(list.length > 0){ %>
+    <div class="rxh_public_bd01">
+        <%= list %>
+    </div>
+<% }else{ %>
+    <div class="rxh_text rxh_gap rxh_bg">
+        <h5>暂无数据</h5>
+    </div>
+<% } %>
+
+<script>
+  var autoReportDetailView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    //行业简介的文字的展开收起
+    openDetail: function (obj) {
+
+      var thisObj = $(obj);
+      var $this_parent = thisObj.parent();
+
+      if($this_parent.hasClass("open")){
+        $this_parent.attr("class","takeUp");
+        thisObj.text("[收起]");
+      }else{
+        $this_parent.attr("class","open");
+        thisObj.text("[展开]");
+      }
+    }
+  }
+
+  <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, autoReportDetailView<%- sn %>.onViewReady)
+  <% } %>
+</script>

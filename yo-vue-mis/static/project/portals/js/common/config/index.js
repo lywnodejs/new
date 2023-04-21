@@ -1,0 +1,1 @@
+define("js/common/config/index",["require","exports","module"],function(e,d,n){return{dataProvideMethod:["API接口","邮件发送","线下传递","其他"],dataLevel:["公开数据(C1)","内部数据(C2)","秘密数据(C3)","机密数据(C4)"],dataRequestFrequency:["仅此一次","每天","每周","每月","每季","每年"]}});

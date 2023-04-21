@@ -1,0 +1,266 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <div class="capStr">
+            <div class="box_bBlue box_capStr">
+                <h5>股东人数近期<%= strAmount + strLimitedStock %></h5>
+                <i onclick="capitalStructure.capitalStructure('<%= JSON.stringify(info) %>')" class="icon-arrow_closed"></i>
+            </div>
+
+            <div class="box_show_ol box_show_ol2 lBox_capStr">
+                <ul>
+                    <li>总股本</li>
+                    <li><%= commonUtil.fixed2(shareStructure.totShare / 10e3) %>亿股</li>
+                </ul>
+                <ul>
+                    <li>流通股本</li>
+                    <li><%= commonUtil.fixed2(shareStructure.floatShare / 10e3) %>亿股</li>
+                </ul>
+                <ul>
+                    <li>企业性质</li>
+                    <li><%= (shareStructure.comType ? shareStructure.comType : '--') %></li>
+                </ul>
+                <ul>
+                    <li>股东人数</li>
+                    <li>
+                        <h5><%= (lastHolder.shldAmount ? lastHolder.shldAmount : '--') %>户</h5>
+                        <h6>
+                            较上期<%= (lastHolder.chanOfLast > 0 ? "增加" : "减少") + (lastHolder.chanOfLast ? Math.abs(lastHolder.chanOfLast).toFixed(2) : '') %>
+                            %</h6>
+                    </li>
+                </ul>
+                <ul>
+                    <li>限售股解禁</li>
+                    <li>
+                        <h5><%= commonUtil.formatNumber(latestCalendar.listAmount * 10e3, '', false) %>'股</h5>
+                        <h6><%= commonUtil.generateDate(latestCalendar.listDate) %>解禁</h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var capitalStructure = {
+    onViewReady: function () {
+      resizeUtils.init(frameId, sn);
+    },
+
+    /**
+     * 股本结构 + 底部详情弹窗
+     * @param result
+     * @param isPopup 是否在弹窗中展示
+     * @param showInteractiveView
+     */
+    capitalStructure: function (result, isPopup, showInteractiveView) {
+      //提取出要用的变量
+      result = JSON.parse(result);
+      var shareholderAmountList = result.data.amount.shareholderAmountList;
+      var calendarList = result.data.calendarList;
+      var tagBody = '';
+      var chartId = toolsUtil.generateRandomClassName('chart');
+
+      //弹窗中展示
+      tagBody +=
+        '<ul class="box_txt_factor">' +
+        '<li>' +
+        '<h3><%= commonUtil.fixed2(shareStructure.totShare / 10e3) %><span>亿股</span></h3>' +
+        '<h6>总股本</h6>' +
+        '</li>' +
+        '<li>' +
+        '<h3><li><%= commonUtil.fixed2(shareStructure.floatShare / 10e3) %><span>亿股</span></h3>' +
+        '<h6>流通股本</h6>' +
+        '</li>' +
+        '<li>' +
+        '<h3><%= (shareStructure.comType ? shareStructure.comType : '--') %></h3>' +
+        '<h6>企业性质</h6>' +
+        '</li>' +
+        '</ul>';
+
+      tagBody +=
+        '<div class="box_shareholders">' +
+        '<div class="sh_hd">股东人数：<b><%= strAmount %></b></div>' +
+        '<h6>截止到<%= commonUtil.generateDate(lastHolder.endDate) %>，股东人数<%= (lastHolder.shldAmount ? lastHolder.shldAmount : '--') %>户，较上期<%= (lastHolder.chanOfLast > 0 ? "增加" : "减少") + (lastHolder.chanOfLast ? commonUtil.fixed2(Math.abs(lastHolder.chanOfLast)) : '') %>%，前十大股东持股占比<%= (info.data.amount.tenHoldPercent ? info.data.amount.tenHoldPercent : '--') %>%</h6>' +
+        '</div>';
+
+      tagBody +=
+        //
+        <!-- 图表 -->
+        '<div class="box_chart_shareholders">' +
+        '<div class="txt">' +
+        '<span>单位：户</span>' +
+        '<span>单位：元</span>' +
+        '</div>' +
+        '<div id=' + chartId + ' class="box_chart01"></div>' +
+        '</div>';
+
+      tagBody +=
+        '<div>' +
+        generateStockHolder(result.data.ten.tenShareholderList, result.data.ten.tenFloatShareholderSList)
+        + '</div>';
+
+      //解禁列表
+      calendarList.forEach(function (item, index) {
+        tagCalendar +=
+          '<li>' +
+          '<dt>' +
+          '<b></b>' +
+          '<s><i></i></s>' +
+          '</dt>' +
+          '<dd>' +
+          '<div class="space_between">' +
+          '<span class="date">' + generateDate(item.listDate) + '</span>' +
+          '<span>' + formatNumber(item.listAmount * 10e3, '', false) + '股</span>' +
+          '</div>' +
+          '</dd>' +
+          '</li>';
+      });
+
+      // 限售股解禁
+      if (calendarList.length > 0) {
+        tagBody +=
+          '<div class="box_shareholders box_lifted">' +
+          '<div class="sh_hd">限售股解禁<b style="display: <%= clsLatestCalendar %>">近期大量解禁</b></div>' +
+          '<div class="box_timeLine box_timeLine_factor">' +
+          '<div class="timeLine">' +
+          '<ul>' +
+          tagCalendar +
+          '</ul>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+      }
+
+      popUtil.appendAnswerToPopup(tagBody);
+      popUtil.showPopup('股本结构');
+      // console.log(toolsUtil.deepCopy(shareholderAmountList).reverse())
+      new LineColumnChart(chartId, toolsUtil.deepCopy(shareholderAmountList).reverse());
+
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/popUtil', '/static/js/charts/lineColumnChart', '/static/js/libs/6.0/highstock.src', '/static/js/utils/toolsUtil', '/static/js/utils/timeUtil', '/static/js/libs/clipboard.min', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, capitalStructure.onViewReady)
+
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+  //十大股东共用部分
+  function generateStockHolder(holderList, floatHolderList) {
+    //十大股东
+    var tenShareholderList = holderList;
+    var tagTenHolder = '';
+    tenShareholderList.forEach(function (item, index) {
+      tagTenHolder +=
+        '<ul>' +
+        '<li><h5>' + item.shldName + '</h5></li>' +
+        '<li>' + item.hldPercent.toFixed(2) + '%</li>' +
+        '<li>' + (item.chanOfLast === 0 ? '未变' : (item.chanOfLast / 10e3).toFixed(2)) + '<b class="' + getHolderClsByType(item.chanOfLastType).class + '">' + getHolderClsByType(item.chanOfLastType).name + '</b></li>' +
+        '</ul>';
+    });
+
+    //十大流通股东
+    var tenFloatShareholderSList = floatHolderList;
+    var tagTenFloatHolder = '';
+    tenFloatShareholderSList.forEach(function (item, index) {
+      tagTenFloatHolder +=
+        '<ul>' +
+        '<li><h5>' + item.shldName + '</h5></li>' +
+        '<li>' + item.hldPercent.toFixed(2) + '%</li>' +
+        '<li>' + (item.chanOfLast === 0 ? '未变' : (item.chanOfLast / 10e3).toFixed(2)) + '<b class="' + getHolderClsByType(item.chanOfLastType).class + '">' + getHolderClsByType(item.chanOfLastType).name + '</b></li>' +
+        '</ul>'
+    });
+
+    var tagBody =
+      '<div class="tab_shareholdersTop">' +
+      '<nav onclick="stockHolderTabClick(event)">' +
+      '<a class="on">十大股东<b></b></a>' +
+      '<a>十大流通股东<b></b></a>' +
+      '</nav>' +
+      //
+      <!-- 十大股东 -->
+      '<div class="nav_con show">' +
+      '<div class="box_show_ol2 lBox_shareholders">' +
+      '<ol>' +
+      '<li>股东</li>' +
+      '<li>占比</li>' +
+      '<li>变动(万股)</li>' +
+      '</ol>' +
+      tagTenHolder +
+      '</div>' +
+      '</div>' +
+      //
+      <!-- 十大流通股东 -->
+      '<div class="nav_con">' +
+      '<div class="box_show_ol2 lBox_shareholders">' +
+      '<ol>' +
+      '<li>股东</li>' +
+      '<li>占比</li>' +
+      '<li>变动(万股)</li>' +
+      '</ol>' +
+      tagTenFloatHolder +
+      '</div>' +
+      '</div>' +
+      '</div>';
+
+    return tagBody;
+  }
+
+  /**
+   * 1. 增：在b标签加样式名：b_red
+   * 2. 减：在b标签加样式名：b_green
+   * 3. 新：在b标签加样式名：b_blue
+   * 4. 未变：在li标签上加样式名：null
+   * @param type
+   * @returns {string}
+   */
+  function getHolderClsByType(type) {
+    var cls = {class: '', name: ''};
+    switch (type) {
+      case 1:
+        cls.class = 'b_blue';
+        cls.name = '新';
+        break;
+      case 2:
+        cls.class = 'b_red';
+        cls.name = '增';
+        break;
+      case 3:
+        cls.class = 'b_green';
+        cls.name = '减';
+        break;
+      case 4:
+        cls.class = 'null';
+        cls.name = '未';
+        break;
+    }
+    return cls;
+  }
+
+
+</script>
+

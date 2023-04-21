@@ -1,0 +1,55 @@
+<form class="p-form" name="dlpForm">
+
+    <div class="p-form-item form-flex">
+        <span class="red-color label">是否发起“通报”审核流程？</span>
+        <div class="wrap-input form-flex-item">
+            <label class="item-label"><input type="radio" ng-model="isDlpConfirm" ng-required="true" ng-change="change()" ng-checked="true" value="1" name="isDlpConfirm" style="margin:0 5px">是</label>
+            <label class="item-label"><input type="radio" ng-model="isDlpConfirm" ng-required="true" ng-change="change()" value="0" name="isDlpConfirm" style="margin:0 5px">否</label>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-col-2"><i class="i-must" ng-show="isRequire">*</i>被通报人：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':!notifiers.length && isRequire && showErrors}">
+            <ui-my-auto-complete url="userList" placeholder="请输入关注人" ng-model="notifiers" ng-cloak>
+                <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}}</ui-select-match-item>
+                <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+            </ui-my-auto-complete>
+            <span class="p-error-msg" ng-class="{'ng-invalid':!notifiers.length && isRequire && showErrors  }" ng-show="!notifiers.length">请输入并选择被通报人</span>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-col-2"><i class="i-must" ng-show="isRequire">*</i>被通报上级：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':!leader.length && isRequire && showErrors}">
+            <ui-my-auto-complete url="userList" placeholder="请输入关注人" ng-model="leader" ng-cloak>
+                <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}}</ui-select-match-item>
+                <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+            </ui-my-auto-complete>
+            <span class="p-error-msg" ng-class="{'ng-invalid':!leader.length && isRequire && showErrors}" ng-show="!leader.length">请输入并选择被通报上级</span>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-col-2"><i class="i-must" ng-show="isRequire">*</i>被通报审核人：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':!reviewers.length && isRequire && showErrors}">
+            <ui-my-auto-complete url="userList" placeholder="请输入关注人" ng-model="reviewers" ng-cloak>
+                <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}}</ui-select-match-item>
+                <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+            </ui-my-auto-complete>
+            <span class="p-error-msg" ng-class="{'ng-invalid':!reviewers.length && isRequire && showErrors  }" ng-show="!reviewers.length">请输入并选择被通报审核人</span>
+        </div>
+    </div>
+
+    <div class="p-form-item">
+        <label class="p-col-2 p-muti"><i class="i-must ">*</i>原因：</label>
+        <div class="wrap-input p-col-10" ng-class="{'p-error':dlpForm.remark.$error.required && dlpForm.remark.$touched}">
+            <textarea class="p-form-control p-reason" ng-required="true" name="remark" placeholder="请输入备注" ng-model="remark"></textarea>
+            <span ng-show="dlpForm.remark.$error.required" class="p-error-msg">请输入备注</span>
+        </div>
+    </div>
+</form>
+<div class="wrap-center-btn">
+    <button class="p-btn" ng-click="pageAgree()">确认</button>
+    <button class="p-btn p-btn-gray" ng-click="dialogClose($event)">取消</button>
+</div>

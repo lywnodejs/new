@@ -1,0 +1,49 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--财务指标-->
+<% if(ispop){ %>
+<div>
+    <% }else{ %>
+    <% include ./component/preAnswer %>
+    <div class='bd' id="answer<%= sn %>">
+        <div class='mb'>
+            <% } %>
+            <%- data %>
+            <% if(ispop){ %>
+        </div>
+        <% }else{ %>
+    </div>
+</div>
+<% } %>
+<div class="preAnswer" style="display:none;"><%= preAnswer %></div>
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var financialIndex = {
+    onViewReady: function () {
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, financialIndex.onViewReady)
+
+  function changeFinaTabs(thisLi, title) {
+    let aN = $(thisLi).index()
+    let con_ul = $(thisLi).parents(".box_fix").siblings(".content_ul").find(".box_con").eq(aN);
+    $(thisLi).addClass("on").siblings().removeClass("on");
+    con_ul.addClass("show");
+    con_ul.siblings().removeClass("show");
+
+    // let txt = $(thisLi)[0].textContent+'点击';
+    // baiduTrackEvent(title+':年份标签','click',title+':'+txt);//百度统计
+  }
+</script>
+
+
+
+
+

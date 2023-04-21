@@ -1,0 +1,525 @@
+<style>
+    .infoDetail span {
+        margin-right: .875rem;
+        font-size: .875rem;
+        color: #a7aabe;
+    }
+
+    .infoDetail p {
+        text-indent: 2rem;
+        font-weight: 300;
+        line-height: 1.875em;
+    }
+</style>
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb'>
+        <div class="box_comReview <%= boxClass %>">
+            <div class="stock">
+                <div><%= property.name %><span class="num"><%= property.code %></span></div>
+                <div class="num t_red"></div>
+            </div>
+            <% if(matterIndex){ %>
+                <div class="subMatter"
+                     onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','<%= list[matterIndex].predicateType %>','<%= JSON.parse(list[matterIndex].messageContent).status %>','<%= list[matterIndex].messageTitle %>')">
+                    <a id="themes" class="shence">行业概念：
+                        <% for(var i = 0;i < messageDispArr.length;i++){ %>
+                            <b><%= messageDispArr[i] %></b>
+                        <% } %>
+                    </a>
+                </div>
+            <% } %>
+
+            <% if(techOrRiskIndex >= 0){ %>
+                <% if (list[techOrRiskIndex].messageTitle == '技术面分析') {
+                    var matterIndexValue;
+                    var messageTitleValue;
+                    if (matterIndex) {
+                        matterIndexValue = JSON.parse(list[matterIndex].messageContent).status;
+                        messageTitleValue = list[matterIndex].messageTitle;
+                    }
+                %>
+                <div class="technical"
+                     onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','<%= list[techOrRiskIndex].predicateType %>','<%= matterIndexValue %>','<%= messageTitleValue %>')">
+                    <a id="technical" class="shence">
+                        <div class="hd">
+                            <div>技术面</div>
+                            <div>详细<i class="icon-arrow_closed"></i></div>
+                        </div>
+                        <h5><%= list[techOrRiskIndex].messageDisp %></h5>
+                    </a>
+                </div>
+                <% }else{ %>
+                    <div class="riskHints"
+                         onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','<%= list[techOrRiskIndex].predicateType %>','<%= JSON.parse(list[matterIndex].messageContent).status %>','<%= list[matterIndex].messageTitle %>')">
+                        <a class="shence" id="riskHints"><i></i>
+                            <h6><%= list[techOrRiskIndex].messageDisp %></h6>
+                        </a>
+                    </div>
+                <% } %>
+            <% } %>
+
+            <ul class="capFinance <%= cls %>">
+                <% if(financeGrateIndex >= 0){ %>
+                    <li onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','<%= list[financeGrateIndex].predicateType %>','<%= JSON.parse(list[financeGrateIndex].messageContent).status %>','<%= list[financeGrateIndex].messageTitle %>')">
+                        <a class="shence" id="fund"><h6>资金面<span>近5日</span></h6>
+                            <h3><span class="num"><%= fundValue %></span><em>万</em></h3>
+                        </a>
+                    </li>
+                <% } %>
+                <% if(fundValueIndex >= 0){ %>
+                    <li onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','财务指标','<%= JSON.parse(list[fundValueIndex].messageContent).status %>','<%= list[fundValueIndex].messageTitle %>')">
+                        <a class="shence" id="finance"><h6>财务面</h6>
+                            <h4><%= financeGrate %></h4>
+                        </a>
+                    </li>
+                <% } %>
+                <% if(insRatingIndex >= 0){ %>
+                    <li onclick="showTotalDetail('<%= property.marketType %>','<%= property.code %>','<%= property.name %>','估值评级','<%= JSON.parse(list[insRatingIndex].messageContent).status %>','<%= list[insRatingIndex].messageTitle %>')">
+                        <a class="shence" id="finance"><h6>机构面</h6>
+                            <h4><%= ratingLabel %></h4>
+                        </a>
+                    </li>
+                <% } %>
+            </ul>
+
+
+            <div class="PubOpinion" id="getNewsAndReportDiv<%= mathRandom %>">
+                <div class="TAB2">
+                    <%
+                    var question = property.name + '最新资讯';
+                    //subjectCode,subjectName,subjectMarket,mathRandom,showNum,source
+                    var showNum = 5;
+                    var tabRandomId = commonUtil.generateRandomClassName('tab');
+                    %>
+                    <ul id="<%= tabRandomId %>">
+                        <li class="on">
+                            <span onclick="newsTabClick(event,'<%= mathRandom %>')">新闻<b></b></span>
+                            <a onclick="getNewsAndReport('<%= property.code %>','<%= property.name %>','<%= property.marketType %>','<%= mathRandom %>','<%= showNum %>','<%= question %>')">更多<i
+                                        class="icon-arrow_closed"></i></a>
+                        </li>
+                        <li id="li<%= mathRandom %>">
+                            <span onclick="noticeTabClick(event,'<%= mathRandom %>')">公告<b></b></span>
+                            <a onclick="nodeQuestion('<%= property.name.replace(/\s/g, '')+'最新公告' %>')">更多<i
+                                        class="icon-arrow_closed"></i></a>
+                        </li>
+                    </ul>
+                    <div class="bottom"></div>
+                </div>
+                <ul style="display: block">
+                    <%
+                    var len = messageContent.newsList.length
+                    if (len > 3) {
+                        len = 3;
+                    }
+                    for(var i = 0;i < len;i++){
+                    %>
+                    <li>
+                        <a style="width: 100%"
+                           onclick="showInformationDetail('<%= messageContent.newsList[i].id %>','资讯')">
+                            <h5><%= messageContent.newsList[i].title %></h5>
+                            <h6>
+                                <% if(messageContent.newsList[i].hasOwnProperty('mediaFrom')){
+                                    var from = "--";
+                                    if (messageContent.newsList[i].mediaFrom.length > 0) {
+                                        from = messageContent.newsList[i].mediaFrom;
+                                    }
+                                %>
+                                <span class="l">来源：<%= from %></span>
+                                <% } %>
+                                <% if(messageContent.newsList[i].hasOwnProperty('time')){
+                                    var time = timeUtil.getDataGridTimeFormat(messageContent.newsList[i].time);
+                                %>
+                                <span class="r num"><%= time %></span>
+                                <% } %>
+                            </h6>
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+                <ul style="display: none">
+                    <% for(var i = 0;i < 3 && i < notice.length;i++){
+                        var item = notice[i];
+                    %>
+                    <li>
+                        <a style="width: 100%">
+                            <h5 onclick="showPDF('<%= item.annTitle %>','<%= item.annUrl %>')"><%= item.annTitle %></h5>
+                            <h6>
+                                <% if(item.hasOwnProperty('pubAt')){ %>
+                                    <span class="r num"><%= timeUtil.getDataGridTimeFormat(item.pubAt) %></span>
+                                <% } %>
+                            </h6>
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+            </div>
+            <div class="eComment">
+                <p>小e点评</p>
+                <h5><%= studyStaticText %></h5>
+            </div>
+
+            <%
+            var htmlUrl = 'https://stock-report.rxhui.com/html/' + property.code + '.html';
+            %>
+            <div class="resRep_file" onclick="openReportHtml('<%= htmlUrl %>')">
+                <a>
+                    <i class="icon-file"><span class="path1"></span><span class="path2"></span></i>
+                    <span>一键智能生成报告，查看更多</span>
+                    <i class="icon-arrow_closed"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 弹窗__提示弹窗（自动） -->
+<div class="pop_v2 pop_prompt pop_prompt_risk pdfForAuto">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+            公告原文链接已复制，请打开浏览器在地址框粘贴查看
+        </div>
+        <div class="btn">
+            <a id="lnkCopyPdfUrl" data-clipboard-action="copy" data-clipboard-text="" onclick="closePDFPop()">好&nbsp;&nbsp;的</a>
+        </div>
+    </div>
+</div>
+<div class="preAnswer" style="display:none;"><%= preAnswer %></div>
+
+<script>
+
+  /**
+   * 判断是否支持pdf展示
+   * @param {*} title
+   * @param {*} pdfUrl
+   */
+  var pdfSupport = false;
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+
+  var stockAnalysis = {
+    onViewReady: function () {
+      if (frameId) {
+        pdfSupport = appUtil.getConfigByApp('<%- params.appKey%>','<%- params.appVersion%>','pdfSupport','<%- params.appFrom%>');
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/charts/sh_kLine',
+    '/static/js/libs/6.0/highstock.src',
+    '/static/js/libs/clipboard.min',
+    '/static/js/utils/timeUtil',
+    '/static/js/utils/popUtil',
+    '/static/js/utils/appUtil',
+    '/static/js/utils/logUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockAnalysis.onViewReady)
+
+  /**
+   * 点全部时查询详情
+   * @param stockName
+   * @param type
+   * 个股综评弹框，title中包含“风险提示:”字样的，标题不显示“个股技术分析”显示“风险提示”（20180628--曹德亮）
+   * @param source 来源 百度统计
+   */
+  function showTotalDetail(marketType, stockCode, stockName, predicateType, status, title, source) {
+
+    if (status != 'UNLISTED') {
+      popTitle = title;
+      //$('#bottomPopupTitle').html(predicateType);
+      if (title.indexOf("风险提示") !== -1) {
+        $('#bottomPopupTitle').html(title);
+      } else {
+        $('#bottomPopupTitle').html(predicateType);
+      }
+
+      setTimeout("$('#bottomPopup').show();", 500);
+      $('.pop_BottomToTop .bg').show();
+      $(".pop_BottomToTop").fadeIn();
+      $(".pop_BottomToTop .box").slideDown(300);
+      $('#bottomContainer').removeClass("box_hide").addClass("box_show");
+      var params = {
+        subjectMarket: marketType ? marketType : 'sz',
+        subjectCode: stockCode ? stockCode : '000001',
+        subjectName: stockName,
+        subjectType:'股票',
+        predicateType: predicateType,
+        ispop: true
+      };
+      popupQuestion(params, source, title);
+    }
+  }
+
+  /**
+   * 底部弹窗问题
+   * @param params
+   * @param source 来源  百度统计
+   */
+  function popupQuestion(params, source, title) {
+
+    $.ajax({
+      type: "get",
+      url: '<%= config %>' + "/api/qa/fixQustion",
+      data: params,
+      timeout: 10000,
+      jsonp: "callback",
+      success: function (json) {
+        console.log(json);
+        // $(".showLoading").hide();
+        //setAnswer(json, true,"","zongping");
+
+        popUtil.appendAnswerToPopup(json);
+        popUtil.showPopup(title);
+        // console.log(json)
+        // setAnswer(json, true,"",source);
+      },
+      complete: function (XMLHttpRequest) {
+        $(".showLoading").hide();
+      }
+    });
+  }
+
+  // 新闻tab点击
+  function newsTabClick(event, mathRandom) {
+    var ep = $(event.currentTarget).parent();
+    if (!ep.hasClass('on')) {
+      ep.attr('class', 'on');
+      ep.siblings().attr('class', '');
+      var eul = $('#getNewsAndReportDiv' + mathRandom + ' > ul');
+      eul.eq(0).show();
+      eul.eq(1).hide();
+    }
+  }
+
+  // 公告tab点击
+  function noticeTabClick(event, mathRandom) {
+    var ep = $(event.currentTarget).parent();
+    if (!ep.hasClass('on')) {
+      ep.attr('class', 'on');
+      ep.siblings().attr('class', '');
+      var eul = $('#getNewsAndReportDiv' + mathRandom + ' > ul');
+      eul.eq(0).hide();
+      eul.eq(1).show();
+    }
+  }
+
+  /**
+   *  综评优化三期
+   *  固定回答  最新资讯
+   *  杨超
+   *  @param subjectCode
+   *  @param subjectName
+   *  @param subjectMarket
+   *  @param mathRandom 随机数
+   *  @param showNum 数据显示条数
+   *  @param showNum showTxt
+   */
+  function getNewsAndReport(subjectCode, subjectName, subjectMarket, mathRandom, showNum, source, showTxt) {
+
+  }
+
+  /**
+   * 智能回答
+   * @param sendTxt 发送给后端的问题
+   * @param showTxt 显示的问题
+   * @param voiceQuestion 是否为语音问题
+   * @param questionId 个性化首页推荐需要参数  问句的id
+   * @param userQuestionId  个性化首页推荐需要参数  用户问句关系的id
+   * @param source  来源（便于百度统计）
+   */
+  function nodeQuestion(sendTxt, showTxt, voiceQuestion, isPopup, questionId, userQuestionId, source) {
+  }
+
+  /**
+   * 点全部时查询详情
+   * @param preAnswerContent
+   * @param id  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   * @param indexId  个性化首页资讯  传参 indexId
+   */
+
+  function showInformationDetail(id, preAnswerContent, type, indexId) {
+    if (type === "homePage") {
+      popupQuestionForHomepage(id, indexId, preAnswerContent);
+    } else {
+      popupQuestionForInfoAndRe(id, preAnswerContent);
+    }
+    // popUtil.showPopup(preAnswerContent + "详情");
+  }
+
+  /**
+   * 资讯和研报详情弹层
+   * @param params
+   */
+  function popupQuestionForInfoAndRe(id, preAnswerContent) {
+    var url = "";
+    if (preAnswerContent == "资讯") {
+      url = '<%= host %>' + '/news/detail';
+    } else if (preAnswerContent == "研报") {
+      url = '<%= host %>' + '/report/detail';
+    }
+    $.ajax({
+      type: "get",
+      url: url,
+      data: {
+        id: id
+      },
+      timeout: 10000,
+      success: function (json) {
+        commonInfoDetail(json,"",preAnswerContent);
+        // $(".showLoading").hide();
+      },
+      complete: function (XMLHttpRequest) {
+        $(".showLoading").hide();
+      }
+    });
+  }
+
+  /**
+   * 个性化首页资讯详情弹层
+   * @param id  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   */
+  function popupQuestionForHomepage(id, indexId, preAnswerContent) {
+    var url = '<%= host %>' + '/riskNotices/api/qa/fix';
+    var data = {
+      predicateType: '资讯详情',
+      question: id,
+      userId: userId,
+      clientId: clientId,
+      fundAccount: fundAccount,
+      userQuestionId: indexId,
+      organization: 'appEzt'
+    };
+    $.ajax({
+      type: "get",
+      url: url,
+      data: data,
+      dataType: "jsonp",
+      timeout: 15000,
+      jsonp: "callback",
+      success: function (result) {
+        commonInfoDetail(result, "homePage", preAnswerContent);
+        // $(".showLoading").hide();
+      },
+      complete: function (XMLHttpRequest) {
+        $(".showLoading").hide();
+      }
+    });
+  }
+
+  /**
+   * 资讯和研报详情弹层
+   * @param json  数据源
+   * @param type  个性化首页资讯  传参 homePage;  其他来源传参 空
+   */
+  function commonInfoDetail(json, type, preAnswerContent) {
+    var temp = "", title = '', mediaFrom = '', publishAt, stock = [], content = '';
+    if (type == "homePage") {
+      if (json.data) {
+        title = json.data.title;
+        mediaFrom = json.data.mediaFrom;
+        publishAt = timeUtil.getDataGridTimeFormat(json.data.publishAt);
+        content = json.data.content;
+        stock = json.data.stock;
+      }
+    } else {
+      title = json.title;
+      mediaFrom = json.mediaFrom;
+      publishAt = timeUtil.getDataGridTimeFormat(json.publishAt);
+      content = json.content;
+      stock = json.stock;
+    }
+    temp += "<div class='box_show box_show_btn infoDetail'><h3 style='font-weight: 500;padding: .33rem 0;padding-top: .33rem;padding-bottom: .13rem;margin-bottom: .5rem;'><b>" + title + "</b></h3><span>来源:" + mediaFrom + "</span><span>" + publishAt + "</span><h4 style='margin-top: .5rem;'>相关个股:";
+    for (var i = 0; i < stock.length; i++) {
+      temp += "<span style='color: #2c3e50!important;font-weight: 500;font-size: 0.875rem;'>" + stock[i].name + "</span>";
+    }
+    temp += "</h4><p>" + content + "</p></div>";
+
+
+    popUtil.appendAnswerToPopup(temp);
+    popUtil.showPopup(preAnswerContent + "详情");
+  }
+
+  /**
+   * 判断是否支持pdf展示
+   * @param {*} title
+   * @param {*} pdfUrl
+   */
+  var pdfSupport = false;
+
+  function showPDF(title, pdfUrl) {
+    var params = JSON.parse('<%- JSON.stringify(params)%>');
+    if (pdfSupport) {
+      appUtil.functionForShowPDF(title, pdfUrl, params.appFrom, params.appKey);
+    } else {
+      if (params.appKey === 'appHtyw') {
+        window.open(pdfUrl, '_black');
+        return;
+      }
+      if (ClipboardJS.isSupported()) {
+        $('#lnkCopyPdfUrl').attr('data-clipboard-text', pdfUrl);
+        var clipboard = new ClipboardJS('#lnkCopyPdfUrl');
+        clipboard.on('success', function (e) {
+          console.info('Action:', e.action);
+          console.info('Text:', e.text);
+          console.info('Trigger:', e.trigger);
+          e.clearSelection();
+          clipboard.destroy();
+        });
+        clipboard.on('error', function(e) {
+          console.error('Action:', e.action);
+          console.error('Trigger:', e.trigger);
+        });
+        copyPdfUrl(pdfUrl);
+      } else {
+        copyPdfUrlForHand(pdfUrl);
+      }
+    }
+  }
+
+  function copyPdfUrl(pdfUrl) {
+    $(".pdfForAuto").addClass("show").removeClass("hide");
+    var propH = $(".pop_prompt_risk .box").height();
+    propT = propH + 50;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  function copyPdfUrlForHand(pdfUrl) {
+    $('.PDFUrlTxt').text(pdfUrl);
+    $(".pdfForHand").show();
+    var propH = $(".pdfForHand .box").height();
+    propT = propH;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  /**
+   * 关闭弹出的pdf的弹窗
+   */
+  function closePDFPop() {
+    $(".pdfForAuto").addClass("hide").removeClass("show");
+  }
+
+  //调用移动端打开浏览器查看综评研报html页面
+  function openReportHtml(htmlUrl) {
+    window.open(htmlUrl);
+  }
+
+</script>
+
+
+
+
+

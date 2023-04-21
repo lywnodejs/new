@@ -1,0 +1,18 @@
+<!--components/order-cell/index.wxml-->
+<view class="order-cell">
+  <view class="header">
+    <text>{{data.productName}}</text>
+    <text style="color: {{color[data.status] || '#999999'}}" class="status">{{data.statusDesc}}</text>
+  </view>
+  <view class="content">
+    <block wx:for="{{data.orderItems}}" wx:key="*this">
+      <view>
+        <text>{{item.key}}</text>
+        <text>{{item.value}}</text>
+      </view>
+    </block>
+    <view class="info">
+      <text class="status">{{data.tips}}</text>
+    </view>
+  </view>
+</view>

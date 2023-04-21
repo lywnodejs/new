@@ -1,0 +1,43 @@
+.border(@width, @style) {
+  border-width: @width;
+  border-style: @style;
+}
+
+.app-border {
+  .border(1px, solid)
+}
+
+.app-border--top {
+  .border(1px, solid);
+  border-left: none;
+  border-bottom: none;
+  border-right: none;
+}
+
+.app-border--right {
+  .border(1px, solid);
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+.app-border--bottom {
+  .border(1px, solid);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.app-border--left {
+  .border(1px, solid);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.app-border--container {
+  .border(1px, solid);
+  border-top: none;
+}
+
+

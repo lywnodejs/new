@@ -1,0 +1,44 @@
+<!--pages/account/password/change/index.wxml-->
+<view class="password-change" bindtap="closePWD">
+  <view>
+    <view class="item" style="margin-top: 20rpx;">
+     <view>身份证号码</view>
+      <input style="font-size: 28rpx;" type="idcard" placeholder="{{placeholder[0]}}" class="input"
+      placeholder-style="font-size:28rpx;"  bindinput="inputChange"/>
+    </view>
+    <view class="item" style="border-bottom: 1px solid #f3f3f3;margin-top: 20rpx;">
+      <view>设置新密码</view> 
+      <input placeholder="{{placeholder[1]}}" data-p='1' data-type="1" readonly="readonly" class="input"
+      placeholder-style="font-size:28rpx;"
+        catchtouchstart="bindButtonTap" type="digit" value="{{starstr[1]}}" id='INP2' />
+    </view>
+    <view class="item">
+      <view>确认新密码</view> 
+      <input placeholder="{{placeholder[2]}}" data-p='2' data-type="1" readonly="readonly" class="input"
+      placeholder-style="font-size:28rpx;"
+        catchtouchstart="bindButtonTap" type="digit" value="{{starstr[2]}}" id='INP3' />
+    </view>
+  </view>
+
+  <view class="footer">
+    <button disabled="{{disabled}}" bindtap="onSend">确认修改</button>
+    <safe-are-bottom />
+  </view>
+</view>
+
+
+<microdone 
+  bindmicrodoneevent="onMyEvent" 
+  place-holder="{{placeholder}}" 
+  keyboard-num="3" 
+  imgaddress="/image/microdone/"
+  starstr="{{starstr}}" 
+  license="{{license}}" 
+  SM24-public-key="{{SM24publickey}}" 
+  chaosMode="0"
+  length-limit="{{[6,6,6,6,6,6]}}" 
+  id="password" 
+/>
+
+<captcha-popup show="{{show}}" phone="{{reservedMobile}}" isCountdown="{{isCountdown}}" bindonSend="onSend"
+  isError="{{isCodeError}}" bindonComplete="onComplete" />

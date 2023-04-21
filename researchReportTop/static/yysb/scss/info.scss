@@ -1,0 +1,68 @@
+@function n($a) {
+    @return $a/67.5+rem;
+}
+*{
+    padding: 0;
+    margin:0;
+    list-style: none;
+    text-decoration: none;
+    // font-family: '黑体' !important;
+}
+header{
+    width: 100%;
+    height: n(163);
+    background: #161822;
+    padding-top: n(31);
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    color:#fff;
+    font-size: n(48);
+    line-height: n(103);
+    i{
+        position: absolute;
+        top: n(40);
+        left: n(40);
+        z-index: 2;
+    }
+    p{
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        position: absolute;
+        line-height: n(160);
+        top: 0;
+        left: 0;
+    }
+}
+.wenti{
+    height: n(90);
+    width: 100%;
+    margin-top: n(163);
+    background: #f8f8f8;
+    font-size: n(36);
+    color: #8a8a8c;
+    line-height: n(90);
+    padding-left: n(48);
+    box-sizing: border-box;
+}
+.main{
+    width: n(984);
+    height: auto;
+    margin:  0 auto; 
+    li{
+        width: 100%;
+        height: auto;
+        font-size: n(45);
+        color: #424242;
+        overflow-x: hidden;
+        line-height: n(65);
+        border-bottom: 1px solid #ededed;
+        // padding-left: n(10);
+        padding-top: n(55);
+        padding-bottom: n(48);
+        word-break: break-all;
+    }
+}

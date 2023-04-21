@@ -1,0 +1,137 @@
+<!--pages/repayment/index/index.wxml-->
+
+<view class="amount-box ">
+    <view class="amount-tit" wx:if="{{ repaymentType == 2 || repaymentType == 5}}">{{repaymentWay ===3 ? '还款金额':'还款本金'}}</view>
+    <view class="amount-tit" wx:if="{{repaymentType == 1}}">
+        本期应还金额
+    </view>
+    <view class="amount-tit" wx:if="{{repaymentType == 6}}">
+        全部结清应还金额
+    </view>
+
+    <view class="input-box {{(repaymentType == 1 || repaymentType == 6) && 'no-border'}} {{(repaymentType == 2 || repaymentType == 5) && amount - allMoney > 0 && 'red-border'}}">
+        <text>￥</text>
+        <input value="{{amount}}" disabled="{{repaymentType == 1 || repaymentType == 6}}" placeholder="{{repaymentWay ===3 ? '请输入还款金额':'请输入还款本金'}}" type="digit" maxlength="{{maxlength}}" bind:input="inputChange" bind:focus="focusInput" bind:blur="blurInput"></input>
+        <view wx:if="{{showClearBtn}}" class="input-close-icon" data-id="address" catch:touchstart="clearInput">
+            <image src="/image/close.png"></image>
+        </view>
+    </view>
+
+    <view class="desc {{(repaymentType == 1 || repaymentType == 6) && 'current-desc'}}">
+        <text wx:if="{{(repaymentType == 2 || repaymentType == 5) && amount - allMoney > 0}}" class="max-num">已超出全部可还本金，请重新输入</text>
+        <block  wx:else>
+            <block wx:if="{{showAllBtn}}">
+                <text wx:if="{{repaymentType == 2 || repaymentType == 5}}">本笔借款待还本金{{allMoney}}元</text>
+                <text wx:if="{{repaymentType == 1}}">本笔借款全部结清应还金额{{orderDetail.preRepaymentHead.fullSettleAmount}}元，</text>
+                <text wx:if="{{repaymentType == 6}}">本期应还金额{{orderDetail.preRepaymentHead.currentTermAmount}}元， </text>
+            </block>
+        </block>
+
+        <text wx:if="{{showAllBtn}}" bindtap="changeRepayType">{{repaymentType == 5 || repaymentType == 2 || repaymentType == 1 ?'全部结清':'只还本期'}}</text>
+    </view>
+
+    <block wx:if="{{isShowPaymentDetail}}">
+        <block wx:if="{{orderDetail.preRepaymentCentre}}">
+            <view class="detail-box">
+                <block wx:for="{{orderDetail.preRepaymentCentre.items}}" wx:key="index">
+                    <view class="flex-between">
+                        <text>{{item.key}}</text>
+                        <text style="color: {{item.color?item.color:'#4D4D4D'}}">{{item.value}}</text>
+                    </view>
+                </block>
+            </view>
+
+            <view class="total-box flex-between">
+                <text>实应付金额</text>
+                <text>￥<text class="total-num">{{orderDetail.preRepaymentCentre.shouldTotalRepayAmount}}</text></text>
+            </view>
+        </block>
+
+    </block>
+</view>
+
+
+<block wx:if="{{isShowPaymentDetail}}">
+    <view class="info-item" wx:if="{{coupons.length > 0 && !!amount}}" bind:tap="showCoupon">
+        <view class="label-text">优惠券</view>
+        <view class="item-content">
+            <text class="item-value" wx:if="{{selectedCoupon == -2}}">请选择</text>
+            <text class="item-value" wx:if="{{selectedCoupon != -2}}">{{coupons[selectedCoupon].title}}</text>
+        </view>
+        <view class="item-right-link"></view>
+    </view>
+
+    <view class="tips" wx:if="{{ orderDetail.repaymentDesc && !!amount && !!plans && plans.length > 0}}">
+        <view class="desc">{{orderDetail.repaymentDesc}}</view>
+        <view class="link" bindtap="showPlans">
+            <text>最新还款计划</text>
+        </view>
+    </view>
+</block>
+
+
+
+<view class="repay-btn">
+    <button class="{{isDisabledBtn && 'disabled'}}" bindtap="onCheckBtn">确认还款</button>
+</view>
+
+<xy-popup title="最新剩余分期计划" show="{{isShowPlan}}">
+
+    <bloc wx:for="{{plans}}" wx:key="index">
+        <view class="xy-steps-item">
+            <view class="step-title {{index === plans.length-1 ? 'no-border':''}}">
+                <view class="title">{{item.terms}}</view>
+                <view class="title-desc">{{item.deductDate}}</view>
+                <text class="tag"></text>
+            </view>
+
+            <view class="step-content">
+                <view class="content">￥{{item.totalAmount}}</view>
+                <view>
+                    <text class="detail">{{item.detail}}</text>
+                </view>
+            </view>
+        </view>
+    </bloc>
+</xy-popup>
+
+<xy-popup show="{{showCouponPopup}}" title="优惠券" scrollHeight="310px">
+    <xy-select-list list="{{coupons}}" bindclick="onClickCoupon" selectedIndex="{{selectedCoupon}}" />
+    <view class="footer-tips" slot="footer">免息券抵扣金额，请以实际利息为准，可在还款详情页查看</view>
+</xy-popup>
+
+<xy-popup show="{{showPayPopup}}" title="确认支付" scrollHeight="280px" closeIconPosition="top-left" scroll-class="pay-scroll">
+    <view class="tit">实付款</view>
+    <view class="amount-num"><text>￥</text><text>{{payInfo.actualRepayAmount}}</text></view>
+    <view class="list-item">
+        <text class="label">订单信息</text>
+        <view class="content order-box">
+            <view>{{payInfo.confirmRepayOrderInfo.productName}}-{{payInfo.confirmRepayOrderInfo.loanDesc}}</view>
+            <view>{{payInfo.confirmRepayOrderInfo.extDesc}}</view>
+        </view>
+    </view>
+
+    <view class="list-item">
+        <text class="label">还款账户</text>
+        <view class="content bank-box" bindtap="changeBank">
+            <image wx:if="{{!!payInfo.confirmRepayAcct.eleCardIconUrl}}" src="{{payInfo.confirmRepayAcct.eleCardIconUrl}}"></image>
+            <view class="{{ !payInfo.enablePay && 'disabled'}}">
+                <view>{{payInfo.confirmRepayAcct.repayAcctDesc}}</view>
+                <!-- <view class="desc">{{payInfo.confirmRepayAcct.avaliableAmountDesc}}</view> -->
+            </view>
+
+        </view>
+    </view>
+
+    <view class="footer-tips footer-pay" slot="footer">
+        <van-button custom-class="pay-btn" bind:click="checkPay" disabled="{{!payInfo.enablePay}}" block type="danger" round hairline>
+            <view class="pay-btn-view">
+                <image src="/image/icon-safe.png"></image>
+                <text>确认支付</text>
+            </view>
+        </van-button>
+    </view>
+</xy-popup>
+<captcha-popup show="{{showCodePopup}}" phone="{{payInfo.mobilePhone}}" isCountdown="{{isCountdown}}" bindonSend="sendCode" isError="{{isCodeError}}" bindonComplete="checkCode" />
+
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer' show="{{showOpenServices}}" />

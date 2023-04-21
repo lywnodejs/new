@@ -1,0 +1,145 @@
+/* pages/account/form/index.wxss */
+page{
+	padding: 15px;
+	box-sizing: border-box;
+	background-color: #ffffff;
+}
+.closePWD{
+	width: 100%;
+}
+.tit-card{
+	margin-bottom: 25px;
+}
+.bank-box{
+	margin-bottom: 15px;
+
+}
+.bank-box .bank-box{
+	padding-left: 0;
+}
+.pwd-box{
+	height: 80px;
+	border-bottom: 1px solid #E6E6E6;
+}
+.r-pwd-box{
+	margin-bottom: 35px;
+}
+.label-text{
+	margin-top: 17px;
+	font-size: 15px;
+	font-family:PingFangSC-Regular,PingFang SC;
+	color: #49525C;
+	/*margin-bottom: 15px;*/
+}
+.input-box input{
+	font-size: 22px;
+	height: 45px;
+	padding-left: 5px;
+}
+.pwd-input{
+	font-size: 14px;
+	color: #999;
+}
+.radio-box{
+	display: flex;
+	margin-bottom: 14px;
+	/*align-items: ;*/
+}
+.radio-box > view{
+	flex: 0 0 auto;
+	margin-right: 10px;
+}
+.radio-box >text{
+	flex: 1;
+	font-size:14px;
+	font-family:PingFangSC-Regular,PingFang SC;
+	color: #333;
+}
+.user-type{
+	/* padding-bottom: 50rpx; */
+}
+.user-type .label-text{
+	margin-bottom: 15px;
+}
+
+
+.page-footer{
+	/* position: absolute; */
+	/* left: 0; */
+	/* bottom: 0; */
+	width: 100%;
+	padding: 10px 25px;
+	box-sizing: border-box;
+	background-color: #fff;
+}
+.protocol-box{
+	display: flex;
+	margin-bottom: 5px;
+}
+
+.checkbox{
+	flex: 0 0 19px;
+}
+.text-box{
+	flex: 1;
+	font-size: 12px;
+	color: #b3b3b3;
+	font-family:PingFangSC-Regular,PingFang SC;
+}
+.protocol-name{
+	color: #FF2C43;
+	display: inline;
+	text-decoration: underline;
+}
+.text-box, .protocol-name view{
+	display: inline;
+}
+.page-footer .apply-btn{
+	height: 50px;
+	line-height: 50px;
+	border-radius: 50px;
+	background-color: #EEA900;
+	box-shadow:0 2px 8px 0 rgba(246,83,72,0.32);
+	font-size:17px;
+	font-family:PingFangSC-Medium,PingFang SC;
+	font-weight:500;
+}
+
+.page-footer button.disabled{
+	background-color: #D9D9D9;
+	box-shadow: none;
+}
+
+.page-footer button.disabled:after{
+	border: none;
+}
+.popup-content-box{
+	text-align: left;
+}
+.password{
+	width: 100%;
+	margin-top: 50rpx;
+}
+.password .item{
+	padding-top: 30rpx;
+	box-sizing: border-box;
+	width: 100%;
+	border-bottom: 1px solid #E6E6E6;
+}
+.password .item text{
+	width: 100%;
+	font-size: 30rpx;
+	line-height: 42rpx;
+}
+.password .item input{
+	height: 50rpx;
+	padding: 10px 0;
+	width: 100%;
+}
+
+.passwordPlay{
+	font-size:18px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(205,209,214,1);
+}

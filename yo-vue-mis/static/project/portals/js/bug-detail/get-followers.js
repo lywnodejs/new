@@ -1,0 +1,1 @@
+define("js/bug-detail/get-followers",["require","exports","module"],function(e,o,r){return function(e,o){var r={};return e.followers.forEach(function(e){r[e.email]=!0}),e.newFollowers.forEach(function(e){e.email in r||o.followers.push(e)}),o}});

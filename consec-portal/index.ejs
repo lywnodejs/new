@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+
+<head>
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"> -->
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+
+  <!--dll-->
+  <% if (htmlWebpackPlugin.options.dll) { %>
+  <% for(var i = 0, v; v = htmlWebpackPlugin.options.dll[i]; i++) { %>
+  <script src="<%= v %>"></script>
+  <%  } %>
+  <%  } %>
+
+</body>
+
+</html>

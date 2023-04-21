@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-popup": "@vant/weapp/popup/index",
+    "microdone": "/packageB/components/microdone/microdone",
+    "van-loading": "@vant/weapp/loading/index"
+  }
+}

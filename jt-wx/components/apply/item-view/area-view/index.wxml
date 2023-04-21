@@ -1,0 +1,27 @@
+<!--components/apply/item-view/area-view/index.wxml-->
+<view class="info-box">
+  <item-title-view title="{{attribute.name}}"  desc="{{attribute.description}}"/>
+  <view class="cell-class" bind:tap="{{attribute.editFlag ? 'onClick' :''}}" id="{{attribute.id}}">
+    <view class="cell-title">
+      <text wx:if="{{!!attribute.value}}">{{attribute.value}}</text>
+      <text wx:else class="cell-tips">{{attribute.tips}}</text>
+    </view>
+    <image class="cell-right-image" src="/image/arrow712.png"></image>
+  </view>
+  <van-popup show="{{ showSelectPopup }}" bind:close="onClose" closeable position="bottom"
+    custom-style="height: 48%; background-color: white;">
+    <view class="option-title">选择地区</view>
+    <van-tabs wx:if="{{ showSelectPopup }}" swipe-threshold="3" ellipsis="{{false}}" active="{{activeTabIndex}}"
+      nav-class="nav-class" custom-class="tab-root-class" bind:click="onTabClick">
+      <block wx:for="{{tabs}}" wx:key="index">
+        <van-tab title="{{item}}" tab-class="tab-class" nav-class="nav-class"></van-tab>
+      </block>
+    </van-tabs>
+    <scroll-view wx:if="{{ tabs !== undefined && tabs.length > 0 && showSelectPopup}}" scroll-y="true"
+      scroll-into-view="item{{tabSelectIndexMap[activeTabIndex]}}" scroll-with-animation="{{true}}"
+      style="height: 280px;" class="area-list">
+      <view wx:for="{{tabDataMap[activeTabIndex]}}" wx:key="index" class="area-item" id="item{{index}}"
+        data-value="{{item}}" data-index="{{index}}" bind:tap="onAreaItemTap">{{item.area_name}}</view>
+    </scroll-view>
+  </van-popup>
+</view>

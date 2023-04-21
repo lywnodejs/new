@@ -1,0 +1,162 @@
+@import '../../variable';
+
+.MainGuide {
+  h3 {
+    margin-top: 20px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .dutyRecommendBox {
+    padding: 24px 32px;
+    margin: 32px 0;
+    background-color: @white;
+    box-shadow: 2px 2px 10px 0 fade(@black, 10%);
+  }
+
+  .dutyRecommend {
+    display: flex;
+  }
+
+  .dutyRecommend > div:first-child > p {
+    margin-bottom: 16px;
+  }
+
+  .isApply {
+    width: 340px;
+    margin-left: auto;
+
+    .myApply {
+      color: @themeColor;
+      margin-left: 3px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .tipContent {
+    font-family: PingFangSC-Regular;
+    font-size: @normalFontSize;
+    color: fade(@black, 60%);
+  }
+
+  .noPermission {
+    display: flex;
+    align-items: center;
+    margin: 50px 0;
+  }
+
+  .RoleCard {
+    :global .ant-card-body {
+      flex-direction: column;
+      align-items: baseline;
+    }
+    label {
+      height: 30px;
+      margin: 0;
+    }
+  }
+
+  :global {
+    .unSelectedBtn {
+      border: 1px solid fade(@black, 20%);
+      color: fade(@black, 85%);
+    }
+
+    .selectedBtn {
+      border: 1px solid @themeColor;
+      background-color: @themeColor;
+      color: @white;
+    }
+
+    .ant-btn {
+      min-width: 140px;
+      height: 36px;
+      font-size: @normalFontSize;
+      border-radius: 2px;
+    }
+
+    .ant-collapse-header {
+      background-color: @concreteColor !important;
+    }
+  }
+
+  .dutyList {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  .permissionCard {
+    display: block;
+    margin: 0 20px 20px 0;
+    word-break: break-all;
+
+    .description {
+      margin-top: 10px;
+    }
+  }
+
+  .submit {
+    background-color: @themeColor;
+    color: @white;
+    font-size: 16px;
+  }
+}
+
+.dutyModal {
+  :global {
+    .ant-modal-body {
+      padding: 10px 40px;
+    }
+  }
+
+  .modalContent {
+    margin-top: 20px;
+  }
+
+  .viewDetail {
+    color: @themeColor;
+  }
+
+  .noDutyTips {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
+
+  .noData {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    color: fade(@black, 40%);
+  }
+}
+
+.guideRowDesc {
+  .guideImg {
+    width: 126px;
+    height: 126px;
+    margin-right: 16px;
+  }
+  .guideTitle {
+    opacity: 0.6;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #000000;
+  }
+  .guideContent {
+    opacity: 0.4;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #000000;
+    margin-top: 8px;
+  }
+  .guideTextBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

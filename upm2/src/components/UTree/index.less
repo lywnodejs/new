@@ -1,0 +1,26 @@
+.upm-tree {
+  position: relative;
+  .upm-tree__oper {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+  }
+  .upm-tree__content {
+    max-height: 450px;
+    overflow: auto;
+    .ant-tree li {
+      .ant-tree-node-selected {
+        color: #fff;
+        background-color: #ff7d4c;
+      }
+      &.upm-tree--unselect {
+        > .ant-tree-node-content-wrapper {
+            color: #bfbfbf;
+            background-color: #e8e8e8;
+            cursor: auto;
+            
+        }
+      }
+    }
+  }
+}

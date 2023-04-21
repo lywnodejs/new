@@ -1,0 +1,77 @@
+.project-help-joinFlow{
+  min-height: 800px;
+  padding-bottom: 40px;
+
+    h3{
+      margin-bottom: 60px;
+      padding-left: 12px;
+      border-left: 7px solid #4260e8;
+      height: 28px;
+
+      font-size: 28px;
+      color: #434343;
+      line-height: 30px;
+    }
+    &__step{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      &--item{
+        position: relative;
+        margin-bottom: 64px;
+        width: 428px;
+        height: 320px;
+        border: 1px solid #dadada;
+        &:nth-child(odd){
+          margin-right: 56px;
+        }
+        &-icon{
+          position: absolute;
+          top: -24px;
+          left: 20px;
+          z-index: -1;
+          width: 125px;
+          height: 27px;
+          background-color: #4260e8;
+          font-size: 22px;
+          color: #ffffff;
+          line-height: 30px;
+          text-align: center;
+          font-weight: 800;
+        }
+        &-arrows{
+          position: absolute;
+          top: 116px;
+          right: -75px;
+          z-index: 2;
+        }
+        dl{
+          width: 100%;
+        }
+        dt{
+          width: 100%;
+          height: 152px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-content: center;
+          background-color: #f4f6fe;
+          span{
+            width: 100%;
+            text-align: center;
+            line-height: 50px;
+            font-size: 18px;
+            color: #434343;
+          }
+        }
+        dd{
+          padding: 37px;
+          font-size: 16px;
+          color: #434343;
+          text-align: center;
+          line-height: 30px;
+        }
+      }
+    }
+
+}

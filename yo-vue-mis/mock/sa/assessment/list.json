@@ -1,0 +1,47 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 2,
+  "data": [
+    {
+      "id": 1731,
+      "type":1731,
+      "name": "个人隐私保护",
+      "mgrs": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "assessment": [0, 0],
+      "rectification": [0, 0],
+      "status_name": "待反馈"
+    }, {
+      "id": 1732,
+      "type":1732,
+      "name": "数据安全",
+      "mgrs": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "assessment": [12, 12],
+      "rectification": [10, 30],
+      "status_name": "待反馈"
+    }, {
+      "id": 1733,
+      "type":1733,
+      "name": "系统功能&权限管理",
+      "mgrs": [
+        {
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "assessment": [15, 20],
+      "rectification": [20, 20],
+      "status_name": "待反馈"
+    }
+  ]
+}

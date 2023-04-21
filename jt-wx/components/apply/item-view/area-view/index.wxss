@@ -1,0 +1,74 @@
+/* components/apply/item-view/area-view/index.wxss */
+
+.info-box {
+  padding-top: 16px;
+}
+
+
+
+.cell-class {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e6e6e6;
+  place-content: center;
+  place-items: center;
+}
+
+.cell-title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+  flex: 1;
+}
+
+
+
+.cell-tips {
+  color: #d4d7db;
+}
+
+.cell-right-image {
+  width: 7px;
+  height: 12px;
+}
+
+.option-title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+  padding: 20px 0 10px;
+  text-align: center;
+}
+
+.tab-root-class {
+  border-bottom: 1px solid #eee;
+}
+
+.nav-class {
+  width: 0px;
+  padding: 0;
+}
+
+.area-item {
+  height: 55px;
+  line-height: 55px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  position: relative;
+  margin: 0 20px;
+}
+
+.area-item:after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background-color: #E6E6E6;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  transform: scaleY(.5);
+}

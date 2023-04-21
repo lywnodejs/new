@@ -1,0 +1,6 @@
+{
+    "userAPI": {
+        "loginAPI": "http://192.168.8.103:5000/user",
+        "registerAPI": "http://4i186669k4.zicp.vip:43088/user/coderegister"
+    }
+}

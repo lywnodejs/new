@@ -1,0 +1,36 @@
+
+/****************************************** 筹码分布 hpc ****************************************/
+.cmfb_red{color: #dd113c;}
+.cmfb_shares{}
+.cmfb_shares>li{float: left;}
+.cmfb_shares>li>p{font-size:1.125rem;}
+.cmfb_shares>li.cmfb_name{width:50%;}
+.cmfb_shares>li>h6{font-family:"PingFangSC Light";color: #a1a2a8;}
+.cmfb_shares>li.cmfb_name>h6{font-family:"PingFangSC Regular";}
+.cmfb_shares>li:nth-child(3){float: right;}
+
+.cmfb_cyq{padding-top:0.73rem;position: relative;z-index: 1;}
+.cmfb_cyq>i{position: absolute;right: 0;bottom: 0;}
+
+
+/*数字字体*/
+.cmfb_shares>li>p{font-family:"Conv_DIN Alternate Bold";}
+
+/********************************************************************************/
+
+.box_ChipDis{ font-size: 12px; line-height: 20px; width: 223px; height: 210px; position: relative;}
+.box_ChipDis .cloPrice,
+.box_ChipDis .higPrice,
+.box_ChipDis .lowPrice,
+.box_ChipDis ul{ position: absolute; z-index: 1;}
+.box_ChipDis .cloPrice{ border-bottom: dashed 1px #a1a2a8; color: #333; width: 150px; height: 20px; text-align: right; padding-right: 10px; left: 44px; z-index: 2;}
+.box_ChipDis .higPrice,
+.box_ChipDis .lowPrice{ color: #a1a2a8; height: 20px; width: 40px; text-align: right; left: 0;}
+.box_ChipDis .higPrice{ top: -10px;}
+.box_ChipDis .lowPrice{ bottom: -10px;}
+.box_ChipDis ul{ border-left: solid 1px #ededed; clear:both; list-style-type:none; zoom:1; width: 160px; height: 100%; left: 43px; top: 0;}
+.box_ChipDis li{ background: #639df5; height: calc(210px / 120); margin-top: calc(210px / 120);}
+.box_ChipDis li.b_red{ background: #e55656;}
+.box_ChipDis li{ position: relative;}
+.box_ChipDis li .cloPrice{ top: -22px; left: 0;}
+/********************************************************************************/

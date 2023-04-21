@@ -1,0 +1,15 @@
+<bloc wx:if="{cateInfo !== undefined && cateInfo !== null}">
+  <xy-nav-bar bind:navLeftClick="onClickLeft" platform="{{platform}}" title="{{cateInfo.name}}" />
+
+
+
+  <view wx:if="{{licenseAttr !== undefined && licenseAttr !== null }}" class="license-box">
+    <text class="face-title">请拍摄/上传工商营业执照</text>
+    <text class="face-title">确保拍摄证件的清晰完整</text>
+    <license-view attribute="{{licenseAttr}}" bind:valuechange="onValueChange"/>
+  </view>
+
+
+
+
+</bloc>

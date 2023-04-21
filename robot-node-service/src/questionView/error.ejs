@@ -1,0 +1,22 @@
+<!--<!DOCTYPE html>-->
+
+<%
+ var code = ''
+ if (error) {
+     if (error.response) {
+         code = error.response.status;
+     }
+ }
+  var msg = '请求错误'
+  if (code == 500) {
+    msg = '服务器发生错误'
+  }
+ %>
+
+<div class="mb md_tlbox">
+  <div class="box_shadow">
+    <ul>
+      <%= msg %>
+    </ul>
+  </div>
+</div>

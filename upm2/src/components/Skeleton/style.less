@@ -1,0 +1,36 @@
+@keyframes skeleton-loading {
+  0%,
+  100% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+.upm-skeleton-container {
+  border-radius: 4px;
+  display: inline-block;
+  line-height: 1;
+  vertical-align: bottom;
+  width: 100%;
+  .upm-skeleton {
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      rgba(207, 216, 220, 0.2),
+      rgba(207, 216, 220, 0.4),
+      rgba(207, 216, 220, 0.2)
+    );
+    background-size: 600% 600%;
+    animation: skeleton-loading 1.4s ease infinite;
+  }
+  &--right {
+    float: right;
+  }
+  &--left {
+    float: left;
+  }
+}
+

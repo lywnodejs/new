@@ -1,0 +1,235 @@
+/* pages/account/transfer/index.wxss */
+.transfer {
+  background-color: #F9FAFB;
+  height: 100%;
+}
+.transfer .header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px;
+}
+.transfer .header .bank{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #999999;
+  font-size: 13px;
+}
+.transfer .header .bank .title{
+  color: #333333;
+  font-size:14px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  margin: 8px 0 2px;
+}
+.transfer .header image {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+.transfer .header .directive{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 11px;
+  color: #999999;
+}
+.transfer .header .directive image{
+  width: 60px;
+  height: 5px;
+  margin-top: 4px;
+}
+
+.transfer .content{
+    background-color: white;
+    margin: 0 15px;
+    padding: 25px 20px 32px;
+    border-radius: 5px;
+}
+.transfer .content .input{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #D9D9D9;
+  margin: 16px 0 11px;
+  padding-bottom: 8px;
+}
+.transfer .content .title{
+  font-size: 15px;
+  color: #333333;
+}
+.transfer .content image{
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  padding-left: 20px;
+  display: block;
+}
+/* {{focus && value.length > 0}} */
+.transfer .content .input text{
+  font-size: 20px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  margin: 8px 5px 0 0;
+}
+.transfer .content input{
+  font-size: 34px;
+  color: #333333;
+  height: 41px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+}
+.transfer .content .placeholder{
+  font-size: 26px;
+  font-family:PingFangSC-Regular,PingFang SC;
+  color: #CDD1D6;
+}
+.transfer .content .info{
+  font-size: 13px;
+  color: #999999;
+}
+.transfer button::after{
+  display: none;
+}
+.transfer button{
+  margin-top: 51px;
+  border-radius: 25px;
+  background-color: #FF2C43;
+  font-size:17px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color: white;
+}
+.transfer button[disabled]{
+  background-color: #FFD2D7;
+  color: white;
+}
+.transfer .out .all{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #999999;
+}
+.transfer .out .btn{
+  font-size: 14px;
+  color: #FC8100;
+}
+.transfer .out .info{
+  display: block;
+  text-align: center;
+  margin: 15px 0 0;
+}
+.transfer .content.out{
+  padding-bottom: 19px;
+}
+.transfer .content.out button{
+  margin-top: 31px;
+}
+
+.transfer .backList{
+  margin-top: 40rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  width: 100%;
+  /* height: 184rpx; */
+  background-color: #F4F5F9;
+  border-radius: 4rpx;
+  border: 2rpx solid #F0F1F5;
+}
+.transfer .backList .title{
+  font-size: 28rpx;
+  line-height: 40rpx;
+  font-weight: 400;
+  color: #999999;
+}
+.transfer .backList .backitem{
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+.transfer .backList .backitem .info{
+  margin-top: 10rpx;
+  width: 100%;
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 34rpx;
+  font-weight: 400;
+  box-sizing: border-box;
+  padding-left: 40rpx;
+}
+
+.transfer .backList .backitem image{
+  width: 32rpx;
+  height: 32rpx;
+  padding-left: 0;
+}
+.transfer .backList .backitem .name{
+  font-size: 28rpx;
+  color: #333333;
+  line-height: 40rpx;
+  font-weight: 400;
+  margin-left: 10rpx;
+}
+.transfer .backList .backitem .rightC{
+  width: 13rpx;
+  height: 20rpx;
+  position: absolute;
+  right: 0;
+  top: 24rpx;
+}
+
+.backPopList{
+  width: 100%;
+  max-height: 788rpx;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.backPopList .backPopList_list{
+  position: relative;
+  width: 100%;
+  height: 128rpx;
+  padding: 30rpx;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(230, 230, 230, 1);
+}
+.backPopList .backPopList_list:nth-of-type(1){
+  border-top: 1px solid rgba(230, 230, 230, 1);
+}
+.backPopList_list .info{
+  width: 100%;
+  margin-left: 70rpx;
+}
+.backPopList_list .title{
+font-size: 28rpx;
+font-weight: 400;
+color: #333333;
+line-height: 40rpx;
+}
+.backPopList_list .title_info{
+  width: 90%;
+font-size: 24rpx;
+font-weight: 400;
+color: #999999;
+line-height: 34rpx;
+}
+.backPopList .backPopList_list image{
+  position: absolute;
+  width: 48rpx;
+  height: 48rpx;
+}
+.backPopList_list .select{
+  position: absolute;
+  right: 38rpx;
+  top: 44rpx;
+  width: 32rpx !important;
+  height: 32rpx !important;
+}

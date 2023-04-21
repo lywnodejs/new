@@ -1,0 +1,4 @@
+/* pages/withdraw/result/index.wxss */
+page{
+	background-color: #F9FAFB;
+}

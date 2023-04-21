@@ -1,0 +1,42 @@
+/* components/apply/item-view/date-view/index.wxss */
+.info-box {
+  padding-top: 16px;
+}
+
+
+.cell-class {
+  display: flex;
+  padding: 10px 0;
+  border-bottom: 1px solid #e6e6e6;
+  place-content: center;
+  place-items: center;
+}
+
+.cell-title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.cell-tips {
+  color: #d4d7db;
+}
+
+.cell-right-image {
+  width: 7px;
+  height: 12px;
+}
+
+.option-title {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333;
+  padding: 20px 0 10px;
+  text-align: center;
+}

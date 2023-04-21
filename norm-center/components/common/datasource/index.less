@@ -1,0 +1,32 @@
+.newTips {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: 'new';
+    background-color: #ff0000;
+    top: -10px;
+    font-size: 12px;
+    color: #fff;
+    height: 15px;
+    line-height: 10px;
+    width: 30px;
+    border-radius: 15px;
+    border-bottom-left-radius: 0;
+    right: -35px;
+  }
+}
+
+.checkbox {
+  :global {
+    .ant-checkbox .ant-checkbox-inner {
+      border-radius: 100%;
+    }
+  }
+}
+
+:global {
+  .react-json-view .variable-value {
+    word-break: break-all;
+  }
+}

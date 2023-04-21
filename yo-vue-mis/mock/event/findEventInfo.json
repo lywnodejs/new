@@ -1,0 +1,40 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "data": {
+      "id": 123456,
+      "name": 123456,
+      "event_time": "2017-12-06 17:57:03",
+      "create_time": "2017-12-06 17:57:03",
+      "audit_time": "2017-12-06 17:57:03",
+      "creator": {
+          "name": "xxx"
+      },
+      "auditor": {
+          "name": "xxx"
+      },
+      "status": 0,
+      "status_name": "已修复",
+      "description": "XXXXX平台疑似遭受CC攻击.......",
+      "alarms": [
+        {
+          "alarm_id": 1000,
+          "alarm_time": "2018-01-24 15:59:09",
+          "occured_time": "2018-01-24 15:59:09",
+          "level": 2,
+          "level_name": "中危(S2)",
+          "type": 1200,
+          "type_name": "生产网络-服务器-网络异常"
+        },
+        {
+          "alarm_id": 1001,
+          "alarm_time": "2018-01-24 15:59:09",
+          "occured_time": "2018-01-24 15:59:09",
+          "level": 2,
+          "level_name": "中危(S2)",
+          "type": 1202,
+          "type_name": "生产网络-服务器-进程异常"
+        }
+      ]
+    }
+}

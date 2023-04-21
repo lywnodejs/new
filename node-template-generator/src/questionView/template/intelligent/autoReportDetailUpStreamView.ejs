@@ -1,0 +1,53 @@
+<% include ../../component/jsLoad %>
+<%
+    let data = info.data;
+    let list = data.upStream || [];
+%>
+
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!--<div class="rxh_public_hd01">-->
+<!--    <b></b><span>行业上游</span>-->
+<!--</div>-->
+
+<% if(list.length > 0){ %>
+    <div class="rxh_tab04 rxh_bg">
+        <div class="rxh_tabBox">
+            <% for(var i = 0; i < list.length; i++){ %>
+                <a class="rxh_no"><%= list[i].name %></a>
+            <% } %>
+        </div>
+    </div>
+<% }else{ %>
+    <div class="rxh_text rxh_gap rxh_bg">
+        <h5>暂无数据</h5>
+    </div>
+<% } %>
+
+<script>
+  var autoReportDetailUpStreamView<%- sn %> = {
+    onViewReady: function () {
+
+    },
+    //行业点击跳转
+    openDetail: function (str,obj) {
+      var o = {type:obj,q:str}
+      var url = 'http://127.0.0.1:31001/api/template'+'?type='+obj+'&q='+str;
+      window.open(url);
+    },
+    //说明页
+    openPOP:function (name,txt){
+      console.log("-----");
+      console.log(txt);
+      console.log(name);
+    }
+  }
+
+  <% if(!params.noSource) { %>
+      var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+      loadJs(jsArr, autoReportDetailUpStreamView<%- sn %>.onViewReady)
+  <% } %>
+</script>

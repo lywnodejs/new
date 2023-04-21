@@ -1,0 +1,1 @@
+"use strict";require.config({baseUrl:"/project/portals",urlArgs:"v=test",waitSeconds:0,paths:{echarts:"js/inStats/echarts",moment:"js/inStats/moment"}}),define("config/config",function(){});

@@ -1,0 +1,63 @@
+.upm-mobile-approve-list {
+  &-body {
+    &__list {
+      &__item {
+        // font-size: 24px;
+        padding: 0 15px 15px 15px;
+        &__title {
+          line-height: 75px;
+          color: #888;
+        }
+        &__checkbox.am-flexbox-item {
+          width: 75px;
+          flex: inherit;
+          text-align: center;
+          + .upm-approve-body__list__item__content {
+            padding: 0;
+          }
+        }
+        &__content {
+          padding: 0 15px;
+        }
+      }
+      &__separtor {
+        height: 15px;
+        background: #f5f7fa;
+      }
+      &__bottom {
+        text-align: center;
+        padding: 20px;
+      }
+    }
+  }
+  &-button {
+    margin-right: 30px;
+    &--danger {
+      color: red;
+    }
+  }
+  &-buttonGroup {
+    text-align: right;
+    .upm-approve-button:last-of-type {
+      margin-right: 0;
+    }
+  }
+  &-footer {
+    // font-size: 28px;
+    line-height: 80px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    &__content {
+      padding: 15px 15px 15px 15px;
+    }
+  }
+}
+
+// @supports (bottom: constant(safe-area-inset-top)) or (bottom: env(safe-area-inset-top)) {
+//   .upm-mobile-layout__footer__content {
+//     padding-bottom: calc(~"constant(safe-area-inset-bottom) + 15px");
+//     padding-bottom: calc(~"env(safe-area-inset-bottom) + 15px");
+//   }
+// }

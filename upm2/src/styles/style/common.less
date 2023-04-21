@@ -1,0 +1,215 @@
+.upm-padding {
+  padding: @base-space;
+}
+.upm-padding--top {
+  // padding-top: @base-space;
+  padding-top: 18px;
+}
+.upm-padding--vertical {
+  padding: @base-space 0;
+}
+.upm-padding--horizontal {
+  padding: 0 @base-space;
+}
+.upm-padding--container {
+  padding: 0 @base-space @base-space @base-space;
+}
+.upm-margin--bottom {
+  margin-bottom: @base-space;
+}
+.upm-flex {
+  display: flex;
+  align-items: center;
+  &--column {
+    height: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+.upm-menu {
+  overflow: hidden auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  .custom-menu.ant-menu-dark {
+    // .ant-menu-item:hover,
+    // .ant-menu-item-active {
+    //   color: #ff7d4c;
+    // }
+    .ant-menu-item-selected {
+      background-color: rgba(252, 145, 83, 0.23);
+      color: #ff7d4c;
+    }
+    .ant-menu-item-selected::after {
+      border-right: 3px solid #ff7d4c;
+    }
+    // .ant-menu-sub {
+    //   background: #202123;
+    // }
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      width: 200px;
+      transition: width 0.2s cubic-bezier(0.2, 0, 0, 1) 0s;
+    }
+    &.ant-menu-inline-collapsed {
+      width: 64px;
+      .ant-menu-item,
+      .ant-menu-submenu-title {
+        padding: 0 24px 0 24px !important;
+        width: 64px;
+      }
+    }
+  }
+}
+
+// 标准页面css样式
+// 应用页面：我的申请、我的审批、我的权限、我的团队权限、权限最小化审核-审核人审核、权限最小化审核-上级审核
+.upm-filter-content-page {
+  // tab栏
+  .tabs {
+    background-color: #ffffff;
+    margin-bottom: 16px;
+    .ant-tabs-bar {
+      margin: 0;
+    }
+  }
+
+  // 筛选区域
+  .filter-area {
+    padding: 20px 16px 4px;
+    margin: 0 0 16px;
+    background-color: #ffffff;
+    .filter-title {
+      min-height: 56px;
+      line-height: 56px;
+      margin: -20px -16px 19px;
+      padding: 0 24px;
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 500;
+      font-size: 16px;
+      background: transparent;
+      border-bottom: 1px solid #f2f3f4;
+      border-radius: 2px 2px 0 0;
+      zoom: 1;
+    }
+    .filter-fields {
+      .ant-form-item {
+        display: flex;
+        margin-bottom: 16px;
+      }
+      .ant-form-item-label {
+        flex: 0 0 100px;
+      }
+      .ant-form-item-control-wrapper {
+        flex: 1;
+        .ant-form-item-children {
+          > span {
+            width: 100%;
+          }
+        }
+      }
+      .filter-fields-option {
+        text-align: right;
+        .ant-btn + .ant-btn {
+          margin-left: 8px;
+        }
+      }
+      @media (max-width: 576px) {
+        .ant-form-item {
+          display: block;
+        }
+        .filter-options-wrapper {
+          line-height: 98px;
+        }
+      }
+    }
+  }
+
+  // 内容区
+  .content-area {
+    background-color: #ffffff;
+    padding: 14px;
+    .options {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+      .ant-btn + .ant-btn {
+        margin-left: 8px;
+      }
+      //表格设置button
+      .table-setup-text {
+        margin-right: 16px;
+        line-height: 32px;
+      }
+    }
+    .upm-table {
+      border: none;
+      .ant-table {
+        font-size: 12px;
+        th,
+        td {
+          padding: 10px 8px;
+        }
+      }
+      button {
+        font-size: 12px;
+        margin-right: @base-space / 4;
+      }
+      td.approver,
+      td.roles {
+        word-break: break-word;
+      }
+      .ant-table-tbody > tr > td {
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+      .twoRowsEllipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        /*! autoprefixer: off */
+        -webkit-box-orient: vertical;
+      }
+    }
+  }
+}
+// 表格设置-弹框
+.column-setting-popover {
+  width: 142px;
+  .ant-popover-title {
+    min-width: 142px;
+    font-weight: normal;
+    padding: 9px 16px;
+  }
+  .ant-popover-inner-content {
+    padding: 4px 16px;
+    max-height: 296px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .column-check-group {
+      width: 142px;
+      margin: 0px -16px;
+      .ant-checkbox-group-item {
+        display: block;
+        margin: 0;
+        width: 100%;
+        padding: 4px 16px;
+        &:hover {
+          background-color: rgb(255, 246, 240);
+        }
+      }
+    }
+  }
+}
+
+.upm-manage-layout {
+  .upm-table {
+    .ant-table-tbody > tr > td {
+      word-wrap: break-word;
+      word-break: break-all;
+    }
+  }
+}

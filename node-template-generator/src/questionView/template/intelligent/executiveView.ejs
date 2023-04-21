@@ -1,0 +1,82 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 港股通资金流向 赵波 2019.10.22 -->
+<%if(info.data){%>
+<%
+var inStocks = info.data || [];
+// var len = inStocks.length;
+// for(var i=0;i<len;i++){
+//
+// }
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <div class="rxh_list_scroll">
+            <i class="rxh-icon-arrow4_r"></i>
+            <ol>
+                <li><span>高管姓名</span></li>
+                <li><span class="rxh_right">变化<i class="rxh-icon-arrow5_d_small"></i></span></li>
+                <li><span class="rxh_right">职位</span></li>
+                <li><span class="rxh_right">发布日期</span></li>
+                <li><span class="rxh_right">原因</span></li>
+                <li><span class="rxh_right">上任日期</span></li>
+                <li><span class="rxh_right">离职时间</span></li>
+            </ol>
+            <%
+            for (var i=0; i<inStocks.length; i++) {
+                item = inStocks[i];
+            %>
+            <ul class="rxh_li_line1-5">
+                <li>
+                    <p><%= item.managerName%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= item.changeType%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= item.post%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= commonUtil.generateDate(item.publishDate)%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= item.changeReason%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= commonUtil.generateDate(item.managerStartDate)%></p>
+                </li>
+                <li>
+                    <p class="rxh_right"><%= commonUtil.generateDate(item.managerLeaveDate)%></p>
+                </li>
+            </ul>
+            <% } %>
+        </div>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var stockMoneyFlowView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, stockMoneyFlowView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

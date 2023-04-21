@@ -1,0 +1,40 @@
+@import '~antd/lib/style/themes/default.less';
+
+.apply-detail-container {
+  .float-window {
+    float: right;
+  }
+  .detail-header {
+    // padding: 0 12px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    .title {
+      font-size: 20px;
+      color: #444444;
+      line-height: 32px;
+      // float: left;
+    }
+    .support {
+      // float: right;
+    }
+  }
+  .apply-detail {
+    .card-head {
+      .card-button {
+        .apply-doing-text {
+          color: @info-color;
+        }
+        .apply-success-text {
+          color: @primary-color;
+        }
+        .apply-fail-text {
+          color: @error-color;
+        }
+        .apply-recall-text {
+          color: @warning-color;
+        }
+      }
+    }
+  }
+}

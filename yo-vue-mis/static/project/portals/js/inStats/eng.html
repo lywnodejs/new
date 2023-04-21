@@ -1,0 +1,104 @@
+<div class="flux-container portal-container">
+   <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{'active' : active == 0}"><a href="javascript:void(0);" ng-click="activeTab(0)">整体指标</a></li>
+      <li role="presentation" ng-class="{'active' : active == 1}"><a href="javascript:void(0);" ng-click="activeTab(1)">每周指标</a></li>
+   </ul>
+   <div class="row portal-panel" ng-show='active == 0'>
+       <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>安全工程师历史处理告警数量趋势</strong>
+                </div>
+                <div class="panel-body">
+                   <div id="historyChart" class="portal-chart" style="height:450px;"> 
+                   </div>
+                </div>
+           </div>
+       </div>
+       
+       <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>安全工程师周处理告警效率趋势</strong>
+                </div>
+                <div class="panel-body">
+                   <div id="effectChart" class="portal-chart" style="height:450px;">
+                   </div>
+                </div>
+           </div>
+       </div>
+   </div>
+   
+   <div class="row portal-panel" ng-show='active == 1'>
+        <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+           <div class="form-group">
+                <label for="effectYear" style="width:100px;">请选择年度：</label>
+                <select ng-model="effectYear" id="effectYear" class="form-control" ng-options=" year for year in yearEnums" style="width : 200px;" ng-change="changeEffectYear()">
+                </select>
+          </div>
+          <div class="form-group" style="margin-left:15px;">
+            <label for="effectWeek" style="width:100px;">请选择周数：</label>
+            <select ng-model="effectWeek" id="effectWeek" class="form-control" ng-options="(index|toInt:1) as week for (index, week) in effectEnums" style="width : 200px;">
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" ng-click="effectSure()" style="margin-left:15px;">确定</button>
+        </form>
+      
+       <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本周安全工程师处理告警数量统计</strong>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>安全工程师</th>
+                                <th ng-repeat="week in weeks">{{week}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="(key, values) in series">
+                                <td>{{key}}</td>
+                                <td class="td-value">{{values[0] | numFilter}}</td>
+                                <td class="td-value">{{values[1] | numFilter}}</td>
+                                <td class="td-value">{{values[2] | numFilter}}</td>
+                                <td class="td-value">{{values[3] | numFilter}}</td>
+                                <td class="td-value">{{values[4] | numFilter}}</td>
+                                <td class="td-value">{{values[5] | numFilter}}</td>
+                                <td class="td-value">{{values[6] | numFilter}}</td>
+                            </tr>
+                        </tbody>       
+                    </table>
+                </div>
+           </div>          
+       </div>
+       
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>本周安全工程师处理告警效率统计</strong>
+                </div>
+                <div class="panel-body">                    
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>安全工程师</th>
+                                <th>处理新增告警数量</th>
+                                <th>平均处理效率（单位分钟）</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="al in alls">
+                                <td>{{al.name}}</td>
+                                <td class="td-value">{{al.value | numFilter}}</td>
+                                <td class="td-value">{{al.time | numFilter}}</td>
+                            </tr>
+                        </tbody>       
+                    </table>
+                </div>
+           </div>          
+       </div>
+      
+   </div>
+</div>

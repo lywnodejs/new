@@ -1,0 +1,130 @@
+<div class="content">
+    <div class="page-header">
+        <h1>SDK作弊事件</h1>
+    </div>
+     <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">数据编号</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{msg_id}}</p>
+            </div>
+            
+            <label class="col-sm-2 control-label">作弊等级</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">
+                    <label class="label" ng-class="{'label-success' : level == 0, 'label-warning' : level == 1, 'label-danger' : status == 2}">
+                   {{level | enumFilter:'levelOpts'}}
+                    </label>
+                   <!--  
+                    <span titles="[data.level]"
+                       uib-rating ng-model="data.level" read-only="true" style="color : #d9534f;">
+                    </span>
+                    -->
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">处置状态</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">
+                    <label class="label" ng-class="{'label-default' : status == 0, 'label-success' : status == 1}">
+                        {{status | enumFilter:'statusOpts'}}
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户端时间</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{client_time}}</p>
+            </div>
+            
+            <label class="col-sm-2 control-label">发现时间</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{server_time}}</p>
+            </div>
+        </div>
+
+       
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">用户编号</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{user_id}}</p>
+            </div>
+            
+            <label class="col-sm-2 control-label">订单编号</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{order_id}}</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户端编号</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{app_id}}</p>
+            </div>
+            <label class="col-sm-2 control-label">客户端包名</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{app_name}}</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">客户端版本</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{app_version}}</p>
+            </div>
+            <label class="col-sm-2 control-label">手机系统</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{os | enumFilter:'osOpts'}}</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">业务场景</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{event}}</p>
+            </div>
+            
+            <label class="col-sm-2 control-label">样本信息</label>
+            <div class="col-sm-4">
+                <p class="form-control-static">{{reason}}</p>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label class="col-sm-2 control-label">监测规则</label>
+            <div class="col-sm-10">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>规则编号</td>
+                            <td>规则名称</td>
+                            <td>规则描述</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="data in ruleTable(rule)">
+                            <td>{{data.rule_id}}</td>
+                            <td>{{data.rule_name}}</td>
+                            <td>{{data.rule_desc}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+           
+            
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <a href="#/" class="btn btn-primary">返回</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>

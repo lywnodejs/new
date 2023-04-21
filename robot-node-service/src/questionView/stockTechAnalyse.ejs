@@ -1,0 +1,659 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<% if(!ispop){ %>
+<% include ./component/preAnswer %>
+<div class="bd" id="answer<%= sn %>" style="background-color: #ffffff">
+    <div class="mb">
+        <% }else{ %>
+        <div>
+            <% } %>
+            <!--答案框-->
+            <div class="box_analysis_1_2">
+                <!--
+                    1. h5页面，无a标签
+                    2. 原生，有a标签
+                -->
+                <ul class="stock2">
+                    <li>
+                        <h4><%= quota.stkName %><span class="num"><%= quota.stkCode %></span></h4>
+                        <h6><%= commonUtil.changeTimeForMin(quota.time * 1000) %></h6>
+                    </li>
+                    <li>
+                        <!--
+                            1. h5页面，icon标签div，隐藏
+                            2. 原生，icon标签div，显示
+                        -->
+                        <!--<div class="icon"></div>-->
+                        <!--
+                            1. 红涨，div标签加样式名：t_red
+                            2. 绿跌，div标签加样式名：t_green
+                            3. 平，div标签无样式名
+                        -->
+                        <div class="<% if(quota.change > 0){ %>t_red<% }else if(quota.change < 0){ %>t_green<% } %>">
+                            <h3><%= commonUtil.fixed2(quota.newPrice) %>&nbsp&nbsp</h3>
+                            <h6><%= commonUtil.fixedSign2(quota.change) %>
+                                (<%= commonUtil.fixedSign2(quota.rise) %>%）</h6>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="content">
+                    <div id="item_0<%= sn %>" class="show" style="display: block">
+                        <!-- 趋势分析 -->
+
+                        <h5 class="hd">
+                            <span>趋势量能</span>
+                            <% if(!ispop && appKey != 'report'){ %><a
+                                    onclick="analysis_kline.openPop_introduction()"><span>趋势体系说明</span><i
+                                        class="icon-arrow_closed"></i></a>
+                            <% } %>
+                        </h5>
+
+                        <div class="tab TAB2">
+                            <ul>
+                                <li id="tab_li_0_0<%= sn %>" class="on"
+                                    onclick="changTab('2','<%= sn %>')">
+                                    <span>中短期<b></b></span>
+                                </li>
+                                <li id="tab_li_0_1<%= sn %>" onclick="changTab('3','<%= sn %>')">
+                                    <span>长期<b></b></span>
+                                </li>
+                            </ul>
+                            <div class="bottom"></div>
+                        </div>
+                        <div class="content">
+                            <div id="item_0_0<%= sn %>" class="item show">
+                                <!-- 中短期 -->
+
+                                <div class="box_bgGray" id="day_huashu_jia<%= sn %>"></div>
+                                <div class="box_bgGray" id="day_huashu_liang<%= sn %>">
+                                </div>
+
+                                <div class="tab TAB3"><!-- 波段决策/操盘线tab  start-->
+                                    <ul>
+                                        <li class="on" id="tab_li_0_0_0<%= sn %>"
+                                            onclick="changTab('4','<%= sn %>')">
+                                            <span>波段决策<b></b></span>
+                                        </li>
+                                        <li id="tab_li_0_0_1<%= sn %>"
+                                            onclick="changTab('5','<%= sn %>')">
+                                            <span>操盘线<b></b></span>
+                                        </li>
+                                    </ul>
+                                    <div class="bottom"></div>
+                                </div><!-- 中短期/长期tab  end-->
+                                <div class="box_chart01 dis_none show" id="item_0_0_0<%= sn %>">
+                                <span class="chart_note" id="chart_legend_day_top<%= sn %>"
+                                      style="display: none"><span>MA5:13.52</span><span>10:12.47</span></span>
+                                    <span class="chart_note"
+                                          id="chart_note_day<%= sn %>"><b>均线</b><span>MA5:13.52</span><span>10:12.47</span><span>20:10.23</span><span>60:10.23</span></span>
+                                    <div id="container_k<%= sn %>"
+                                         style="position:relative; height:280px !important;"></div>
+                                    <span id="container_k_float_day<%= sn %>"
+                                          style="display:none !important;background-color: #000; opacity: 0.7; -moz-border-radius: 0.125rem; -webkit-border-radius: 0.125rem; border-radius: 0.125rem; -moz-box-shadow: 0 0 0.5rem #4c4c4c; -webkit-box-shadow: 0 0 0.5rem #4c4c4c; box-shadow: 0 0 0.5rem #4c4c4c; display: inline-block; font-size: 0.75rem; font-weight: 500; line-height: 1.688rem; height: 3.376rem; padding: 0 0.625rem;position:absolute;top: 85px;left: 3px"> </span><br>
+                                    <span class="chart_note2">
+                                    <span id="chart_legend_day<%= sn %>"></span>
+                                    <span id="chart_note_vol_day<%= sn %>"></span>
+                               </span>
+                                </div>
+
+                                <div class="box_chart01 dis_none " id="item_0_0_1<%= sn %>">
+                                <span class="chart_note" id="chart_legend_c_day_top<%= sn %>"
+                                      style="display: none"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_day_c<%= sn %>"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_day_wenhao<%= sn %>"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_day_zsyjx<%= sn %>"></span>
+                                    <div id="container_k_c<%= sn %>"
+                                         style="position:relative; height:280px !important;"></div>
+                                    <span id="container_k_float_day<%= sn %>"
+                                          style="display:none !important;background-color: #000; opacity: 0.7; -moz-border-radius: 0.125rem; -webkit-border-radius: 0.125rem; border-radius: 0.125rem; -moz-box-shadow: 0 0 0.5rem #4c4c4c; -webkit-box-shadow: 0 0 0.5rem #4c4c4c; box-shadow: 0 0 0.5rem #4c4c4c; display: inline-block; font-size: 0.75rem; font-weight: 500; line-height: 1.688rem; height: 3.376rem; padding: 0 0.625rem;position:absolute;top: 85px;left: 3px"> </span><br>
+                                    <span class="chart_note2">
+                                <span id="chart_legend_day<%= sn %>"></span>
+                                <span style="display: inline-block" id="chart_note_vol_day_c<%= sn %>"></span>
+                                </span>
+                                </div>
+                                <% if(appKey != 'report'){ %>
+                                    <h5 class="hd">
+                                        <span>指标分析--日K</span>
+                                    </h5>
+                                    <ul class="blinds_kdj">
+                                        <li class="on">
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'0','<%= sn %>')">
+                                                <h4 id="macdHuashu_day<%= sn %>"></h4>
+                                                <i class="icon-arrow_closed2"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="macd_title<%= sn %>"></span>
+                                                <div id="container_macd<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="macd_legend<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong><strong><b></b>/<b></b>股价和macd背离</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>macd指标说明</h5>
+                                                    <h6>1.DIFF与DIEA均为正值，及都在零轴线以上时，大势属多头市场，DIFF向上突破DEA，可作买入信号；</h6>
+                                                    <h6>2.DIFF与DEA均为负值，即都在零轴线以下时，大势属空头市场，DIFF向下跌破DEA，可作卖出信号；</h6>
+                                                    <h6>3.DEA在盘整局面时失误率较高，但如果配合RSI及KDJ指标可适当弥补缺点。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'1','<%= sn %>')">
+                                                <h4 id="kdHuashu_day<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="kd_title<%= sn %>"></span>
+                                                <div id="container_kd<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="kd_legend<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>kd指标说明</h5>
+                                                    <h6>1. KD的取值范围都是0～100：80以上为超买区，20以下为超卖区，其余为徘徊区；</h6>
+                                                    <h6>2. K上穿D是金叉，为买入信号，结合超卖区（20以下）的位置，越低可能性越大；</h6>
+                                                    <h6>3. K下穿D是死叉，为卖出信号，结合超买区（20以下）的位置，越高可能性越大。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'2','<%= sn %>')">
+                                                <h4 id="rsiHuashu_day<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="rsi_title<%= sn %>"></span>
+                                                <div id="container_rsi<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="rsi_legend<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>rsi指标说明</h5>
+                                                    <h6>1.
+                                                        0≤RSI≤100,RSI=50为强势市场与弱势市场分界点。通常设RSI>80为超买区，市势回挡的机会增加；RSI<20为超卖区，市势反弹的机会增加；</h6>
+                                                    <h6>2、短期RSI线在低位向上突破长期RSI线，买入信号；</h6>
+                                                    <h6>3、短期RSI线在高位向下突破长期RSI线，卖出信号。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'3','<%= sn %>')">
+                                                <h4 id="wrHuashu_day<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="wr_title<%= sn %>"></span>
+                                                <div id="container_wr<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="wr_legend<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong>  </span>
+                                                <div class="box_explain">
+                                                    <h5>wr指标说明</h5>
+                                                    <h6>1、指标以50视为股价转强；低于50视为股价转弱；</h6>
+                                                    <h6>2、当指标高于20后再度向下跌破20卖出；低于80后再度向上突破80买进；</h6>
+                                                    <h6>3、当wr连续触顶3-4次，股价向下反转机率大；连续触底3-4次，股价向上反转机率大。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'4','<%= sn %>')">
+                                                <h4 id="cciHuashu_day<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="cci_title<%= sn %>"></span>
+                                                <div id="container_cci<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="cci_legend<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>CCI指标说明</h5>
+                                                    <h6>1. 当CCI曲线向上突破﹢100线而进入非常态区间时，表明股价开始进入强势状态；</h6>
+                                                    <h6>
+                                                        2、当CCI曲线在﹢100线以上的非常态区间,在远离﹢100线的地方开始掉头向下时，表明股价的强势状态将难以维持，是股价比较强的转势信号；</h6>
+                                                    <h6>3、当CCI曲线向下突破﹣100线而进入另一个非常态区间时，表明股价的弱势状态已经形成，投资者应以持币观望为主；</h6>
+                                                    <h6>
+                                                        4、当CCI曲线向下突破﹣100线而进入另一个非常态区间，如果CCI曲线在超卖区运行了相当长的一段时间后开始掉头向上，表明股价的短期底部初步找到。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                <% } %>
+                            </div>
+                            <div id="item_0_1<%= sn %>" class="item">
+                                <!-- 长期 -->
+                                <div class="box_bgGray" id="week_huashu_jia<%= sn %>">
+                                </div>
+                                <div class="box_bgGray" id="week_huashu_liang<%= sn %>"></div>
+                                <div class="tab TAB4"> <!-- 波段决策/操盘线tab  start-->
+                                    <ul>
+                                        <li class="on" id="tab_li_0_0_2<%= sn %>" onclick="changTab('6','<%= sn %>')">
+                                            <span>波段决策<b></b></span>
+                                        </li>
+                                        <li id="tab_li_0_0_3<%= sn %>" onclick="changTab('7','<%= sn %>')">
+                                            <span>操盘线<b></b></span>
+                                        </li>
+                                    </ul>
+                                    <div class="bottom"></div>
+                                </div><!-- 波段决策/操盘线tab  end-->
+                                <div class="box_chart01 dis_none show" id="item_0_0_2<%= sn %>">
+                                <span class="chart_note" id="chart_legend_week_top<%= sn %>"
+                                      style="display: none"><span>MA5:13.52</span><span>10:12.47</span></span>
+                                    <span class="chart_note"
+                                          id="chart_note_week<%= sn %>"><b>均线</b><span>MA5:13.52</span><span>10:12.47</span><span>20:10.23</span><span>60:10.23</span></span>
+                                    <div id="container_k_week<%= sn %>"
+                                         style="position:relative; height:280px !important;"></div>
+                                    <span id="container_k_float_week<%= sn %>"
+                                          style="display:none !important;background-color: #000; opacity: 0.7; -moz-border-radius: 0.125rem; -webkit-border-radius: 0.125rem; border-radius: 0.125rem; -moz-box-shadow: 0 0 0.5rem #4c4c4c; -webkit-box-shadow: 0 0 0.5rem #4c4c4c; box-shadow: 0 0 0.5rem #4c4c4c; display: inline-block; font-size: 0.75rem; font-weight: 500; line-height: 1.688rem; height: 3.376rem; padding: 0 0.625rem;position:absolute;top: 85px;left: 3px"> </span><br>
+                                    <span class="chart_note2">
+                                    <span id="chart_legend_week<%= sn %>"></span>
+                                    <span id="chart_note_vol_week<%= sn %>"></span>
+                               </span>
+                                </div>
+                                <div class="box_chart01 dis_none " id="item_0_0_3<%= sn %>">
+                                <span class="chart_note" id="chart_legend_c_week_top<%= sn %>"
+                                      style="display: none"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_week_c<%= sn %>"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_week_wenhao<%= sn %>"></span>
+                                    <span style="display: inline-block" class="chart_note"
+                                          id="chart_note_week_zsyjx<%= sn %>"></span>
+                                    <div id="container_k_week_c<%= sn %>"
+                                         style="position:relative; height:280px !important;"></div>
+                                    <span id="container_k_float_week<%= sn %>"
+                                          style="display:none !important;background-color: #000; opacity: 0.7; -moz-border-radius: 0.125rem; -webkit-border-radius: 0.125rem; border-radius: 0.125rem; -moz-box-shadow: 0 0 0.5rem #4c4c4c; -webkit-box-shadow: 0 0 0.5rem #4c4c4c; box-shadow: 0 0 0.5rem #4c4c4c; display: inline-block; font-size: 0.75rem; font-weight: 500; line-height: 1.688rem; height: 3.376rem; padding: 0 0.625rem;position:absolute;top: 85px;left: 3px"> </span><br>
+                                    <span class="chart_note2">
+                                <span id="chart_legend_week<%= sn %>"></span>
+                                <span style="display: inline-block" id="chart_note_vol_week_c<%= sn %>"></span>
+                                </span>
+                                </div>
+                                <% if(appKey != 'report'){ %>
+                                    <h5 class="hd">
+                                        <span>指标分析--周K</span>
+                                    </h5>
+                                    <ul class="blinds_kdj">
+                                        <li class="on">
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'0','<%= sn %>')">
+                                                <h4 id="macdHuashu_week<%= sn %>"></h4>
+                                                <i class="icon-arrow_closed2"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="macd_title_week<%= sn %>"></span>
+                                                <div id="container_macd_week<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="macd_legend_week<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong><strong><b></b>/<b></b>股价和macd背离</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>macd指标说明</h5>
+                                                    <h6>1.DIFF与DIEA均为正值，及都在零轴线以上时，大势属多头市场，DIFF向上突破DEA，可作买入信号；</h6>
+                                                    <h6>2.DIFF与DEA均为负值，即都在零轴线以下时，大势属空头市场，DIFF向下跌破DEA，可作卖出信号；</h6>
+                                                    <h6>3.DEA在盘整局面时失误率较高，但如果配合RSI及KDJ指标可适当弥补缺点。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'1','<%= sn %>')">
+                                                <h4 id="kdHuashu_week<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="kd_title_week<%= sn %>"></span>
+                                                <div id="container_kd_week<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="kd_legend_week<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>kd指标说明</h5>
+                                                    <h6>1. KD的取值范围都是0～100：80以上为超买区，20以下为超卖区，其余为徘徊区；</h6>
+                                                    <h6>2. K上穿D是金叉，为买入信号，结合超卖区（20以下）的位置，越低可能性越大；</h6>
+                                                    <h6>3. K下穿D是死叉，为卖出信号，结合超买区（20以下）的位置，越高可能性越大。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'2','<%= sn %>')">
+                                                <h4 id="rsiHuashu_week<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="rsi_title_week<%= sn %>"></span>
+                                                <div id="container_rsi_week<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="rsi_legend_week<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>rsi指标说明</h5>
+                                                    <h6>1.
+                                                        0≤RSI≤100,RSI=50为强势市场与弱势市场分界点。通常设RSI>80为超买区，市势回挡的机会增加；RSI<20为超卖区，市势反弹的机会增加；</h6>
+                                                    <h6>2、短期RSI线在低位向上突破长期RSI线，买入信号；</h6>
+                                                    <h6>3、短期RSI线在高位向下突破长期RSI线，卖出信号。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'3','<%= sn %>')">
+                                                <h4 id="wrHuashu_week<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="wr_title_week<%= sn %>"></span>
+                                                <div id="container_wr_week<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="wr_legend_week<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong>  </span>
+                                                <div class="box_explain">
+                                                    <h5>wr指标说明</h5>
+                                                    <h6>1、指标以50视为股价转强；低于50视为股价转弱；</h6>
+                                                    <h6>2、当指标高于20后再度向下跌破20卖出；低于80后再度向上突破80买进；</h6>
+                                                    <h6>3、当wr连续触顶3-4次，股价向下反转机率大；连续触底3-4次，股价向上反转机率大。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="title" id="opentitle<%= sn %>"
+                                                 onclick="analysis_kline.openTitle(this,'4','<%= sn %>')">
+                                                <h4 id="cciHuashu_week<%= sn %>"></h4>
+                                                <i class="icon-arrow_open"></i>
+                                            </div>
+                                            <div class="box">
+                                                <span class="chart_note" id="cci_title_week<%= sn %>"></span>
+                                                <div id="container_cci_week<%= sn %>" style="height: 150px;"></div>
+                                                <span class="chart_note3"
+                                                      id="cci_legend_week<%= sn %>"><strong><b></b>金叉</strong><strong><b></b>死叉</strong></span>
+                                                <div class="box_explain">
+                                                    <h5>CCI指标说明</h5>
+                                                    <h6>1. 当CCI曲线向上突破﹢100线而进入非常态区间时，表明股价开始进入强势状态；</h6>
+                                                    <h6>
+                                                        2、当CCI曲线在﹢100线以上的非常态区间,在远离﹢100线的地方开始掉头向下时，表明股价的强势状态将难以维持，是股价比较强的转势信号；</h6>
+                                                    <h6>3、当CCI曲线向下突破﹣100线而进入另一个非常态区间时，表明股价的弱势状态已经形成，投资者应以持币观望为主；</h6>
+                                                    <h6>
+                                                        4、当CCI曲线向下突破﹣100线而进入另一个非常态区间，如果CCI曲线在超卖区运行了相当长的一段时间后开始掉头向上，表明股价的短期底部初步找到。</h6>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                <% } %>
+                            </div>
+                        </div>
+                        <!--<h5 class="hd">-->
+                        <!--<span>选股策略</span>-->
+                        <!--</h5>-->
+                        <!--    <ul class="tlBox_link">
+                        <li onclick="analysis_kline.getFix('近3日均线多头排列的个股','<%= sn %>')">近3日均线多头排列的个股</li>
+                        <li onclick="analysis_kline.getFix('近3日macd底背离的个股','<%= sn %>',)">近3日macd底背离的个股</li>
+                        <li onclick="analysis_kline.getFix('近3日macd金叉的个股有哪些','<%= sn %>')">近3日macd金叉的个股有哪些</li>
+                        <li onclick="analysis_kline.getFix('近3日kdj超卖，kdj金叉的股票','<%= sn %>',)">近3日kdj超卖，kdj金叉的股票</li>
+                        <li onclick="analysis_kline.getFix('近3日rsi超卖，rsi金叉的股票','<%= sn %>')">近3日rsi超卖，rsi金叉的股票</li>
+                    </ul>-->
+                    </div>
+                    <div id="item_1<%= sn %>" style="display: none">
+                        <!--区域分析-->
+                        <div class="box_bRed box_bRed01" id="legend<%= sn %>">
+                            <li>操作建议：由<b>【买入】</b>转为<b>【卖出】</b></li>
+                        </div>
+                        <div id="report<%= sn %>" class="box_stoDay t_red"></div>
+                        <div class="box_chart01">
+                            <div class="box" style="position:relative; height:232px !important;">
+                                <div id="MACD<%= sn %>"
+                                     style=" width:100%; font-size:0.875em; height:1.333em; position:absolute; z-index:101; left:0; top:161px;"></div>
+                                <div style="height:100%;">
+                                    <div id="container<%= sn %>" class="box_chart01"
+                                         style="height: 220px; position:absolute; z-index:100;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 id="explain_9area<%= sn %>"></h5>
+                        <div class="box_timeLine">
+                            <a class="openList_xdy<%= sn %>" onclick="kline_9area.openList('<%= sn %>')">历史建议<i
+                                        class="icon-arrow_shape_down"></i></a>
+                            <div class="timeLine" id="timeLine<%= sn %>"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% if(!ispop){ %>
+                <% include ./component/ratingLabel %>
+        </div>
+    </div>
+    <% }else{ %>
+</div>
+<% } %>
+
+
+<!-- 弹窗__短线决策，提示弹窗 -->
+<div class="pop_v2 pop_analysis_1_2_shortPolicy">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+            <h4>应用前提</h4>
+            <h5>“决策点”指标是基于趋势交易思想研发的短线技术择时指标，当一只股票的长、中、短期的空方力量在同一时点力量衰竭，同时多方力量开始占据优势时，系统会提示参考信号，表示股价形成短期波段底部的概率较大。</h5>
+            <h4>指标适用场景</h4>
+            <h5>1.如果您希望在上升趋势的股票行情中建仓，又怕买在高点，那么决策点指标会为您提供一个波段的相对低点作为上升趋势中的建仓参考位置。<br><br>
+                2.如果您希望在股票处于震荡行情时进行高抛低吸操作，决策点指标同样会提供一个波段相对低点作为震荡行情中的操作参考。</h5>
+            <h4>不适用的场景</h4>
+            <h5>在股票处于下跌趋势时不建议使用决策点指标。</h5>
+            <h4>操作方法参考<span>（数据在每个交易日收盘后15:30左右更新）</span></h4>
+            <h5>1. 加仓方法：根据大数据的回测发现，决策点指标在出现信号后的第二个交易日加仓最佳，若信号出现后的第二个交易日开盘时股价正向或负向波动超过2%，则应放弃此次交易机会。<br><br>
+                2. 止盈方法：加仓后3个交易日内（T+2日内），任何时间只要盈利超过2%即可考虑平仓止盈，若盈利未达到2%，也需在(T+2)日收盘前平仓。<br><br>
+                3. 止损方法：加仓后任何时间出现-2%浮亏时，建议止损离场。</h5>
+            <h4>风险提示</h4>
+            <h5>1. “决策点”指标的信号仅供参考与借鉴，不构成买卖建议。<br><br>
+                2. “决策点”指标的历史表现仅供参考与借鉴，不代表未来趋势。<br><br>
+                3. “决策点”指标属于技术指标决策范畴，其未考虑宏观经济政策、股票所处行业以及个股基本面和消息面等因素，其应用的前提是在投资者自己已经选定股票、自己有建仓意愿，并且希望选择波段低点进行建仓的情景下使用。
+            </h5>
+        </div>
+        <div class="btn"><a>关闭</a></div>
+    </div>
+</div>
+
+<!-- 弹窗__趋势体系说明，提示弹窗 -->
+<div class="pop_v2 pop_analysis_1_2_trendQuantization">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+
+            <h4>小e趋势量化系统说明</h4>
+
+            <h5 class="center">技术分析原理</h5>
+            <h6>
+                趋势量化系统之所以有效，是因为它能记录买方卖方的行为，股价产生波动的根本力量，是买卖双方的市场行为。任何消息本身，并不会造成股价的变动。即使有些消息确实使对某只股票的真实价值产生影响，也需要经过投资者的认可。</h6>
+            <h6>市场存在着重复的形态，这些形态反应投资者的行为与情绪，以及群众的聚散。</h6>
+
+            <h5 class="center">应用场景</h5>
+            <h5>1. 找合适的买点介入？</h5>
+            <h6>朋友推荐了“xxx”这只股票，说这家公司财务很好，业绩稳定，可以长拿，我想找合适的买点介入。</h6>
+            <h6>例：个股上市趋势保持良好，且回调到位时介入</h6>
+            <img class="img_01" src="<%= config %>static/images/trendQuantization_01-min.png">
+            <h6 class="center">趋势中继</h6>
+
+            <h5>2. 找合适的卖点止盈？</h5>
+            <h6>我持有贵州茅台，盈利可观，但不知道何时止盈</h6>
+            <h6>例：个股上升趋势跌破时分批离场</h6>
+            <img class="img_02" src="<%= config %>static/images/trendQuantization_02-min.png">
+            <h6 class="center">趋势转折</h6>
+
+            <h5>3. 个股走势诊断</h5>
+            <h6>我持有贵州茅台，想每天看看它的走势是否良好</h6>
+
+            <ul>
+                <li>
+                    <b>01</b>
+                    <h5>个股趋势动态把握<br>及时判断趋势转折</h5>
+                </li>
+                <li>
+                    <b>02</b>
+                    <h5>短期决策把握波段<br>顺势操作</h5>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <b>03</b>
+                    <h5>区域分析<br>评估个股大势</h5>
+                </li>
+                <li>
+                    <b>04</b>
+                    <h5>macd、kd、rsi<br>指标信号密切跟踪</h5>
+                </li>
+            </ul>
+
+            <h5>4. 牛熊波段解套</h5>
+            <h6>我的股票被套，想找合适的方法波段解套，根据信号买卖波段操作</h6>
+            <h6>不换股的情况下根据决策信号波段操作，摊低成本</h6>
+            <img class="img_03" src="<%= config %>/static/images/trendQuantization_03-min.png">
+
+            <h5 class="center">使用说明</h5>
+            <h6>e智通里各个模块里的小e入口-->进入智能小e-->问xx个股技术分析？-->展示对应个股技术分析答案</h6>
+            <img class="img_04" src="<%= config %>/static/images/trendQuantization_04-min.png">
+            <img class="img_05" src="<%= config %>/static/images/trendQuantization_05-min.jpg">
+
+            <h5 class="center">风险提示</h5>
+            <h6>1、突发利好，利空造成的股价异常，走势随机性较大，这种场景很可能会导致判断不准</h6>
+            <h6>2、趋势性信号在大的趋势或宽幅震荡行情里表现较好，窄幅震荡容易打脸，胜率可能不高，但趋势盈利靠的是截断亏损让利润奔跑</h6>
+            <h6>3、技术分析表现仅供参考与借鉴，不代表未来趋势，不构成买卖时机建议</h6>
+            <h6>4、技术分析功能会分期上线，逐渐完善趋势分析体系</h6>
+
+        </div>
+        <div class="btn"><a>关闭</a></div>
+    </div>
+</div>
+
+<!-- 弹窗__操盘线说明，提示弹窗 -->
+<div class="pop_v2 pop_analysis_1_3_expma">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+            <h4>研发理念</h4>
+            <h5>操盘线源于趋势理论和均线理论，秉持“大赚小赔“的操盘理念，并经过AI 量化技术的调整和改进而研发出的大赚小赔的操盘参考工具。它的主要作用，是帮助投资者克服人性弱点，智能提示股票中长线趋势性机会。</h5>
+            <h4>操作方法参考<span>（数据在每个交易日收盘后15:30左右更新）</span></h4>
+            <h5>操盘线反应了个股当前市场下的中长线趋势状态，为投资者判断个股中长线趋势状态提供简单便捷的参考依据。</h5>
+            <h5>1.操盘线为红色时，代表中长线趋势看多，无论短线或中线操作，建议以加仓或持有为主；<br><br>
+                2.操盘线为绿色时，代表中长线趋势看空，无论短线或中线操作，建议以减仓或空仓为主；
+            </h5>
+            <h4>风险提示</h4>
+            <h5>1.操盘线无法避免系统性风险及个股突发风险<br><br>
+                2.操盘线是基于历史价格数据的计算和分析得出的对个股所处中长线趋势的判断，仅可作为技术面参考，投资者据此操作风险自负。
+            </h5>
+        </div>
+        <div class="btn"><a>关闭</a></div>
+    </div>
+</div>
+<!-- 技术分析优化v1.2 ++   end -->
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+  var obj = '<%- kdata %>';
+  obj = JSON.parse(obj);
+
+
+  var stockTechAnalyse = {
+    onViewReady: function () {
+      appW = toolsUtil.getQueryString("appW");
+      appH = toolsUtil.getQueryString("appH");
+      winW = $(window).width() || appW;
+      winH = $(window).height() || appH ? (appH - 44) : 0;
+
+      //关闭按钮
+      $(".pop_v2 .btn").click(function () {
+        $(this).parents(".pop_v2").addClass("hide").removeClass("show");
+      });
+      analysis_kline.initKData(obj, "day", "<%= sn %>", "<%= quota.newPrice %>", '<%= appKey %>');
+
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/charts/jKline_stock_analysis',
+    '/static/js/libs/7.0/highstock.src',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockTechAnalyse.onViewReady)
+
+
+  var isWeekInit = false;
+  var isAreaInit = false;
+  //接收浏览器传过来的屏幕高宽参数
+  var appW, appH, winW, winH;
+
+
+  /**
+   * 趋势分析与区域分析的tab 切换  index=0  index=1
+   * 中短期、长期tab切换  index=2  index=3
+   * @param index
+   * @param sn
+   * @param source
+   */
+  function changTab(index, sn, source) {
+    if (index == 2) {
+      $('#tab_li_0_0' + sn).removeClass("on").addClass("on");
+      $('#tab_li_0_1' + sn).removeClass("on");
+      $('#item_0_0' + sn).removeClass("show").addClass("show");
+      $('#item_0_1' + sn).removeClass("show");
+      $('#item_0_0' + sn).show();
+      $('#item_0_1' + sn).hide();
+      // baiduTrackEvent('中短期','click',source);
+    }
+    if (index == 3) {
+      $('#tab_li_0_0' + sn).removeClass("on");
+      $('#tab_li_0_1' + sn).removeClass("on").addClass("on");
+      $('#item_0_0' + sn).removeClass("show");
+      $('#item_0_1' + sn).removeClass("show").addClass("show");
+      $('#item_0_0' + sn).hide();
+      $('#item_0_1' + sn).show();
+
+      if (!isWeekInit) {
+        analysis_kline.initKData(obj, "week", "<%= sn %>", "<%= quota.newPrice %>", "<%= appKey %>");
+        isWeekInit = true;
+      }
+
+      // baiduTrackEvent('长期','click',source);
+    }
+    if (index == 4) {
+      $('#tab_li_0_0_0' + sn).removeClass("on").addClass("on");
+      $('#tab_li_0_0_1' + sn).removeClass("on");
+      $('#item_0_0_0' + sn).removeClass("show").addClass("show");
+      $('#item_0_0_1' + sn).removeClass("show");
+      $('#item_0_0_0' + sn).show();
+      $('#item_0_0_1' + sn).hide();
+      // baiduTrackEvent('波段决策','click',source);
+    }
+    if (index == 5) {
+      $('#tab_li_0_0_0' + sn).removeClass("on");
+      $('#tab_li_0_0_1' + sn).removeClass("on").addClass("on");
+      $('#item_0_0_0' + sn).removeClass("show");
+      $('#item_0_0_1' + sn).removeClass("show").addClass("show");
+      $('#item_0_0_0' + sn).hide();
+      $('#item_0_0_1' + sn).show();
+      // baiduTrackEvent('操盘线','click',source);
+    }
+    if (index == 6) {
+      $('#tab_li_0_0_2' + sn).removeClass("on").addClass("on");
+      $('#tab_li_0_0_3' + sn).removeClass("on");
+      $('#item_0_0_2' + sn).removeClass("show").addClass("show");
+      $('#item_0_0_3' + sn).removeClass("show");
+      $('#item_0_0_2' + sn).show();
+      $('#item_0_0_3' + sn).hide();
+      // baiduTrackEvent('波段决策','click',source);
+    }
+    if (index == 7) {
+      $('#tab_li_0_0_2' + sn).removeClass("on");
+      $('#tab_li_0_0_3' + sn).removeClass("on").addClass("on");
+      $('#item_0_0_2' + sn).removeClass("show");
+      $('#item_0_0_3' + sn).removeClass("show").addClass("show");
+      $('#item_0_0_2' + sn).hide();
+      $('#item_0_0_3' + sn).show();
+      // baiduTrackEvent('操盘线','click',source);
+    }
+  }
+</script>
+

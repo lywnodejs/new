@@ -1,0 +1,13 @@
+.xy-nav-left{
+	display: flex;
+	place-content: center;
+	align-items: center;
+	height: 44px;
+	font-size: 15px;
+	color: #000;
+}
+.xy-nav-left image{
+	width: 18px;
+	height: 18px;
+	margin-right: 20px;
+}

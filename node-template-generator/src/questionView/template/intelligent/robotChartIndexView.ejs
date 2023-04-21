@@ -1,0 +1,127 @@
+<% include ../../component/jsLoad %>
+
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+<%if(dataType == 'STOCK_MACD'){%>
+<div class="rxh_chart rxh_gap">
+    <div class="title" id="opentitle<%= sn %>">
+        <h4 id="macdHuashu_day<%= sn %>"></h4>
+    </div>
+    <div class="rxh_chartBox rxh_chartBox_position">
+        <!--        <span class="chart_note" id="macd_title<%= sn %>"></span>-->
+        <div id="container_macd<%= sn %>" style="height: 150px;"></div>
+        <div style=" font-size: 12px; line-height: 18px; position: absolute; left: 0;">
+            <div style="margin-bottom: 0.125rem;">
+                <span style=" margin-left: 0.25rem;">
+                <b style=" background-color: #E63435; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0;">/</em>
+                <b style=" background-color: #1BAA3C; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">支撑压力</em>
+                </span>
+                <span style=" margin-left: 0.875rem;">
+                <b style=" background-color: #E63435; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin: 0;">/</em>
+                <b style=" background-color: #1BAA3C; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">股价macd背离</em></span>
+            </div>
+        </div>
+    </div>
+</div>
+<%}%>
+<%if(dataType == 'STOCK_KDJ'){%>
+    <div class="rxh_chart rxh_gap">
+        <div class="title" id="opentitle<%= sn %>">
+            <h4 id="kdHuashu_day<%= sn %>"></h4>
+        </div>
+        <div class="rxh_chartBox rxh_chartBox_position">
+            <!--        <span class="chart_note" id="macd_title<%= sn %>"></span>-->
+            <div id="container_kd<%= sn %>" style="height: 150px;"></div>
+            <div style=" font-size: 12px; line-height: 18px; position: absolute; left: 0;">
+                <div style="margin-bottom: 0.125rem;">
+                <span style=" margin-left: 0.25rem;">
+                <b style=" background-color: #E63435; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0;">/</em>
+                <b style=" background-color: #1BAA3C; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">支撑压力</em>
+                </span>
+                    <span style=" margin-left: 0.875rem;">
+                <b style=" background-color: #E63435; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin: 0;">/</em>
+                <b style=" background-color: #1BAA3C; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">股价macd背离</em></span>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+<%if(dataType == 'STOCK_RSI'){%>
+    <div class="rxh_chart rxh_gap">
+        <div class="title" id="opentitle<%= sn %>">
+            <h4 id="rsiHuashu_day<%= sn %>"></h4>
+        </div>
+        <div class="rxh_chartBox rxh_chartBox_position">
+            <!--        <span class="chart_note" id="macd_title<%= sn %>"></span>-->
+            <div id="container_rsi<%= sn %>" style="height: 150px;"></div>
+            <div style=" font-size: 12px; line-height: 18px; position: absolute; left: 0;">
+                <div style="margin-bottom: 0.125rem;">
+                <span style=" margin-left: 0.25rem;">
+                <b style=" background-color: #E63435; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0;">/</em>
+                <b style=" background-color: #1BAA3C; display: inline-block; width: 0.625rem; height: 0.125rem; padding: 0; margin: 0; position: relative; top: -0.188rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">支撑压力</em>
+                </span>
+                    <span style=" margin-left: 0.875rem;">
+                <b style=" background-color: #E63435; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin: 0;">/</em>
+                <b style=" background-color: #1BAA3C; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%; display: inline-block; width: 0.375rem; height: 0.375rem; padding: 0; margin: 0; position: relative; top: -0.063rem;"></b>
+                <em style=" color: #9599A1; margin-left: 0.25rem;">股价macd背离</em></span>
+                </div>
+            </div>
+        </div>
+    </div>
+<%}%>
+
+<script>
+
+  var robotChartIndexView<%- sn %> = {
+    onViewReady: function () {
+      var obj = JSON.parse('<%- JSON.stringify(info) %>');
+      var kdata = obj.kline.data.detail;
+      var dataTypes = '<%= dataType%>'
+
+      if(dataTypes == "STOCK_MACD"){
+        analysis_kline.initMacd(kdata, "day", "<%= sn %>", obj.price, '');
+        console.log(obj.memo)
+        if (obj.memo.length > 0) {
+          $('#macdHuashu_day<%= sn%>').html(obj.memo);
+        } else {
+          $('#macdHuashu_day<%= sn%>').html("MACD指标暂无明显信号");
+        }
+      }else if(dataTypes == "STOCK_KDJ"){
+        analysis_kline.initKdj(kdata, "day", "<%= sn %>", obj.price, '');
+        // KD 话术
+        if (obj.memo.length > 0) {
+          $('#kdHuashu_day<%= sn%>').html(obj.memo);
+        } else {
+          $('#kdHuashu_day<%= sn%>').html("KD指标暂无明显信号");
+        }
+      }else if(dataTypes == "STOCK_RSI"){
+        analysis_kline.initRsi(kdata, "day", "<%= sn %>", obj.price, '');
+        if (obj.memo.length > 0) {
+          $('#rsiHuashu_day<%= sn%>').html(obj.memo);
+        } else {
+          $('#rsiHuashu_day<%= sn%>').html("RSI指标暂无明显信号");
+        }
+      }
+    },
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, robotChartIndexView<%- sn %>.onViewReady)
+  <% } %>
+</script>

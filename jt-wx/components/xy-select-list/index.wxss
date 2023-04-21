@@ -1,0 +1,39 @@
+.xy-select-list{
+	padding: 0 20px;
+}
+image{
+	/*vertical-align: middle;*/
+}
+.xy-list-item{
+	display: flex;
+	align-items: center;
+	height: 59px;
+	position: relative;
+}
+.xy-list-item .item-left{
+	flex: 1;
+	font-size:16px;
+	font-family:PingFangSC-Regular,PingFang SC;
+	color: #333;
+}
+.xy-list-item .item-right{
+	flex: 0 0 30px;
+	text-align: right;
+}
+.xy-list-item:after{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 1px;
+	width: 100%;
+	background-color: #E6E6E6;
+	transform: scaleY(.5);
+}
+.xy-list-item:last-child:after{
+	height: 0;
+}
+.checkbox-img{
+	width: 14px;
+	height: 14px;
+}

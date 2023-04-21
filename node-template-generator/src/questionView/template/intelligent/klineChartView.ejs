@@ -1,0 +1,48 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<%
+if (conditionParams.useTitle) {
+%>
+<% include ../../component/templateTitleView %>
+<%
+}
+%>
+<% include ../../component/jsLoad %>
+<%
+if (conditionParams.useChart) {
+%>
+<div id="chart<%= sn %>">图表加载中...</div>
+<%
+}
+if (conditionParams.useHuashu) {
+%>
+<div class="rxh_bd2">
+    <%= info.textValue %>
+</div>
+<%
+}
+%>
+<script>
+
+    var klineChartView<%- sn %> = {
+        onViewReady: function () {
+            let info = JSON.parse('<%- JSON.stringify(info) %>');
+
+            let chart = new KlineChart();
+            chart.containerId = 'chart<%= sn %>';
+            chart.volumeScale = info.volumeScale;
+            chart.series = info.chartData;
+            chart.initialize();
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, klineChartView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>
+<style>
+
+
+</style>

@@ -1,0 +1,144 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <title>安全规范详情</title>
+    <meta name="description" content="滴滴信息安全部产品规范详情页，产品规范详情页，滴滴安全门户产品规范详情页">     <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/css/spec.css?_v=c5bbb6">
+
+</head>
+
+<body>
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    <div class="main">
+        <div class="content content-detail page-center" ng-controller="spec-detail">
+            <div class="content-header">
+                <h1 class="content-header-title arrow"><a href="/project/portals/pages/spec.html">安全规范</a></h1>
+                <h1 class="content-header-title">规范详情</h1>
+            </div>
+            <div class="content-main spec-main" ng-cloak>
+                <loading></loading>
+                <div class="content-top" >
+                    <div class="spec-title" ng-bind="datas.title"></div>
+                    <div class="spec-time-user">
+                        <span ng-bind="datas.updateTime"></span>
+                        <span ng-bind="datas.updateUser"></span>
+                    </div>
+                </div>
+                <!--<div class="spec-abstract" >摘要</div>-->
+                <div class="spec-abstract-text" ng-bind="datas.summary"></div>
+                <div class="wrap-file-list" ng-show="datas.fileList.length" >
+                    <span class="p-btn">查看下载</span>
+                    <ul class="file-list" >
+                        <li ng-repeat="file in datas.fileList">
+                            <a ng-href="{{::file.url}}" title="{{::file.name}}" download="{{::file.name}}">{{::file.name}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-dir" ng-show="dirData.length" >
+                    <div class="dir-title" >目录</div>
+                    <ul class="dir-list">
+                        <li ng-repeat="data in dirData" class="level-{{::data.level}}" ng-class="{hidden:data.level>data.minLevel}" has-child="{{::data.hasChild}}"
+                            data-level="{{::data.level}}" level="{{::data.level}}">
+                            <i ng-click="toggleItem($event)" ng-class="{'child-null':!data.hasChild,'child':data.hasChild}"></i>
+                            <span class="link-btn" ng-click="goToView($event,data.href)" ng-bind="data.text"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="js-spec-content" class="p-editor p-editor-view" ui-show-large-img ng-bind-html="datas.context | to_trusted"></div>
+            </div>
+        </div>
+    </div>
+    <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+<script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+<script   src="/project/portals/config/config.js?_v=000d11"></script> <script>
+var _hmt = _hmt || [];
+//让业务页面首先加载，footer和统计稍后加载
+ setTimeout(function(){
+    require(['modules/footer/js/footer']);
+    var node = document.createElement("script");
+    node.type = 'text/javascript';
+    node.charset = 'utf-8';
+    node.async = true;
+    node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(node, s);
+ },0)
+</script>
+<footer class="footer" ng-cloak>
+    <!-- <p> 
+        <label style="margin-right: 15px;">滴滴出行安全产品与技术部开发并维护</label>
+        扫码加入钉钉反馈群：<img  width="90" height="90"  src="/project/portals/i/code.png?_v=80763a"/>
+    </p> -->
+    <div class="footer-container">
+        <div class="footer-item" style="width: 50%;">
+            <p class="footer-item--title">安全管理平台</p>
+            <p class="footer-item--desc">我们专注提供一站式安全服务，打造一流安全平台，建设顶级安全服务能力，为滴滴信息安全、业务安全和客户安全保驾护航。</p>
+            <p class="footer-item--desc">反馈邮箱： soc@didichuxing.com</p>
+        </div>
+        <div style="width: 40%;">
+            <p class="footer-item--desc">扫码加入钉钉反馈群</p>
+            <img  width="100" height="100"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </div>
+
+    <!-- <div popover-placement="left-bottom" uib-popover-template="'options-panel.html'" popover-trigger="'mouseenter'"  class="p-btn-scroll-code fadein" style="bottom: 165px;">
+        <img  width="30" height="30"  src="/project/portals/i/code.png?_v=80763a"/>
+    </div>
+    <script type="text/ng-template" id="options-panel.html">
+        <div class="form-group">
+          <div>扫码加入钉钉反馈群:</div>
+          <img  width="150" height="150"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </script> -->
+</footer>
+    <script>
+        require(['js/spec-detail/index'], function() {});
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,192 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <div class="box_timeLine box_timeLine_factor box_equInc">
+            <div class="timeLine">
+                <ul>
+                    <%
+                    var hideClass = commonUtil.generateRandomClassName('hideClass');
+                    for(var i = 0;i < info.data.length;i++){
+                        var item = info.data[i];
+                        var ifHideClass = i > 2 ? 'none' : 'flex';
+                        var hideClassLine = i > 2 ? hideClass : '';
+                    %>
+                    <li style="display:<%= ifHideClass %>" class="<%= ifHideClass %>">
+                        <dt>
+                            <b></b>
+                            <s><i></i></s>
+                        </dt>
+                        <dd>
+                            <div class="space_between">
+                                <span class="date"><%= timeUtil.getTimeStr(item.pubDateTimestamp) %></span>
+                            </div>
+                            <h5 class="b_fa" onclick="encourageDetail('<%= JSON.stringify(item) %>')">
+                                公布股权激励方案，激励方式为授予<%= commonUtil.incSubject(item.incSubject) %></h5>
+                        </dd>
+                    </li>
+                    <% } %>
+                    <% if(info.data.length == 0){ %>
+                        <li>
+                            <dt>
+                                <b></b>
+                                <s><i></i></s>
+                            </dt>
+                            <dd>
+                                <div class="space_between">
+                                    <span>暂无股权激励信息</span>
+                                </div>
+                            </dd>
+                        </li>
+                    <% } %>
+                </ul>
+                <!--加载更多-->
+                <% if(info.data.length > 5){ %>
+                <div id="moreId<%= sn %>" class="box_load" onclick=showMoreArticle("hideClass","moreId")>
+                    <a>查看更多</a>
+                </div>
+                <% } %>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--底部弹窗浮层-->
+<div id="bottomPopup" class="pop_BTT pop_BottomToTop" style="display: none">
+    <!--遮罩-->
+    <div class="bg" style="display: none"></div>
+    <!--白框容器-->
+    <div id="bottomContainer" class="box">
+        <!--关闭按钮-->
+        <a class="close icon-pop_close" onclick="popUtil.closePopup()"></a>
+        <div class="sumUp">
+            <!--浮层_title-->
+            <div class="sumUp_tech">
+                <div id="bottomPopupTitle" class="pop_hd">
+                </div>
+                <!--答案容器-->
+                <div id="bottomAnswerContainer" class="pop_bd mb_tab">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+
+  var stockOwnershipIncentive = {
+    onViewReady: function () {
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/logUtil',
+    '/static/js/utils/timeUtil',
+    '/static/js/utils/popUtil',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockOwnershipIncentive.onViewReady)
+
+
+  //股权激励方案详情
+  function encourageDetail(result) {
+    result = JSON.parse(result);
+    var ifShowD0 = "show";
+    var lineClass0 = toolsUtil.generateRandomClassName('hideArticle0');
+    if (result.incCond.length < 120) {
+      ifShowD0 = 'hide';
+    }
+    var temp0 = '';
+    temp0 += "   <a " + ifShowD0 + " class='a_more a" + lineClass0 + "' onclick=showMoreRow2AndShowUp('" + lineClass0 + "')>展开<i class='icon-arrowD'></i></a>";
+    temp0 += "<a style='display:none;' class='a_more aShow" + lineClass0 + "' onclick=hideMoreRow2AndShowUp('" + lineClass0 + "')>收起<i class='icon-arrowT'></i></a>";
+
+    var ifShowD1 = "show";
+    var lineClass1 = toolsUtil.generateRandomClassName('hideArticle1');
+    if (result.incSellDetail.length < 120) {
+      ifShowD1 = 'hide';
+    }
+
+    var temp1 = '';
+    temp1 += "   <a " + ifShowD1 + " class='a_more a" + lineClass1 + "' onclick=showMoreRow2AndShowUp('" + lineClass1 + "')>展开<i class='icon-arrowD'></i></a>";
+    temp1 += "<a style='display:none;' class='a_more aShow" + lineClass1 + "' onclick=hideMoreRow2AndShowUp('" + lineClass1 + "')>收起<i class='icon-arrowT'></i></a>";
+
+    var ifShowD2 = "show";
+    var lineClass2 = toolsUtil.generateRandomClassName('hideArticle2');
+    if (result.optExeCond.length < 120) {
+      ifShowD2 = 'hide';
+    }
+    var ifshowIncCond, ifshowIncSellDetail, ifshowOptExeCond;
+    !result.incCond ? ifshowIncCond = 'hide' : ifshowIncCond = 'show';
+    !result.incSellDetail ? ifshowIncSellDetail = 'hide' : ifshowIncSellDetail = 'show';
+    !result.optExeCond ? ifshowOptExeCond = 'hide' : ifshowOptExeCond = 'show';
+    var temp2 = '';
+    temp2 += "   <a " + ifShowD2 + " class='a_more a" + lineClass2 + "' onclick=showMoreRow2AndShowUp('" + lineClass2 + "')>展开<i class='icon-arrowD'></i></a>";
+    temp2 += "<a style='display:none;' class='a_more aShow" + lineClass2 + "' onclick=hideMoreRow2AndShowUp('" + lineClass2 + "')>收起<i class='icon-arrowT'></i></a>";
+
+    var tagBody =
+      '<div class="sumUp_equInc">' +
+      '<h5><strong>激励方式：</strong>' + toolsUtil.incSubject(result.incSubject) + '</h5>' +
+      '<h5><strong>公布日期：</strong>' + timeUtil.getTimeStr2(result.pubDateTimestamp) + '</h5>' +
+      '<h5><strong>授予起始日：</strong>' + timeUtil.getTimeStr2(result.incBeginTimestamp) + '</h5>' +
+      '<h5><strong>授予结束日：</strong>' + timeUtil.getTimeStr2(result.incEndTimestamp) + '</h5>' +
+      '<h5><strong>激励进度：</strong>' + result.progress + '</h5>' +
+      '<h5><strong>激励金源：</strong>' + toolsUtil.incType(result.incType) + '</h5>' +
+      '<h5><strong>激励总数：</strong>' + toolsUtil.incAmount(result.incAmount, result.incSubject) + '</h5>' +
+      '<h5><strong>期权初始行权价格：</strong>' + toolsUtil.formatAmount(result.incPrice) + '</h5>' +
+      '<h5><strong>激励总数占当时总股本比例：</strong>' + toolsUtil.addPer(result.incTotsharePercent) + '</h5>' +
+
+      '<ul>' +
+      '<li class="' + lineClass0 + ' ' + ifshowIncCond + '">' +
+      '<h5 class="hd">激励授予条件</h5>' +
+      '<h5 class="show_row2">' + result.incCond + '</h5>' +
+      temp0 +
+      '</li>' +
+      '<li class="' + lineClass1 + ' ' + ifshowIncSellDetail + '">' +
+      '<h5 class="hd">激励股票出售条件</h5>' +
+      '<h5 class="show_row2">' + result.incSellDetail + '</h5>' +
+      temp1 +
+      '</li>' +
+      '<li class="' + lineClass2 + ' ' + ifshowOptExeCond + '">' +
+      '<h5 class="hd">期权行权特别条件</h5>' +
+      '<h5 class="show_row2">' + result.optExeCond + '</h5>' +
+      temp2 +
+      '</li>' +
+      '</ul>' +
+      '</div>';
+
+
+    popUtil.appendAnswerToPopup(tagBody);
+    popUtil.showPopup('股权激励');
+  }
+
+  function showMoreRow2AndShowUp(className) {
+    $("." + className).find("h5").removeClass("show_row2");
+    $(".a" + className).removeClass("show").addClass("hide");
+    $(".aShow" + className).show();
+  }
+
+  function hideMoreRow2AndShowUp(className) {
+    $("." + className).find("h5").addClass("show_row2");
+    $(".a" + className).removeClass("hide").addClass("show");
+    $(".aShow" + className).hide();
+  }
+</script>
+

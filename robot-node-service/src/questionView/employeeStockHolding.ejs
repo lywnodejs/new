@@ -1,0 +1,132 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 员工持股 赵波 2019.10.22 -->
+<%
+var list = info.data || [];
+var col1 = '';
+var arrCol = ['','','','','','','','','',''];
+var arrColName = ['initialCapital','sholdersNo','emplSubsAmt','emplSubsProportion','senmngrSubsAmt','senmngrSubsProportion','estimatedPrice','sharesResourceName','ratioOwnfunds','initialLeverage'];
+var arrHideCls = []; //隐藏类
+var pageSize = 5;
+
+if(list.length>5){
+    for(var m=0; m<11; m++){
+        arrHideCls.push(commonUtil.generateRandomClassName('hide'));
+    }
+}
+
+for (var i=0; i<list.length; i++){
+    col1 += '<li class="'+(i>4?arrHideCls[0]:'')+'" style="height: 1.5rem;display: '+(i>4?'none':'')+'">'+commonUtil.generateDate(list[i].publishDate)+'</li>';
+
+    for(var j=0; j<arrCol.length; j++){
+        var value = list[i][arrColName[j]] || '--';
+        if(['sholdersNo', 'sharesResourceName', 'initialLeverage'].indexOf(arrColName[j]) === -1)
+            value = value !== '--' ? value.toFixed(2) : value;
+
+        var unit = '';
+        if(['emplSubsProportion', 'senmngrSubsProportion', 'ratioOwnfunds'].indexOf(arrColName[j]) > -1)
+            unit = value !== '--' ? '%' : '';
+
+        arrCol[j] += '<li class="'+(i>4?arrHideCls[j+1]:'')+'" style="height: 1.5rem; padding: 0.5rem 0;display: '+(i>4?'none':'')+'">'+value+unit+'</li>';
+    }
+}
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_conStock" style="margin: -1rem;">
+            <i class="icon-arrow_shape_left"></i>
+            <b></b>
+            <div class="conStock_hd">
+                <ul>
+                    <li>发布日期</li>
+                    <%- col1 %>
+                </ul>
+            </div>
+            <div class="conStock" onscroll="tableScrollHandler(event)">
+                <div class="box">
+                    <ul>
+                        <li>初始资金规模(万元)</li>
+                        <%- arrCol[0] %>
+                    </ul>
+                    <ul>
+                        <li>持有人数</li>
+                        <%- arrCol[1] %>
+                    </ul>
+                    <ul>
+                        <li>员工认购金额(万元)</li>
+                        <%- arrCol[2] %>
+                    </ul>
+                    <ul>
+                        <li>员工认购比例</li>
+                        <%- arrCol[3] %>
+                    </ul>
+                    <ul>
+                        <li>高管认购金额(万元)</li>
+                        <%- arrCol[4] %>
+                    </ul>
+                    <ul>
+                        <li>高管认购比例</li>
+                        <%- arrCol[5] %>
+                    </ul>
+                    <ul>
+                        <li>预估价格</li>
+                        <%- arrCol[6] %>
+                    </ul>
+                    <ul>
+                        <li>股票来源</li>
+                        <%- arrCol[7] %>
+                    </ul>
+                    <ul>
+                        <li>员工自有资金占比</li>
+                        <%- arrCol[8] %>
+                    </ul>
+                    <ul>
+                        <li>初始杠杆</li>
+                        <%- arrCol[9] %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <%
+        if (list.length > pageSize) {
+            var moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+            <div id="<%= moreId %>" class="box_load" onclick="showMoreListItem('<%= arrHideCls.join('|') %>','<%= moreId %>','<%= pageSize %>')">
+                <a>查看更多</a>
+            </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var employeeStockHolding = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, employeeStockHolding.onViewReady)
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>

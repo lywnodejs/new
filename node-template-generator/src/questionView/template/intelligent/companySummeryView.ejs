@@ -1,0 +1,56 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+var data = info.data
+%>
+<div class="rxh_list rxh_gap">
+    <div class="rxh_dl">
+        <dl>
+            <dd style="color: #aaaaaa;font-size: 14px">
+                <p class="rxh_ellipsis3"><b style="font-size: 16px;color: #333333">经营范围：</b><%= commonUtil.stringIsEmpty(data.businessScope) ? "--" : data.businessScope %></p>
+                <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+            </dd>
+        </dl>
+        <dl>
+            <dd style="color: #aaaaaa;font-size: 14px"><b style="font-size: 16px;color: #333333">主营业务：</b><%= commonUtil.stringIsEmpty(data.mainBusiness) ? "--" : data.mainBusiness %></dd>
+        </dl>
+        <dl>
+            <dd style="color: #aaaaaa;font-size: 14px">
+                <p class="rxh_ellipsis3"><b style="font-size: 16px;color: #333333">历史沿革：</b><%= commonUtil.stringIsEmpty(data.introduction) ? "--" : data.introduction %></p>
+                <a class="rxh_btnEllipsis"><i class="rxh-icon-arrow_d"></i></a>
+            </dd>
+        </dl>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+    var companySummeryView<%- sn %> = {
+        onViewReady: function () {
+
+        },
+        stringIsEmpty: function (str) {
+            return this.stringIsNull(str) || str == "";
+        },
+        stringIsNull: function (str) {
+            return typeof str == "undefined" || str === null;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, companySummeryView<%- sn %>.onViewReady);
+    <% } %>
+
+</script>

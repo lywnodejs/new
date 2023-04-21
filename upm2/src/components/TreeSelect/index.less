@@ -1,0 +1,128 @@
+.tree-select-container {
+  transition: all .2s ease-in-out;
+  border-color: #ff7d4c;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  .tree-select {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    padding: 0 5px;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: 1.7em;
+    border-color: inherit;
+    transition: inherit;
+    .tree-select-input-container {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      position: relative;
+      height: 100%;
+      background-color: #fff;
+      transition: inherit;
+      border: 1px solid #aaa;
+      border-radius: 1px;
+      border-color: inherit;
+      .tree-select-input {
+        outline: none;
+        margin: 0;
+        padding: 5px;
+        font: 400 11px;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        height: 100%;
+        cursor: pointer;
+        transition: inherit;
+        background-color: #fff;
+        &:hover {
+          border-color: inherit;
+        }
+        &::-webkit-input-placeholder {
+          color: #bbb;
+        }
+      }
+      .tree-select-input-icon {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        height: 12px;
+        z-index: 1;
+        cursor: pointer;
+        background-color: inherit;
+        transition: inherit;
+        .tree-select-input-icon-img {
+          width: 12px;
+          position: relative;
+          top: -15px;
+          height: 12px;
+        }
+      }
+    }
+  }
+  .tree-node {
+    z-index: 3;
+    position: absolute;
+    top: 2.8em;
+    height: 0;
+    opacity: 0;
+    width: 100%;
+    transition: inherit;
+    box-sizing: border-box;
+    padding: 0 10px;
+    overflow: auto;
+    max-height: 30em;
+    background-color: #fff;
+    border-radius: px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    .search-container {
+      height: 2em;
+      z-index: 5;
+      width: 100%;
+      .tree-search {
+        padding: 4px 7px;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        outline: none;
+        z-index: 5;
+        height: 100%;
+        display: block;
+      }
+    }
+    .tree-node-container {
+      display: block;
+      .placeholder {
+        line-height: 2em;
+        text-align: center;
+        color: #aaa;
+      }
+    }
+  }
+
+  .tree-node-display {
+    box-sizing: border-box;
+    opacity: 1;
+    height: auto;
+    padding: 10px;
+  }
+
+}
+
+
+
+.default-size {
+  font-size: 14px;
+}
+
+.small-size {
+  font-size: 12px;
+}
+
+.large-size {
+  font-size: 26px;
+}

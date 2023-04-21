@@ -1,0 +1,109 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+<%
+var seclendingTop10 = info.data.seclendingTop10 || [];
+var tMarMargintradeInfo = info.data.tMarMargintradeInfo;
+var item;
+
+var tagSeclending = '';
+var len = seclendingTop10.length > 10?10:seclendingTop10.length;
+for(var i=0; i<len; i++){
+    item = seclendingTop10[i];
+    tagSeclending +=
+            '<ul>'+
+            '<li>'+
+            '<h4>'+item.secName+'</h4>'+
+            '<h6>'+item.secCode+'</h6>'+
+            '</li>'+
+            '<li>'+commonUtil.formatAmount(item.sMarginSeclendingbalance*1e4)+'</li>'+
+            '<li>'+commonUtil.formatNumber(item.seclendingRate)+'%</li>'+
+            '</ul>'
+}
+
+var flowMoney = commonUtil.formatAmount(tMarMargintradeInfo.sMarginTradingbalance*1e4);
+var tradingRate = commonUtil.formatNumber(tMarMargintradeInfo.tradingRate);
+var tradingRank = tMarMargintradeInfo.tradingRank;
+
+var finceMoney = commonUtil.formatAmount(tMarMargintradeInfo.sMarginSeclendingbalance*1e4);
+var seclendingRate = commonUtil.formatNumber(tMarMargintradeInfo.seclendingRate);
+var seclendingRank = tMarMargintradeInfo.seclendingRank;
+
+var time = commonUtil.generateDate(tMarMargintradeInfo.tradeDt);
+%>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <!--答案框-->
+    <%- name %>(<%- code %>) 截止<%= time %>融券余额为<%= finceMoney %>,占
+    流通市值<%= seclendingRate %>%，在融券标的的股票中排名<b><%= seclendingRank %></b>。
+
+    <div class="rxh_tlBox_3col rxh_mT9">
+        <ol>
+            <li>两融余额</li>
+            <li>占流通市值比</li>
+            <li>标的股排名</li>
+        </ol>
+        <ul>
+            <li>
+                <h4><%= flowMoney%></h4>
+                <h6>融（资）</h6>
+            </li>
+            <li><%= tradingRate %>%</li>
+            <li><%= tradingRank %></li>
+        </ul>
+        <ul>
+            <li>
+                <h4><%= finceMoney%></h4>
+                <h6>融（劵）</h6>
+            </li>
+            <li><%= seclendingRate %>%</li>
+            <li><%= seclendingRank %></li>
+        </ul>
+    </div>
+</div>
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <h6 class="rxh_note"><%= time %> 融券余额前十</h6>
+    <div class="rxh_tlBox_3col">
+        <ol>
+            <li>名称/代码</li>
+            <li>融券余额</li>
+            <li>占流通市值比<i class="icon-arrow_sequentB"></i></li>
+        </ol>
+        <%- tagSeclending%>
+    </div>
+</div>
+<% include ../component/footer %>
+<script>
+  var jsNo = 0;
+  var financingView = {
+    onViewReady: function () {
+      callback()
+    }
+  }
+  <% if(!params.noSource) {%>
+  var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray)%>');
+  loadJs(jsSource,financingView.onViewReady);
+  <%}%>
+
+
+  function callback() {
+  }
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>
+
+
+

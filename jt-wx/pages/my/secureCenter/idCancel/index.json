@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "cell":"/components/cell/index"
+  },
+  "navigationBarTitleText": "账号注销"
+}

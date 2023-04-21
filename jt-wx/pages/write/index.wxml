@@ -1,0 +1,14 @@
+<view class="wrapper">
+  <view class="title">
+    为保证识别标准，请将姓名书写至框内，签名时请勿连笔。
+    <view bindtap="clearLine"><image src="../../image/clear.png"></image>清屏</view>
+  </view>
+  <view class="writeBox" style="margin-left:{{platform=='ios'? '34px':'0'}}">
+    <view wx:for="{{num}}" wx:key="index" class="handCenter {{num.length==2 ? 'two' : num.length==3? 'three' : 'four'}}">
+      <canvasUse status="{{status}}" index="{{index}}" bind:imageUrl="getImageUrl" canvasName="{{item.id}}"></canvasUse>
+    </view>
+  </view>
+
+  <painter widthPixels="1000" palette="{{buildImg}}" bind:imgOK="onImgOK" customStyle='position: absolute; left: -9999rpx;' widthPixels="1000" />
+  <view class="but" bindtap="ok">完成</view>
+</view>

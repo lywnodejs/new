@@ -1,0 +1,117 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 新股综评 赵波 2019.10.25 -->
+<%
+var secName = info.data.secName || '--';
+var induSw = info.data.induSw || '--';
+var ipoPe = info.data.ipoPe || '';
+var indicatorPeTtm = info.data.indicatorPeTtm || '';
+var subnewPeTtm = info.data.subnewPeTtm || '';
+var randomClass = commonUtil.generateRandomClassName('randomClass');
+var cp = 1;
+var ps = 10;
+
+var secondNewList = '';
+var dailyFinList = info.data.dailyFin || []
+dailyFinList.forEach(function(item,index){
+    secondNewList += '<h5>次新股里同行业的（近1年上市的新股）'+item.secName+'目前估值'+commonUtil.fixed2(item.peTtm)+'PE</h5>'
+});
+ %>
+
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_hd2 box_hd2_red">
+            <span>估值面</span>
+            <b><i class="i_t"></i><i class="i_b"></i></b>
+            <em></em>
+        </div>
+        <div class="tBox">
+            <h5><%= secName %>属于<%= induSw %>行业，发行估值为<%= commonUtil.fixed2(ipoPe) %>PE，当前<%= induSw %>板块整体估值是<%= commonUtil.fixed2(indicatorPeTtm) %>PE</h5>
+            <%- secondNewList %>
+            <h5>次新股整体估值<%= commonUtil.fixed2(subnewPeTtm) %>PE</h5>
+        </div>
+        <div class="box_hd2 box_hd2_blue">
+            <span>技术面</span>
+            <b><i class="i_t"></i><i class="i_b"></i></b>
+            <em></em>
+        </div>
+        <div class="tBox">
+            <h5>在新股上市后如果放量，则需根据市场气氛和估值选择去留，近3个月上市公司表现</h5>
+        </div>
+        <div class="box_show_ol box_show_ol4 <%= randomClass %>">
+            <ol>
+                <li>股票名称</li>
+                <li>每中一签获利</li>
+                <li>连续涨停</li>
+                <li>上市时间</li>
+            </ol>
+        </div>
+        <div class="box_load more_<%= randomClass %>">
+            <a onclick=getList('<%= cp+1 %>','<%= ps %>','<%= randomClass %>')>查看更多</a>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var drawingLotsStrategy = {
+    onViewReady: function () {
+      getList('<%= cp %>', '<%= ps %>', '<%= randomClass %>');
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+    '/static/client/js/utils/commonUtil',
+  ];
+  loadJs(jsArr, drawingLotsStrategy.onViewReady)
+
+  // 获取新股列表
+  function getListStocks(cp,ps,success) {
+    $.ajax({
+      type: "get",
+      url: "/robot/javaApi/e/getListStocks",
+      data: {
+        cp: cp,
+        ps: ps
+      },
+      timeout: 10000,
+      success: success
+    });
+  }
+
+  // 获取列表（新股中签）
+function getList(cp, ps, randomClass){
+    var hasNextPage = true;
+    var stocksList = '';
+    getListStocks(cp, ps, function(result){
+        hasNextPage = result.data.hasNextPage;
+        result.data.infoList.forEach(function(item,index){
+          var cls = item.luckyProfit ? 't_red' : ''
+            stocksList+=
+                        '<ul>'+
+                            '<li onclick="stockFixQuestion(\'' + item.stockCode + '\', \'' + item.stockName + '\', \'\',\''+'个股综评'+'\')">'+
+                                '<p>'+item.stockName+'</p>'+
+                                '<h6>'+item.stockCode+'</h6>'+
+                            '</li>'+
+                            '<li class="'+cls+'">'+(item.luckyProfit?item.luckyProfit.toFixed(0):'--')+'元</li>'+
+                            '<li>'+(item.stockCode.indexOf('688')===0?'--':(item.limitUpDays+'天'))+'</li>'+
+                            '<li>'+changeTime(item.listDate, '.')+'</li>'+
+                        '</ul>';
+        });
+        $('.'+randomClass).append(stocksList);
+        if(!hasNextPage){
+            $('.more_'+randomClass).hide();
+        }else{
+            var btn = '<a onclick=getList('+(parseInt(cp)+1)+','+ps+',"'+randomClass+'")>查看更多</a>'
+            $('.more_'+randomClass).html(btn);
+        }
+    });
+}
+
+</script>

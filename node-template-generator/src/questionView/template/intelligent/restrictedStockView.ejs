@@ -1,0 +1,42 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<%if(info.data){%>
+<%
+    var result = info;
+    var ressList = result.data.ressList || [];
+    var ressWeekList = result.data.ressWeekList || [];
+
+    var unlockStr = '';
+    if(ressList.length > 0)
+    {
+        unlockStr = commonUtil.generateDate(ressList[0].listDate)+'将有'+commonUtil.formatNumber(ressList[0].listAmount)+'股解禁，占流通股本的'+commonUtil.formatNumber(ressList[0].unresAmount)+'%';
+    }else{
+        unlockStr = '该股近两周暂无解禁信息';
+    }var result = info;
+
+%>
+<div class="rxh_text rxh_gap">
+    <div class="rxh_bgBox_blue rxh_bgBox_arrow">
+        <h5><%= unlockStr %></h5>
+        <i class="rxh-icon-arrow_r"></i>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+
+</script>
+
+
+

@@ -1,0 +1,119 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var result = info;
+    var htop10 = [];
+    if(type == "high"){
+        htop10 = result.data.htop10 || [];
+    }else{
+        htop10 = result.data.ltop10 || [];
+    }
+    var tMarStkLiquidInfo = result.data.tMarStkLiquidInfo;
+
+    var pageSize = 10;
+    var hideClass = '';
+    var item;
+
+    var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+    var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+%>
+
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_equal"><span>个股名称/代码</span></li>
+            <li class="rxh_li_equal"><span class="rxh_right">月日均成交额</span></li>
+            <li class="rxh_li_equal"><span>月平均换手率<i class="rxh-icon-arrow5_d_small"></i></span></li>
+        </ol>
+        <%
+            if (htop10.length > 10) {
+                hideClass = commonUtil.generateRandomClassName('hide');
+            }
+        for(var i=0; i<htop10.length; i++) {
+            item = htop10[i];
+        %>
+        <ul class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+            <li class="rxh_li_equal">
+                <p><%= item.secName %></p>
+                <h6 class="rxh_gray"><%= item.secCode %></h6>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatAmount(item.m1Avgamount*1e4) %></p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= item.m1Turnrate.toFixed(2) %>%</p>
+            </li>
+        </ul>
+        <% } %>
+        <%
+        if (htop10.length > 10) {
+            moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+        <div id="<%= moreId %>" class="rxh_btnMore rxh_btnMore_blue"><a onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">查看更多<i class="rxh-icon-arrow2_d"></i></a></div>
+        <% } %>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var mobilityListView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, mobilityListView<%- sn %>.onViewReady)
+  <% } %>
+
+  /**
+   * 点击加载更多
+   * @param hideClass
+   * @param moreId
+   * @param stepSize 步长，即每次展示的条数，默认值为2
+   * @param getQuota 1, 0  股票推荐答案中的股票行情分页取，否则多了取不到
+   */
+  function showMoreArticle(hideClass, moreId, stepSize, getQuota) {
+    if (!stepSize)
+      stepSize = 2;
+    else
+      stepSize = parseInt(stepSize);
+
+    //根据隐藏项的class，取出标签列表
+    var list = $('.' + hideClass);
+    var arrStockCode = [];
+    for (var i = 0; i < list.length && i < stepSize; i++) {
+      var divReport = $(list[i]);
+      divReport.show();
+      divReport.removeClass(hideClass); //移除
+      //处理文字内容多的情况
+      var contentIds = divReport.find('[id^=contentId]');
+      var expandBtnIds = divReport.find('[id^=expandBtnId]');
+      if (contentIds && expandBtnIds) {
+        for (var j = 0; j < contentIds.length; j++) {
+        }
+      }
+
+
+    }
+    //再取一遍看是否还有隐藏项，判断是否显示加载更多
+    list = $('.' + hideClass);
+    if (list.length === 0){
+      $('#' + moreId).remove();
+    }
+  }
+</script>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>筹码分布</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <link rel="stylesheet" href="../css/cmfb_style.css">
+    <script src="../js/libs/rem.js"></script>
+</head>
+<body>
+<header class="clearfix">
+    <div class="header_name fl">
+        <div>中国国航(6011111)</div>
+        <div>2017-12-31 10:34</div>
+    </div>
+    <div class="header_increase fl">
+        <div class="cmfb_red">9.73</div>
+        <div class="cmfb_red">-16.79% &nbsp;-2.58%</div>
+    </div>
+    <div class="header_msg fl">
+        <!--涨跌幅 红色类名:cmfb_red 绿色类名:cmfb_green-->
+        <ul>
+            <li><i>高</i> <em class="cmfb_red">13.24</em></li>
+            <li><i>开</i> <em class="cmfb_red">13.24</em></li>
+            <li><i>额</i> <em>5.43</em>亿</li>
+        </ul>
+        <ul>
+            <li><i>底</i> <em class="cmfb_green">12.41</em></li>
+            <li><i>换</i> <em>12.41</em></li>
+            <li><i>量</i> <em>43.63</em>万</li>
+        </ul>
+    </div>
+    <div class="header_close"></div>
+</header>
+<div class="main">
+    <div>
+        <ul class="main_meanLine clearfix">
+            <!--均线 橘色:cmfb_orange 酒红色:cmfb_claret 蓝色:cmfb_blue-->
+            <li class="cmfb_orange">MA5:12.30</li>
+            <li class="cmfb_claret">10:12.26</li>
+            <li class="cmfb_blue">20:11.71</li>
+        </ul>
+        <div id="mainLine">
+            <div class="clearfix dayLine">
+                <div class="main_kLine clearfix">
+
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix">
+
+                </div>
+            </div>
+            <div class="clearfix weekLine hidd">
+                <div class="main_kLine clearfix">
+
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix">
+
+                </div>
+            </div>
+            <div class="clearfix monthLine hidd">
+                <div class="main_kLine clearfix">
+
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix">
+
+                </div>
+            </div>
+            <div class="clearfix minLine hidd">
+                <div class="main_kLine clearfix">
+
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <ul class="clearfix">
+        <li class="tab_red dayLine">日K<em class="tab_emred"></em></li>
+        <li class="weekLine">周K<em></em></li>
+        <li class="monthLine">月K<em></em></li>
+        <li class="minLine">分钟<em></em></li>
+    </ul>
+</div>
+
+<script src="../js/libs/jquery-1.11.2.min.js"></script>
+<script>
+    $(".footer>ul>li").on("click",function(e){
+        $(".footer>ul>li").removeClass("tab_red").children('em').removeClass("tab_emred");
+        $(this).addClass("tab_red").children("em").addClass("tab_emred");
+        $("#mainLine").children().addClass("hidd");
+        $("#mainLine>div").eq($(this).index()).removeClass("hidd");
+    })
+</script>
+</body>
+</html>

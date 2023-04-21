@@ -1,0 +1,3 @@
+build:
+    javascript:
+        nodejs: 6

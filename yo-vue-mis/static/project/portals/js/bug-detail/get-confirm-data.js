@@ -1,0 +1,1 @@
+define("js/bug-detail/get-confirm-data",["require","exports","module"],function(n,r,e){return function(n,r){var e={};return r.forEach(function(r){e[r]=angular.copy(n[r])}),e}});

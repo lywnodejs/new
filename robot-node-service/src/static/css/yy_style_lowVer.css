@@ -1,0 +1,580 @@
+@charset "utf-8";
+
+/****************************************************************************************/
+/********************************         智能问答        ********************************/
+/*******************************      前端开发：阎延      ********************************/
+/****************************************************************************************/
+/*********************************       低版本兼容       ********************************/
+/****************************************************************************************/
+
+/* 通用 */
+header,
+footer,
+footer .box_input,
+footer .box_input a,
+footer .box_input input[type=button],
+.md_right_v2,
+.md_right_v2 i,
+.md_left_v2 .hd:first-child,
+.md_pact_v2,
+.md_time_v2,
+.box_load,
+.box_appraisal,
+.md_fastNav,
+.md_fastNav li,
+.short,
+.box_stoInfo,
+.box_bRed,
+.box_stoDay,
+.box_bRed_r2 li,
+.box_show .a_more,
+.box_show_tl .box_hd,
+.box_hd2,
+.box_hd2 span,
+.box_show_ol ol,
+.box_show_ol ul,
+.box_show_olBD ol,
+.box_show_olBD ul,
+.box_show_ol2 ol,
+.box_show_ol2 ul,
+.box_show_ol3 ol,
+.box_show_ol3 ul,
+.page_guide .txt_01,
+.page_guide .btn,
+.page_guide .help,
+.page_guide .voice,
+.box_reEnter_v2 .box,
+.pop_v2 ul.btn{ display: block;}
+
+
+header p,
+footer .box,
+footer .box_input,
+footer .box_input input[type=text],
+footer .box_input textarea,
+.md_left_v2 .hd h4,
+.box_stoInfo li,
+.box_bRed li,
+.box_show_tl .box_hd span,
+.box_show_ol li:nth-child(2),
+.box_show_olBD li:nth-child(2),
+.box_show_ol2 li,
+.box_show_ol3 li:nth-child(2),
+.pop_v2 ul.btn li,
+.box_ol3_dividends li:first-child,
+.box_appraisal h6,
+.box_hd2 em,
+header a.arrowL,
+footer .icon-help,
+footer .icon-set,
+footer input[type=button],
+footer .box_input a,
+footer .box_input input[type=button],
+.md_left_v2 .hd .mb_avatar,
+.box_show_tl .box_hd i,
+.box_show_ol li:first-child,
+.box_show_ol li:nth-child(3),
+.box_show_olBD li:first-child,
+.box_show_olBD li:nth-child(3),
+.box_hd2 b,
+.box_hd2 span,
+.box_show_ol3 li:first-child,
+.box_show_ol3 li:nth-child(3),
+.box_ol3_dividends li:nth-child(2),
+.box_ol3_dividends li:nth-child(3),
+.box_appraisal a{ display: inline-block; float: left;}
+
+
+ol:after,
+ul:after,
+.md_left_v2 .hd:after,
+.md_left_v2 .bd:after,
+.box_hd2:after,
+.box_show_tl li .box_hd:after,
+.box_show_tlBD li .box_hd:after{ content:"　"; height:0; clear:both; display:block; overflow:hidden;}
+
+
+
+/****************************************************************************************/
+
+body,
+.bottom{ background: #e9eff7;}
+.body_v2:before{ background: none;}
+
+
+/* 标题栏 */
+header a,
+header p{ float: left;}
+header p{ line-height: 2.75rem;}
+
+
+.page_body_v2{ padding-top: 4rem; padding-bottom: 4.813rem;}
+
+/* 底部 */
+footer{ display: block;}
+footer a,
+footer textarea,
+footer .box_input{ display: inline-block;}
+
+footer a,
+footer textarea,
+footer .box_input,
+footer .icon-help,
+footer .icon-set{ float: left;}
+footer .icon-voice,
+footer .icon-keyboard{ float: right;}
+
+footer a,
+footer textarea,
+footer .box_input,
+footer .icon-help,
+footer .icon-voice{ float: left;}
+footer .icon-plus{ float: right;}
+
+footer .box_input .icon-Send{ float: right; text-align: center;}
+
+footer .box,
+footer .box_input{ height:1.5rem; margin-top: 1.063rem; padding-right: 0.25rem;}
+footer .box_input a{ margin: 0; right: 0;}
+
+footer.row2 .box_input a{ line-height: calc(1.5em + 0.625rem * 1.75); /*top: 2.5rem;*/}
+footer.row3 .box_input a{ line-height: calc(1.5em * 2 + 0.625rem * 1.75); /*top: 3.375rem;*/}
+
+
+
+/****************************************************************************************/
+
+/* 引导页 */
+.page_guide,
+.page_guide .bg1,
+.page_guide .bg2,
+.page_guide .box{ width: 100%; height: 100%;}
+
+.page_guide .btn{ text-align: center;}
+
+
+
+/****************************************************************************************/
+
+/* 协议弹窗 */
+.pop_v2,
+.pop_v2 .bg{ width: 100%; height: 100%;}
+
+.pop_pact_v2 .box{ width: 80%; left: 10%;}
+.pop_pact_v2 .txt{ height: 70%;}
+
+
+
+/****************************************************************************************/
+
+.md_pact_v2,
+.md_time_v2,
+.md_right_v2,
+.md_left_v2{ clear: both; margin-top: 0; padding-top: 1.25rem;}
+
+.clear_bottom:after{ content:"."; height:0; clear:both; display:block; overflow:hidden;}
+
+.md_left_v2 .hd,
+.md_left_v2 .bd{ clear: both;}
+
+
+/* 协议 */
+.md_pact_v2{ display: inline; text-align: center; margin: 0 auto;}
+
+
+/* 历史时间 */
+.md_time_v2 .box{ margin: 0 auto;}
+.md_time_v2{ text-align: center;}
+
+
+/* 问 + 答 */
+.md_left_v2 h4,
+.md_left_v2 .mb_avatar{ float: left;}
+
+.md_right_v2 + .md_rightTxt_v2{ padding-top: 0.125rem; margin-bottom: 0;}
+
+.md_right_v2{ display: inline-block; float: right; position: relative;}
+.md_right_v2 p{ margin-right: 0.375rem;}
+.md_right_v2 i{ display: inline-block; position: absolute; bottom: 0; right: 0;}
+
+
+/* 帮助 */
+.page_guide .txt_01{ position: relative;}
+.page_guide .txt_01 h3{ position: absolute; left: 50%; margin-left: -4em;}
+.page_guide .txt_01 img{ position: absolute; left: 50%; margin-left: 5em;}
+.page_guide .btn a{ margin: 0 auto;}
+.page_guide .voice i{ padding: 1rem;}
+
+
+/* 重新输入 */
+.box_reEnter_v2 input{ width: 60%; margin-left: 20%; padding: 0;}
+
+
+/* 点评 */
+.box_appraisal h6{ line-height:2.875rem;}
+
+
+/* 点击加载更多 */
+.box_load a{ text-align: center; margin: 0 auto;}
+
+
+/* 显示3行，有展开按钮 */
+.box_show .a_more i{ margin-top: 0.25rem;}
+
+
+/* 红框白字 2行 */
+.box_bRed_r2 li{ display: inline-block; float: right;}
+.box_bRed_r2 li:first-child{ float: left;}
+.box_bRed_r2 li h6{ margin-top: 0.375rem;}
+
+
+.box_hd2 b,
+.box_hd2 span,
+.box_hd2 em{ float: left;}
+
+.box_show_ol ol,
+.box_show_olBD ol,
+.box_show_ol ul,
+.box_show_olBD ul{ padding-left: 0.875rem;}
+.box_show_ol li:first-child,
+.box_show_olBD li:first-child{ padding-left: 0;}
+.box_show_ol li,
+.box_show_olBD li{ width: 33.33%;}
+
+.box_show_olBD2 ol,
+.box_show_olBD2 ul{ padding-right: 1rem;}
+.box_show_olBD2 li{ width: 35% !important;}
+.box_show_olBD2 li:last-child{ float: right; min-width: 50%;}
+.box_show_olBD2 li:first-child p{ line-height: 2.375rem;}
+
+
+.box_hd2 em.date{ display: inline-block; float: right; width: auto !important;}
+
+.box_load a{ width: 100%;}
+
+
+.md_fastNav ul{ width: 100%; overflow-x: scroll;}
+.md_fastNav li{ display: inline-block; float: left; margin-top: 0.25rem;}
+
+
+h5.show_row6,
+h5.show_row3{ width: 100%;}
+
+.box_show_tl li .box_hd i{ margin-top: 0.375rem;}
+
+
+/****************************************************************************************/
+/************************************       七期       **********************************/
+/****************************************************************************************/
+
+
+.box_hdBlue ul:first-child{ padding-right: 0.875rem;}
+.box_hdBlue li,
+ul.box_icon4 li{ float: left;}
+
+
+/* 财务面分析 */
+.box_analysis,
+.box_analysis .analysis_hd,
+.box_analysis .analysis{ height: 14.25rem;}
+.box_analysis{ display: block;}
+.box_analysis .analysis_hd,
+.box_analysis .analysis,
+.box_analysis li{ float: left;}
+.box_analysis ul:first-child li{ padding-top: 0; padding-bottom: 0;}
+
+.box_analysis .analysis{ width: 67%;}
+.box_analysis .analysis ul{ width: 250%;}
+.box_analysis .analysis li:first-child{ padding-left: 10%;}
+.box_analysis .analysis li{ width: 18%;}
+
+
+/* 技术面分析 */
+.box_stoInfo{ height: 2.625rem;}
+.box_stoInfo li{ float: left; width: 50%;}
+
+.box_bRed{ height: 2.75rem;}
+.box_bRed li{ width: 100%; padding: 0; text-align: center;}
+
+.box_stoDay{ padding: 0; text-align: center;}
+
+.box_timeLine .timeLine li{ clear: both; display: block;}
+.box_timeLine .timeLine li dt,
+.box_timeLine .timeLine li dd{ float: left;}
+.box_timeLine .timeLine li dd{ padding-right: 0;}
+
+
+/* 资金流向 */
+.mb_tab nav a{ width: 24%;}
+
+.mb_tabFlow ul.box_flow li{ float: left; margin-left: 5%; margin-bottom: 0.875rem;}
+.mb_tabFlow ul.box_flow li:first-child{ margin-left: 0;}
+
+.mb_tabFlow ul.box_percent h6{ height: 1.5em; position: relative;}
+.mb_tabFlow ul.box_percent h6 span{ position: absolute;}
+.mb_tabFlow ul.box_percent h6 span:nth-child(1){ left: 0;}
+.mb_tabFlow ul.box_percent h6 span:nth-child(2){ left: 50%; margin-left: -1rem;}
+.mb_tabFlow ul.box_percent h6 span:nth-child(3){ right: 0;}
+
+.mb_tabFlow ul.box_percent dd{ float: left; width: 50%;}
+
+.box_appraisal{ display: block;}
+.box_appraisal ul{ display: inline-block; float: left;}
+.box_appraisal li i,
+.box_appraisal li span{ float: left; margin-top: 1.125rem;}
+.box_appraisal a{ padding-left: 1rem;}
+
+
+/* 综评、晨间推送 */
+.box_bd2 h4{ display: block;}
+.box_bd2 h5{ clear: both;}
+
+
+
+/****************************************************************************************/
+/********************************       条件选股第一期       *****************************/
+/****************************************************************************************/
+
+/* 筛选条件 */
+.box_condition .box_L,
+.box_condition .box_R{ float: left;}
+
+/* 表格 */
+.box_conStock .conStock_hd,
+.box_conStock .conStock,
+.box_conStock .conStock ul{ float: left;}
+.box_conStock .conStock_hd ul,
+.box_conStock .conStock,
+.box_conStock .conStock .box,
+.box_conStock .conStock ul{ height: 21rem;}
+.box_conStock .conStock ul{ clear: none;}
+
+.box_conStock + .box_load,
+.box_conStock + .box_load + .box_appraisal{ clear: both; display: block;}
+
+
+
+
+/* 弹窗 请输入其他选股条件 */
+.pop_condition .box{ width: 90%; top: 20%; left: 5%;}
+.pop_condition .tbox{ width: 90%;}
+.pop_condition .tArea{ width: calc(100% - 1rem);}
+
+.pop_v2 ul.btn li{ width: 50%;}
+
+
+
+/***********************************************************************************/
+/*********************************       180305       ******************************/
+/********************************      多因子v0.3      *****************************/
+/***********************************************************************************/
+
+/* 公司高管 */
+.box_conExec li{ width: 20%;}
+.box_conExec ol li{ float: left;}
+.box_conExec ol li:last-child{ float: right; margin-left: 0; margin-top: -3em;}
+.box_conExec + .box_load{ clear: both; display: block; position: relative; z-index: 1;}
+.box_conExec + .box_load:after{ background: #ededed; content: " "; -webkit-transform: scaleY(.5); -ms-transform: scaleY(.5); transform: scaleY(.5); width: 100%; height: 1px; position: absolute; left: 0; top: 0; z-index: 2;}
+
+
+/* 股本结构 */
+.box_capStr{ display: block; height: 3rem /*2.625rem*/;}
+.box_capStr h5{ float: left; width: 80%;}
+.box_capStr i{ float: right; width: 10%; padding-left: 5%; margin-top: 1.125rem;}
+
+.lBox_capStr li{ float: left;}
+.lBox_capStr li:last-child{ float: right;}
+
+
+/* 弹窗__股本结构 */
+.box_txt_factor li{ float: left; width: 33%;}
+
+.sumUp_capStr .box_timeLine_factor .timeLine{ padding-bottom: 1.25rem !important;}
+.sumUp_capStr .box_timeLine_factor .timeLine li{ margin:0 0 -4rem !important;}
+.sumUp_capStr .box_timeLine_factor .timeLine li:first-child{ margin-bottom: -3rem !important;}
+.sumUp_capStr .box_timeLine_factor .timeLine li dt,
+.sumUp_capStr .box_timeLine_factor .timeLine li dd{  height: 1rem !important; margin-bottom: 0;}
+
+
+/* 投入产出分析 */
+.box_outAnalysis{ height: 5rem;}
+.box_outAnalysis > a{ line-height: 1rem;}
+
+.lBox_outAnalysis .outAnalysis_hd{ float: left; width: 40%;}
+.lBox_outAnalysis .outAnalysis_hd li{ overflow: hidden;}
+.lBox_outAnalysis .outAnalysis{ float: right;}
+
+
+/* 财务指标优化   */
+.lBox_outAnalysis .conStock,
+.lBox_outAnalysis .conStock .box,
+.lBox_outAnalysis .conStock .box ul{ height: auto;}
+.lBox_outAnalysis .conStock{ width: 60%; left: 40%;}
+
+
+/* 图表 */
+.box_chart_shareholders .txt span{ float: right;}
+.box_chart_shareholders .txt span:first-child{ float: left;}
+
+.box_chart_shareholders ul.note{ text-align: center; margin: 0 auto;}
+.box_chart_shareholders ul.note li{ display: inline-block;}
+
+
+/* 股东标签切换 */
+.lBox_shareholders ol li,
+.lBox_shareholders ul li{ width: 20%;}
+.lBox_shareholders ol li:first-child,
+.lBox_shareholders ul li:first-child{ width: 40%;}
+.lBox_shareholders ol li:last-child,
+.lBox_shareholders ul li:last-child{ width: 25%;}
+
+
+/* 高管图谱 */
+.box_execAtlas li{ float: left;}
+.box_execAtlas li:last-child{ float: right; margin-right: 1rem;}
+.box_execAtlas li:nth-child(2){ min-width: 35%; padding-right: 0; display: table-cell;}
+.box_execAtlas li:nth-child(2) h5{ vertical-align: middle; height: 2.25rem; text-align: center;}
+
+
+
+/***********************************************************************************/
+/*********************************       180305       ******************************/
+/********************************      多因子 二期     *****************************/
+/***********************************************************************************/
+
+.box_risk .timeLine dd .space_between,
+.box_risk .timeLine dd h5{ clear: both; display: block;}
+.box_risk .timeLine dd span{ float: right;}
+.box_risk .timeLine dd span:first-child{ float: left;}
+
+
+
+
+/***********************************************************************************/
+/*********************************       180614       ******************************/
+/*********************************      综评优化      ******************************/
+/***********************************************************************************/
+
+/* 通用 */
+.mb .stock div:first-child,
+.box_comReview .hd > div:first-child,
+.box_comReview .riskHints i,
+.sumUp_InsRating .resReport .hd2 > div:first-child{ float: left;}
+.mb .stock div:last-child,
+.box_comReview .hd > div:last-child,
+.box_comReview .riskHints h6,
+.sumUp_InsRating .resReport .hd2 > div:last-child{ float: right;}
+
+
+/* 资金面 + 财务面 */
+.box_comReview .capFinance li:first-child{ width: 45%; margin-right: 0;}
+.box_comReview .capFinance li:last-child{ width: 30%;}
+
+/* 机构评级 */
+.box_comReview .InsRating{ padding: 0 0.875rem 0.5rem;}
+
+/* 柱形图 */
+.box_columnar{ padding-bottom: 1.25rem;}
+.box_columnar ul,
+.box_columnar .col_note .txt{ clear: none; float: left; width: 20%;}
+
+/* 风险提示 */
+.box_comReview .riskHints,
+.box_comReview .riskHints h6{ height: 3.5rem;}
+.box_comReview .riskHints i,
+.box_comReview .riskHints h6{ clear: none; display: inline-block;}
+.box_comReview .riskHints i{ background-size: auto 100%; width: 20%; height: 1.875rem; margin-top: 0.75rem;}
+.box_comReview .riskHints h6{ width: 75%;}
+
+
+/***********************************************************************************/
+
+/* 浮层__财务面 */
+.sumUp_finance2 .nav li,
+.sumUp_finance2 li,
+.sumUp_finance2 .box_con h6{ float: left;}
+
+.sumUp_finance2 .nav li{ width: 25%;}
+.sumUp_finance2 ol li:nth-child(2),
+.sumUp_finance2 ol li:nth-child(3),
+.sumUp_finance2 .box_con li:nth-child(2),
+.sumUp_finance2 .box_con li:nth-child(3){ float: right; width: 20%; min-width: 5em;}
+.sumUp_finance2 .box_con h6 i{ float: right; margin-top: 0.25rem;}
+
+.sumUp_finance2 .fix{ position: relative; width: 120%; left: 0;}
+
+
+
+
+/***********************************************************************************/
+/*********************************       180522       ******************************/
+/*********************************      用户画像      ******************************/
+/***********************************************************************************/
+
+.box_show_ol4 li:nth-child(1),
+.box_show_ol4 li:nth-child(3),
+.box_show_ol4 li:nth-child(4){ width: 23% !important;}
+.box_show_ol4 li:nth-child(2){ width: 31% !important;}
+.box_show_ol4 ul li:nth-child(2){ width: 23% !important; padding-right: 8% !important;}
+.box_show_ol4 li:nth-child(4){ display: inline-block; float: left; width: 3rem;}
+
+.box_load,
+.box_appraisal{ clear: both; display: block;}
+
+
+
+/*********************************       180723       ******************************/
+/*********************************      股票对比      ******************************/
+
+
+
+/*********************************       180806       ******************************/
+/*******************************      股票通用模板      ****************************/
+/***********************************************************************************/
+
+.tab_contrast nav{ overflow: hidden;}
+.tab_contrast nav a{ float: left; overflow: hidden;}
+.stock2 li{ float: right; width: 40%;}
+.stock2 li:first-child{ display: inline-block; float: left; width: 60%;}
+.stock2 li .icon{ margin-top: 0.875rem;}
+
+
+
+
+
+/*********************************       180723       ******************************/
+/*********************************      股票对比      ******************************/
+/***********************************************************************************/
+
+.tab_contrast nav{ overflow: hidden;}
+.tab_contrast nav a{ float: left; overflow: hidden;}
+
+
+
+
+
+
+/***********************************************************************************/
+/*********************************       180712       ******************************/
+/*******************************      综评优化二期      ****************************/
+/***********************************************************************************/
+
+.box_percent ul:first-child li{ text-align: left;}
+
+.box_comReview .cf_capital li,
+.box_comReview .cf_finance li{ float: left !important; width: 92% !important;}
+.box_analysis2 .hd_gl_white{ width: 100%; text-align: center; margin: 0 auto;}
+.box_analysis2 .hd_gl_white b{ display: none;}
+
+
+
+/***********************************************************************************/
+/*********************************       180813       ******************************/
+/*******************************      综评优化三期      ****************************/
+/***********************************************************************************/
+
+
+.box_comReview .cfi li{ width: 28%;}
+.box_comReview .cfi li a{ display: block;}
+.box_comReview .cfi li:first-child{ width: 35%; margin-right: 0.625rem;}
+

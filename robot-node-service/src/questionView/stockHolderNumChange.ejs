@@ -1,0 +1,69 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <div class="box_shareholders">
+            <h6>截止到<%= commonUtil.generateDate(lastItem.endDate) %>，股东人数<%= lastItem.shldAmount.toFixed(0) %>
+                户，较上期<%= (lastItem.chanOfLast > 0 ? "增加" : "减少") + Math.abs(lastItem.chanOfLast).toFixed(2) %>
+                %，前十大股东占比<%= info.data.tenHoldPercent %>%</h6>
+        </div>
+        <div class="box_chart_shareholders">
+            <div class="txt">
+                <span>单位：户</span>
+                <span>单位：元</span>
+            </div>
+            <!-- 图表 -->
+            <div id="<%= chartId %>" class="box_chart01"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var stockHolderNumChange = {
+    onViewReady: function () {
+      new LineColumnChart('<%= chartId %>', shareholderAmountList.reverse());
+      if (frameId) {
+        resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/charts/lineColumnChart',
+    '/static/js/libs/7.0/highstock',
+    '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, stockHolderNumChange.onViewReady)
+
+  var arr = '<%- shareholderAmountList %>';
+  var shareholderAmountList = JSON.parse(arr);
+
+
+  //错误UI展示
+  function handleErrorRequest(className, errMsg) {
+    var temp =
+      '<span class="box_error">' +
+      '<i class="icon-error"></i><span>' + (errMsg ? errMsg : '加载失败') + '</span>' +
+      '</span>';
+    if (errMsg)
+      return temp;
+    else
+      $("." + className).find("> h5").html(temp);
+  }
+
+</script>
+

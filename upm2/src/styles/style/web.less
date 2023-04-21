@@ -1,0 +1,120 @@
+@import './variables.less';
+@import './common.less';
+@import './antd.less';
+
+html,
+body,
+h1,
+h2,
+h3,
+div,
+p,
+form,
+ul,
+ol,
+li,
+table,
+th,
+td,
+label,
+pre,
+input,
+select,
+textarea {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  // min-width: 1150px;
+  // overflow-y: hidden;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input {
+  outline: none;
+}
+.upm-manage-layout {
+  &__container {
+    &__side {
+      flex: 0 0 @side-width;
+    }
+  }
+}
+
+.upm-main-layout,
+.upm-manage-layout {
+  // height: 100%;
+  // padding-top: @head-height;
+  &__header {
+    width: 100%;
+    min-width: 1150px; // 不在body上设置，为配合手机端审批详情页面
+    height: @head-height;
+    // margin-top: -@head-height;
+    background-color: @base-bg-pc-header;
+    display: flex;
+    align-items: center;
+    // position: fixed;
+    z-index: 100;
+    position: relative;
+    box-shadow: 0px 1px 4px 0px rgba(41, 20, 0, 0.5);
+  }
+  &__container {
+    height: calc(~'100vh - 48px');
+    display: flex;
+    &__side {
+      height: 100%;
+      width: @side-width;
+      // flex: 0 0 @side-width;
+      // padding-top: @base-space;
+      background-color: @base-bg-pc-sider;
+      z-index: 100;
+      position: relative;
+      box-shadow: 2px 0px 8px 0px rgba(41, 20, 0, 0.5);
+      // float: left;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.2s cubic-bezier(0.2, 0, 0, 1) 0s;
+      // transition: width 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+      // overflow-x: hidden;
+      // overflow-y: auto;
+      // .upm-skeleton-container:first-of-type {
+      //   padding-top: 0;
+      // }
+    }
+    &__content {
+      height: 100%;
+      min-width: 950px; // 不在body上设置，为配合手机端审批详情页面
+      flex: 1;
+      padding: @base-space;
+      background-color: #f3f4f5;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+  }
+}
+// .upm-manage-layout {
+//   &__container {
+//     &__content {
+//       overflow-x: auto;
+//     }
+//   }
+// }
+
+#js-watermark-iframe {
+  display: none;
+}
+
+@import '../intro.less';

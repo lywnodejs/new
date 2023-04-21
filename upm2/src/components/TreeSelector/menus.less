@@ -1,0 +1,62 @@
+.tree-selector-menus-bodyer {
+
+  display: flex;
+
+  .tree-selector-menu {
+    width: 200px;
+    flex-shrink: 0;
+    // height: 400px;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #fff;
+    padding: 10px 0;
+
+    border: 1px solid #ddd;
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+
+    .tree-selector-menu-item {
+      padding: 4px 2px 4px 20px;
+      display: flex;
+      cursor: pointer;
+
+      //  {
+      //   background-color: #ddd;
+      // }
+      &:hover, &.active {
+        background-color: #eee;
+      }
+
+      .tree-selector-menu-item-label {
+        margin: 0;
+        display: inline-block;
+        padding-left: 4px;
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .anticon {
+          line-height: 1.5;
+          font-size: 12px;
+          color: #aaa;
+        }
+      }
+
+    }
+
+    &-tail {
+      width: 360px;
+      flex-shrink: 0;
+
+      .tree-selector-menu-item {
+        width: 120px;
+        float: left;
+      }
+    }
+  }
+}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ORC识别-普通版</title>
+    <link rel="stylesheet" type="text/css" href="css/res.css"/>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="css/indexbase.css"/>
+    <link rel="stylesheet" href="./css/tabList.css">
+
+</head>
+<body>
+<div class="header">
+    <img src="./image/images/login_02.png" alt="">
+</div>
+<div class="left">
+    <ul>
+        <li class="line_left" onclick="window.location.href='indexbase.html';">
+            <p></p>
+            <img src="./image/images/item01_02.png" />
+            <span>OCR识别</span>
+            <span>普通版</span>
+        </li>
+        <li onclick="window.location.href='indexnormal.html';">
+            <p></p>
+            <img src="./image/images/item02_02.png" />
+            <span>OCR识别</span>
+            <span>自定义版</span>
+        </li>
+        <li onclick="window.location.href='indexWrite.html';">
+            <p></p>
+            <img src="./image/images/item03_02.png" />
+            <span>OCR识别</span>
+            <span>手写版</span>
+        </li>
+        <li onclick="window.location.href='indexbaseMode.html';">
+            <p></p>
+            <img src="./image/images/item04_14.png" />
+            <span>OCR识别</span>
+            <span>公文识别</span>
+        </li>
+        <li onclick="window.location.href='tablist.html';">
+            <p></p>
+            <img src="./image/images/item05_02.png" />
+            <span>知识抽取</span>
+        </li>
+        <li onclick="window.location.href='wordAnalyze.html'">
+            <p></p>
+            <img src="./image/images/item-6_02.png" />
+            <span>词法分析</span>
+        </li>
+        <li onclick="window.location.href='sentenceAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item07_24.png" />
+            <span>句法分析</span>
+        </li>
+        <li onclick="window.location.href='synonymsAnalyze.html';">
+            <p></p>
+            <img src="./image/images/item08_02.png" />
+            <span>同义词 </span>
+        </li>
+    </ul>
+</div>
+<div class="wrap">
+<!--    <img class="index-logo" src="image/index-logo.png" alt="">-->
+    <div class="box">
+        <button type="button" class="layui-btn" id="imgPicker"><i class="layui-icon">&#xe67c;</i>上传图片</button>
+        <button type="button" style="margin-left: 10px" class="layui-btn" id="imgPdf"><i class="layui-icon">&#xe67c;</i>上传pdf或tif</button>
+        <button type="button" class="layui-btn" style="background: none;margin-left: 0;color: #ffffff;">每天仅限40次</button>
+    </div>
+    <div id="imageContent" class="imgcontent">
+        <div class="img-con">
+            <img id="upImg" src="" alt="">
+        </div>
+        <div class="img-con" id="resReportBox" style="width: 54%;">
+            <ul id="resReport2"></ul>
+        </div>
+    </div>
+    <div id="pdfContent" class="imgcontent" style="position: relative">
+        <div style="width: 40%;">
+            <div class="layui-carousel" lay-filter="banner" id="banner">
+                <div carousel-item id="piclist">
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                    <!--            <div><img src="./image/left.png" alt=""></div>-->
+                </div>
+            </div>
+            <div class="box">
+                <button id="bannerButton" lay-filter="bannerButton" type="button" class="layui-btn"><i class="layui-icon">&#xe67c;</i>解析图片</button>
+            </div>
+        </div>
+        <div style="top: 0px;right: 0px;position: absolute" class="img-con" id="resReportBox1">
+            <ul id="resReport3"></ul>
+        </div>
+    </div>
+
+    <div class="header_banner">
+        <i class="layui-icon">&#x1006;</i>
+    </div>
+</div>
+<script src="layui/layui.js"></script>
+<script>
+
+
+    var pdfList = [];
+    var pdfIndex = 0;
+    function controlPdf() {
+
+    }
+
+  var words_result = [
+    {
+      location: {
+        height: 30,
+        left: 183,
+        top: 48,
+        width: 461,
+      },
+      words: '中国证券投资基金业协会'
+    },
+    {
+      location: {
+        height: 23,
+        left: 180,
+        top: 84,
+        width: 467
+      },
+      words: 'Asset Management Association of China'
+    }
+  ];
+
+  var $ = null;
+  layui.use(['jquery', 'layer'], function () {
+
+    $ = layui.$ //重点处
+      , layer = layui.layer;
+
+    $("#imageContent").hide();
+    $("#pdfContent").hide();
+
+    $("#bannerButton").click(function () {
+      parasImage(pdfIndex);
+    })
+    layui.use('upload', function () {
+      var upload = layui.upload;
+      //执行实例
+      var uploadInst = upload.render({
+        elem: '#imgPdf' //绑定元素
+        , url: '/upload/service/dfs/fileupload' //上传接口
+        , accept: 'file'
+        , exts: 'pdf|tiff|tif'
+        , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+          layer.load(); //上传loading
+        }
+        , done: function (res) {
+          ajaxData3(res.data.filePath)
+
+          // bindData()
+          //上传完毕回调
+        }
+        , error: function () {
+          layer.closeAll('loading'); //关闭loading
+          //请求异常回调
+        }
+      });
+      var uploadImage = upload.render({
+        elem: '#imgPicker' //绑定元素
+        , url: '/upload/service/dfs/fileupload' //上传接口
+        , before: function (obj) { //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+          layer.load(); //上传loading
+        }
+        , done: function (res) {
+          $("#pdfContent").hide();
+          $("#upImg").attr("src", res.data.httpFilePath);
+
+          ajaxData2(res.data.httpFilePath)
+          layer.closeAll('loading'); //关闭loading
+          // bindData()
+          //上传完毕回调
+        }
+        , error: function () {
+          layer.closeAll('loading'); //关闭loading
+          //请求异常回调
+        }
+      });
+
+    });
+
+    // bindData()
+    function ajaxData2(ImgUrl) {
+      $.ajax({
+        type: "GET",
+        url: '/image/service/ocr/basic',
+        data: {"imageUrl": ImgUrl},
+        async: false,
+        dataType: "json",
+        success: function (data) {
+          if (data.message.code == 0) {
+            $("#pdfContent").hide();
+            $("#imageContent").show();
+            var temp = '';
+            var list = data.data.words_result || [];
+            for (var i = 0; i < list.length; i++) {
+              var item = list[i];
+              temp += '' +
+                '<li class="box_li" style="position: relative;height:' + item.location.height + "px" + ';width:' + item.location.width + "px" + ';left: ' + item.location.left + "px" + ';top: ' + item.location.top + "px" + '; ">' + item.words + '</li>';
+            }
+            $('#resReport2').html(temp);
+            $('#resReportBox').addClass('borderbg');
+          }
+          if (data.message.code != 0) {
+            alert(data.message)
+          }
+
+        },
+        error: function (data) {
+          alert(data.responseJSON.message);
+        }
+      });
+    }
+
+// bindData()
+    function ajaxData3(ImgUrl) {
+      $("#piclist").empty();
+      $.ajax({
+        type: "GET",
+        url: '/image/service/transfer/picture',
+        data: {"fileUrl": ImgUrl},
+        async: false,
+        dataType: "json",
+        success: function (res) {
+          if (res.message.code == 0) {
+            layer.closeAll('loading'); //关闭loading
+
+            $("#imageContent").hide();
+            $("#pdfContent").show();
+            pdfList = res.data;
+            pdfIndex = 0;
+            for(var i=0;i<res.data.length;i++){
+              pdfList[i].isPar = false;
+              pdfList[i].textObj = {};
+              var pic = '<div><img src="'+res.data[i].httpFilePath+'" alt=""></div>';
+              $("#piclist").append(pic);
+            }
+            setTimeout(function () {
+              Banner();//上传完图片,在#banner里放入图片后再调用Banner()
+            },1000)
+          }
+          if (res.message.code != 0) {
+            alert(res.message)
+          }
+
+        },
+        error: function (res) {
+          alert(res.message)
+        }
+      });
+    }
+
+    // bindData()
+    function ajaxData4(ImgUrl,index) {
+      $.ajax({
+        type: "GET",
+        url: '/image/service/ocr/basic',
+        data: {"imageUrl": ImgUrl},
+        async: false,
+        dataType: "json",
+        success: function (data) {
+          pdfList[index].isPar = true;
+          pdfList[index].textObj = data.data.words_result;
+          if (data.message.code == 0) {
+            var temp = '';
+            var list = data.data.words_result || [];
+            for (var i = 0; i < list.length; i++) {
+              var item = list[i];
+              temp += '' +
+                '<li class="box_li" style="position: relative;height:' + item.location.height + "px" + ';width:' + item.location.width + "px" + ';left: ' + item.location.left + "px" + ';top: ' + item.location.top + "px" + '; ">' + item.words + '</li>';
+            }
+            $('#resReport3').html(temp);
+            $('#resReportBox1').addClass('borderbg');
+          }
+          if (data.message.code != 0) {
+            alert(data.message)
+          }
+
+        },
+        error: function (data) {
+          console.log(data)
+          alert(data.responseJSON.message)
+        }
+      });
+    }
+
+    function parasImage(index) {
+        if(!pdfList[index].isPar){
+          ajaxData4(pdfList[index].httpFilePath,index)
+        }else{
+          var temp = '';
+          var list = pdfList[index].textObj;
+          for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            temp += '' +
+              '<li class="box_li" style="position: relative;height:' + item.location.height + "px" + ';width:' + item.location.width + "px" + ';left: ' + item.location.left + "px" + ';top: ' + item.location.top + "px" + '; ">' + item.words + '</li>';
+          }
+          $('#resReport3').html(temp);
+          $('#resReportBox1').addClass('borderbg');
+        }
+    }
+
+    function dateZh(date) {
+      let datex;
+      let y = date.substr(0, 4);
+      let m = date.substr(4, 2);
+      let d = date.substr(6, 2);
+      let h = date.substr(8, 2);
+      let min = date.substr(10, 2);
+      datex = y + '年' + m + '月' + d + '日';
+      if (date.length > 8) {
+        datex = y + '年' + m + '月' + d + '日' + h + ':' + min
+      }
+      return datex
+    }
+
+    /**
+     * @description 轮播图加载
+     * @type {null}
+     */
+
+    function Banner() {
+      layui.use('carousel', function () {
+        var carousel = layui.carousel;
+
+        //监听轮播切换事件
+        carousel.on('change(banner)', function(obj){ //test1来源于对应HTML容器的 lay-filter="test1" 属性值
+          pdfIndex = obj.index;
+          var temp = '';
+          var list = pdfList[pdfIndex].textObj;
+          for (var i = 0; i < list.length; i++) {
+            var item = list[i];
+            temp += '' +
+              '<li class="box_li" style="position: relative;height:' + item.location.height + "px" + ';width:' + item.location.width + "px" + ';left: ' + item.location.left + "px" + ';top: ' + item.location.top + "px" + '; ">' + item.words + '</li>';
+          }
+          $('#resReport3').html(temp);
+          $('#resReportBox1').addClass('borderbg');
+        });
+
+
+
+        //建造实例
+        var options = {
+          elem: '#banner'
+          , autoplay: false
+          , indicator: 'outside'
+          , full: false
+          , width: '100%' //设置容器宽度
+          , height:'500px'
+          , arrow: 'always' //始终显示箭头
+        };
+        var options2 = {
+          elem: '#banner'
+          , autoplay: false
+          , indicator: 'inside'
+          , full: true
+          , arrow: 'always'
+        };
+        var ins = carousel.render(options);
+
+
+
+        // 放大轮播图
+        $('#banner>div>div').click(function () {
+          $('.header_banner').show();
+          ins.reload(options2);
+        });
+        // 缩小轮播图
+        $('.header_banner i').click(function () {
+          $('.header_banner').hide();
+          ins.reload(options);
+          $('#banner').css({
+            position: ''
+          })
+        });
+      });
+    }
+
+
+
+
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 融资排行 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var tMarMargintradeInfo = info.data.tMarMargintradeInfo;
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_equal"><span>两融余额</span></li>
+            <li class="rxh_li_equal"><span class="rxh_right">占流通市值比</span></li>
+            <li class="rxh_li_equal"><span>标的股排名</span></li>
+        </ol>
+        <ul>
+            <li class="rxh_li_equal">
+                <p>融资余额</p>
+                <h6 class="rxh_gray"><%= commonUtil.formatAmount(tMarMargintradeInfo.sMarginTradingbalance*1e4) %></h6>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatNumber(tMarMargintradeInfo.tradingRate) %>%</p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= tMarMargintradeInfo.tradingRank %></p>
+            </li>
+        </ul>
+        <ul>
+            <li class="rxh_li_equal">
+                <p>融券余额</p>
+                <h6 class="rxh_gray"><%= commonUtil.formatAmount(tMarMargintradeInfo.sMarginSeclendingbalance*1e4) %></h6>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= commonUtil.formatNumber(tMarMargintradeInfo.seclendingRate) %>%</p>
+            </li>
+            <li class="rxh_li_equal">
+                <p class="rxh_right"><%= tMarMargintradeInfo.seclendingRank %></p>
+            </li>
+        </ul>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var marginTradingView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, marginTradingView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

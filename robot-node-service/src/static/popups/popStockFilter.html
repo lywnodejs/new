@@ -1,0 +1,40 @@
+<div class="pop_bg"></div>
+<div class="pop_box">
+    <div class="pop_bd">
+        <div class="hd">
+            <div class="col_l"><span>个股偏好筛选</span><em>(可多选)</em></div>
+            <div class="col_r" onclick="closePopupFilter('popStockFilter')"><a class="a_close"><i class="icon-pop_close"></i></a></div>
+        </div>
+        <ul id="stockOptions" class="bd">
+            <!--
+            1. 未选，i标签样式名： icon-select_no
+            2. 已选，i标签样式名： icon-select
+            -->
+            <li onclick="filterItemClick(event,'popStockFilter')">
+                <span>上升趋势</span>
+                <i index="0" text="上升趋势" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popStockFilter')">
+                <span>5日涨跌幅高</span>
+                <i index="1" text="5日涨跌幅高" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popStockFilter')">
+                <span>5日资金流向高</span>
+                <i index="2" text="5日资金流向高" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popStockFilter')">
+                <span>财务面好</span>
+                <i index="3" text="财务面好" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popStockFilter')">
+                <span>估值低</span>
+                <i index="4" text="估值低" class="icon-select_no"></i>
+            </li>
+            <li class="all" onclick="filterItemClick(event,'popStockFilter')">
+                <span>以上综合考虑</span>
+                <i index="5" text="all" class="icon-select_no"></i>
+            </li>
+        </ul>
+        <a class="btn" onclick="confirmStockFilter()">确定</a>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<!--pages/my/secureCenter/index.wxml-->
+
+<view class="secureCenter">
+  <view class="item" bindtap="toDetail">
+    <view class="left">
+      交易管理
+      <text>开通或关闭资金交易服务</text>
+    </view>
+    <image src="../../../image/arrow.png" alt="" />
+  </view>
+  <view class="item" bindtap="toIdCancel">
+    <view class="left">
+      账户注销
+      <text>注销电子账户、注销登录账户</text>
+    </view>
+    <image src="../../../image/arrow.png" alt="" />
+  </view>
+</view>

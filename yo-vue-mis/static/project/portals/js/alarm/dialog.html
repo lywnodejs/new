@@ -1,0 +1,12 @@
+<form class="p-form" name="reasonForm">
+    {{desc}}
+    <div class="p-form-item" ng-if="!customReason">
+        <div class="wrap-input p-col-12">
+            <textarea class="p-form-control p-reason" maxlength="50" name="reason" placeholder="请输入备注（非必填）" ng-model="reason"></textarea>
+        </div>
+    </div>
+</form>
+<div class="wrap-center-btn" ng-if="!customButton">
+    <button class="p-btn" ng-click="pageAgree()">{{confirmText}}</button>
+    <button class="p-btn p-btn-gray" ng-click="dialogClose($event)">{{cancelText}}</button>
+</div>

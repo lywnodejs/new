@@ -1,0 +1,25 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<%
+var data = info.data;
+var days = data.days;
+var induName = data.induName;
+var raise = data.raise;
+// var text = raise > 0 ? '涨幅' : '跌幅';
+var className = raise > 0 ? '' : 'rxh_tGreen';
+raise = commonUtil.fixed2(raise * 100);
+%>
+
+<div class="rxh_bd2">
+    <%= commonUtil.replaceSpecial(name) %>（<%= code %>）所属的<%= induName %>行业指数近<%= days %>日涨幅为<b class="<%= className %>"><%= raise %>%</b>。
+</div>
+
+<% include ../component/footer %>
+
+<script>
+
+</script>
+
+
+

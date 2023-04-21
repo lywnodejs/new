@@ -1,0 +1,170 @@
+.upm-mobile-approve-detail {
+  .am-list-item {
+    .am-list-line {
+      .am-list-content {
+        // flex: 0 0 300px;
+        .ant-table-wrapper {
+          margin-top: 8px;
+          .ant-table-small > .ant-table-content > .ant-table-body {
+            margin: 0;
+          }
+        }
+      }
+      .am-list-extra {
+        flex: 2;
+        // flex-basis: auto;
+      }
+    }
+  }
+  .strategy-content {
+    color: rgba(0, 0, 0, 0.8);
+    padding-left: 0.46rem;
+    .sheet-strategy {
+      &:not(:last-child) {
+        margin-bottom: 0.46rem;
+      }
+      .sheet-title-wrapper {
+        // margin-top: 4px;
+      }
+      .sheet-tag-wrapper {
+        // padding-left: 1.36rem;
+        .sheet-tag-content {
+          padding-left: 0.92rem;
+          .sheet-dimension {
+            // display: flex;
+            .sheet-dimension-title {
+              // flex: 0 0 1.33rem;
+            }
+            .sheet-dimension-content {
+              // flex: 1;
+              white-space: normal;
+              .am-tag {
+                margin: 0 8px 4px 0;
+                background-color: #f2f3f4;
+                color: rgba(0, 0, 0, 0.65);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .permission-table {
+    .ant-table-tbody > tr > td {
+      word-wrap: break-word;
+      word-break: break-all;
+      white-space: normal;
+    }
+  }
+  // .tab {
+  //   font-size: 0.453333rem;
+  //   overflow-x: auto; //外层div 横向滑动
+  //   width: 100%;
+  //   table {
+  //     width: 100%; //给表格宽度
+  //     border-collapse: collapse;
+  //     border: 1px solid red;
+  //     tr {
+  //       line-height: 1.5;
+  //     }
+  //   }
+  // }
+  .workflow-content {
+    // .ant-steps-item-description {
+    //   max-width: 200px;
+    //   font-size: 12px;
+    //   white-space: normal;
+    //   word-break: break-all;
+    // }
+
+    // .ant-steps-item {
+    //   flex: 1 0 200px;
+    // }
+
+    .workflow-wait {
+      .workflow-users {
+        // font-size: 12px;
+
+        .workflow-users-item {
+          &:after {
+            content: ',';
+          }
+
+          &:last-child {
+            &:after {
+              content: '';
+            }
+          }
+        }
+      }
+    }
+
+    .workflow-status {
+      &.workflow-status-success {
+        .workflow-result {
+          color: green;
+        }
+      }
+
+      &.workflow-status-fail {
+        .workflow-result {
+          color: red;
+        }
+      }
+
+      &.workflow-status-doing {
+        .workflow-result {
+          color: #999;
+        }
+      }
+    }
+
+    .workflow-mail,
+    .workflow-department {
+      margin: 0;
+      // font-size: 10px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .workflow-timestamp {
+      margin: 0;
+      // font-size: 12px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .workflow-result {
+      margin: 4px 0;
+      // font-size: 12px;
+    }
+  }
+  .footer {
+    // display: none;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 0.4rem;
+    position: fixed;
+    bottom: 0px;
+    box-shadow: 0px 0px 16px #d9d9d9;
+    z-index: 9;
+    .btn-group {
+      display: flex;
+      justify-content: space-between;
+      &::before {
+        content: '';
+        display: block;
+      }
+      &::after {
+        content: '';
+        display: block;
+      }
+    }
+    .am-button {
+      height: 1.1rem;
+      line-height: 1.1rem;
+      font-size: 0.45rem;
+    }
+  }
+}
+.reason-modal {
+  .am-modal-header {
+    padding: 0.28rem 0.4rem 0.28rem;
+  }
+}

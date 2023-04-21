@@ -1,0 +1,70 @@
+/* pages/login/phone/index.wxss */
+.login-phone {
+  padding: 28px 25px 0;
+}
+.login-phone text.title{
+  color: #333333;
+  font-size: 22px;
+  font-family: PingFangSC-Medium;
+  margin-left: 5px;
+}
+.login-phone text.subtitle{
+  font-size: 20px;
+  color: #C5CAD4;
+  position: absolute;
+  transition: 0.5s;
+}
+.login-phone text.subtitle.focus{
+  font-size: 14px;
+  top: -20px;
+}
+.login-phone .input-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 140rpx 5px 204rpx;
+  border-bottom: 1px solid #D9D9D9;
+  position: relative;
+}
+.login-phone input{
+  padding: 11px 0;
+  font-size: 20px;
+  line-height: 28px;
+  color: #333333;
+}
+.login-phone .placeholder{
+  color: #C5CAD4;
+}
+.login-phone .delete{
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+.login-phone .btn::after, .wx-btn::after{
+  display: none;
+}
+.login-phone .btn{
+  height: 50px;
+  line-height: 50px;
+  border-radius: 25px;
+  font-size: 17px;
+  background-color: #EEA900;
+  color: white;
+}
+.login-phone .btn[disabled]{
+  background-color: #D9D9D9;
+  color: white;
+}
+.login-phone .wx-btn{
+  background-color: white;
+  color: #EEA900;
+  font-size: 15px;
+  margin-top: 15px;
+  display: inline-block;
+}
+.login-phone view.wx-btn-view{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}

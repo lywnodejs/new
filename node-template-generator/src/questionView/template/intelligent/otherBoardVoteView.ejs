@@ -1,0 +1,56 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+<%
+var data = info.data.list;
+var list = data || [];
+%>
+
+<% if(list.length > 0){ %>
+    <div class="rxhBD_main" style="background: white">
+        <% for(var i = 0; i < list.length; i++){ %>
+        <% let item = list[i];%>
+            <% if(commonUtil.stringIsNotEmpty(item)){ %>
+                <!-- 四周有间距，加样式名：rxh_gap -->
+                <div class="rxh_list rxh_list_1n">
+                    <ul >
+                        <li  class="rxh_li_grow">
+                        <% let str = item.pubDate.toString()%>
+                        <% let time = str.substring(0, 4) + '年' + str.substring(4,6) + '月' + str.substring(6,8) + '日 ';%>
+                        <div><%= time + item.annTitle %></div>
+                        <div><%= '议案：审议' + item.recoResult + item.recoName + '。'%></div>
+                        <div><%= '表决结果：同意' + item.apprNum + '票，反对：' + item.oppoNum + '票，弃权：' + item.waivNum + '票。'%></div>
+                        </li>
+
+                    </ul>
+                </div>
+            <% } %>
+        <% } %>
+    </div>
+
+
+
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+    var otherBoardVoteView<%- sn %> = {
+        onViewReady: function () {
+
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, otherBoardVoteView<%- sn %>.onViewReady)
+    <% } %>
+</script>

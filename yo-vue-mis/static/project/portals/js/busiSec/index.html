@@ -1,0 +1,369 @@
+<div style="background-color: #f5f5f5;
+text-align: center;
+height: 60px;
+width: 100%;
+color: red;
+font-family: MicrosoftYaHeiUI;
+font-size: 16px;
+line-height: 60px;">
+    <span style="margin-right: 10px;" class="glyphicon glyphicon-volume-up p-icon"></span>SDK作弊事件已经迁移到SOC平台，访问地址：
+    <a style="color: red;" target="_blank" href="http://soc.didichuxing.com/manage/business/sdk">http://soc.didichuxing.com/manage/business/sdk</a>
+</div>
+<div class="container-fluid">
+    
+    <div class="content-header pr0">
+        <h1 class="content-header-title" style="padding-left:20px;">SDK作弊事件
+            <span ng-cloak class="arrow-slide" ng-class="{open:!formIsOpen}" ng-click="slideForm($event)">    {{!formIsOpen ? '展开' : '收起'}}
+            </span>
+        </h1>
+        <span bind-html-compile="buttonsHtml"></span>
+    </div>
+    
+    <!-- 查询条件 -->
+    <div class="p-form list-form">
+        <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">数据编号：</label>
+                <div class="wrap-input form-flex-item">
+                    <input class="p-form-control" ng-model="ctrl.id" ng-maxlength="50" type="text" placeholder="精准匹配">
+                </div>
+            </div>
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">作弊等级：</label>
+                <div class="wrap-input form-flex-item">
+                    <select class="p-form-control" ng-model="ctrl.level">
+                        <option value="">请选择</option>
+                        <option ng-repeat="option in ctrl.levelOpts" value="{{$index}}"> {{option}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">事件状态：</label>
+                <div class="wrap-input form-flex-item">
+                    <select class="p-form-control" ng-model="ctrl.status">
+                        <option value="">请选择</option>
+                        <option ng-repeat="(key, value) in ctrl.statusOpts" value="{{key}}"> {{value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">用户编号：</label>
+                <div class="wrap-input form-flex-item">
+                    <input class="p-form-control" ng-model="ctrl.user_id_multi" ng-maxlength="50" type="text" placeholder="多个编号使用逗号分隔">
+                </div>
+            </div>
+           
+        </div>
+
+        <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">订单编号：</label>
+                <div class="wrap-input form-flex-item">
+                     <input class="p-form-control" ng-model="ctrl.order_id" ng-maxlength="50" type="text" placeholder="精准匹配">
+                </div>
+            </div>
+            
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">客户端包名：</label>
+                <div class="wrap-input form-flex-item">
+                    <input class="p-form-control" ng-model="ctrl.app_name" ng-maxlength="50" type="text" placeholder="支持模糊搜索">
+                </div>
+            </div> 
+        </div>
+        
+       <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">客户端版本：</label>
+                <div class="wrap-input form-flex-item">
+                     <input class="p-form-control" ng-model="ctrl.app_version" ng-maxlength="50" type="text" placeholder="精准匹配">
+                </div>
+            </div>
+            
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">手机系统：</label>
+                <div class="wrap-input form-flex-item">
+                   <select class="p-form-control" ng-model="ctrl.os">
+                        <option value="">请选择</option>
+                        <option ng-repeat="option in ctrl.osOpts" value="{{$index}}"> {{option}}</option>
+                    </select>
+                </div>
+            </div> 
+        </div>
+
+        <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3">发现时间：</label>
+                <div class="wrap-input form-flex-item">
+                        <div class="p-col-5">
+                            <p class="input-group" style="font-size: 10px;">
+                              <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="ctrl.startTime" 
+                              is-open="startTimeOpened" datepicker-options="dateOptions" ng-required="true" 
+                              close-text="{{ctrl.closeText}}" clear-text="{{ctrl.clearText}}" current-text="{{ctrl.currentText}}"
+                              alt-input-formats="altInputFormats" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="startTimeOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </p>
+                        </div>                        
+                        <span>--</span>                        
+                        <div class="p-col-5">
+                            <p class="input-group" >
+                              <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="ctrl.endTime" 
+                              is-open="endTimeOpened" datepicker-options="dateOptions" ng-required="true" 
+                              close-text="{{ctrl.closeText}}" clear-text="{{ctrl.clearText}}" current-text="{{ctrl.currentText}}"
+                              alt-input-formats="altInputFormats" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="endTimeOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                              </span>
+                            </p>
+                        </div>                        
+                    </div> <!--闭合form-flex-item-->               
+                </div><!--闭合p-col-5-->
+                
+                <div class="p-col-5 form-flex">
+                    <label class="item-label p-col-3">业务场景：</label>
+                    <div class="wrap-input form-flex-item">
+                        <input class="p-form-control" ng-model="ctrl.rule" ng-maxlength="50" type="text" placeholder="支持模糊搜索">
+                    </div>
+                </div>                                                  
+        </div><!--闭合p-form-item-->
+
+        <div class="p-form-item flex-between">
+            <div class="p-col-5 form-flex">
+                <label class="item-label p-col-3"></label>
+                <div class="wrap-input form-flex-item operate-btns">
+                    <button class="p-btn" ng-click="search()">搜索<dot ng-show="ctrl.isSubmitDataIng" ng-cloak></dot></button>
+                    <button class="p-btn" ng-click="init()">重置</button>
+                </div>
+            </div>
+        </div>
+        
+    </div><!--闭合list-form-->
+    
+    <div>
+        <ul class="p-filter-menu">
+            <li class="hover" ng-cloak>全部</li>
+        </ul>
+    </div>
+    <!-- -->
+    <div class="wrap-table">
+        <loading></loading>
+        <table class="p-table table-bordered table-header-bg table-hover" ng-cloak>
+            <thead>
+                <tr>
+                    <th>数据编号</th>
+                    <th>作弊等级</th>
+                    <th>事件状态</th>
+                    <th>用户编号</th>
+                    <th>订单编号</th>
+                    <th>客户端包名</th>
+                    <th>业务场景</th>
+                    <th>发现时间</th>
+                    <th>监测规则</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-if="searching">
+                    <td colspan="10" style="min-height:250px;">
+                       <div style="min-height:100px" class="text-success">
+                           <h4><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i> 
+                               <div style="margin-top:5px;"><small class="text-success">数据载入中……</small></div>
+                           </h4>
+                       </div>                        
+                    </td>
+                </tr>
+                <tr ng-if="!searching && (!datas || !datas.length)">
+                    <td colspan="10" style="min-height:250px;">
+                       <div style="min-height:100px">
+                           <h5>没有相关数据</h5>
+                       </div>                        
+                    </td>
+                </tr>
+                <tr ng-if="!searching" ng-repeat="data in datas">
+                    <td>{{data.msg_id}}</td>
+                    <td>
+                         <label class="label" ng-class="{'label-success' : data.level == 0, 'label-warning' : data.level == 1, 'label-danger' : data.level == 2}">
+                        {{data.level | enumFilter:'levelOpts'}}
+                        </label>
+                        <!--
+                        <span titles="[data.level]"
+                           uib-rating ng-model="data.level" read-only="true" style="color : #d9534f;">
+                        </span>
+                        -->
+                    </td>
+                    <td>
+                        <label class="label" ng-class="{'label-default' : data.status == 1162, 'label-success' : data.status == 1164}">
+                            {{data.status | enumFilter:'statusOpts'}}
+                        </label>
+                    </td>
+                    <td>{{data.user_id}}</td>
+                    <td>{{data.order_id}}</td>
+                    <td>{{data.app_name}}</td>
+                    <td>{{data.event}}</td>
+                    <td>{{data.server_time}}</td>
+                    <td>{{ruleFormat(data.rule)}}</td>
+                    <td>
+                        <a href="javascript:void(0);" ng-click="detail(data.id)" class="p-btn p-btn-sm">
+                            查看
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- 分页组件 -->
+        <div class="row" style="margin : 0px;">
+            <div class="col-xs-6" style="padding-left:0px;">
+                 <ul uib-pagination boundary-links="true" rotate="true" force-ellipses="true" max-size="10"
+                total-items="totalItems" ng-model="currPage"  items-per-page ="itemsOfPage"
+                class="pagination-md" ng-change="search()"
+                previous-text="上一页" next-text="下一页" first-text="第一页" last-text="最后一页"></ul>
+            </div>
+            <div class="col-xs-6" style="padding-right:0px;">
+                <div style="margin-top:20px;padding : 7px 0px;line-height:20px;text-align:right;">
+                    {{totalItems}}条记录，共{{pages}}页
+                </div>
+            </div>
+        </div>       
+    </div>
+    
+    <!-- 对话框 -->
+    <script type="text/ng-template" id="detailModal.html">
+          
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">SDK作弊事件</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div style="min-height:100px;" class="text-success" ng-if="idSearch">
+               <h4 style="text-align:center;"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i> 
+                   <div style="margin-top:5px;"><small class="text-success">数据载入中……</small></div>
+               </h4>
+            </div>
+              
+            <div class="form-horizontal" ng-if="!idSearch">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">数据编号{{idSearch}}</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{msg_id}}</p>
+                    </div>
+
+                    <label class="col-sm-2 control-label">作弊等级</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">
+                            <label class="label" ng-class="{'label-success' : level == 0, 'label-warning' : level == 1, 'label-danger' : level == 2}">
+                           {{level | enumFilter:'levelOpts'}}
+                            </label>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">处置状态</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">
+                            <label class="label" ng-class="{'label-default' : status == 1162, 'label-success' : status == 1164}">
+                                {{status | enumFilter:'statusOpts'}}
+                            </label>
+                        </p>
+                    </div>
+                    
+                    <label class="col-sm-2 control-label">客户端时间</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{client_time}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                   
+                    <label class="col-sm-2 control-label">发现时间</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{server_time}}</p>
+                    </div>
+                    
+                    <label class="col-sm-2 control-label">用户编号</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{user_id}}</p>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    
+
+                    <label class="col-sm-2 control-label">订单编号</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{order_id}}</p>
+                    </div>
+                    
+                    <label class="col-sm-2 control-label">客户端编号</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{app_id}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    
+                    <label class="col-sm-2 control-label">客户端包名</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{app_name}}</p>
+                    </div>
+                    
+                    <label class="col-sm-2 control-label">客户端版本</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{app_version}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    
+                    <label class="col-sm-2 control-label">手机系统</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{os | enumFilter:'osOpts'}}</p>
+                    </div>
+                    
+                     <label class="col-sm-2 control-label">业务场景</label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static">{{event}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">样本信息</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{reason}}</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">监测规则</label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <td>规则编号</td>
+                                    <td>规则名称</td>
+                                    <td>规则描述</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in ruleTable(rule)">
+                                    <td>{{data.rule_id}}</td>
+                                    <td>{{data.rule_name}}</td>
+                                    <td>{{data.rule_desc}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="close()">关闭</button>
+        </div>
+    </script>
+   
+</div><!--闭合content-->

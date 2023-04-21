@@ -1,0 +1,70 @@
+<% include ../../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+
+<!-- 港股通资金流向 赵波 2019.10.22 -->
+<%if(info.data){%>
+<%
+    var inStocks
+console.log(info.index)
+    if(info.index == 1){
+        inStocks = info.data.tenShareholderList || [];
+    }else if(info.index == 2){
+        inStocks = info.data.tenFloatShareholderSList || [];
+    }
+
+// var len = inStocks.length;
+// for(var i=0;i<len;i++){
+//
+// }
+%>
+<div class="rxh_gap">
+    <div class="rxh_list rxh_list_colN">
+        <ol>
+            <li class="rxh_li_grow"><span>股东</span></li>
+            <li class="rxh_li_shrink6"><span class="rxh_right">占比</span></li>
+            <li class="rxh_li_shrink6"><span>变动(万股)</span></li>
+        </ol>
+        <%
+        for (var i=0; i<inStocks.length; i++) {
+            item = inStocks[i];
+        %>
+        <ul>
+            <li class="rxh_li_grow">
+                <p class="rxh_ellipsis3"><%= item.shldName %></p>
+            </li>
+            <li class="rxh_li_shrink6">
+                <p class="rxh_right"><%= item.hldPercent.toFixed(2) %>%</p>
+            </li>
+            <li class="rxh_li_shrink6">
+                <p class="rxh_right <%= item.chanOfLast>0?'rxh_red':item.chanOfLast < 0?'rxh_green':'rxh_blue' %>"><%= item.chanOfLast == 0?'未变': (item.chanOfLast / 10e3).toFixed(2) %></p>
+            </li>
+        </ul>
+        <% } %>
+    </div>
+</div>
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+<script>
+
+  var companyTopHolderView<%- sn %> = {
+    onViewReady: function () {
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  loadJs(jsArr, companyTopHolderView<%- sn %>.onViewReady)
+  <% } %>
+
+
+</script>

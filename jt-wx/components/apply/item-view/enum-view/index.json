@@ -1,0 +1,16 @@
+{
+  "component": true,
+  "usingComponents": {
+    "area-view": "/components/apply/item-view/area-view/index",
+    "date-view": "/components/apply/item-view/date-view/index",
+    "enum-view": "/components/apply/item-view/enum-view/index",
+    "ocr-view": "/components/apply/item-view/ocr-view/index",
+    "special-view": "/components/apply/item-view/special-view/index",
+    "string-view": "/components/apply/item-view/string-view/index",
+    "supply-view": "/components/apply/item-view/supply-view/index",
+    "text-view": "/components/apply/item-view/text-view/index",
+    "upload-view": "/components/apply/item-view/upload-view/index",
+    "verify-code-view": "/components/apply/item-view/verify-code-view/index",
+    "item-title-view": "/components/apply/item-view/item-title-view/index"
+  }
+}

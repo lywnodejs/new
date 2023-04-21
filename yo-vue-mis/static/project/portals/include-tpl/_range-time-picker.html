@@ -1,0 +1,119 @@
+ <div class="p-form-item flex-between">
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3"><%- sText%>：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postStartTimeIsOpen"
+                        onclose="ctrl.postStartTimeClose()"
+                        ng-model="ctrl.pageData.postStartTime"
+                        ng-click="ctrl.postStartTimeOpen()"
+                        ng-change="ctrl.postStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="postEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.postEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.postEndTimeIsOpen"
+                        onclose="ctrl.postEndTimeClose()"
+                        ng-model="ctrl.pageData.postEndTime"
+                        ng-click="ctrl.postEndTimeOpen()"
+                        ng-change="ctrl.postEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.postEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-col-5 form-flex">
+        <label class="item-label p-col-3"><%- eText%>：</label>
+        <div class="wrap-input form-flex-item">
+            <div class="p-col-5">
+                    <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireStartTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireStartTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireStartTimeIsOpen"
+                        onclose="ctrl.expireStartTimeClose()"
+                        ng-model="ctrl.pageData.expireStartTime"
+                        ng-click="ctrl.expireStartTimeOpen()"
+                        ng-change="ctrl.expireStartTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireStartTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+            <span>--</span>
+            <div class="p-col-5">
+                <div class="input-group">
+                    <input class="form-control"
+                        type="text"
+                        name="expireEndTime"
+
+                        readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                        datepicker-options="ctrl.expireEndTimeOption"
+                        ng-required="true"
+                        is-open="ctrl.expireEndTimeIsOpen"
+                        onclose="ctrl.expireEndTimeClose()"
+                        ng-model="ctrl.pageData.expireEndTime"
+                        ng-click="ctrl.expireEndTimeOpen()"
+                        ng-change="ctrl.expireEndTimeChange()"
+                        >
+                    <span class="input-group-btn" ng-click="ctrl.expireEndTimeOpen()">
+                        <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

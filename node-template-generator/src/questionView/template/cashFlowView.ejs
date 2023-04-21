@@ -1,0 +1,86 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+
+<%
+var htop10 = info.data.htop10 || [];
+
+var item;
+// 最高
+var tagHighest = '';
+var temp = info.data.tMarStkLiquidInfo;
+var indusName = temp.induSortName;
+var avgamount = temp.m1Avgamount.toFixed(2);
+var hs = temp.m1Turnrate.toFixed(2);
+var tot = temp.induSecNum;
+var rank = temp.m1AvgamountRank;
+var time = commonUtil.changeTime(temp.updateAt);
+var allTot = temp.totSecNum;
+var allRank = temp.m1TotRank;
+var len = htop10.length>10?10:htop10.length;
+for(var i=0; i<len; i++)
+{
+    item = htop10[i];
+    tagHighest +=
+            '<ul>'+
+            '<li>'+
+            '<h4>'+item.secName+'</h4>'+
+            '<h6>'+item.secCode+'</h6>'+
+            '</li>'+
+            '<li>'+commonUtil.formatAmount(item.m1Avgamount*1e4)+'</li>'+
+            '<li>'+item.m1Turnrate.toFixed(2)+'%</li>'+
+            '</ul>'
+}
+
+%>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <!--答案框-->
+            近一个月日均成交金额为<%- avgamount %>万元，月平均换手率为<%- hs %>%,<%- indusName%>流动性排名
+                <b><%- rank %>/<%- tot %></b>,全市场内流动性排名<b><%- allRank%>/<%- allTot%></b>。
+    <h6 class="rxh_note"><%= time %> 流动性前十</h6>
+    <div class="rxh_tlBox_3col">
+        <ol>
+            <li>名称/代码</li>
+            <li>月日均成交额</li>
+            <li>月平均换手率<i class="icon-arrow_sequentB"></i></li>
+        </ol>
+        <%- tagHighest%>
+    </div>
+
+</div>
+<% include ../component/footer %>
+<script>
+
+  var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray)%>');
+  var jsNo = 0;
+  var cashFlowView = {
+    onViewReady: function () {
+     callback();
+    }
+  }
+
+  <% if(!params.noSource) {%>
+    loadJs(jsSource,cashFlowView.onViewReady);
+  <%}%>
+
+  function callback() {
+  }
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>
+
+
+

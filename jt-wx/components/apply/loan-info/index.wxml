@@ -1,0 +1,47 @@
+<!--components/apply/loan-info/index.wxml-->
+<view class="loan-info card">
+  <view wx:if="{{showInput}}"><text class="title">借多少</text></view>
+  <view wx:if="{{showInput}}" class="input-box {{showUnCorrectTip? 'invalid-amount' : ''}}">
+    <text class="yuan">￥</text>
+    <input  class="input" value="{{amount}}" type="number" focus="true" bind:input="onAmountChange" focus="{{isFocus}}"
+      bind:focus="focusInput" bind:blur="blurInput" maxlength="{{inputMaxLength}}" />
+    <view class="input-close-icon" wx:if="{{showClearBtn}}" catch:touchstart="clearInput">
+      <image class="close-img" src="/image/close.png"></image>
+    </view>
+    <view class="input-edit-icon" wx:if="{{!showClearBtn}}">
+      <image class="edit-img" src="/image/edit_pen.png"></image>
+    </view>
+  </view>
+  <view wx:if="{{!showUnCorrectTip}}">
+    <text class="secondary-tip">{{loanInfo.productTips?loanInfo.productTips:''}}</text>
+  </view>
+  <view wx:if="{{showUnCorrectTip}}">
+    <text class="error-tip">额度范围为{{loanInfo.minAmount/10000}}-{{loanInfo.maxAmount/10000}}万，请输入正确的金额</text>
+  </view>
+  <view class="term-title-view">
+    <text class="title">借多久</text>
+    <text class="title">{{term}}个月</text>
+  </view>
+  <block wx:if="{{minLoanTerm != maxLoanTerm}}">
+
+    <block wx:if="{{loanInfo.termType == 2}}">
+      <view class="slider-view">
+        <slider class="slider" step="1" min="{{minLoanTerm}}" max="{{maxLoanTerm}}" backgroundColor="#E7E9EE"
+          activeColor="#0D81FC" value="{{term}}" block-size="24" bindchanging="onTermChange" />
+      </view>
+    </block>
+
+    <block wx:if="{{loanInfo.termType == 1}}">
+      <view class="slider-view">
+        <slider class="slider" step="1" min="{{0}}" max="{{loanInfo.loanTerms.length - 1}}" backgroundColor="#E7E9EE"
+					activeColor="#F65348" value="{{loanTermIndex}}" block-size="24" bindchanging="onTermIndexChange" />
+      </view>
+    </block>
+
+    <view class="term-tip-view">
+      <text class="tip">最短{{minLoanTerm}}个月</text>
+      <text class="tip">最长{{maxLoanTerm}}个月</text>
+    </view>
+  </block>
+
+</view>

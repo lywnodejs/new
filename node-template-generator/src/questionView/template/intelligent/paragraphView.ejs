@@ -1,0 +1,60 @@
+<% include ../../component/jsLoad %>
+
+<%
+var data = info.data;
+var list = data || [];
+var type = dataType;
+var maxCount = info.ps;
+%>
+<% if(!params.noSource){ %>
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="//weblibs.rxhui.com/compLibrary_rxh/css/themes/yy_white2.css?1.0">
+    <link rel="stylesheet" href="//weblibs.rxhui.com/library_rxh2/style.css?1.0">
+<% } %>
+<% include ../../component/templateTitleView %>
+
+<% if(list.length > 0){ %>
+        <% if (type == 5003) {%>
+            <%let item = list[0];%>
+            <div class="rxh_mT8">
+                <%-item.actConcert%>
+             </div>
+        <%} else{ %>
+            <% let count = maxCount > list.length ? list.length : maxCount;%>
+            <% for (var i = 0; i < count; i++) {%>
+                <%let item = list[i];%>
+                <% let text = '';%>
+                <% if (item.text.indexOf('\n') != -1){ %>
+                    <% text = item.text.replace(/\n/g,'<br/>');%>
+                <%}else {%>
+                    <% text = item.text;%>
+                <%}%>
+            <div class="rxh_mT8">
+          <%- text%>
+        </div>
+
+            <%}%>
+        <%}%>
+
+
+<% }else{ %>
+    <div class="rxhBD_text rxh_text01">
+        <div class="rxh_hd_text">
+            <span>暂无数据</span>
+        </div>
+    </div>
+<% } %>
+
+<script>
+    var paragraphView<%- sn %> = {
+        onViewReady: function () {
+
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, paragraphView<%- sn %>.onViewReady)
+    <% } %>
+
+</script>

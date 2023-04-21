@@ -1,0 +1,71 @@
+/* pages/my/settings/index.wxss */
+.settings{
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 100%;
+  background-color: #F9FAFB;
+  padding: 10px 0 50px;
+  box-sizing: border-box;
+}
+.settings>view{
+  background-color: white;
+  padding: 0 20px;
+}
+.settings .button{
+    margin: 0 20px;
+    border-radius: 25px;
+    height: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.5px solid rgba(230,230,230,1);
+    color: #F43E47;
+    font-family:PingFangSC-Semibold,PingFang SC;
+    font-weight:600;
+    font-size: 16px;
+}
+.cell-container .item>view text{
+  color: #333333;
+}
+
+
+.settings-alter>view{
+  width: 600rpx;
+  border-radius: 5px;
+}
+.settings-alter text{
+  display: block;
+}
+.settings-alter .content{
+  text-align: center;
+  padding: 30px 39px;
+  font-size:16px;
+  font-family:PingFangSC-Medium,PingFang SC;
+  font-weight:500;
+  color:rgba(51,51,51,1);
+}
+.settings-alter .footer{
+  height: 55px;
+  line-height: 55px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium,PingFang SC;
+  font-weight: 500;
+  color:rgba(252,129,0,1);
+  text-align: center;
+  border-top: 1px solid #E6E6E6;
+  display: flex;
+  flex-direction: row;
+}
+.settings-alter .footer text{
+  width: 50%;
+  text-align: center;
+}
+.settings-alter .footer text:first-child{
+  border-right: 1px solid #E6E6E6;
+  font-family:PingFangSC-Regular,PingFang SC;
+  font-weight:400;
+  color:rgba(154,154,154,1);
+}

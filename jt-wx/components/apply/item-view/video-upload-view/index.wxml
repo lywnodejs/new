@@ -1,0 +1,25 @@
+<!--components/apply/item-view/video-upload-view/index.wxml-->
+<view class="info-box">
+  <upload-title-view title="{{attribute.name}}" desc="{{attribute.description}}" mustFill="{{attribute.mustFill}}" />
+  <view class="content-box">
+    <block wx:if="{{urlLists.length > 0}}">
+      <block wx:for="{{urlLists}}" wx:key="index">
+        <view class="item">
+          <view class="thumbnail-box" bindtap="onPlay" data-index="{{index}}">
+            <image src="/image/video.png" class="video-img" />
+            <image wx:if="{{attribute.editFlag}}" src="/image/delete_gray.png" class="delete-img" catchtap="onDelete" data-index="{{index}}" />
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <view class="item " bind:tap="{{attribute.editFlag ? 'onUploadTap' :''}}" data-attribute="{{attribute}}">
+      <view class="place-holder-box">
+        <image src="/image/video_upload.png" class="upload-img" />
+        <view class="upload-tip">点击上传</view>
+      </view>
+    </view>
+  </view>
+
+
+</view>

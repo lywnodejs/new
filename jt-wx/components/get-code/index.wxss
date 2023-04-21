@@ -1,0 +1,34 @@
+/* components/get-code/index.wxss */
+.get-code{
+  width: 100%;
+}
+.get-code .input{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding:0 30rpx;
+  box-sizing: border-box;
+  height: 96rpx;
+  background-color: #ffffff;
+}
+.get-code .input >text{
+  font-size: 28rpx;
+  height: 100%;
+  line-height: 95rpx;
+  color: #337EFE;
+}
+.get-code .input >text.disabled{
+  color: #BFBFBF;
+}
+.get-code input{
+  font-size: 32rpx;
+  color: #333333;
+}
+.get-code .info{
+  font-size: 28rpx;
+  color: #F65348;
+  line-height: 40rpx;
+  font-weight: 400;
+  margin-top: 10rpx;
+  padding-left: 30rpx;
+}

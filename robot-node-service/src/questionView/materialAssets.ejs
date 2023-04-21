@@ -1,0 +1,41 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 竞争力数据 赵波 2019.10.22 -->
+<%
+var list = info.data || [];
+var item;
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_show_ol">
+            <ol><li></li><li>最新数据</li><li style="text-align: right">变化</li></ol>
+            <div>
+                <%
+                for(var i=0; i<list.length; i++){
+                    item = list[i];
+                    var compareStr = item.name==='注册资本'?'较上期':'同比';
+                %>
+                <ul>
+                    <li><p><%= item.name %></p></li>
+                    <li><%- (item.name!=='注册资本'?commonUtil.getQuarterLabel(item.date, 'season')+'<br/>':'') %><%= commonUtil.formatAmount(item.value) %></li>
+                    <li><%- (item.rate ? (compareStr+'<br/>'+item.rate+'%') : '--') %></li>
+                </ul>
+                <% } %>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var materialAssets = {
+    onViewReady: function () {
+
+    }
+  }
+
+</script>

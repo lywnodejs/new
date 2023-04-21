@@ -1,0 +1,153 @@
+<h2 class="p-dialog-title">{{dialog.title}}</h2>
+<div ng-if="batch" class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">告警列表：</label>
+        <div class="wrap-input form-flex-item">
+            <table class="p-table table-bordered table-header-bg table-hover" ng-cloak>
+                <thead>
+                    <tr>
+                        <th ng-repeat="key in tableHeaderFields" ng-switch on="key">
+                            <span ng-switch-default>
+                                {{key}}
+                            </span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="data in alarms" ng-cloak>
+                        <td ng-repeat="field in tableFields" ng-switch on="field">
+                            <span ng-switch-when="operation">
+                                <button class="p-btn p-btn-sm" type="button" ng-click="showDetail(data)">查看</button>
+                                <button class="p-btn p-btn-sm p-btn-danger" type="button" ng-click="removeAlarm(data)">删除</button>
+                            </span>
+                            <span ng-switch-default>
+                                <span>{{data[field]}}</span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div ng-if="!batch">
+    <div class="p-form-item flex-between">
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">告警编号：</label>
+            <div class="wrap-input form-flex-item">
+                {{id}}
+            </div>
+        </div>
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">处理状态：</label>
+            <div class="wrap-input form-flex-item">
+                {{state_name}}
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">告警类型：</label>
+            <div class="wrap-input form-flex-item">
+                {{type_name}}
+            </div>
+        </div>
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">告警等级：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="$parent.level.toString() " id="level">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.riskLevel" value="{{::$index}}">{{item}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">告警时间：</label>
+            <div class="wrap-input form-flex-item">
+                {{alarm_time}}
+            </div>
+        </div>
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">发生时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div class="p-col-8">
+                    <div class="input-group" style="margin-top: 36px;">
+                        <input id="occured_time" class="form-control js-date-picker" type="text" name="occured_time" readonly="readonly" uib-datepicker-popup close-text="关闭"
+                            clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd HH:mm:ss" datepicker-options="expireTimeOptions"
+                            ng-required="true" is-open="expireTimeIsOpen" onclose="expireTimeClose()" ng-model="occured_time" ng-click="expireTimeOpen()">
+                        <span class="input-group-btn" ng-click="expireTimeOpen()">
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                    
+                </div>
+                <div id="occured_time_h" class="p-col-4" uib-timepicker ng-model="occured_time_h" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">处理时间：</label>
+            <div class="wrap-input form-flex-item">
+                {{update_time}}
+            </div>
+        </div>
+        <div class="p-col-6 form-flex">
+            <label class="item-label p-col-3">归并数量</label>
+            <div class="wrap-input form-flex-item">
+                {{merge_num}}
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between" ng-repeat="item in detailFields" ng-cloak>
+        <div class="p-col-6 form-flex" ng-repeat="innerItem in item">
+            <label class="item-label p-col-3">{{innerItem.fieldNameZh}}：</label>
+            <div class="wrap-input form-flex-item">
+                <span ng-if="innerItem.fieldAdapter == 2">
+                    <a target="_blank" ng-href="{{alarm_data[innerItem.fieldNameEn]}}">{{alarm_data[innerItem.fieldNameEn]}}</a>
+                </span>
+                <span ng-if="innerItem.fieldAdapter != 2">
+                    {{alarm_data[innerItem.fieldNameEn]}}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">研判结果：</label>
+        <div class="wrap-input form-flex-item">
+            <label class="radio-inline" ng-repeat="item in pageConfig.analyses">
+                <input type="radio" ng-value="$index + 1" ng-model="$parent.audit" ng-required="!$parent.audit" name="audit">{{::item}}
+            </label>
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-6 form-flex">
+        <label class="item-label p-col-3">处理方式：</label>
+        <div class="wrap-input form-flex-item">
+            <label class="radio-inline" ng-repeat="item in pageConfig.process">
+                <input type="radio" ng-value="$index + 1" ng-model="$parent.mode" ng-required="!$parent.mode" name="mode">{{::item}}
+            </label>
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-between">
+    <div class="p-col-12 form-flex" style="align-items: flex-start">
+        <label class="item-label single-label">备注：</label>
+        <div class="wrap-input form-flex-item">
+            <textarea class="p-form-control p-reason" name="reason" placeholder="请输入备注（非必填）" ng-model="remark"></textarea>
+        </div>
+    </div>
+</div>
+<div class="p-form-item flex-around">
+    <button class="p-btn" ng-click="handleSubmitClick($event)">提交</button>
+    <button class="p-btn" ng-click="handleSaveClick($event)">保存</button>
+    <button class="p-btn" type="button" ng-click="handleCloseClick($event)">关闭</button>
+</div>

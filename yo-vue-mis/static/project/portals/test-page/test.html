@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="滴滴信息安全部数据申请页面">     <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap.css?_v=eea507">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap-font.css?_v=9753fe">
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/test-page/css/test.css?_v=e56e54">
+</head>
+
+<body>
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    <div class="main">
+        <form class="form-horizontal" role="form" id="js-form">
+            <div class="form-group">
+                <div class="col-sm-12 wrap-input">
+                    <textarea id="js-textarea" data-input-length show-text="#show-text" inputlength="200">so</textarea>
+                </div>
+                <span id="show-text" class="show-text"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" id="upload-file" class="btn btn-default">上传图片</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <at-user-list show-num="5" url="/process/getUserList"></at-user-list>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+<script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+<script   src="/project/portals/config/config.js?_v=000d11"></script>
+    <script   src="/lib/plupload/plupload-2.1.8.js?_v=32ec40"></script>
+    <script>
+        require(['test-page/index'])
+    </script>
+</body>
+
+</html>

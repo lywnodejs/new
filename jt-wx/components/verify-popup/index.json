@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "van-popup": "@vant/weapp/popup/index",
+    "captcha-input": "/components/captcha-input/index",
+    "send-captcha": "/components/send-captcha/index"
+  }
+}

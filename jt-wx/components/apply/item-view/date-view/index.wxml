@@ -1,0 +1,18 @@
+<!--components/apply/item-view/date-view/index.wxml-->
+
+<view class="info-box">
+  <item-title-view title="{{attribute.name}}" desc="{{attribute.description}}" />
+  <view class="cell-class" bind:tap="{{attribute.editFlag ? 'onClick' :''}}" id="{{attribute.id}}">
+    <view class="cell-title">
+      <text wx:if="{{attribute.completed}}">{{attribute.value}}</text>
+      <text wx:else class="cell-tips">{{attribute.tips}}</text>
+    </view>
+
+    <image class="cell-right-image" src="/image/arrow712.png"></image>
+  </view>
+  <van-popup show="{{ showSelectPopup }}" bind:close="onCancel" position="bottom"
+    custom-style="height: 35%; background-color: white;">
+    <van-datetime-picker type="date" value="{{ value }}"  min-date="{{ minDate }}"
+      bind:cancel="onCancel" bind:confirm="onConfirm" title="{{attribute.name}}" max-date="{{maxDate}}"/>
+  </van-popup>
+</view>

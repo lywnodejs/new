@@ -1,0 +1,50 @@
+<!--pages/my/secureCenter/idCancel/detail/index.wxml-->
+<view class="idCancel">
+    <view class="title">
+      为了保留您在我行的权益信息，建议您谨慎使用注销电子账户功能。
+    </view>
+</view>
+
+
+<view class="cell-container">
+  <view class="item">
+    <view>
+      <text>电子账户</text>
+    </view>
+    <view>
+      <text>{{idCard}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="but" bindtap="open">
+  注销账户
+</view>
+
+
+<van-popup class="my-alter" show="{{isShowNotify}}" >
+  <view class="content">
+    <!-- <view class="title">温馨提示</view> -->
+    <text>注销后，您将无法使用电子账户功能，将严重影响您的存款，贷款业务的正常使用。</text>
+  </view>
+  <view class="footer">
+    <text bindtap="onOk">确认注销</text>
+    <text bindtap="onNotifyClose">取消</text>
+  </view>
+  
+</van-popup>
+
+
+<van-popup class="my-alter" show="{{isShowNotify2}}">
+  <view class="content">
+    <!-- <view class="title">温馨提示</view> -->
+    <view wx:for="{{list}}" class="list">
+    {{item.itemDesc}} 
+    <image wx:if="{{item.itemStatus===1}}" src='../../../../../image/yes.png'></image>
+    <image wx:else src='../../../../../image/no.png'></image>
+    </view>
+  </view>
+  <view class="bottom">
+    <text bindtap="onNotifyClose" bindtap="clons">确定</text>
+  </view>
+</van-popup>

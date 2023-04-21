@@ -1,0 +1,5 @@
+<!--components/apply/item-view/live-view/index.wxml-->
+<view class="face-auth {{attribute.completed && 'has-auth-success'}}" bindtap="{{attribute.editFlag ? 'onTap' :''}}">
+  <image src="/image/ocr/ocr.png" class="face-img" />
+  <text class="live-status">{{attribute.completed  ? '认证通过' : '点击开始'}}</text>
+</view>

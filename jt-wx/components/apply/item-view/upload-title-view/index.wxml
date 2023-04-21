@@ -1,0 +1,13 @@
+<!--components/apply/item-view/upload-title-view/index.wxml-->
+<view class="title-box">
+  <block wx:if="{{title}}">
+    <text class="title">{{title}}</text>
+  </block>
+
+  <block wx:if="{{desc}}">
+    <text class="desc"> {{desc}}</text>
+  </block>
+  <block wx:if="{{mustFill === 1 || mustFill === 2}}">
+    <text class="{{mustFill === 1 ? 'red-star' : 'gray-star'}}"> *</text>
+  </block>
+</view>

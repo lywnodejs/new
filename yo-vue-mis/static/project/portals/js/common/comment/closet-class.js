@@ -1,0 +1,1 @@
+define("js/common/comment/closet-class",["require","exports","module"],function(e,n,r){return function(e,n){for(var r=e.parentElement;r;){if(~r.className.indexOf(n))return r;r=r.parentElement}}});

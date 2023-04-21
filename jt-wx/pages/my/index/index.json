@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "cell": "/components/cell/index",
+    "van-loading": "@vant/weapp/loading/index"
+  },
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true
+}

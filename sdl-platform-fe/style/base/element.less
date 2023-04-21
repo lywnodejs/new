@@ -1,0 +1,106 @@
+@border-color: #e2e2e2;
+
+.app-container {
+  .el {
+    &-menu {
+      border-right: none;
+    }
+
+    &-form-item {
+      margin-bottom: 14px;
+    }
+
+    &-table th, &-table td {
+      padding: 0;
+    }
+
+    &-table {
+      th {
+        background-color: #F3F4F5;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        color: #909398;
+      }
+      thead {
+        color: #303133;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      // 覆盖表格border样式
+      &--group, &--border {
+        border: 1px solid @border-color;
+        // border-bottom: none;
+        // border-right: none;
+        &:before {
+          background-color: @border-color;
+        }
+        &:after {
+          background-color: @border-color;
+        }
+      }
+
+      &--border {
+        th, td {
+          border-right: 1px solid @border-color;
+        }
+      }
+
+      th.is-leaf, td {
+        // border-right: 1px solid @border-color;
+        // border-bottom: 1px solid @border-color;
+      }
+
+      &-checkbox {
+        &__label {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+  .multi-el {
+    &-cascader {
+      display: inline-block;
+      position: relative;
+      font-size: 14px;
+      line-height: 32px;
+      &-menu {
+        &__item {
+          font-size: 13px;
+          padding: 8px 20px;
+          position: relative;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          height: 34px;
+          line-height: 1.5;
+          -webkit-font-smoothing: antialiased;
+          box-sizing: border-box;
+          cursor: pointer;
+          outline: none;
+          &--extensible {
+            &:after {
+              font-family: 'element-icons';
+              content: "\e604";
+              font-size: 14px;
+              color: #bfcbd9;
+              position: absolute;
+              right: 15px;
+            }
+          }
+        }
+        &__item.is-active {
+          color: #fc9153;
+        }
+      }
+      &__label span {
+        color: #909399;
+      }
+      .el-input.is-focus {
+        .el-input__inner {
+          outline: none;
+          border-color: #fc9153;
+        }
+      }
+    }
+  }
+}

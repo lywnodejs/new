@@ -1,0 +1,16 @@
+<div class="p-form-item form-flex">
+    <label class="item-label"> <%if(isValidate){%><span class="i-must">*</span><%}else{%><span class="i-placeholder">x</span><%}%><%= name %>:</label>
+    <div class="wrap-input form-flex-item" 
+     <%if(isValidate){%>
+        ng-class="{'p-error':(!ctrl.pageData.<%- fieldName %> || !ctrl.pageData.<%- fieldName %>.length)  && ctrl.showErrors}"
+    <%}%>
+    >
+        <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入<%= name %>" name="<%- fieldName %>" ng-model="ctrl.pageData.<%- fieldName %>">
+            <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+            <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+        </ui-my-auto-complete>
+        <%if(isValidate){%>
+            <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.pageData.<%- fieldName %>||!ctrl.pageData.<%- fieldName %>.length}">请输入并选择<%= name %></span>
+        <%}%>
+    </div>
+</div>

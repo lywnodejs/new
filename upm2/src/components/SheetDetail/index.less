@@ -1,0 +1,275 @@
+.sheet-detail {
+  .detail-block {
+    min-height: 120px;
+    margin-top: 24px;
+    background-color: #ffffff;
+    // padding: 8px 0;
+    &:first-child {
+      margin-top: 16px;
+    }
+
+    .block-title {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 60px;
+      padding: 0 24px;
+      border-bottom: 2px solid #f2f3f4;
+    }
+
+    .block-content {
+      padding: 24px;
+      &.inner-block {
+        padding-bottom: 12px;
+      }
+      &.col-info {
+        padding: 24px 0;
+      }
+      &.text-info {
+        text-indent: 1em;
+        word-break: break-all;
+        .last-approve-user {
+          margin-top: 12px;
+        }
+      }
+      &.strategy-content {
+        padding-left: 38px;
+        .sheet-strategy {
+          &:not(:last-child) {
+            margin-bottom: 20px;
+          }
+          // margin-bottom: 10px;
+          .sheet-title-wrapper {
+            margin-bottom: 6px;
+            color: #444444;
+            .sheet-title {
+              // color: #444444;
+            }
+          }
+          .sheet-tag-wrapper {
+            .sheet-tag-title {
+              color: #444444;
+              margin-bottom: 4px;
+            }
+            .sheet-tag-content {
+              padding-left: 2em;
+              margin-bottom: 6px;
+              .sheet-dimension {
+                margin-bottom: 4px;
+                .dimension-label {
+                  text-align: right;
+                }
+              }
+            }
+          }
+        }
+      }
+      .basic-info-item {
+        margin-bottom: 16px;
+        display: flex;
+        &.last-row-item {
+          margin-bottom: 0;
+        }
+        .basic-info-label {
+          text-align: right;
+          color: #444444;
+          flex: 0 0 143px; // 保证英文状态下不错位
+        }
+        .basic-info-content {
+          color: #666666;
+          flex: 1;
+          &.oneRowEllipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 24px;
+          }
+        }
+      }
+      .permission-table {
+        padding: 0 24px;
+      }
+      .x-scroller {
+        margin: -24px;
+      }
+    }
+  }
+
+  // .sheet-block {
+  //   line-height: 40px;
+  //   .block-content {
+  //     padding-left: 30px;
+  //   }
+  //   .status-button {
+  //     margin-left: 20px;
+  //   }
+  // }
+
+  // .basic-block {
+  //   .basic-info-table {
+  //     width: 100%;
+
+  //     tr {
+  //       line-height: 32px;
+  //     }
+  //   }
+  //   .basic-info-label {
+  //     text-align: right;
+  //   }
+  // }
+
+  // .role-block,
+  // .strategy-block {
+  //   .block-content {
+  //     padding-left: 30px;
+  //     padding-right: 10px;
+  //     // margin-bottom: 20px;
+  //   }
+  // }
+  // .role-block {
+  //   .apply-rolename,
+  //   .apply-reason {
+  //     margin-bottom: 10px;
+  //   }
+  // }
+
+  .workflow-block {
+    .block-content {
+      // overflow-x: auto;
+
+      .ant-steps-item-description {
+        max-width: 200px;
+        font-size: 12px;
+        white-space: normal;
+        word-break: break-all;
+      }
+
+      .ant-steps-item {
+        flex: 1 0 200px;
+      }
+
+      .workflow-wait {
+        .workflow-users {
+          font-size: 12px;
+
+          .workflow-users-item {
+            &:after {
+              content: ',';
+            }
+
+            &:last-child {
+              &:after {
+                content: '';
+              }
+            }
+          }
+        }
+      }
+
+      .workflow-status {
+        &.workflow-status-success {
+          .workflow-result {
+            color: green;
+          }
+        }
+
+        &.workflow-status-fail {
+          .workflow-result {
+            color: red;
+          }
+        }
+
+        &.workflow-status-doing {
+          .workflow-result {
+            color: #999;
+          }
+        }
+      }
+
+      .workflow-mail,
+      .workflow-department {
+        margin: 0;
+        font-size: 10px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+      .workflow-timestamp {
+        margin: 0;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.45);
+      }
+      .workflow-result {
+        margin: 4px 0;
+        font-size: 12px;
+      }
+    }
+  }
+
+  // .flow-chart {
+  //   width: 100%;
+  //   min-height: 540px;
+  //   iframe {
+  //     border: none;
+  //   }
+  // }
+
+  // .ant-table-fixed {
+  //   table-layout: fixed;
+  // }
+
+  // .ant-table-tbody > tr > td {
+  //   word-wrap: break-word;
+  //   word-break: break-all;
+  // }
+}
+
+@media screen and (max-width: 576px) {
+  // .sheet-detail {
+  //   .detail-block {
+  //     .block-content {
+  //       padding-left: 30px;
+  //     }
+  //   }
+  //   .basic-block {
+  //     .basic-info-label {
+  //       text-align: left;
+  //     }
+  //   }
+  // }
+  .sheet-detail {
+    .detail-block {
+      margin-top: 12px;
+      &:first-child {
+        margin-top: 0;
+      }
+      .block-title {
+        line-height: 32px;
+        padding: 0;
+      }
+      .block-content {
+        padding: 12px;
+        &.col-info {
+          padding: 12px 0;
+        }
+        .basic-info-item {
+          &.last-row-item {
+            margin-bottom: 16px;
+          }
+          &.last-row-item:last-child {
+            margin-bottom: 0px;
+          }
+          .basic-info-label {
+            flex: 0 0 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .permission-table {
+          padding: 0;
+        }
+        .x-scroller {
+          margin: -12px;
+        }
+      }
+    }
+  }
+}

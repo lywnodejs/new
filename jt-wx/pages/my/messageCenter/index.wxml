@@ -1,0 +1,19 @@
+<!--pages/my/messageCenter/index.wxml-->
+<view class="messageCenter">
+  <view class="list" wx:for="{{list}}" wx:for-index="key"  wx:for-item="value">
+    <view class="time">{{key}}</view>
+    <view class="item" wx:for="{{value}}" wx:index="index">
+      <view class="title">     
+        <image wx:if="{{item.readStatus}}" src="../../../image/info2.png"></image>
+        <image wx:if="{{!item.readStatus}}" src="../../../image/info1.png"></image>
+        <text>{{item.title}}</text>
+      </view>
+      <view class="center">
+        {{item.content}}
+      </view>
+      <view class="button" bindtap="toMessage" data-item="{{item}}">
+        查看详情  <image src="../../../image/info_right.png"></image>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,77 @@
+/* components/wealth-item/index.js.wxss */
+.wealth-item {
+  width: 100%;
+  height: 224rpx;
+  background-color: #ffffff;
+  border-radius: 10rpx;
+  box-sizing: border-box;
+  position: relative;
+}
+.wealth-item .left{
+  padding-top: 20rpx;
+}
+.wealth-item .left .num {
+  font-size: 60rpx;
+  line-height: 66rpx;
+  color: #F65348;
+  font-weight: bold;
+}
+
+.wealth-item .left .num text {
+  margin-left: 4rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+}
+
+.wealth-item .left .info {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 34rpx;
+}
+.wealth-item .right{
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+}
+.wealth-item .right .title{
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 400;
+  line-height: 40rpx;
+  padding-top: 30rpx;
+
+}
+.wealth-item .tags{
+  display: flex;
+  margin-left: 20rpx;
+}
+.wealth-item .tags .tag{
+  width: auto;
+  height: 32rpx;
+  border-radius: 2rpx;
+  color: #CDA037;
+  background-color: #FDF6E5;
+  font-size: 22rpx;
+  line-height: 32rpx;
+  font-weight: 400;
+  text-align: center;
+  margin-right: 20rpx;
+  padding: 0 10rpx;
+}
+.wealth-item .tags .tag:nth-last-of-type(1){
+  margin-right: 0;
+}
+.wealth-item .but{
+  position: absolute;
+  right: 30rpx;
+  bottom: 46rpx;
+  width: auto;
+  padding: 0 44rpx;
+  height: 72rpx;
+  font-size: 28rpx;
+  color: #EEA900;
+  border: 1px solid #EEA900;
+  border-radius: 40px;
+  line-height: 72rpx;
+  text-align: center;
+}

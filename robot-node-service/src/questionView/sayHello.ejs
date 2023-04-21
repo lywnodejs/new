@@ -1,0 +1,24 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<div class="mb md_tlbox">
+    <div class="box_shadow">
+        <%=info%>
+    </div>
+</div>
+<script>
+try {
+    thas.nodeFunction('questionAnalyse','<%- JSON.stringify(info_.questionAnalyse[0]) %>');
+} catch (error) {
+    
+}
+
+function nodeQuestion(item) {
+        try {
+            thas.nodeFunction('info',item);
+        } catch (error) {
+            
+        }
+    }
+</script>
+
+

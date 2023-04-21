@@ -1,0 +1,21 @@
+<!--components/bill/index.wxml-->
+<view class="bill-item {{disable ? 'disable' : ''}}">
+  <view>
+    <text>{{data.terms}}</text>
+    <text>{{data.deductDate}}</text>
+  </view>
+
+  <view>
+    <image wx:if="{{type === 0}}" src="/image/{{data.term === '本期' ? 'point' : 'point_no'}}.png"/>
+    <image wx:else src="/image/point_yes.png"/>
+    <view class="line" wx:if="{{line}}"></view>
+  </view>
+
+  <view>
+    <view>
+      <text>￥{{data.totalAmount}}</text>
+      <text style="color: {{type === 0 && data.status === 4 && '#FF2C43'}}">{{data.statusDesc}}</text>
+    </view>
+    <text>{{data.detail}}</text>
+  </view>
+</view>

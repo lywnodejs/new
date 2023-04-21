@@ -1,0 +1,56 @@
+<!--components/apply/item-view/enum-view/index.wxml-->
+<view class="info-box">
+  <item-title-view title="{{attribute.name}}" desc="{{attribute.description}}" />
+  <view class="cell-class" bind:tap="{{attribute.editFlag ? 'onClick' :''}}" id="{{attribute.id}}">
+    <view class="cell-title">
+      <text wx:if="{{!!attribute.showValue}}">{{attribute.showValue}}</text>
+      <text wx:else class="cell-tips">{{attribute.tips}}</text>
+    </view>
+    <image class="cell-right-image" src="/image/arrow712.png"></image>
+  </view>
+
+  <block wx:for="{{subAttrs}}" wx:key="index">
+    <block wx:if="{{item.attrType === 'area'}}">
+      <area-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'enum'}}">
+      <enum-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'string' || item.attrType === 'number' || item.attrType === 'text'}}">
+      <string-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'date'}}">
+      <date-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'ocr'}}">
+      <ocr-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'verifyCode'}}">
+      <verify-code-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'upload'}}">
+      <upload-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block wx:if="{{item.attrType === 'supply'}}">
+      <supply-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+    <block
+      wx:if="{{item.attrType === 'special_dwgqtzxx' || item.attrType === 'special_ggxx' || item.attrType === 'special_gdxx'}}">
+      <special-view attribute="{{item}}" bind:valuechange="onValueChange" />
+    </block>
+  </block>
+
+
+  <van-popup show="{{ showSelectPopup }}" bind:close="onClose" closeable position="bottom">
+    <view class="option-title">{{attribute.name}}</view>
+    <view class="xy-select-list">
+      <view class="xy-list-item" wx:for="{{options}}" wx:key="index" data-index="{{index}}" bind:tap="onOptionSelect">
+        <text class="item-left">{{item}}</text>
+        <view class="item-right">
+          <image wx:if="{{selectedIndex === index}}" class="checkbox-img" src="/image/checkbox_selected.png"></image>
+        </view>
+      </view>
+    </view>
+  </van-popup>
+
+</view>

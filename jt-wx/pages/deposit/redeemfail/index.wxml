@@ -1,0 +1,7 @@
+<xy-nav-bar bind:navLeftClick="onNav" title="交易结果" />
+<view class="redeemfail">
+<image src="../../../image/card_yes.png"></image>
+<view class="text-region">
+     <view class="fail">赎回成功</view>
+</view>
+</view>

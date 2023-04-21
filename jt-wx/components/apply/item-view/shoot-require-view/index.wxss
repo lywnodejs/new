@@ -1,0 +1,61 @@
+/* components/apply/item-view/shoot-require-view/index.wxss */
+
+
+.tips-box .title {
+  text-align: center;
+}
+
+.tips-box .title .require-tip {
+  padding: 0 7px;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 24px;
+}
+
+.tips-box .title .diamond-img {
+  width: 48px;
+  height: 10px;
+}
+
+.tips-box .title .after-tag-img {
+  transform: rotate(180deg);
+}
+
+.tips-msg {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  color: #999;
+  margin: 10px 0 17px;
+}
+
+.imgs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.imgs .demo-box {
+  flex: 0 0 calc(25% - 9px);
+}
+
+.imgs .demo-img {
+  width: 100%;
+  height: 100rpx;
+  margin-bottom: 3px;
+}
+
+.tip-desc {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #666;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+.tip-desc .yes-img,
+.tip-desc .no-img {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 5px;
+}

@@ -1,0 +1,103 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class='bd' id="answer<%= sn %>">
+    <div class='mb infoAndResearch'>
+        <%- data %>
+    </div>
+</div>
+<!-- 弹窗__提示弹窗（自动） -->
+<div class="pop_v2 pop_prompt pop_prompt_risk pdfForAuto">
+    <div class="bg"></div>
+    <div class="box">
+        <div class="txt">
+            公告原文链接已复制，请打开浏览器在地址框粘贴查看
+        </div>
+        <div class="btn">
+          <a id="lnkCopyPdfUrl" data-clipboard-action="copy" data-clipboard-text="" onclick="closePDFPop()">好&nbsp;&nbsp;的</a>
+        </div>
+    </div>
+</div>
+<script>
+
+  /**
+   * 判断是否支持pdf展示
+   * @param {*} title
+   * @param {*} pdfUrl
+   */
+  var pdfSupport = false;
+  var notice = {
+    onViewReady: function () {
+      pdfSupport = appUtil.getConfigByApp('<%- params.appKey%>','<%- params.appVersion%>','pdfSupport','<%- params.appFrom%>');
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/libs/clipboard.min', '/static/js/utils/appUtil', '/static/js/utils/logUtil'];
+  loadJs(jsArr, notice.onViewReady)
+
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+
+
+
+  function showPDF(title, pdfUrl) {
+    var params = JSON.parse('<%- JSON.stringify(params)%>');
+    if (pdfSupport) {
+      appUtil.functionForShowPDF(title, pdfUrl, params.appFrom, params.appKey);
+    } else {
+      if (params.appKey === 'appHtyw') {
+        window.open(pdfUrl, '_black');
+        return;
+      }
+      if (ClipboardJS.isSupported()) {
+        $('#lnkCopyPdfUrl').attr('data-clipboard-text', pdfUrl);
+        var clipboard = new ClipboardJS('#lnkCopyPdfUrl');
+        clipboard.on('success', function (e) {
+          console.info('Action:', e.action);
+          console.info('Text:', e.text);
+          console.info('Trigger:', e.trigger);
+          e.clearSelection();
+          clipboard.destroy();
+        });
+        clipboard.on('error', function(e) {
+          console.error('Action:', e.action);
+          console.error('Trigger:', e.trigger);
+        });
+        copyPdfUrl(pdfUrl);
+      } else {
+        copyPdfUrlForHand(pdfUrl);
+      }
+    }
+  }
+
+  function copyPdfUrl(pdfUrl) {
+    $(".pdfForAuto").addClass("show").removeClass("hide");
+    var propH = $(".pop_prompt_risk .box").height();
+    propT = propH + 50;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  function copyPdfUrlForHand(pdfUrl) {
+    $('.PDFUrlTxt').text(pdfUrl);
+    $(".pdfForHand").show();
+    var propH = $(".pdfForHand .box").height();
+    propT = propH;
+    $(".pop_prompt .box").css({"top": propT});
+  }
+
+  /**
+   * 关闭弹出的pdf的弹窗
+   */
+  function closePDFPop() {
+    $(".pdfForAuto").addClass("hide").removeClass("show");
+  }
+</script>
+
+
+
+
+

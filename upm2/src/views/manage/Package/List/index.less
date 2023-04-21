@@ -1,0 +1,30 @@
+@card-head-height-sm: 36px;
+@card-padding-base: 24px;
+@card-head-padding: 16px;
+@font-size-base: 14px;
+@card-padding-base-sm: @card-padding-base / 2;
+@card-head-padding-sm: @card-head-padding / 2;
+@card-head-font-size-sm: @font-size-base;
+
+.ant-card-small {
+  margin-top: 10px;
+
+  > .ant-card-head {
+    min-height: @card-head-height-sm;
+    padding: 0 @card-padding-base-sm;
+    font-size: @card-head-font-size-sm;
+
+    > .ant-card-head-wrapper {
+      > .ant-card-head-title {
+        padding: @card-head-padding-sm 0;
+      }
+      > .ant-card-extra {
+        padding: @card-head-padding-sm 0;
+        font-size: @card-head-font-size-sm;
+      }
+    }
+  }
+  > .ant-card-body {
+    padding: @card-padding-base-sm;
+  }
+}

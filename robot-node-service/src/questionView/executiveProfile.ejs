@@ -1,0 +1,43 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<%
+    var list = info.data || [];
+ %>
+
+<!-- 人物简介 赵波 2019.10.21 -->
+<div class="bd">
+    <div class="mb">
+        <div>
+            <%
+            for (var i = 0; i < list.length; i++) {
+                var item = list[i];
+                item.resume = item.resume || ''
+            %>
+            <div class='box_show box_show_btn'>
+                <h5><%= item.resume.replace(/\n/g, '<br/>') %></h5>
+            </div>
+            <% } %>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var executiveProfile = {
+    onViewReady: function () {
+        try {
+            playVoiceAnswerLite('<%= info.speechAnswerContent %>', '<%= info.answerResultType %>')
+        } catch (e) {
+        }
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+  ];
+  loadJs(jsArr, executiveProfile.onViewReady)
+
+</script>

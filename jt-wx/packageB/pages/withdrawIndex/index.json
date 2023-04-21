@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "protocol-view": "/components/protocol-view/index",
+    "captcha-popup": "/components/captcha-popup/index"
+  },
+  "navigationBarTitleText": "提现"
+}

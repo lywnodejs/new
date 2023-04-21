@@ -1,0 +1,21 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "total": 2,
+  "data":
+    {
+      "id": 1731,
+      "name": "个人隐私保护",
+      "type": 1731,
+      "mgrs": [
+        {
+          "user_id": 1,
+          "user_email": "zhangdijasper@didichuxing.com",
+          "user_name": "张三"
+        }
+      ],
+      "assessment": [0, 0],
+      "rectification": [0, 0],
+      "status_name": "待反馈"
+    }
+}

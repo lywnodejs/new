@@ -1,0 +1,6 @@
+<!--pages/apply/result/index.wxml-->
+<view>
+    <xy-nav-bar bind:navLeftClick="navLeftClick" title="额度申请结果" platform="{{platform}}" />
+    <apply-page title="额度正在审批"
+                desc="我行已收到您的贷款申请信息，将尽快进行审核，请耐心等待" />
+</view>

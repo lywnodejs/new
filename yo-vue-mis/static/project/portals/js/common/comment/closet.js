@@ -1,0 +1,1 @@
+define("js/common/comment/closet",["require","exports","module"],function(e,n,t){return function(e,n){n=n.toUpperCase();for(var t=e.parentElement;t;){if(t.tagName===n)return t;t=t.parentElement}}});

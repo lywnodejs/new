@@ -1,0 +1,20 @@
+<van-sticky wx:if="{{type != 0}}">
+    <van-search use-left-icon-slot
+                bind:search="search"
+                field-class="field"
+                shape="round"
+                placeholder-style="color:#BEC6CC;font-size:14px;"
+                placeholder="搜索银行" >
+        <view class="search-icon" slot="left-icon">
+            <image src="/image/search.png"></image>
+        </view>
+    </van-search>
+</van-sticky>
+<view>
+    <view class="bank-item" wx:for="{{list}}" wx:key="index" data-index="{{index}}" bind:tap="selectBank">
+        <view class="img-box">
+            <image src="{{item.bankIconUrl}}"></image>
+        </view>
+        <view class="bank-name">{{item.bankName}}</view>
+    </view>
+</view>

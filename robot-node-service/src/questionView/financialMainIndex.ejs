@@ -1,0 +1,301 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 财务数据 赵波 2019.10.24 -->
+<%
+var property = commonUtil.getPropertyByEntity(info.questionAnalyse[0].entity);
+var marketType = property.marketType,
+    stockCode = property.code;
+var randomNum = commonUtil.generateRandomClassName();
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_UP_indexChange">
+            <ul id="stock<%= randomNum %>" marketType="<%= marketType %>" stockCode="<%= stockCode %>" stockName="<%= property.name %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <div id="list<%= randomNum %>" class="box_conStock lBox_UP_indexChange" style="display: none">
+                <i class="icon-arrow_shape_left"></i>
+                <b></b>
+                <div class="conStock_hd">
+                    <ul id="indicatorName<%= randomNum %>" class=" box_label2">
+                        <!--
+                        //     li样式
+                        //     标题栏：li标签加样式名：li_hd
+                        //     两行：li标签加样式名：li_line2
+                        // -->
+                        <li>
+                            <a id="financialMainIndex_curPeriod<%= randomNum %>" onclick="setPeriodVisible(event, 'financialMainIndex', '<%= randomNum %>')">年报<i class="icon-arrow2_B_small"></i></a>
+
+                            <!-- 下拉框 -->
+                            <ul id="financialMainIndex_period<%= randomNum %>" onclick="periodClick2(event, 'financialMainIndex', '<%= randomNum %>')" class="ddList">
+                                <li>全部</li>
+                                <li class="on">年报</li>
+                                <li>中报</li>
+                                <li>一季报</li>
+                                <li>三季报</li>
+                                <b></b>
+                            </ul>
+
+                            <!--
+                            //     i标签
+                            //     未选状态样式名：icon-select_no
+                            //     已选状态样式名：icon-select
+                            // -->
+                            <a class="radio_yoy" onclick="setYoyVisible(event, '<%= randomNum %>')"><i id="yoy<%= randomNum %>" class="icon-select"></i>看同比</a>
+                        </li>
+<!--                        <li class="li_hd">每股指标</li>-->
+                    </ul>
+                </div>
+                <div id="con<%= randomNum %>" class="conStock">
+                    <div id="quarter<%= randomNum %>" class="box">
+                    </div>
+                </div>
+            </div>
+
+            <ul class="tlBox_link">
+                <li onclick="stockFinancialAnalysis('<%= randomNum %>')">查看财务分析</li>
+                <li onclick="stockRelatedIndustryAnalysis('<%= randomNum %>')">查看同行业比较</li>
+            </ul>
+        </div>
+      <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var financialMainIndex = {
+    onViewReady: function () {
+      financialMainIndex.initData();
+    },
+
+    initData: function () {
+      var params = {
+        marketType: '<%= marketType %>',
+        stockCode: '<%= stockCode %>',
+        financeQuarter: 'year',
+        cache: true,
+        randomNum: '<%= randomNum %>'
+      };
+      updateFinanceReport(params);
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/utils/commonUtil'
+  ];
+  loadJs(jsArr, financialMainIndex.onViewReady)
+
+  /*
+   * ajax封装
+   */
+  var newAjax = {
+    //ajax封装：增加时间戳t，loaing相关处理
+    get: function (o) {
+      var success = o.success;
+      o.success = function (rs) {
+        success(rs);
+      };
+      $.ajax($.extend(true, {
+        method: 'get',
+        data: $.extend({
+          _: Date.now()
+        }, o.param),
+        complete: function () {
+
+        }
+      }, o));
+    },
+    post: function (o) {
+      o.method = 'post';
+      $.ajax.post(o);
+    },
+    jsonp: function (o) {
+      o.dataType = 'jsonp';
+      o.jsonp = 'jsoncallback';
+      $.ajax.get(o);
+    }
+  };
+
+  // 周期列表是否可见
+  function setPeriodVisible(event, tabType, randomNum) {
+    // console.log(event)
+    $('#'+tabType+'_period'+randomNum).toggleClass('show');
+  }
+
+  // 看同比
+  function setYoyVisible(event, randomNum) {
+    // 当前点击对象
+    var curTarget = $(event.currentTarget);
+    var icon = curTarget.children()[0];
+    var className = icon.className;
+    if (className === 'icon-select') {
+      icon.className = 'icon-select_no';
+    }
+    else {
+      icon.className = 'icon-select';
+    }
+    $('.yoy_ul_'+randomNum).toggleClass('hide');
+  }
+
+  // 周期选择
+  function periodClick2(event, tabType, randomNum) {
+    // console.log(event.target)
+    // 当前点击对象
+    var curTarget = $(event.target);
+    // tab选中，其它同级元素隐藏
+    curTarget.attr('class', 'on').siblings().attr('class', '');
+    // 取点击的中文文本
+    var zh = curTarget.text();
+    // 中文转换为对应的周期
+    var period = getPeriodByZh(zh);
+    // 当前选中的指标
+    // console.log(tagIndex.attr('indexType'), period)
+    // 显示或隐藏周期列表
+    $('#'+tabType+'_period'+randomNum).toggleClass('show');
+    // console.log($('#'+tabType+'_curPeriod'+randomNum))
+    // 更新当前选中周期中文
+    $('#'+tabType+'_curPeriod'+randomNum).html(zh+'<i class="icon-arrow2_B_small"></i>');
+
+    var stock = $('#stock'+randomNum);
+    var params = {
+      marketType: stock.attr('marketType'),
+      stockCode: stock.attr('stockCode'),
+      financeQuarter: period,
+      cache: true,
+      randomNum: randomNum
+    };
+    updateFinanceReport(params);
+  }
+  // 更新报告期数据
+  function updateFinanceReport(params) {
+    var p = {
+      url: '/financeAnalysis/financeReport',
+      param: params,
+      success: function (result) {
+        // console.log(result)
+        $('#list' + params.randomNum).show();
+
+        var list = result.data || [];
+
+        // 指标名称列
+        var tagName = '';
+        // 所有的报告期
+        var allQuarter = [];
+        var tagList = [];
+        // 此步骤提取所有的报告期，同时拼好名称列，报告期、同比列的头部（包含每股指标）
+        list.forEach(function (value) {
+          var cls = '';
+          if (value.indicatorType === 1 || value.indicatorType === 3) // 带底色
+            cls = 'li_hd';
+          else if (value.indicatorType === 2) // 两行
+            cls = 'li_line2';
+
+          if (value.indicatorType === 0 || value.indicatorType === 2) {
+            var indicatorName = value.indicatorName;
+            if (indicatorName.indexOf('(') !== -1)
+              indicatorName = indicatorName.substring(0, indicatorName.indexOf('('));
+            tagName += '<li class="' + cls + '" onclick="indicatorNameClick(\'' + indicatorName + '\')">' + value.indicatorName + '<i class="icon-arrow2_R_small" style="color:#a1a2a8 !important"></i></li>';
+          } else {
+            tagName += '<li class="' + cls + '">' + value.indicatorName + '</li>';
+          }
+
+          var data = value.data || [];
+          data.forEach(function (item) {
+            if (item && allQuarter.indexOf(item.reportQuarter) === -1) {
+              allQuarter.push(item.reportQuarter);
+              tagList.push('<li style="font-size: 0.75rem">' + getQuarterLabel(item.reportQuarter, 'zh2') + '</li>');
+              tagList.push('<li style="font-size: 0.75rem">同比</li>');
+              // tagList.push('<li style="font-size: 0.75rem">'+getQuarterLabel(item.reportQuarter,'zh2')+'</li><li class="li_hd"></li>');
+              // tagList.push('<li style="font-size: 0.75rem">同比</li><li class="li_hd"></li>');
+            }
+          })
+        });
+
+        // 循环拼数据
+        list.forEach(function (value, qindex) {
+          // 样式
+          var cls = '';
+          if (value.indicatorType === 1 || value.indicatorType === 3)
+            cls = 'li_hd';
+          else if (value.indicatorType === 2)
+            cls = 'li_line2';
+
+          var j = 0;
+          var dataList = value.data || [];
+          if (dataList.length === 0 || value.indicatorType === 3) {
+            var text = value.indicatorType === 3 ? '' : '--';
+            // 处理某个指标的data返回为空数组的情况，循环报告期数组的长度给该指标拼一个空标签占位！
+            allQuarter.forEach(function (value1, index1) {
+              tagList[index1 + j] += '<li class="' + cls + '">' + text + '</li>';
+              tagList[index1 + j + 1] += '<li class="' + cls + '">' + text + '</li>';
+              j++;
+            })
+          } else {
+            dataList.forEach(function (item, index) {
+              var value1 = '';
+              if (value.indicatorType === 1)
+                value1 = item.disPlayValueOne || '--';
+              else
+                value1 = formatNumber(item ? item.disPlayValueOne : '--');
+
+              // 同比正红负绿
+              var value2Cls = '';
+              var value2 = item ? item.disPlayValueTwo : 0;
+              if (value2 > 0)
+                value2Cls = ' t_red';
+              else if (value2 < 0)
+                value2Cls = ' t_green';
+
+              tagList[index + j] += '<li class="' + cls + '">' + value1 + '</li>';
+              tagList[index + j + 1] += '<li class="' + cls + value2Cls + '">' + (!isNaN(value2) ? value2.toFixed(2) + '%' : '--') + '</li>';
+              j++
+            })
+          }
+        });
+
+        // 是否看同比
+        var yoyEnabled = $('#yoy' + params.randomNum).attr('class') === 'icon-select';
+        // 给每列前后加标签，同比列额外加样式用来控制显示隐藏
+        tagList.forEach(function (value, index) {
+          var id = '';
+          var cls = '';
+          if (index % 2 === 1) {
+            id = 'yoy_ul_' + params.randomNum;
+            cls = yoyEnabled ? '' : ' hide';
+          }
+
+          tagList[index] = '<ul class="num ' + id + cls + '">' + value + '</ul>';
+        });
+        // console.log(tagList)
+
+        // 各报告期数据列
+        $('#quarter' + params.randomNum).html(tagList.join(''));
+
+        var nameContainer = $('#indicatorName' + params.randomNum);
+        // 指标名称列只拼一次
+        if (nameContainer.children().length === 1) {
+          nameContainer.append(tagName)
+        }
+
+        $('#con' + params.randomNum).scrollLeft(0);
+      }
+  }
+    newAjax.get(p);
+  }
+  // 指标点击：回答基础知识
+  function indicatorNameClick(name) {
+    // console.log(name)
+    if (!name)
+      return;
+    requestFixedAnswer({
+      question: name,
+      predicateType: '基础知识'
+    }, name, '', true);
+  }
+
+</script>

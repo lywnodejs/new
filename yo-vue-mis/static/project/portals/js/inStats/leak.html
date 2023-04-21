@@ -1,0 +1,400 @@
+<div class="flux-container portal-container">
+   <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{'active' : active == 0}">
+          <a href="javascript:void(0);" ng-click="activeTab(0)">整体指标</a>
+      </li>
+      <li role="presentation" ng-class="{'active' : active == 1}">
+          <a href="javascript:void(0);" ng-click="activeTab(1)">相对指标</a>
+      </li>
+      <li role="presentation" ng-class="{'active' : active == 2}">
+          <a href="javascript:void(0);" ng-click="activeTab(2)">SLA趋势</a>
+      </li>
+      <li role="presentation" ng-class="{'active' : active == 3}">
+        <a href="javascript:void(0);" ng-click="activeTab(3)">DSRC指标</a>
+    </li>
+   </ul>
+   <div class="row portal-panel" ng-show='active == 0'>
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞整体指标</strong>
+                    <button type="button" class="btn btn-primary btn-sm" style="float:right;margin-top:-4px;" ng-click="toggle()" ng-bind="leakText"></button>
+                </div>
+                <div class="panel-body">
+                    <div id="leakAll" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞等级分布趋势图</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakCategory" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>所有已结束漏洞的平均处理时间</strong>
+                </div>
+                <div class="panel-body">
+                    <div style="height:400px;display:flex;justify-content:center;align-items:center;">
+                      <h1 style="font-size: 200px;font-weight:100;width:100%;text-align:center;">
+                          <span ng-bind="avgTimes"></span><small style="font-size:60px;">天</small>
+                      </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞来源统计</strong>
+                     <button type="button" class="btn btn-primary btn-sm" style="float:right;margin-top:-4px;" ng-click="toggleSource()" ng-bind="sourceText"></button>
+                </div>
+                <div class="panel-body">
+                    <div style="height:400px;" id="sourceChart">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞处理状态按业务线统计分布图</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakDepts" class="portal-chart" style="height:450px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>各业务线已结束漏洞的数量及平均处理时间</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="finishedChart" class="portal-chart" style="height:450px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>发现漏洞数量的时间趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="leakTime" class="portal-chart" style="height:450px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>超期未关闭漏洞列表</strong>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>状态</th>
+                                <th>等级</th>
+                                <th>漏洞类型</th>
+                                <th>标题</th>
+                                <th>部门</th>
+                                <th>安全工程师</th>
+                                <th>上报时间</th>
+                                <th>超期时间(天)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="data in datas">
+                                <td>{{data.id}}</td>
+                                <td>{{data.state_zh}}</td>
+                                <td>{{data.level_zh}}</td>
+                                <td>{{data.type}}</td>
+                                <td><a ng-href="/project/portals/pages/hole-detail.html?id={{data.id}}">{{data.hole_name}}</a></td>
+                                <td>{{data.dept_name}}</td>
+                                <td>{{data.name}}</td>
+                                <td>{{data.post_time}}</td>
+                                <td class="td-value">{{data.expire}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row portal-panel" ng-show='active == 1'>
+        <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+            <div class="form-group">
+                 <label for="timeCount" style="width:150px;">请选择相对时间：</label>
+                 <input ng-model="timeCount" type="number" min="1" class="form-control" style="width : 100px;">
+                 <select ng-model="timeUnit" id="timeUnit" class="form-control" ng-options=" unit.name as unit.label for unit in timeEnums" style="width : 100px;">
+                 </select>
+           </div>
+           <button type="button" class="btn btn-primary" ng-click="changeUnit()" style="margin-left:15px;">确定</button>
+        </form>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞一级类型增量趋势接口</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="relativeType" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞来源增量趋势接口</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="relativeSource" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>漏洞等级增量趋势接口</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="relativeLevel" class="portal-chart" style="height:400px;"> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row portal-panel" ng-show='active == 2'>
+          <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>每月业务线各等级漏洞的SLA趋势</strong>
+                </div>
+                <div class="panel-body">
+                    <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+                       <div class="form-group">
+                            <label for="year" style="width:100px;">请选择年度：</label>
+                            <select ng-model="year" id="effectYear" class="form-control" ng-options=" year for year in yearEnums" style="width : 200px;">
+                            </select>
+                      </div>
+                      <div class="form-group" style="margin-left:15px;">
+                        <label for="effectWeek" style="width:100px;">请选择月份：</label>
+                        <select ng-model="month" id="effectWeek" class="form-control" ng-options="(index|toInt) as month for (index, month) in monthEnums" style="width : 200px;">
+                        </select>
+                      </div>
+                      <button type="button" class="btn btn-primary" ng-click="fetchSla()" style="margin-left:15px;">确定</button>
+                  </form>
+                  <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>业务部门</th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sum')">总计
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }" 
+                                           aria-hidden="true" ng-show="isCurr('sum')">                                   
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s0')">S0
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s0')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                     <a href="javascript:0;" ng-click="sort('s1')">S1
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s1')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s2')">S2
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s2')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s3')">S3
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s3')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s4')">S4
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s4')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s0ex')">S0超期数
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s0ex')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sla0')">SLA(S0)
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('sla0')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s1ex')">S1超期数
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s1ex')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sla1')">SLA(S1)
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('sla1')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s2ex')">S2超期数
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s2ex')">
+                                        </i>
+                                    </a>                                
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sla2')">SLA(S2)
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('sla2')">
+                                        </i>
+                                    </a>
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s3ex')">S3超期数
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s3ex')">
+                                        </i>
+                                    </a>    
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sla3')">SLA(S3)
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('sla3')">
+                                        </i>
+                                    </a>   
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('s4ex')">S4超期数
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('s4ex')">
+                                        </i>
+                                    </a>   
+                                </th>
+                                <th>
+                                    <a href="javascript:0;" ng-click="sort('sla4')">SLA(S4)
+                                        <i class="fa" ng-class="{'fa-chevron-down' : !asc, 'fa-chevron-up' : asc }"
+                                           aria-hidden="true" ng-show="isCurr('sla4')">
+                                        </i>
+                                    </a>   
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sla in slas">
+                                <td>{{sla.dept_name}}</td>
+                                <td class="td-value">{{sla.sum | numFmt}}</td>
+                                <td class="td-value">{{sla.s0 | numFmt}}</td>
+                                <td class="td-value">{{sla.s1 | numFmt}}</td>
+                                <td class="td-value">{{sla.s2 | numFmt}}</td>
+                                <td class="td-value">{{sla.s3 | numFmt}}</td>
+                                <td class="td-value">{{sla.s4 | numFmt}}</td>
+                                <td class="td-value">{{sla.s0ex | numFmt}}</td>
+                                <td class="td-value">{{sla.sla0 | numFmt:true}}</td>
+                                <td class="td-value">{{sla.s1ex | numFmt}}</td>
+                                <td class="td-value">{{sla.sla1 | numFmt:true}}</td>
+                                <td class="td-value">{{sla.s2ex | numFmt}}</td>
+                                <td class="td-value">{{sla.sla2 | numFmt:true}}</td>
+                                <td class="td-value">{{sla.s3ex | numFmt}}</td>
+                                <td class="td-value">{{sla.sla3 | numFmt:true}}</td>
+                                <td class="td-value">{{sla.s4ex | numFmt}}</td>
+                                <td class="td-value">{{sla.sla4 | numFmt:true}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>   
+    </div>
+
+    <div class="row portal-panel" ng-show='active == 3'>
+        <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+            <div class="form-group">
+                <label for="timeCount" style="width:150px;">请选择漏洞上报时间：</label>
+                <div class="input-group" style="font-size: 10px;">
+                    <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="analysisStart"
+                        is-open="analysisStartOpened" datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}"
+                        clear-text="{{clearText}}" current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="analysisStartOpen()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+                <span>-</span>
+                <div class="input-group" style="font-size: 10px;">
+                    <input type="text" style="font-size: 10px;" class="form-control" uib-datepicker-popup="{{format}}" ng-model="analysisEnd"
+                        is-open="analysisEndOpened" datepicker-options="dateOptions" ng-required="true" close-text="{{closeText}}"
+                        clear-text="{{clearText}}" current-text="{{currentText}}" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="analysisEndOpen()">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="dsrcLeakSubmit()" style="margin-left:15px;">确定</button>
+        </form>
+        <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>DSRC漏洞分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="dsrcLeak" class="portal-chart" style="height:400px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

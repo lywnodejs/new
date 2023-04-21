@@ -1,0 +1,119 @@
+.apply-upm-feedback .ant-divider {
+  margin-bottom: 10px;
+}
+.apply-fb-widget ul {
+  list-style: none;
+}
+.apply-fb-widget ul,
+.apply-fb-widget li {
+  margin: 0;
+  padding: 0;
+}
+.apply-fb-widget li {
+  border-bottom: 1px solid #eee;
+}
+.apply-fb-widget li .icon-wrap {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.apply-fb-widget li:last-child {
+  border: none;
+}
+.apply-fb-widget li .panel {
+  padding-top: 20px;
+  /* display: none;  */
+  margin: auto;
+}
+.apply-fb-widget li:hover .ding-qrcode {
+  display: block;
+  cursor: auto;
+}
+.apply-fb-widget li.robot a {
+  display: inline-block;
+  color: rgba(0, 0, 0, 0.65);
+}
+.apply-fb-widget li .panel:hover {
+  display: block;
+}
+.apply-fb-widget li .gap {
+  /* display: none; */
+  position: absolute;
+  left: -10px;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  z-index: 1;
+}
+.apply-fb-widget li:hover .gap {
+  z-index: 2;
+  display: block;
+}
+.apply-fb-widget .dingding .gap:hover + .panel {
+  display: block;
+}
+
+.apply-fb-widget li .ding-qrcode {
+  width: 200px;
+  text-align: center;
+}
+.apply-fb-widget li .ding-qrcode img {
+  width: 100%;
+}
+
+.apply-fb-widget .apply-upm-feedback select {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  height: 30px;
+  outline: none;
+  margin-bottom: 10px;
+  width: 100%;
+}
+.apply-fb-widget .apply-upm-feedback textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  padding: 6px;
+  resize: none;
+}
+.apply-fb-widget .apply-upm-feedback .nps-rate {
+  margin-bottom: 10px;
+  text-align: center;
+}
+.apply-fb-widget .apply-upm-feedback .nps-point {
+  text-align: center;
+}
+.apply-fb-widget .nps-point .hate {
+  float: left;
+}
+.apply-fb-widget .nps-point .like {
+  float: right;
+}
+.apply-fb-widget .apply-upm-feedback li {
+  outline: none;
+  border-bottom: none;
+}
+.apply-fb-widget li li:hover {
+  background-color: transparent;
+}
+.apply-fb-widget .apply-upm-feedback .options-wrapper {
+  text-align: center;
+}
+.apply-fb-widget .apply-upm-feedback .options-wrapper .submit-button {
+  /* outline: none; cursor: pointer;
+  background-color: #ff7d4c; */
+  border-radius: 4px;
+  /* display: block;
+  width: 90px; margin: 0 auto;
+  height: 30px;
+  border: none;
+  color: #fff;
+  font-size: 14px; */
+}
+.apply-fb-widget .apply-upm-feedback .icon-close {
+  float: right;
+  margin-bottom: 6px;
+  cursor: pointer;
+  margin-top: -4px;
+}

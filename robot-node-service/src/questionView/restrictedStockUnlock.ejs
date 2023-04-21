@@ -1,0 +1,104 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<%
+var result = info;
+var ressList = result.data.ressList || [];
+var ressWeekList = result.data.ressWeekList || [];
+
+var unlockStr = '';
+if(ressList.length > 0)
+{
+    unlockStr = commonUtil.generateDate(ressList[0].listDate)+'将有'+commonUtil.formatNumber(ressList[0].listAmount)+'股解禁，占流通股本的'+commonUtil.formatNumber(ressList[0].unresAmount)+'%';
+}else{
+    unlockStr = '该股近两周暂无解禁信息';
+}var result = info;
+var ressList = result.data.ressList || [];
+var ressWeekList = result.data.ressWeekList || [];
+
+var unlockStr = '';
+if(ressList.length > 0)
+{
+    unlockStr = commonUtil.generateDate(ressList[0].listDate)+'将有'+commonUtil.formatNumber(ressList[0].listAmount)+'股解禁，占流通股本的'+commonUtil.formatNumber(ressList[0].unresAmount)+'%';
+}else{
+    unlockStr = '该股近两周暂无解禁信息';
+}
+
+    var col1 = '',
+        col2 = '',
+        col3 = '',
+        col4 = '';
+    var item;
+
+    for(var i=0; i<ressWeekList.length && i<10; i++){
+        item = ressWeekList[i];
+        col1 += '<li onclick="stockFixQuestion(\''+item.secCode+'\',\''+item.secName+'\',\''+item.marType+'\',\'个股综评\')">'+
+                    '<p>'+item.secName+'</p>'+
+                    '<h6>'+item.secCode+'</h6>'+
+                '</li>';
+        col2 += '<li>'+commonUtil.formatNumber(item.listAmount)+'</li>';
+        col3 += '<li>'+commonUtil.formatNumber(item.unresAmount)+'%</li>';
+        col4 += '<li>'+commonUtil.generateDate(item.listDate)+'</li>';
+    }
+
+    var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+ %>
+
+<!-- 个股限售股解禁 赵波 2019.10.18 -->
+<div class="bd">
+    <div class="mb">
+        <div class="box_restrictedStock">
+            <ul id="<%= quotaContainerId %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <div class="box_bgBlue"><%= unlockStr %></div>
+
+            <h5 class="hd">未来限售解禁股前10</h5>
+
+            <div class="box_conStock lBox_next2Weeks">
+                <i class="icon-arrow_shape_left"></i>
+                <b></b>
+                <div class="conStock_hd">
+                    <ul>
+                        <li>个股名称/代码</li>
+                        <%- col1 %>
+                    </ul>
+                </div>
+                <div class="conStock">
+                    <div class="box">
+                        <ul class="num">
+                            <li>解禁数(万股)</li>
+                            <%- col2 %>
+                        </ul>
+                        <ul class="num">
+                            <li>占流通股本比</li>
+                            <%- col3 %>
+                        </ul>
+                        <ul class="num">
+                            <li>解禁时间<i class="icon-arrow_sequentT"></i></li>
+                            <%- col4 %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var restrictedStockUnlock = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+  ];
+  loadJs(jsArr, restrictedStockUnlock.onViewReady)
+
+</script>

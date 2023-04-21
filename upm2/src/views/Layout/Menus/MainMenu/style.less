@@ -1,0 +1,49 @@
+.upm-main-menu {
+  flex: 1 1 0%;
+  .badge-count {
+    // transform: scale(0.833333);
+
+    transform: translateY(1px);
+    .ant-badge-count {
+      // border-radius: 50%;
+      box-shadow: 0 0 black;
+      // box-sizing: border-box;
+      // width: 20px;
+      // padding: 0;
+      margin-left: 4px;
+      transform: scale(0.78);
+      text-align: left;
+    }
+  }
+  // 为保证首页引导页展示，高亮部分展示出底色
+  > .ant-menu {
+    > li {
+      background-color: #282a35;
+      .ant-menu-item {
+        background-color: #1d1e26;
+      }
+    }
+  }
+}
+.upm-main-collapse {
+  height: 40px;
+  .ant-menu-item {
+    margin: 0;
+    padding: 0 24px 0 24px !important;
+    margin: 0;
+    i {
+      font-size: 16px;
+    }
+  }
+}
+.interface-person-table thead {
+  font-size: 12px;
+  color: #444444;
+}
+.interface-person-wrapper-title {
+  font-size: 14px;
+  color: #444444;
+  width: 100%;
+  padding-top: 7px;
+  padding-bottom: 4px;
+}

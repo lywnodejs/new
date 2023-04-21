@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "voice-upload-view": "/components/apply/item-view/voice-upload-view/index",
+    "video-upload-view": "/components/apply/item-view/video-upload-view/index",
+    "image-upload-view": "/components/apply/item-view/image-upload-view/index"
+  },
+  "navigationStyle": "custom"
+}

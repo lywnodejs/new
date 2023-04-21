@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "deposit-order-cell": "/components/deposit-order-cell/index"
+  },
+  "navigationBarTitleText": "我的存款",
+  "disableScroll": true
+}
+

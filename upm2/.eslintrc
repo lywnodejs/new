@@ -1,0 +1,68 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "globals": {
+    "ENV": "readonly",
+    "process": "readonly",
+    "window": "readonly",
+    "webpackDefine": "readonly"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    // 数组或对象，禁止使用拖尾逗号
+    "comma-dangle": [
+      2,
+      "never"
+    ],
+    // 缩进2
+    "indent": [
+      0,
+      2
+    ],
+    // "multiline-ternary": "off",
+    // 换行符风格
+    "linebreak-style": [
+      2,
+      "unix"
+    ],
+    // JSX属性使用双引号
+    "jsx-quotes": [
+      2,
+      "prefer-double"
+    ],
+    // 字符串定义使用单引号
+    "quotes": [
+      2,
+      "single"
+    ],
+    // 末尾加分号
+    "semi": [
+      2,
+      "always"
+    ],
+    "no-class-assign": 0,
+    "react/prop-types": 0
+  }
+}

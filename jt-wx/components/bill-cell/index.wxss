@@ -1,0 +1,32 @@
+/* components/bill-cell/index.wxss */
+.bill-cell {
+  padding: 13px 15px;
+  background-color: white;
+  border-bottom: 1px solid #EDEDED;
+}
+.bill-cell view{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.bill-cell view:first-child{
+  color: #333333;
+  font-size: 15px;
+}
+.bill-cell view:first-child .amount{
+  font-size: 18px;
+  font-family:DIN-Medium,DIN;
+  font-weight:500;
+}
+.bill-cell view:last-child{
+  color: #999999;
+  font-size: 13px;
+  margin-top: 4px;
+}
+.bill-cell view:last-child .status{
+  font-size: 12px;
+}
+.bill-cell.no-line{
+  border-bottom: none;
+}

@@ -1,0 +1,21 @@
+{
+  "errno": 0,
+  "errmsg": "ok",
+  "data": {
+    "alarm_id": 1000,
+    "alarm_time": "2018-01-25 12:24:54",
+    "occured_time": "2018-01-25 12:24:54",
+    "level": 2,
+    "level_name": "中危(S2)",
+    "type": 1200,
+    "type_name": "生产网络-服务器-网络异常",
+    "alarmData": {
+      "occuredTimeFormat": "",
+      "sourceIp": "1.1.1.1",
+      "sourceIpAdapter": "xxxx",
+      "alarmUserName": "aaaa",
+      "alarmCount": 10,
+      "mergeNum": 3
+    }
+  }
+}

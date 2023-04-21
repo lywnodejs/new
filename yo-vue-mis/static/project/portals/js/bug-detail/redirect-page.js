@@ -1,0 +1,1 @@
+define("js/bug-detail/redirect-page",["require","exports","module"],function(e,o,t){return function(e){var o=location.href.replace(/[\?|#].+/,"").split("/").pop(),t=location.href.match(/\?.+/)[0],i="hole-edit.html"===o;!~[1,5].indexOf(e)?i?window.location.href="hole-detail.html"+t:location.reload():i?location.reload():window.location.href="hole-edit.html"+t}});

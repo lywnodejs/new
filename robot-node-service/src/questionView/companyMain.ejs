@@ -1,0 +1,40 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <%
+        var mainBusiness = '暂无数据';
+        mainBusiness = data.mainBus || data.mainBusiness || '暂无数据';
+        %>
+
+        <!-- 时间轴 有信息-->
+        <h6 class='date'>更新日期： <%= commonUtil.changeTime(data.updateAt) %></h6><h5><%= mainBusiness %></h5>
+    </div>
+
+</div>
+
+<script>
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var companyMain = {
+    onViewReady: function () {
+      resizeUtils.init(frameId, sn);
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/logUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, companyMain.onViewReady)
+
+
+</script>
+

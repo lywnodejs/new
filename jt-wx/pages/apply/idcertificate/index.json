@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "shoot-require-view": "/components/apply/item-view/shoot-require-view/index",
+    "id-front-view": "/components/apply/item-view/id-front-view/index",
+    "id-back-view": "/components/apply/item-view/id-back-view/index",
+    "live-view": "/components/apply/item-view/live-view/index"
+  },
+  "navigationStyle": "custom"
+}

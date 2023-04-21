@@ -1,0 +1,43 @@
+{
+  "projectName": "cxyx-staff-fe",
+  "build": "npm run build",
+  "output": "build",
+  "location": "cxyx-staff-fe",
+  "dchatNotice": [
+    {
+      "group": "【二期】橙心优选账号权限治理",
+      "webhook": "https://im-dichat.xiaojukeji.com/api/hooks/incoming/7a6b7cbc-d06d-45d0-a846-9da3cd88529d"
+    }
+  ],
+  "ignoreGlobalConfig": true,
+  "vm": {
+    "【测试1】staff-test01.chengxinyouxuan.com": {
+      "userName": "xiaoju",
+      "hostName": "10.96.76.107",
+      "password": "Test%2021",
+      "projectLock": true,
+      "staticMap": "/www/wwwroot/staff-test01.chengxinyouxuan.com"
+    },
+    "【测试2】staff-test02.chengxinyouxuan.com": {
+      "userName": "xiaoju",
+      "hostName": "10.96.76.107",
+      "password": "Test%2021",
+      "projectLock": true,
+      "staticMap": "/www/wwwroot/staff-test02.chengxinyouxuan.com"
+    },
+    "【测试3】staff-test03.chengxinyouxuan.com": {
+      "userName": "xiaoju",
+      "hostName": "10.96.76.107",
+      "password": "Test%2021",
+      "projectLock": true,
+      "staticMap": "/www/wwwroot/staff-test03.chengxinyouxuan.com"
+    },
+    "【测试4】staff-test04.chengxinyouxuan.com": {
+      "userName": "xiaoju",
+      "hostName": "10.96.76.107",
+      "password": "Test%2021",
+      "projectLock": true,
+      "staticMap": "/www/wwwroot/staff-test04.chengxinyouxuan.com"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+<!--components/safe-area-bottom/index.wxml-->
+<view class="safe-area-bottom"></view>

@@ -1,0 +1,23 @@
+{
+  "name": "babel",
+  "version": "1.0.0",
+  "description": "babel-demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "babel ./ES6/if.js -o ./dist/if.js",
+    "index": "babel ./ES6/index.js -o ./dist/index.js"
+  },
+  "author": "lyw",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-polyfill": "^6.26.0"
+  },
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-node": "0.0.1-security",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1"
+  }
+}

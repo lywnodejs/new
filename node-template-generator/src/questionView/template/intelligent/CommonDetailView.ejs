@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no" />
+    <title>详情页</title>
+    <link rel="stylesheet" href="/static/css/yy_OnekeyResearchReport.css" />
+    <link rel="stylesheet" href="https://weblibs.rxhui.com/library_rxh2/style.css">
+    <script type="text/javascript" src="/static/js/utils/platform-adapter.js" ></script>
+</head>
+<body>
+    <% if (showTitle ){ %>
+    <div class="rxh_head">
+        <a class="a_back" style="padding-left:0" onclick="back()"><i class="rxh-icon-back"></i></a>
+        <span>详情页</span>
+    </div>
+        <%}%>
+    <% var content = content%>
+    <% if (content.length > 0){ %>
+        <% if (content.indexOf('\\n') != -1) {%>
+            <% content = content.replace(/\\n/g,'<br/>');%>
+        <%}%>
+        <% if (content.indexOf('\\r') != -1) {%>
+            <% content = content.replace(/\\r/g,' ');%>
+        <%}%>
+        <% if (content.indexOf('\\') != -1) {%>
+            <% content = content.replace(/\\/g,'');%>
+        <%}%>
+    <div id = 'replaceTag'>
+
+        <%- content %>
+         </div>
+    <%}else {%>
+        <div>暂无数据</div>
+        <%}%>
+</body>
+<script>
+    function back() {
+        pa.back();
+    }
+</script>
+</html>

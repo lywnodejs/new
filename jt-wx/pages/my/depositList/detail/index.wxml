@@ -1,0 +1,48 @@
+<!--pages/my/depositList/detail/index.wxml-->
+<view class="detail">
+  <view class="header">
+    <view class="top">
+      <view class="title">
+        {{order.productName}}
+        <text wx:for="{{order.tags}}" wx:key='index'>{{item}}</text>
+      </view>
+      <view class="title_info">
+          订单号：{{order.orderId}}
+          <text bindtap="toProtocrt">协议详情</text>
+      </view>
+    </view>
+    <view class="h_content">
+      <view class="h_content_title">购买金额(元)</view>
+      <view class="h_content_num {{order.errorStatus == '0' ? 'err':''}}">{{order.depositAmount}}</view>
+    </view>
+    <view class="header_footer">
+      <view class="h_f_item">
+        <text>到期日</text>
+        <text>{{order.expireTime}}</text>
+      </view>
+      <view class="h_f_item" wx:if="{{order.errorStatus !== 0}}">
+        <text>预计收益(元)</text>
+        <text class="">{{order.prospectiveYield}}</text>
+      </view>
+      <view class="h_f_item" wx:if="{{order.errorStatus == 0}}">
+        <text>订单状态</text>
+        <text class="">{{order.errorStatusMsg}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 提前赎回 -->
+  <view class="advance" bindtap="toAdvance" wx:if="{{order.isRedeem}}">
+        提前赎回
+        <image src="../../../../image/arrow.png" />
+  </view>
+  <view class="content" >
+    <view class="item" wx:for="{{order.orderDetail}}" wx:key='index'>
+      <view class="item_top">
+        <image src="../../../../image/timeList.png"></image>
+        <text>{{item.message}}</text>
+      </view>
+      <view>{{item.detailMsg || ''}}</view>
+      <view class="time">{{item.orderTime}}</view>
+    </view>
+  </view>
+</view>

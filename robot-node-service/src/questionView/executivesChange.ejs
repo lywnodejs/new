@@ -1,0 +1,121 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 高管变动 赵波 2019.10.22 -->
+<%
+var list = info.data || [];
+var col1 = ''; // 存储第一列的html tag
+var arrCol = ['','','','','','']; // 存储其余列的html tag，空字符串的数量要跟除固定列外的列数一样
+var arrColName = ['publishDate','changeType','post','changeReason','managerStartDate','managerLeaveDate']; // 其余列字段
+var pageSize = 5;
+
+// 分页展示时，需要先隐藏多余的条数，此处需要先为每一列生成一个随机的类名
+var arrHideCls = []; //隐藏类
+if(list.length>5){
+    // 循环的次数为所有列的数量
+    for(var m=0; m<7; m++){
+        arrHideCls.push(commonUtil.generateRandomClassName('hide'));
+    }
+}
+
+for (var i=0; i<list.length; i++){
+    // 第一列，即固定列
+    col1 += '<li class="'+(i>4?arrHideCls[0]:'')+'" style="height: 1.5rem;display: '+(i>4?'none':'')+'">'+commonUtil.truncateString(list[i].managerName,6)+'</li>';
+
+    // 其余列
+    for(var j=0; j<arrCol.length; j++){
+        // 处理为null字段
+        var value = list[i][arrColName[j]] || '--';
+
+        // 格式化日期字段
+        if(['publishDate','managerStartDate','managerLeaveDate'].indexOf(arrColName[j]) !== -1)
+            value = value !== '--' ? commonUtil.generateDate(value) : value;
+
+        arrCol[j] += '<li class="'+(i>4?arrHideCls[j+1]:'')+'" style="height: 1.5rem; padding: 0.5rem 0;display: '+(i>4?'none':'')+'">'+value+'</li>';
+    }
+}
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_conStock" style="margin: -1rem;">
+            <i class="icon-arrow_shape_left"></i>
+            <b></b>
+            <div class="conStock_hd">
+                <ul>
+                    <li>姓名</li>
+                    <%- col1 %>
+                </ul>
+            </div>
+            <div class="conStock" onscroll="tableScrollHandler(event)">
+                <div class="box">
+                    <ul>
+                        <li>发布日期</li>
+                        <%- arrCol[0] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>变化</li>
+                        <%- arrCol[1] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>职务</li>
+                        <%- arrCol[2] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>原因</li>
+                        <%- arrCol[3] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>任职时间</li>
+                        <%- arrCol[4] %>
+                    </ul>
+                    <ul style="width: calc(35vw);">
+                        <li>离职时间</li>
+                        <%- arrCol[5] %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <%
+        if (list.length > pageSize) {
+            var moreId = commonUtil.generateRandomClassName('moreId');
+        %>
+        <div id="<%= moreId %>">
+            <div class="box_load" onclick="showMoreListItem('<%= arrHideCls.join('|') %>','<%= moreId %>','<%= pageSize %>')">
+                <a>查看更多</a>
+            </div>
+        </div>
+        <% } %>
+        <% include ./component/ratingLabel %>
+    </div>
+</div>
+
+<script>
+
+  var executivesChange = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, executivesChange.onViewReady)
+
+  /**
+   * 列表横向滚动，隐藏箭头
+   * @param event
+   */
+  function tableScrollHandler(event) {
+    var target = $(event.currentTarget);
+    if (target.scrollLeft() > 20){
+      target.siblings(".icon-arrow_shape_left").hide();
+    }
+    else{
+      target.siblings(".icon-arrow_shape_left").show();
+    }
+  }
+</script>

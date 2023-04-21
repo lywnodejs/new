@@ -1,0 +1,8 @@
+<!--pages/my/messageCenter/detail/index.wxml-->
+<view class="message_detail">
+  <view class="title">{{message.title}}</view>
+  <view class="time">{{message.createTimeStr}}</view>
+  <view class="content">
+    {{message.content}}
+  </view>
+</view>

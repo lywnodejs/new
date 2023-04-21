@@ -1,0 +1,13 @@
+{
+  "usingComponents": {
+    "quota-card": "/components/quota-card/index",
+    "header": "/components/header/index",
+    "repayment-cell": "/components/repayment-cell/index",
+    "understanding": "/components/understanding/index",
+    "product-cell": "/components/product-cell/index",
+    "van-loading": "@vant/weapp/loading/index"
+  },
+  "navigationStyle": "custom",
+  "navigationBarTextStyle": "white",
+  "disableScroll": true
+}

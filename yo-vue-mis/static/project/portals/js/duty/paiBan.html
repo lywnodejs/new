@@ -1,0 +1,125 @@
+<div class="flux-container portal-container">
+    <div class="row" style="margin-top:15px;">
+        <div class="col-xs-12 portal">
+            <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+                <div class="form-group">
+                    <label for="groupId" style="width:100px;">请选择业务组：</label>
+                    <select ng-model="groupId" id="groupId" class="form-control" ng-options=" item as item.group_name for item in groupOptions" style="width : 200px;">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="year" style="width:100px;">请选择年度：</label>
+                    <select ng-model="year" id="effectYear" class="form-control" ng-options=" year for year in yearEnums" style="width : 200px;">
+                    </select>
+                </div>
+                <div class="form-group" style="margin-left:15px;">
+                <label for="effectWeek" style="width:100px;">请选择月份：</label>
+                <select ng-model="month" id="effectWeek" class="form-control" ng-options="(index|toInt) as month for (index, month) in monthEnums" style="width : 200px;">
+                </select>
+                </div>
+                <button type="button" class="btn btn-primary" ng-click="fetchTasks()" style="margin-left:15px;">确定</button>
+            </form>
+            <form class="navbar-form navbar-right" role="search" style="padding-left:0px;margin-top:0px;">
+                <div class="form-group">
+                    <label><strong ng-bind="year" class="text-primary"></strong>年<strong ng-bind="month_desc()" class="text-primary"></strong>月份还有<strong ng-bind="no_plan" class="text-danger"></strong>天未安排值班计划
+                    </label>
+                </div>
+            </form>
+             
+            <table class="table table-bordered table-calendar"  style="table-layout:fixed">
+                <thead>
+                    <tr>
+                        <th>星期天</th>
+                        <th>星期一</th>
+                        <th>星期二</th>
+                        <th>星期三</th>
+                        <th>星期四</th>
+                        <th>星期五</th>
+                        <th>星期六</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="task in tasks">
+                        <td ng-repeat="td in task" ng-class="{'active' : td.older === -1, 'info' : td.older === 0}">
+                            <h4 ng-class="{'text-muted' : td.older === -1, 'text-primary' : td.older === 0 || (td.older === 1 && td.task), 'text-danger' : td.older === 1 && !td.task}" >
+                                <strong ng-bind="td.key"></strong>
+                            </h4>
+                            <span ng-if="!!td.task" class="label" ng-class="{'label-default' : td.older === -1, 'label-primary' : td.older > -1}" style="white-space: normal;">    
+                                {{td.task.emp_name}}({{td.task.emp_email}})
+                            </span>
+                            <button type="button" class="btn btn-default pull-right" ng-if="td.older > 0" style="border : none;padding : 0px;" ng-click="createTask(td)">
+                              <span class="fa fa-plus-circle fa-3x"  style="color:#999;" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>  
+        </div>
+    </div>
+    
+    
+     <!-- 对话框 -->
+    <script type="text/ng-template" id="detailModal.html">          
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">添加值班人员</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <div class="alert alert-danger" role="alert" ng-show="nonChecked && initChecked">
+                请选择值班人员！
+            </div>
+            <form class="navbar-form navbar-left" role="search" style="padding-left:0px;margin-top:0px;">
+               <div class="form-group">
+                    <label for="name" style="width:100px;">员工姓名：</label>
+                    <input type="text"  class="form-control" ng-model="name">
+               </div>
+               <button type="button" class="btn btn-primary" ng-click="search()" style="margin-left:15px;">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> 查询
+               </button>
+            </form>
+            <div style="clear:both;"></div>
+            <div style="min-height:100px;" class="text-success" ng-if="idSearch">
+               <h4 style="text-align:center;"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i> 
+                   <div style="margin-top:5px;"><small class="text-success">数据载入中……</small></div>
+               </h4>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>员工姓名</th>
+                        <th>邮箱地址</th>
+                        <th>部门名称</th>
+                    </tr>
+                    <tbody>
+                        <tr ng-repeat="user in users">
+                            <td>
+                                <input type="radio" ng-model="user.checked" name="chkUser" value="{{user.id}}"/>
+                            </td>
+                            <td ng-bind="user.name"></td>
+                            <td ng-bind="user.email"></td>
+                            <td ng-bind="user.dept_name"></td>
+                        </tr>
+                    </tbody>
+                </thead>
+            </table>
+            <!-- 分页组件 -->
+            <div class="row" style="margin : 0px;">
+                <div class="col-xs-6" style="padding-left:0px;">
+                     <ul uib-pagination boundary-links="true" rotate="true" force-ellipses="true" max-size="10"
+                    total-items="totalItems" ng-model="currPage"  items-per-page ="itemsOfPage"
+                    class="pagination-md" ng-change="search()"
+                    previous-text="上一页" next-text="下一页" first-text="第一页" last-text="最后一页"></ul>
+                </div>
+                <div class="col-xs-6" style="padding-right:0px;">
+                    <div style="margin-top:20px;padding : 7px 0px;line-height:20px;text-align:right;">
+                        {{totalItems}}条记录，共{{pages}}页
+                    </div>
+                </div>
+            </div>               
+        </div>
+        <div class="modal-footer" style="text-align: center;">
+            <button class="btn btn-primary" type="button" ng-click="save()">确定</button>
+            <button class="btn btn-default" type="button" ng-click="close()">关闭</button>
+        </div>
+    </script>
+</div>

@@ -1,0 +1,34 @@
+<!--pages/apply/guarantee/index.wxml-->
+<bloc wx:if="{cateInfo !== undefined && cateInfo !== null}">
+  <xy-nav-bar bind:navLeftClick="onClickLeft" platform="{{platform}}" title="{{title}}" />
+
+  <view wx:if="{{cateInfo.editFlag}}" class="add-box" bindtap="onAdd">
+    <image class="add-img" src="/image/plus_blue.png" />添加{{cateInfo.name}}
+  </view>
+
+  <block wx:for="{{cateInfo.attrGroups}}" wx:key="index" wx:for-item="attrGroup" wx:for-index="group-index">
+    <van-swipe-cell right-width="{{ 95 }}" data-attrGroup="{{attrGroup}}" bind:click="onClick" disabled="{{attrGroup.editFlag ? false : true}}">
+      <van-cell-group>
+        <view class="batch-item-box">
+          <view class='title-box'>
+            <text class='title-name'>{{attrGroup.title ? attrGroup.title : ''}}</text>
+            <image wx:if="{{cateInfo.editFlag}}" class="edit-img" src="/image/edit_pen.png" />
+          </view>
+          <block wx:if="{attrGroup.value !== null && attrGroup.value !== undefined && attrGroup.value.length > 0 }">
+            <block wx:for="{{attrGroup.value}}" wx:key="index">
+              <view class='value-item-box'>
+                <text class='item-key'>{{item.attrName}}</text>
+                <text class='item-value'>{{item.attrValue}}</text>
+              </view>
+            </block>
+          </block>
+        </view>
+      </van-cell-group>
+      <view slot="right" class="delete-box">
+        <image class="delete-img" src="/image/delete_red.png" />
+      </view>
+    </van-swipe-cell>
+  </block>
+</bloc>
+<xy-confirm contentText="确认要删除吗" rightText="确定" bind:cancel="onCancel" bind:ok="onConfirm"
+  show="{{showDeleteDialog}}" />

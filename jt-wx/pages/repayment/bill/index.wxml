@@ -1,0 +1,60 @@
+<view class="repayment-bill">
+  <view class="top">
+    <text>{{bill.orderInfo.grantDate}} 借款{{bill.orderInfo.loanAmount}}元丨共{{bill.orderInfo.totalLoanTerm}}期</text>
+    <view class="top-postscript">
+    <text>借据号 {{bill.orderId}}</text>
+    <text bindtap="toAgreement">协议详情</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view>
+      <text>第{{bill.orderInfo.currentRepayTerm}}期账单</text>
+      <view>
+        <text>{{bill.orderInfo.currentRepayDate}}</text>
+        <text>最后还款日</text>
+      </view>
+    </view>
+
+    <view>
+      <view>
+        <text>{{bill.orderInfo.currentRepayAmount || 99}}</text>
+        <text>本期应还(元)</text>
+      </view>
+      <button bindtap="onApply">去还款</button>
+    </view>
+
+    <view>
+      <text>剩余待还：</text>
+      <text class="number">￥{{bill.orderInfo.surplusAmount || 300}}</text>
+      <text>待还期数：</text>
+      <text class="number">{{bill.orderInfo.surplusTerm}}</text>
+      <text>期</text>
+    </view>
+  </view>
+
+  <view class="tabs">
+    <block wx:for="{{titles}}" wx:key="*this" wx:for-index="idx">
+      <text bindtap="onTab" data-index="{{idx}}" class="{{index === idx && 'action'}}">{{item}}</text>
+    </block>
+  </view>
+
+  <block wx:for="{{titles}}" wx:key="*this" wx:for-index="idx">
+    <view class="list" wx:if="{{index === idx && bill[keys[idx]].length > 0}}">
+      <block wx:for="{{bill[keys[idx]]}}" wx:for-index="idy" wx:key="idy">
+        <bill-item disable="{{idx === 1}}" line="{{idy !== (bill[keys[idx]].length - 1)}}" type="{{idx}}" data="{{item}}"/>
+      </block>
+    </view>
+  </block>
+</view>
+  <!-- 认证弹窗 -->
+  <van-popup class="home-alter" show="{{checkuseridcar}}">
+    <view class="content">
+      <text class="title">提示</text>
+      <text class="information_text">{{desc}}</text>
+    </view>
+    <view class="idcarbottom">
+      <view class="tocancal {{mustTocheck ? 'disbled' : '' }}" bindtap="onClose">取消</view>
+      <view bindtap="onDefine">去认证</view>
+    </view>
+</van-popup>

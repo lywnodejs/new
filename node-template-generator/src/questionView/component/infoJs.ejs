@@ -1,0 +1,1049 @@
+<script>
+    var input = ''; //输入框值
+    var person_active = [];//人物选中值
+    var text_active = [];//体裁选中值
+    var police_active = [];//机构选中值
+    var policy_active = [];//政策标签选中值
+    var industry_active = [];//产业标签选中值
+    var startDate_sele = '';//开始时间参数
+    var endDate_sele = '';//结束时间参数
+    var off=true;
+    var PersonsParams = {//删选器数据库请求参数
+        cp: 1,
+        ps: 0,
+        facetSize: 200
+    };
+    var listParams = {//list请求数据
+        cp: 1,
+        ps: 5,
+        fold: 0
+    };
+
+
+    function callback(){
+        new Jdate({
+            el: '#selectionDate',
+            format: 'YYYY-MM-DD',
+            beginYear: 2000,
+            endYear: new Date().getFullYear(),
+            init: function() {
+                console.log('插件开始触发');
+                $('.module_Box').click();
+            },
+            moveEnd: function() {
+                console.log('滚动结束');
+            },
+            confirm: function(date) {
+                console.log(date)
+                console.log('确定按钮触发');
+                $('.sj').show();
+                $('.module_Box').show();
+                $('.sjItem li').removeClass('active_li');
+                setTimeout(function () {
+                    startDate_sele=new Date($('#selectionDate').text().replace(/-/g,'/')).getTime();
+                },500)
+            },
+            cancel: function() {
+                console.log('插件运行取消');
+                $('.sj').show();
+                $('.module_Box').show();
+            }
+        })
+        new Jdate({
+            el: '#selectionDate2',
+            format: 'YYYY-MM-DD',
+            beginYear: 2000,
+            endYear: new Date().getFullYear(),
+            init: function() {
+                console.log('插件开始触发');
+                $('.module_Box').click();
+            },
+            moveEnd: function() {
+                console.log('滚动结束');
+            },
+            confirm: function(date) {
+                console.log(date)
+                console.log('确定按钮触发');
+                $('.sj').show();
+                $('.module_Box').show();
+                $('.sjItem li').removeClass('active_li');
+                setTimeout(function () {
+                    endDate_sele=new Date($('#selectionDate2').text().replace(/-/g,'/')).getTime();
+                },500)
+            },
+            cancel: function() {
+                console.log('插件运行取消');
+                $('.sj').show();
+                $('.module_Box').show();
+            }
+        })
+
+        $('.top p').click(function () {//点击nav顶部
+            $('.alertItem').hide();
+            $('.module_Box').show();
+            $(this).addClass('active_li');
+            if($(this).index()===0){
+                $('.zh').removeClass('hide');
+                $('.nr').addClass('hide');
+            }else if($(this).index()===1){
+                $('.nr').removeClass('hide');
+                $('.zh').addClass('hide');
+            }
+        })
+        $('.module_Box').click(function () {//点击弹层
+            $('.nr').addClass('hide');
+            $('.zh').addClass('hide');
+            $('.module_Box').hide();
+            $('.tc').hide();
+            $('.jg').hide();
+            $('.rw').hide();
+            $('.sj').hide();
+        })
+        $('.itemBottomBox div').click(function () {//点击navitem
+            if($(this).index()==0){
+                $('.tc').show();
+                $('.jg').hide();
+                $('.rw').hide();
+                $('.sj').hide();
+                $('.module_Box').show();
+            }else if($(this).index()==1){
+                $('.jg').show();
+                $('.tc').hide();
+                $('.rw').hide();
+                $('.sj').hide();
+                $('.module_Box').show();
+            }else if($(this).index()==2){
+                $('.rw').show();
+                $('.jg').hide();
+                $('.tc').hide();
+                $('.sj').hide();
+                $('.module_Box').show();
+            }else if($(this).index()==3){
+                $('.rw').hide();
+                $('.sj').show();
+                $('.jg').hide();
+                $('.tc').hide();
+                $('.module_Box').show();
+            }
+        })
+        $("#zhpx .listItem .title").click('.title',function () {//收起时无数据点击展开请求数据
+            if ($(this).parent().find('.ul .rxhBD_text').length == 0) {
+                console.log($(this).attr('data-txt'));
+                listParams.priorities = $(this).parent().attr('data-txt');
+                listParams.cp = 1;
+                methods.getInfinity('#' + $(this).parent().attr('id'), listParams, true);
+                // $('#' + $(this).attr('id')).find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                $('#' + $(this).parent().attr('id')).addClass('rxh_show2');
+            }else{
+                if($(this).parent().hasClass('rxh_show2')){
+                    $(this).parent().removeClass('rxh_show2')
+                }else{
+                    $(this).parent().addClass('rxh_show2')
+                }
+            }
+        });
+
+    $(function () {
+        window.methods = {
+            init: function () {//初始化
+                // this.getDataPersons();
+                // this.getInfinity('#list_xxx', listParams, true);
+                this.getClass();
+                this.getData(listParams);
+                // $('#append').hide();
+            },
+
+            /**
+             * @description 删选器数据库
+             */
+            getClass: function () {
+                PersonsParams.facetFields = 'persons,policyThemesN,industryThemesN,contentTypes,departEntity';
+                console.log(JSON.stringify(PersonsParams) + '-----------选择器');
+                $.ajax({
+                    url: '<%= host%>'+'/api/information/policy/search/',
+                    data: PersonsParams,
+                    dataType: 'json',
+                    success: function (info) {
+                        if (info.data.facetResults && info.data.facetResults.length !== 0) {
+                            $('.itemBottomBox>div').show();
+                            var arr=[];
+                            for (var i = 0; i < info.data.facetResults.length; i++) {
+                                arr.push(info.data.facetResults[i].name);
+                                if (info.data.facetResults[i].name == 'persons' || info.data.facetResults[i].name == 'localPersons') {
+                                    methods.getDataPersons(info, i);
+                                } else if (info.data.facetResults[i].name == 'contentTypes') {
+                                    methods.getDatatext(info, i);
+                                }else if (info.data.facetResults[i].name == 'departEntity' || info.data.facetResults[i].name == 'localDepartEntities') {
+                                    methods.getPoliceData(info, i);
+                                }
+                            }
+                            for(var i=0;i<PersonsParams.facetFields.split(',').length;i++){
+                                var item = PersonsParams.facetFields.split(',')[i];
+                                if(arr.indexOf(item)==-1){
+                                    console.log(item);
+                                    if(item=='localPersons'||item=='persons'){
+                                        $('.itemBottomBox>div').eq(2).hide(0);
+                                    }else if(item=='departEntity'||item=='localDepartEntities'){
+                                        $('.itemBottomBox>div').eq(1).hide(0);
+                                    }else if(item=='contentTypes'){
+                                        $('.itemBottomBox>div').eq(0).hide(0);
+                                    }
+                                }
+                            }
+                            off=false;
+                        } else {
+                            $('.rxh_wrap_conditions').hide();
+                        }
+
+                    }
+                })
+            },
+            /**
+             * @description  人物数据库
+             */
+            getDataPersons: function (info, i) {
+                $('#meetingClass').hide(0);
+                if (info.data && info.data.facetResults[i] && info.data.facetResults[i].entries && info.data.facetResults[i].entries.length !== 0) {
+                    $('#meetingClass').show(0);
+                    var test = [];
+                    var data = [];
+                    var arrBox = [];
+                    var arrBox2 = [];
+                    var arr = info.data.facetResults[i].entries;
+                    data = arr;
+                    var str = [];
+                    var testArr = '习近平,李克强,栗战书,汪洋,王沪宁,赵乐际,韩正,王岐山,孙春兰,胡春华,刘鹤,丁薛祥,王晨,许其亮,李希,李强,李鸿忠,杨洁篪,杨晓渡,张又侠,陈希,魏凤和,王勇,王毅,肖捷,易纲,郭树清,易会满,刘士余,钟山,何立峰,苗圩,赵克志,齐玉,乐玉成,郭声琨,黄琨明,蔡奇,尤权,陈宝生,王志刚,傅政华,刘昆,陆昊,韩长赋,王蒙徽,巴特尔,陈文清,黄树贤,张纪南,李干杰,李小鹏,鄂竟平,雒树刚,马晓伟,孙绍骋,王玉普,胡泽君,周强,张军,曹建明,张春贤,沈跃跃,吉炳轩,"艾力更·依,明巴海",万鄂湘,陈竺,王东明,白玛赤林,丁仲礼,郝明金,蔡达峰,武维华,杨振武,贺军科,铁凝,万钢,万立骏,王乐泉,李小林,张研农,黄志贤,高燕,张海迪,吴海龙,王家瑞,林上元,陈昌智,高云龙,王刚,苏辉,张庆黎,刘奇葆,董建华,何厚铧,卢展工,王正伟,马飚,陈晓光,梁振英,夏宝龙,杨传堂,李斌,汪永清,郑建邦,辜胜阻,刘新成,何维,邵鸿,李作成,苗华,张升民,刘金国,杨晓超,李书磊,徐令义,肖培,陈小江,肖压庆,郝鹏,潘功胜,王超,谢航生,郑泽光,孔铉佑,秦刚,张汉晖,穆虹,张勇,宁吉喆,连维良,林念修,胡祖才,王晓辉,蒋建国,徐麟,聂辰席,慎海雄,庄荣文,孙志军,贾育林,梁言顺,张裔炯,许又声,徐乐江,王作安,谭天星,侍俊,邹晓东,周小莹,宋涛,郭业洲,李军,王亚军,钱洪山,杨小伟,刘烈宏,刘结一,裴金佳,陈元丰,龙明彪,陈敏尔,陈全国,李伟,陈吉宁,吉林,段春华,张国清,盛茂林,殷一璀,应勇,董云虎,张轩,唐良智,王炯,王东峰,许勤,叶冬松,骆惠宁,楼阳生,李佳,李纪恒,布小林,李秀领,陈求发,唐一军,夏德仁,巴音朝鲁,景俊海,江泽林,张庆伟,王文涛,黄建盛,娄勤俭,吴政隆,黄莉新,车俊,袁家军,葛慧君,李锦斌,李国英,张昌尔,于伟国,唐登杰,崔玉英,刘奇,易炼红,姚增科,刘家义,龚正,付志方,王国生,陈润儿,刘伟,蒋超良,王晓东,徐立全,杜家毫,许达哲,李微微,李玉妹,马兴瑞,王荣,鹿心社,陈武,蓝天立,刘赐贵,沈晓明,毛万春,彭清华,尹力,柯尊平,孙志刚,谌贻琴,刘晓凯,陈豪,阮成发,李江,吴英杰,洛桑江村,齐扎拉,帕巴拉·格列朗杰,胡和平,刘国中,韩勇,林铎,唐仁健,欧阳坚,王建军,刘宁,多杰热旦,石泰峰,咸辉,崔波,肖开提·依明,雪克来提·扎克尔,努尔兰·阿不都满金,林郑月娥,崔世安,慕德贵,夏红民,李邑飞,时光辉,赵德明,刘捷,龙长春,严朝君,王艳勇,李再勇,郭瑞民,卢雍政,王世杰,陶长海,魏国楠,吴强,孙永春,袁　周,刘远坤,陈鸣明,何　力,李飞跃,蒙启良,左定超,李汉宇,罗宁,陈坚,任湘生,孙诚谊,张光奇,张平,田茂松,李作勋,袁家榆,张万明,汤向前,周乐职,潘大福,周明勤,宛会东,吕劲松,张文富,李先进,陈 勇,刘立一,张 锦,龙章怀,潘小林,邹 康,吴向东,刘华东,饶晓亭,马 凯,曹伟勤,蒋益华,陈少波,张应伟,陈 熵,张 杰,彭显华,安银基,钟汰甬,徐望北,朱新武,邹联克,王碧海,赵廷昌,黄健,王慧,鞠洪,吴寿文,何秀黔,杨著清,徐国华,刘杰,龚宁,宋黔萍,何刚,胡永忠,敖鸿,周仕飞,鲁成军,汪家强,张琦,吴晓森,徐 荣,程三知,石松江,魏华松,张和平,潘 选,徐佑刚,蒙洪敏,温贵钦,陈咏竹,阳成俊,闵建,张二宏,吴智贤,彭旻,刘玉海,杨亚军,王斌,张惠明,晏婉萍,何建明,王 瑰,龙怀宪,石化清,邵 勋,王军,糜亚,潘荣,杨丽华,施长冬,谢丹青,徐海涛,方胜,魏占权,周文,熊德威,孟宇光,黄勇,杨正伟,陈程,苗智会,付野秋,刘承东,童兆俞,宋晓路,周宏文,刘喜春,杨跃光,陈维明,陈 勇,张 鹏,宋丽丽,张秀丽,高卫东,李 程,刘 扬,韩剑波,潘 海,舒代贤,龙平江,陈向东,章征宇,杨昌鹏,胡继承,肖荣军,徐成高,步 涛,黄俊明,孙 伟,向青云,邓继志,祁 华,赵熙贵,阳世江,诸云强,季泓,王玉祥,刘庆,黄筑筠,栾雁,杨明凤,李三旗,张玉广,郑 旭,袁 伟,黄昌祥,汪文学,黎盛翔,姜刚杰,史静一,王 宁,孙拥辉,卢刚,谢晓东,李建刚,冯仕文,叶文邦,杨朝晖,孙晓东,李 荣,李钢平,马 炼,曾 林,卢伟,孙福强,李凌,胡立平,朱平,谢俊,严贵林,赵毅,陈 力,刘宝昌,蒋 红,许学凡,罗 煜,王 勇,申 勇,游明进,袁 竞,熊 杉,安丰明,贺承珊,吴涛,牟勇,肖俊,王建忠,帅文,陈果,刘江年,滕义,马宁宇,景亚萍,娄松,韩少波,施开分,张美钧,黄永昌,向守都,傅强,缪杰,张富杰,葛木兰,丁雄军,胡世延,李奕樯,张全毅,姜平,杨玉华,徐光伟,王文忠,肖云慧,董安娜,彭 龙,吴定伟,金泽波,李 建,覃儒方,舒 宇,张 涛,田志清,杨 宏,彭锦斌,左尚武,程 遥,麻绍敏,龚　雁,马林波,任 辉,耿杰,向建军,胡建华,王贤赓,王开俊,徐锡广,张劲,姚银贵,宋宇峰,卢吕友,朱昭林,陈榆,聂雪松,管立,王晓岳,陈勇,王应政,张杰,张珍强,蒋坤洋,徐敏,杨维,冉 霞,章萍,龙林,鲁黔灵,吴青春,杨光荣,于浩,汪浩,张行,涂晓华,吴道明,何川,王腾生,王华,熊林安,邱世栋,丁健,张卫国,李 海,赵 军,刘 曦,龚 玲,陈朝伦,张绍新,赵德刚,黄宗洪,陈永祥,陈泽辉,周维佳,汪卫红,何庆才,朱启运,高 弟,杨在锋,蒲建江,宫晓农,曾祥忠,毛佐林,王开文,张 炬,金中国,苗宏,向忠雄,徐仕光,冯霞,谭红,李丹宁,薛涛,张洪亮,周少奇,邢小川,付贵林,陈斌,周万强,周琦,杨永忠,张淼,朱春孝,石平,王茂爱,杨玉和,曾达,吴大华,唐显良,郑云跃,李胜,黄勇,王剑,周传芳,刘毅,易同生,徐健生,赵霞,马雷,余显强,杨春富,白鲁建,陈晏,王忠,李刚,魏树旺,曾永涛,陈训华,陈昌旭,陈少荣,周建琨,张集智,刘文新,杨永英,桑维亮,罗强,唐德智,吴胜华';
+                    testArr = testArr.split(',').reverse();
+                    for (var i = 0; i < testArr.length; i++) {
+                        for (var l = 0; l < arr.length; l++) {
+                            if (testArr[i] == arr[l].term) {
+                                data.unshift(arr[l]);
+                                data.splice(l + 1, 1);
+                            }
+                        }
+                    }
+
+                    for (var i = 0; i < arr.length; i++) {
+                        var item = arr[i].term.split('|');
+                        if (test.indexOf(item[0]) == -1) {
+                            test.push(item[0]);
+                        }
+                        if (str.indexOf(item[0]) == -1) {
+                            str.push(item[0]);
+                            arrBox.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                            arrBox2.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                        }
+                    }
+                    var str = '';
+                    var str2 = '';
+                    var str3= '';
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        if (i > 7) {
+                            continue
+                        }
+                        ;
+                        str += '<b class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickPersons($(this))">' + arrBox2[i].term + '<i class="icon-selected rxh_icon_nationwide"></i></b>'
+                    }
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        str2 += '<li class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickPersons($(this))">' + arrBox2[i].term+'</li>'
+                        str3 += '<li class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickPersons($(this))">' + arrBox2[i].term +'<i class="iconfont">&#xe844;</i></li>'
+                    }
+                    $('.rw .scroll').html(str3);//外层三选器
+                    for (var i = 0; i < person_active.length; i++) {
+                        $('.' + person_active[i]).addClass('active_li');
+
+                    }
+                }
+            },
+            /**
+             * @description  政策标签数据库
+             */
+            getDataPolicyN: function (info, i) {
+                if (info.data && info.data.facetResults[i] && info.data.facetResults[i].entries && info.data.facetResults[i].entries.length !== 0) {
+                    var test = [];
+                    var data = {};
+                    var arrBox = [];
+                    var arrBox2 = [];
+                    var arr = info.data.facetResults[i].entries;
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var item = arr[i].term.split('|');
+                        if (test.indexOf(item[0]) == -1) {
+                            test.push(item[0]);
+                        }
+                        if (str.indexOf(item[0]) == -1) {
+                            str.push(item[0]);
+                            arrBox.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                            arrBox2.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                        }
+                        for (var l = 0; l < arrBox.length; l++) {
+                            if (arrBox[l].term == item[0] && item[1] !== undefined && item.length !== 1) {
+                                arrBox[l].obj.push({
+                                    count: arr[i].count,
+                                    term_: item[1],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                })
+                                arrBox2[l].obj.push({
+                                    count: arr[i].count,
+                                    term_: item[1],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                })
+                            }
+                        }
+                    }
+                    var str = '';
+                    var str2 = '';
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        if (i >=7) {
+                            continue
+                        }
+                        ;
+                        str += '<b class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickPolicy($(this))">' + arrBox2[i].term + '<i class="icon-selected rxh_icon_nationwide"></i></b>'
+                    }
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        str2 += '<p class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickPolicy($(this))">' + arrBox2[i].term + '（' + arrBox2[i].obj[0].count + '）</p>'
+                    }
+                    if(off){
+                        $('#ZCAlert .rxh_scrollBox').eq(0).html(str2);
+                    }
+                    $('#policyN').html(str);
+                    for (var i = 0; i < policy_active.length; i++) {
+                        $('.' + policy_active[i]).addClass('rxh_on');
+                        $('#ZCAlert .rxh_scrollBox').eq(0).find('.' + policy_active[i]).hide(0);
+                    }
+                }
+            },
+            /**
+             * @description  产业标签数据库
+             */
+            getDataIndustry: function (info, i) {
+                if (info.data && info.data.facetResults[i] && info.data.facetResults[i].entries && info.data.facetResults[i].entries.length !== 0) {
+                    var test = [];
+                    var data = {};
+                    var arrBox = [];
+                    var arrBox2 = [];
+                    var arr = info.data.facetResults[i].entries;
+                    var str = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        var item = arr[i].term.split('|');
+                        if (test.indexOf(item[0]) == -1) {
+                            test.push(item[0]);
+                        }
+                        if (str.indexOf(item[0]) == -1) {
+                            str.push(item[0]);
+                            arrBox.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                            arrBox2.push({
+                                term: item[0],
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                        }
+                        for (var l = 0; l < arrBox.length; l++) {
+                            if (arrBox[l].term == item[0] && item[1] !== undefined && item.length !== 1) {
+                                arrBox[l].obj.push({
+                                    count: arr[i].count,
+                                    term_: item[1],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                })
+                                arrBox2[l].obj.push({
+                                    count: arr[i].count,
+                                    term_: item[1],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                })
+                            }
+                        }
+                    }
+
+                    var str = '';
+                    var str2 = '';
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        if (i > 7) {
+                            continue
+                        }
+                        str += '<b class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickIndustry($(this))">' + arrBox2[i].term + '<i class="icon-selected rxh_icon_nationwide"></i></b>'
+                    }
+                    for (var i = 0; i < arrBox2.length; i++) {
+                        str2 += '<p class="' + arrBox2[i].term + '" data-txt="' + arrBox2[i].term + '" onclick="clickIndustry($(this))">' + arrBox2[i].term + '（' + arrBox2[i].obj[0].count + '）</p>'
+                    }
+                    $('#industry').html(str);
+                    if(off){
+                        $('#CYAlert .rxh_scrollBox').eq(0).html(str2);
+                    }
+                    for (var i = 0; i < industry_active.length; i++) {
+                        $('.' + industry_active[i]).addClass('rxh_on');
+                        $('#CYAlert .rxh_scrollBox').eq(0).find('.' + industry_active[i]).hide(0);
+                    }
+                }
+            },
+            /**
+             * @description  体裁数据库
+             */
+            getDatatext: function (info, i) {
+                $('.rxh_wrap_conditions li').eq(0).hide(0);
+                if (info.data && info.data.facetResults[i] && info.data.facetResults[i].entries && info.data.facetResults[i].entries.length !== 0) {
+                    $('.rxh_wrap_conditions li').eq(0).show(0);
+                    var arr = info.data.facetResults[i].entries;
+                    var arrBox = [];
+                    var test = [];
+                    var test_list = [];
+                    var arr_txt = [];
+                    var str = [];
+                    var innerTxt = '';
+                    for (var i = 0; i < arr.length; i++) {
+                        arr_txt.push(arr[i].term);
+                        var item = arr[i].term.split('|');
+                        if (test.indexOf(arr[i]) === -1) {
+                            test.push(arr[i]);
+                            test_list.push(arr[i].term);
+                        }
+                        if (str.indexOf(item[0]) === -1) {
+                            str.push(item[0]);
+                            arrBox.push({
+                                term: item[0],
+                                isclick: false,
+                                obj: [{
+                                    count: arr[i].count,
+                                    term_: item[0],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                }]
+                            });
+                        }
+                        for (var l = 0; l < arrBox.length; l++) {
+                            if (item.length === 3) {
+                                continue
+                            }
+                            ;
+                            if (arrBox[l].term === item[0] && item[1] !== undefined && item.length !== 1) {
+                                arrBox[l].obj.push({
+                                    count: arr[i].count,
+                                    term_: item[1],
+                                    isclick: false,
+                                    txt: arr[i].term
+                                })
+                            }
+                        }
+                    }
+                    var textArr = [];
+                    var str2 = '';
+                    var str3='';
+                    for (var k = 0; k < arrBox.length; k++) {
+                        str2 += '<li class="' + arrBox[k].term + '" data-txt="' + arrBox[k].term + '" >' + arrBox[k].term + '</li>';
+                        for (var v = 0; v < arrBox[k].obj.length; v++) {
+                            if (v !== 0) {
+                                str2 += '<p class="' + arrBox[k].obj[v].term_ + '" data-txt="' + arrBox[k].obj[v].txt + '" onclick="clickText($(this))">' + arrBox[k].obj[v].term_ + '（' + arrBox[k].obj[v].count + '）</p>';
+                            }
+                            var str = arrBox[k].obj[v].txt.split('|');
+                            if (str.length >= 2 && arrBox[k].obj[v].term_ !== arrBox[k].obj[v].txt.split('|')[0]) {
+                                textArr.push(arrBox[k].obj[v]);
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                    for (var i = 0; i < textArr.length; i++) {
+                        if (i <= 7) {
+                            innerTxt += '<b class="' + textArr[i].term_ + '" onclick="clickText($(this))" data-txt="' + textArr[i].txt + '">' + textArr[i].term_ + '<i class="icon-selected rxh_icon_nationwide"></i></b>'
+                        }
+                        str3 += '<li class="' + textArr[i].term_ + '" onclick="clickText($(this))" data-txt="' + textArr[i].txt + '">' + textArr[i].term_ + '<i class="iconfont">&#xe844;</i></li>'
+                    }
+                        $('.tc .scroll').html(str3);//外层三选器
+                    for (var i = 0; i < text_active.length; i++) {
+                        var test = text_active[i].split('|')[text_active[i].split('|').length - 1];
+                        $('.' + test).addClass('active_li');
+                        // $('#TCAlert .rxh_scrollBox').eq(0).find('.' + test).hide(0);
+                    }
+                }
+            },
+            /**
+             * @description  机构数据库
+             */
+            getPoliceData: function (info, i) {
+                $('.rxh_wrap_conditions li').eq(2).hide(0);
+                if (info.data && info.data.facetResults && info.data.facetResults[i] && info.data.facetResults[i].entries.length !== 0) {
+                    $('.rxh_wrap_conditions li').eq(2).show(0);
+                    var infos = info.data.facetResults[i].entries;
+                    var data_test = infos;
+                    var innerTxt = '';
+                    if (PersonsParams.placesN !== '贵州') {
+                        var text_arr = ['党中央|中共中央', '国家机关|国务院', '国家机关|国务院|议事协调机构|金融委', '国家机关|国务院|组成部门|国家发改委', '国家机关|国务院|组成部门|工信部', '国家机关|国务院|组成部门|商务部', '国家机关|国务院|组成部门|央行', '国家机关|国务院|直属事业单位|证监会',].reverse();
+                        for (var i = 0; i < text_arr.length; i++) {
+                            for (var l = 0; l < infos.length; l++) {
+                                if (text_arr[i] == infos[l].term) {
+                                    data_test.unshift(infos[l]);
+                                    data_test.splice(l + 1, 1);
+                                }
+                            }
+                        }
+                    }
+                    // for(var i=0;i<infos.length;i++){
+                    //     if(infos[i].term.indexOf('|')==-1){
+                    //         delete infos[i];
+                    //     }
+                    // }
+                    // console.log(infos)
+                    var str2 = '';
+                    var str3='';
+                    var num = 0;
+                    for (var i = 0; i < infos.length; i++) {
+                        var arr4 = infos[i].term.split('|');
+                        if (arr4.length == 1 || arr4.length == 3) {
+                                continue;
+                        }
+                        num++;
+                        str2 += '<p class="' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '" onclick="clickPolice($(this))" data-txt="' + infos[i].term + '">' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '（' + infos[i].count + '）</p>';
+                        str3 += '<li class="' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '" onclick="clickPolice($(this))" data-txt="' + infos[i].term + '">' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '<i class="iconfont">&#xe844;</i></li>';
+                        if (num < 8) {
+                            innerTxt += '<b class="' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '" onclick="clickPolice($(this))" data-txt="' + infos[i].term + '">' + infos[i].term.split('|')[infos[i].term.split('|').length - 1] + '<i class="icon-selected rxh_icon_nationwide"></i></b>';
+                        }
+                        if(off){
+                            $('#JGAlert .rxh_scrollBox').eq(0).html(str2);
+                        }
+                    }
+                    $('.jg .scroll').html(str3);
+                    if (innerTxt == '') {
+                        $('.rxh_wrap_conditions li').eq(2).hide(0);
+                    }
+                    $('#police').html(innerTxt);
+                    for (var i = 0; i < police_active.length; i++) {
+                        var test = police_active[i].split('|')[police_active[i].split('|').length - 1];
+                        $('.' + test).addClass('active_li');
+                    }
+                }
+            },
+            /**
+             * @description 获取文章链表
+             * @param data[obj]: 请求数据
+             * @param move[boolear]: 是否显示查看跟多
+             */
+            getData: function (data,move) {
+                $('#zhpx .listItem').hide();
+                $('.loading_box').show();
+                $('.noData').hide();
+                console.log(JSON.stringify(data) + '-----------综合排序list');
+                $.ajax({
+                    url: '<%= host%>'+'/api/information/policy/home',
+                    data: data,
+                    dataType: 'json',
+                    success: function (info) {
+                        $('#zhpx .listItem').show();
+                        $('.loading_box').hide();
+                        if (info.data.length !== 0) {
+                            $('.noData').hide();
+                            // $('#zhpx .listItem .title').find("i").removeClass("icon-arrow_T").addClass("icon-arrow_D");
+                            // $('#zhpx .item').removeClass('rxh_show2');
+                            if (info.data[0]['学习之旅']) {
+                                var length = info.data[0]['学习之旅'].totalCount;
+                                $('#list_xx>.title>span').text(info.data[0]['学习之旅'].totalCount);
+                                if (length === 0) {
+                                    $('#list_xx').removeClass('rxh_show2');
+                                    $('#list_xx').hide();
+                                }
+                                if (info.data[0]['学习之旅'].list.length !== 0) {
+                                    for (var i = 0; i < info.data[0]['学习之旅'].list.length; i++) {
+                                        var item = info.data[0]['学习之旅'].list[i];
+                                        var issuedNumber = item.issuedNumber || '----';
+                                        var orgAbbreviations = '----'
+                                        if (item.orgAbbreviations) {
+                                            orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                        }
+
+                                        var txt = split_(item.contentTypes);
+                                        var themes = '';
+                                        var attachment = '';
+                                        if (issuedNumber !== '----') {
+                                            txt += '· ' +issuedNumber+ '<br>';
+                                        } else {
+                                            txt = split_(item.contentTypes);
+                                        }
+                                        if (item.persons) {
+                                            txt += ' · ' + item.persons.join(',');
+                                        }
+                                        if (orgAbbreviations !== '----') {
+                                            txt += ' · ' + orgAbbreviations + '';
+                                        }
+                                        if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                            txt += ' · ' + item.policyThemesN[0] + '';
+                                        }
+                                        if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                            txt += ' · ' + item.industryThemesN[0] + '';
+                                        }
+                                        $('#list_xx>.ul')[0].innerHTML+='<div class="rxhBD_text rxh_text01">' +
+                                            '                <div class="rxh_hd_text">' +
+                                            '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                            '                </div>' +
+                                            '                <div class="rxh_bd_text">' +
+                                            '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                            '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                            '                </div>' +
+                                            '            </div>'
+
+                                    }
+                                    if (length >= 10 && !move) {
+                                        $('#list_xx>.ul')[0].innerHTML += '<div class="infinity" onclick=' + 'infinity("#list_xx")' + '>查看更多</div>'
+                                    }
+                                    if ($('#list_xx>.ul .rxhBD_text').length === length) {
+                                        $('#list_xx').find('.infinity').remove();
+                                    }
+                                    $('#list_xx').addClass('rxh_show2');
+                                    // $('#list_xx .rxh_hd').find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                                } else {
+
+                                }
+                            }
+
+                            if (info.data[1]['最高党政机关']) {
+                                var length = info.data[1]['最高党政机关'].totalCount;
+                                $('#list_dzjg>.title>span').text(info.data[1]['最高党政机关'].totalCount);
+                                if (length === 0) {
+                                    $('#list_dzjg').removeClass('rxh_show2');
+                                    $('#list_dzjg').hide();
+                                }
+                                if (info.data[1]['最高党政机关'].list.length !== 0) {
+
+                                    for (var i = 0; i < info.data[1]['最高党政机关'].list.length; i++) {
+                                        var item = info.data[1]['最高党政机关'].list[i];
+                                        var issuedNumber = item.issuedNumber || '----';
+                                        var orgAbbreviations = '----'
+                                        if (item.orgAbbreviations) {
+                                            orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                        }
+                                        var txt = split_(item.contentTypes);
+                                        var themes = '';
+                                        var attachment = '';
+                                        if (issuedNumber !== '----') {
+                                            txt += '· ' + issuedNumber + '<br>';
+                                        } else {
+                                            txt = split_(item.contentTypes);
+                                        }
+                                        if (item.persons) {
+                                            txt += ' · ' + item.persons.join(',');
+                                        }
+                                        if (orgAbbreviations !== '----') {
+                                            txt += ' · ' + orgAbbreviations + '';
+                                        }
+                                        if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                            txt += ' · ' + item.policyThemesN[0] + '';
+                                        }
+                                        if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                            txt += ' · ' + item.industryThemesN[0] + '';
+                                        }
+                                        $('#list_dzjg>.ul')[0].innerHTML+='<div class="rxhBD_text rxh_text01">' +
+                                            '                <div class="rxh_hd_text">' +
+                                            '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                            '                </div>' +
+                                            '                <div class="rxh_bd_text">' +
+                                            '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                            '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                            '                </div>' +
+                                            '            </div>'
+                                    }
+                                    if (length >= 10) {
+                                        $('#list_dzjg>.ul')[0].innerHTML += '<div class="infinity" onclick=' + 'infinity("#list_dzjg")' + '>查看更多</div>'
+                                    }
+                                    if ($('#list_dzjg>.ul .rxhBD_text').length === length) {
+                                        $('#list_dzjg').find('.infinity').remove();
+                                    }
+                                    $('#list_dzjg').addClass('rxh_show2');
+                                    // $('#list_dzjg .rxh_hd').find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                                } else {
+
+                                }
+                            }
+
+                            if (info.data[2]['各部委']) {
+                                var length = info.data[2]['各部委'].totalCount;
+                                $('#list_gbw>.title>span').text(info.data[2]['各部委'].totalCount);
+                                if (length === 0) {
+                                    $('#list_gbw').removeClass('rxh_show2');
+                                    $('#list_gbw').hide();
+                                }
+                                if (info.data[2]['各部委'].list.length !== 0) {
+
+                                    for (var i = 0; i < info.data[2]['各部委'].list.length; i++) {
+                                        var item = info.data[2]['各部委'].list[i];
+                                        var issuedNumber = item.issuedNumber || '----';
+                                        var orgAbbreviations = '----'
+                                        if (item.orgAbbreviations) {
+                                            orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                        }
+                                        var txt = split_(item.contentTypes);
+                                        var themes = '';
+                                        var attachment = '';
+                                        if (issuedNumber !== '----') {
+                                            txt += '· ' + issuedNumber + '<br>';
+                                        } else {
+                                            txt = split_(item.contentTypes);
+                                        }
+                                        if (item.persons) {
+                                            txt += ' · ' + item.persons.join(',');
+                                        }
+                                        if (orgAbbreviations !== '----') {
+                                            txt += ' · ' + orgAbbreviations + '';
+                                        }
+                                        if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                            txt += ' · ' + item.policyThemesN[0] + '';
+                                        }
+                                        if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                            txt += ' · ' + item.industryThemesN[0] + '';
+                                        }
+                                        $('#list_gbw>.ul')[0].innerHTML+='<div class="rxhBD_text rxh_text01">' +
+                                            '                <div class="rxh_hd_text">' +
+                                            '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                            '                </div>' +
+                                            '                <div class="rxh_bd_text">' +
+                                            '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                            '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                            '                </div>' +
+                                            '            </div>'
+                                    }
+                                    if (length >= 10) {
+                                        $('#list_gbw>.ul')[0].innerHTML += '<div class="infinity" onclick=' + 'infinity("#list_gbw")' + '>查看更多</div>'
+                                    }
+                                    if ($('#list_gbw>.ul .rxhBD_text').length === length) {
+                                        $('#list_gbw').find('.infinity').remove();
+                                    }
+                                    $('#list_gbw').addClass('rxh_show2');
+                                    // $('#list_gbw .rxh_hd').find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                                } else {
+
+                                }
+                            }
+
+                            if (info.data[3]['地方党政机关']) {
+                                var length = info.data[3]['地方党政机关'].totalCount;
+                                $('#list_dfdz>.title>span').text(info.data[3]['地方党政机关'].totalCount);
+                                if (length === 0) {
+                                    $('#list_dfdz').removeClass('rxh_show2');
+                                    $('#list_dfdz').hide();
+                                }
+                                if (info.data[3]['地方党政机关'].list.length !== 0) {
+
+                                    for (var i = 0; i < info.data[3]['地方党政机关'].list.length; i++) {
+                                        var item = info.data[3]['地方党政机关'].list[i];
+                                        var issuedNumber = item.issuedNumber || '----';
+                                        var orgAbbreviations = '----'
+                                        if (item.orgAbbreviations) {
+                                            orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                        }
+                                        var txt = split_(item.contentTypes);
+                                        var themes = '';
+                                        var attachment = '';
+                                        if (issuedNumber !== '----') {
+                                            txt += '· ' + issuedNumber + '<br>';
+                                        } else {
+                                            txt = split_(item.contentTypes);
+                                        }
+                                        if (item.persons) {
+                                            txt += ' · ' + item.persons.join(',');
+                                        }
+                                        if (orgAbbreviations !== '----') {
+                                            txt += ' · ' + orgAbbreviations + '';
+                                        }
+                                        if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                            txt += ' · ' + item.policyThemesN[0] + '';
+                                        }
+                                        if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                            txt += ' · ' + item.industryThemesN[0] + '';
+                                        }
+                                        $('#list_dfdz>.ul')[0].innerHTML+='<div class="rxhBD_text rxh_text01">' +
+                                            '                <div class="rxh_hd_text">' +
+                                            '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                            '                </div>' +
+                                            '                <div class="rxh_bd_text">' +
+                                            '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                            '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                            '                </div>' +
+                                            '            </div>'
+                                    }
+                                    if (length >= 10) {
+                                        $('#list_dfdz>.ul')[0].innerHTML += '<div class="infinity" onclick=' + 'infinity("#list_dfdz")' + '>查看更多</div>'
+                                    }
+                                    if ($('#list_dfdz>.ul .rxhBD_text').length === length) {
+                                        $('#list_dfdz').find('.infinity').remove();
+                                    }
+                                    $('#list_dfdz').addClass('rxh_show2');
+                                    // $('#list_dfdz .rxh_hd').find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                                } else {
+
+                                }
+                            }
+
+                            if (info.data[4]['其他']) {
+                                var length = info.data[4]['其他'].totalCount;
+                                $('#list_qt>.title>span').text(info.data[4]['其他'].totalCount);
+                                if (length === 0) {
+                                    $('#list_qt').removeClass('rxh_show2');
+                                    $('#list_qt').hide();
+                                }
+                                if (info.data[4]['其他'].list.length !== 0) {
+
+                                    for (var i = 0; i < info.data[4]['其他'].list.length; i++) {
+                                        var item = info.data[4]['其他'].list[i];
+                                        var issuedNumber = item.issuedNumber || '----';
+                                        var orgAbbreviations = '----'
+                                        if (item.orgAbbreviations) {
+                                            orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                        }
+                                        var txt = split_(item.contentTypes);
+                                        var themes = '';
+                                        var attachment = '';
+                                        if (issuedNumber !== '----') {
+                                            txt += '· ' + issuedNumber + '<br>';
+                                        } else {
+                                            txt = split_(item.contentTypes);
+                                        }
+                                        if (item.persons) {
+                                            txt += ' · ' + item.persons.join(',');
+                                        }
+                                        if (orgAbbreviations !== '----') {
+                                            txt += ' · ' + orgAbbreviations + '';
+                                        }
+                                        if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                            txt += ' · ' + item.policyThemesN[0] + '';
+                                        }
+                                        if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                            txt += ' · ' + item.industryThemesN[0] + '';
+                                        }
+                                        $('#list_qt>.ul')[0].innerHTML+='<div class="rxhBD_text rxh_text01">' +
+                                            '                <div class="rxh_hd_text">' +
+                                            '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                            '                </div>' +
+                                            '                <div class="rxh_bd_text">' +
+                                            '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                            '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                            '                </div>' +
+                                            '            </div>'
+                                    }
+                                    if (length >= 10) {
+                                        $('#list_qt>.ul')[0].innerHTML += '<div class="infinity" onclick=' + 'infinity("#list_qt")' + '>查看更多</div>'
+                                    }
+                                    if ($('#list_qt>.ul .rxhBD_text').length === length) {
+                                        $('#list_qt').find('.infinity').remove();
+                                    }
+                                    $('#list_qt').addClass('rxh_show2');
+                                    // $('#list_qt .rxh_hd').find("i").removeClass("icon-arrow_D").addClass("icon-arrow_T");
+                                } else {
+
+                                }
+                            }
+
+                        } else {
+                            $('#zhpx .listItem').removeClass('rxh_show2');
+                            $('#zhpx .listItem').hide();
+                            $('.noData').show();
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                })
+            },
+            /**
+             * @description 记载跟多
+             * @param ele[element]: 元素
+             * @param data[obj]: 请求头数据
+             * @param move[boolear]: 是否显示查看跟多
+             */
+            getInfinity: function (ele, data, move) {
+                console.log(JSON.stringify(data) + '-----------相关度/加载跟多list');
+                $.ajax({
+                    url: '<%= host%>'+'/api/information/policy/infinity',
+                    data: data,
+                    dataType: 'json',
+                    success: function (info) {
+                        if (info.data.length !== 0) {
+                            var length = info.data.totalCount;
+                            // if (length == 0) {
+                            //     $('#list_xxx').removeClass('rxh_show');
+                            //     $('.noData').show();
+                            // } else {
+                            //     $('#list_xxx').addClass('rxh_show');
+                            //     $('.noData').hide();
+                            // }
+                            if (info.data.list.length !== 0) {
+                                var str = '';
+                                for (var i = 0; i < info.data.list.length; i++) {
+                                    var item = info.data.list[i];
+                                    var issuedNumber = item.issuedNumber || '----';
+                                    var orgAbbreviations = '----'
+                                    if (item.orgAbbreviations) {
+                                        orgAbbreviations = item.orgAbbreviations.join(',') || '----';
+                                    }
+                                    var txt = split_(item.contentTypes);
+                                    var themes = '';
+                                    var attachment = '';
+                                    if (issuedNumber !== '----') {
+                                        txt += '· ' + issuedNumber + '<br>';
+                                    } else {
+                                        txt = split_(item.contentTypes);
+                                    }
+                                    if (item.persons) {
+                                        txt += ' · ' + item.persons.join(',');
+                                    }
+                                    if (orgAbbreviations !== '----') {
+                                        txt += ' · ' + orgAbbreviations + '';
+                                    }
+                                    if (item.policyThemesN && item.policyThemesN.length !== 0) {
+                                        txt += ' · ' + item.policyThemesN[0] + '';
+                                    }
+                                    if (item.industryThemesN && item.industryThemesN.length !== 0) {
+                                        txt += ' · ' + item.industryThemesN[0] + '';
+                                    }
+
+                                    str += '<div class="rxhBD_text rxh_text01">' +
+                                        '                <div class="rxh_hd_text">' +
+                                        '                    <b></b><span onclick="ZXCXView.getId($(this))" data-id='+item.id+'>'+ item.title+'</span>' +
+                                        '                </div>' +
+                                        '                <div class="rxh_bd_text">' +
+                                        '                    <h5 style="display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;">'+item.content+'</h5>' +
+                                        '                    <h6 class="rxh_date">'+txt+' · '+to_date(item.publishAt) +'</h6>' +
+                                        '                </div>' +
+                                        '            </div>'
+                                }
+                                if (data.cp == 1) {
+                                    $(ele).find('.ul .rxhBD_text').remove();
+                                }
+                                if (move) {
+                                    $(ele).find('.ul').html('<div class="infinity" onclick=' + 'infinity("'+ele+'")' + '>查看更多</div>')
+                                }
+                                var cp = parseInt(data.cp) + 1;
+                                $(ele).attr('data-cp', cp);
+                                $(ele).find('.infinity').before(str);
+                                if ($(ele + '>.ul .rxhBD_text').length === length) {
+                                    $(ele).find('.infinity').remove();
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+        };
+        window.methods.init()
+    });
+
+    //过滤方法
+    var split_ = function (val) {
+        if(!val){return ''};
+        if (val.length == 0) {
+            return
+        }
+        ;
+        if (val.length == 1) {
+            return val[0]
+        }
+        ;
+        var arr = val[val.length - 1];
+        if (arr.split('|').length == 2) {
+            var str = arr.split('|')[arr.split('|').length - 1];
+            return str;
+        } else if (arr.split('|').length == 3) {
+            var str = arr.split('|')[1];
+            return str;
+        } else {
+            return val;
+        }
+    };
+    var to_date = function (val) {
+        var now = new Date(val);
+
+        var year = now.getFullYear(); //年
+        var month = now.getMonth() + 1; //月
+        var day = now.getDate(); //日
+
+        var hh = now.getHours(); //时
+        var mm = now.getMinutes(); //分
+
+        var clock = year + "-";
+
+        if (month < 10)
+            clock += "0";
+
+        clock += month + "-";
+
+        if (day < 10)
+            clock += "0";
+
+        clock += day + " ";
+
+        // if(hh < 10)
+        // clock += "0";
+
+        // clock += hh + ":";
+        // if (mm < 10) clock += '0';
+        // clock += mm;
+        return (clock);
+    };
+
+    window.getment = function (val) {
+        var input = $('#input_text').val();
+        if (!val || $('#rxh_g_txt2').text() !== '搜附件' && $('#rxh_g_txt2').text() !== '搜全部') {
+            return val
+        }
+        ;
+        var str4 = '';
+        for (var k = 0; k < input.split(' ').length; k++) {
+            var item = input.trim().split(' ')[k];
+            var arr = val.split(item);
+            for (var i = 0; i < arr.length; i++) {
+                if (i < arr.length - 1) {
+                    str4 += arr[i] + '<font color="red">' + item + '</font>';
+                } else {
+                    str4 += arr[i];
+                }
+            }
+        }
+        return str4;
+    };
+    }
+</script>
+
+<% include ../component/infoJsEvent %>

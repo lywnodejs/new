@@ -1,0 +1,51 @@
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-control" content="no-cache">
+<meta http-equiv="Cache" content="no-cache">
+<meta name="keywords" content="小e,智能小e,小E,智能小E,robot.rxhui.com,小e首页,小e机器人,智能机器人,robot.rxhui,问答,智能">
+<meta name="description" content="智能小e，智能化时代投资助手和全语音问答交互模式，内容覆盖7x24小时金融市场投资标的研判、k线形态量化分析、专家估值评级，及时挖掘投资机会。">
+<meta name="application-name" content="智能小e 首页">
+
+<% if(!params.noSource){ %>
+<link rel="stylesheet" href="<%= config %>/static/css/yy_icon.css">
+<link rel="stylesheet" href="<%= config %>/static/css/yy_style_v1.css">
+<link rel="stylesheet" href="<%= config %>/static/css/yy_style_v2.css">
+<link rel="stylesheet" href="<%= config %>/static/css/hpc_style.css">
+<link rel="stylesheet" href="<%= config %>/static/css/jser_style.css">
+<% } %>
+
+<!--答案前的引导语-->
+<% if(params.appKey !='guoxin') { %>
+    <div class="<%= (params.appKey === 'appAvatar' && params.noSource) ? '' : 'md_left_v2' %>">
+        <div class='hd'>
+            <div class='mb_avatar'>
+                <% if(params.appKey ==='appZxcx') { %>
+                    <img src="<%= config %>/static/images/niao.png">
+                <% } else { %>
+                    <%
+                        // logo地址，如果有配置用配置的，否则用默认的
+                        var logoUrl
+                        if (info.robotConfig && info.robotConfig.data) {
+                          logoUrl = info.robotConfig.data.logo
+                        }
+                        if (logoUrl) {
+                            logoUrl = info.robotConfig.data.assetsUrl + logoUrl
+                        } else {
+                          logoUrl = '/static/images/avatar-min.png'
+                        }
+                    %>
+                    <img onclick='setFeedbackMode()' src="<%= logoUrl %>">
+    <!--                <img onclick='setFeedbackMode()' src="/static/images/avatar-min.png">-->
+                <% } %>
+            </div>
+            <% if (params.type === '页面跳转答案') { %>
+            <h4>打开 <a href="<%= info.data.url || '' %>" target="_blank"><%= preAnswer || '' %></a></h4>
+            <% } else { %>
+            <h4 style="<%= params.appKey==='appAvatar'?'padding-right:15px':'' %>"><%= preAnswer || '' %></h4>
+            <% } %>
+        </div>
+    </div>
+<% } %>
+
+

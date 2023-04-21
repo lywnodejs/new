@@ -1,0 +1,92 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<%
+var data = info.data
+console.log(info)
+%>
+<div class="rxh_md">
+    <dl class="rxh_dl">
+        <dt>公司名称</dt>
+        <dd><%= commonUtil.stringIsEmpty(data.comName) ? "--" : data.comName %></dd>
+    </dl>
+    <dl class="rxh_dl">
+        <dt>上市日期</dt>
+        <dd><%= commonUtil.changeTime(data.listDateAt) %></dd>
+    </dl>
+    <dl class="rxh_dl">
+        <dt>所属区域</dt>
+        <dd><%= commonUtil.stringIsEmpty(data.regionalPlate_1) ? "--" : data.regionalPlate_1 %></dd>
+    </dl>
+    <dl class="rxh_dl">
+        <dt>企业性质</dt>
+        <dd><%= commonUtil.stringIsEmpty(data.comType) ? "--" : data.comType %></dd>
+    </dl>
+    <dl class="rxh_dl">
+        <dt>实际控制人</dt>
+        <dd><%= commonUtil.stringIsEmpty(data.actualController) ? "--" : data.actualController %></dd>
+    </dl>
+    <dl class="rxh_dl">
+        <dt>主营业务</dt>
+        <dd><%= commonUtil.stringIsEmpty(data.mainBus) ? "--" : data.mainBus %></dd>
+    </dl>
+
+    <%
+    if (commonUtil.stringIsNotEmpty(data.competitive)) {
+    %>
+    <dl class="rxh_dl">
+        <dt>经营情况</dt>
+        <dd>
+        <span id="ideaContent" class="investment-idea-content">
+            <%= data.competitive %></span>
+            <span id="openWhole" style="color: #3E85FF;display: none">展开</span></dd>
+    </dl>
+    <% } %>
+</div>
+
+
+<% include ../component/footer %>
+<script>
+    var companyInfoView = {
+        onViewReady: function () {
+            var competitive = '<%-commonUtil.replaceSpecial( data.competitive) %>';
+            if (!companyInfoView.stringIsEmpty(competitive)) {
+                var rowNum = Math.round($("#ideaContent").height() / parseFloat($("#ideaContent").css('line-height')));
+
+                if ($('#ideaContent')[0].scrollHeight > document.getElementById('ideaContent').clientHeight && rowNum >= 2) {
+                    $('#openWhole').show();
+                } else {
+                    $('#openWhole').hide();
+                }
+
+                $('#openWhole').click(function () {
+                    switch ($(this).text()) {
+                        case '展开':
+                            $(this).text('收起');
+                            $("#ideaContent").removeClass();
+                            $("#ideaContent").addClass("investment-idea-content-all");
+                            break;
+                        case '收起':
+                            $(this).html('展开');
+                            $("#ideaContent").removeClass();
+                            $("#ideaContent").addClass("investment-idea-content");
+                            break;
+                    }
+                });
+
+            }
+        },
+        stringIsEmpty: function (str) {
+            return this.stringIsNull(str) || str == "";
+        },
+        stringIsNull: function (str) {
+            return typeof str == "undefined" || str === null;
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, companyInfoView.onViewReady);
+    <% } %>
+
+</script>

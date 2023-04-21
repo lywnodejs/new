@@ -1,0 +1,41 @@
+<!--components/apply/item-view/voice-upload-view/index.wxml-->
+<view class="info-box">
+  <upload-title-view title="{{attribute.name}}" desc="{{attribute.description}}" mustFill="{{attribute.mustFill}}" />
+  <view class="content-box">
+    <block wx:if="{{urlLists.length > 0}}">
+      <block wx:for="{{urlLists}}" wx:key="index">
+        <view class="item">
+          <view class="thumbnail-box" bindtap="onPlay" data-index="{{index}}">
+            <image src="/image/music.png" class="music-img" />
+            <image wx:if="{{attribute.editFlag}}" src="/image/delete_gray.png" class="delete-img" catchtap="onDelete" data-index="{{index}}" />
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <view class="item " bind:tap="{{attribute.editFlag ? 'onUploadTap' :''}}" data-attribute="{{attribute}}">
+      <view class="place-holder-box">
+        <image src="/image/music_upload.png" class="upload-img" />
+        <view class="upload-tip">点击上传</view>
+      </view>
+    </view>
+  </view>
+
+  <van-popup show="{{ showPopup }}" bind:close="onClosePopup" closeable close-on-click-overlay="{{false}}"
+    position="bottom" custom-style="height: 250px;">
+    <view class="action-box">
+      <view class="time-box">
+        <text decode="{{true}}">&nbsp;</text><text wx:if="{{curTime}}" decode="{{true}}"
+          class="cur-time-text">{{curTime}}&nbsp;/&nbsp;</text><text wx:if="{{totalTime}}"
+          class="total-time-text">{{totalTime}}</text><text decode="{{true}}">&nbsp;</text>
+      </view>
+      <image class="action-img" src="/image/{{status}}_record.png" catchtap="onAction" />
+      <text class="status-text">{{statusDesc}}</text>
+      <view wx:if="{{!onlyPlay && (status === 'play' || status === 'pause')}}" class="btn-group-box">
+        <text class="retry-text" bind:tap="onRetry">重新录制</text>
+        <text class="confirm-text" bind:tap="onConfirm">完成</text>
+      </view>
+    </view>
+  </van-popup>
+
+</view>

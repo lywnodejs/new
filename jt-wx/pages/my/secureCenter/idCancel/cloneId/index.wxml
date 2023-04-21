@@ -1,0 +1,53 @@
+<!--pages/my/secureCenter/idCancel/detail/index.wxml-->
+<view class="idCancel">
+    <view class="title">
+      为了保留您在我行的权益信息，建议您谨慎使用注销登录账户功能。
+    </view>
+</view>
+
+
+<view class="cell-container">
+  <view class="item">
+    <view>
+      <text>当前账号</text>
+    </view>
+    <view>
+      <text>{{reservedMobile}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="but" bindtap="open">
+  注销账号
+</view>
+
+
+<van-popup class="my-alter" show="{{isShowNotify}}" >
+  <view class="content">
+    <!-- <view class="title">温馨提示</view> -->
+    <text>注销后，您账号下的所有账户信息将会被删除。</text>
+  </view>
+  <view class="footer">
+    <text bindtap="onOk">确认注销</text>
+    <text bindtap="onNotifyClose">取消</text>
+  </view>
+  
+</van-popup>
+
+
+<van-popup class="my-alter" show="{{isShowNotify2}}">
+  <view class="content">
+    <!-- <view class="title">温馨提示</view> -->
+    <view wx:for="{{list}}" class="list">
+    {{item.itemDesc}} 
+    <image wx:if="{{item.itemStatus===1}}" src='../../../../../image/yes.png'></image>
+    <image wx:else src='../../../../../image/no.png'></image>
+    </view>
+  </view>
+  <view class="bottom">
+    <text bindtap="onNotifyClose" bindtap="clons">确定</text>
+  </view>
+</van-popup>
+
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />

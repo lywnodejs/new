@@ -1,0 +1,41 @@
+@import '~variables';
+
+.privacy-treeContent{
+  width: 100%;
+  height: 100%;
+  background-color: #f3f4f5;
+  // padding: 56px 80px 58px;
+  &-container{
+    width: 1060px;
+    height: 875px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    display: flex;
+    // padding-top: 40px;
+    border: none !important;
+
+    &__left{
+      width: 220px;
+      height: 875px;
+      border: none !important;
+      //border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-right: 1px solid #eeeeee !important;
+      border-left: 1px solid #eeeeee !important;
+    }
+    &__right{
+      width: 840px;
+      height: 875px;
+    }
+    &__left-noTree{
+      width: 1px;
+      height: 875px;
+      border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-left: 1px solid #eeeeee !important;
+    }
+    &__right-noTree{
+      border-image: linear-gradient(#EEEEEE,#ffffff) 30 30 !important;
+      border-left: 1px solid #eeeeee !important;
+      width: 1060px;
+    }
+  }
+}

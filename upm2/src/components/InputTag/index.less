@@ -1,0 +1,39 @@
+.input-tag {
+
+  padding: 0 10px;
+  background-color: #fff;
+  display: inline-block;
+  width: 100%;
+
+  .tags-area {
+    line-height: 24px;
+    min-height: 32px;
+    padding: 4px 0;
+
+    .ant-tag {
+      // TODO 解决垂直居中问题
+      // vertical-align: text-bottom;
+
+      .anticon {
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .real-input {
+    outline: none;
+    border: none;
+    height: 22px;
+
+    &::-moz-placeholder {
+      color: #bfbfbf;
+      opacity: 1;
+    }
+    &:-ms-input-placeholder {
+      color: #bfbfbf;
+    }
+    &::-webkit-input-placeholder {
+      color: #bfbfbf;
+    }
+  }
+}

@@ -1,0 +1,176 @@
+<div class="p-form-item p-half">
+    <label class="item-label"><i class="i-must">*</i>漏洞类型：</label>
+    <div class="wrap-input p-col-8" id="js-holeType">
+        <div class="wrap-input p-col-5" ng-class="{'p-error':!ctrl.pageData.holeType1 && myForm.holeType1.$touched}">
+            <select class="p-form-control" 
+            name="holeType1"
+            ng-required="true"
+            ng-change="ctrl.holeType1Change()"
+            ng-model="ctrl.pageData.holeType1">
+                <option value="">请选择</option>
+                <option ng-repeat="option in ctrl.pageConfig.holeType1" value="{{option.id}}"> {{option.dName}}</option>
+            </select>
+            <span class="p-error-msg">请选择</span>
+        </div>
+        <span>--</span>
+        <div class="wrap-input p-col-5" ng-class="{'p-error':!ctrl.pageData.holeType2 && myForm.holeType2.$touched}">
+            <select class="p-form-control" 
+            name="holeType2"
+            ng-required="true"
+            ng-change="ctrl.holeType2Change()"
+            ng-model="ctrl.pageData.holeType2">
+                <option value="">请选择</option>
+                <option ng-repeat="option in ctrl.pageConfig.holeType2" value="{{option.id}}"> {{option.dName}}</option>
+            </select>
+            <span class="p-error-msg">请选择</span>
+        </div>
+    </div>
+</div>
+
+<div class="p-form-item p-half" ng-if="ctrl.isEdit">
+    <label class="item-label"><span class="i-placeholder">x</span>安全工程师：</label>
+    <div class="wrap-input  p-col-8">
+        <span ng-bind-html="ctrl.pageData.safetyEngineerText | to_trusted"></span>
+    </div>
+</div>
+
+<div>
+    <!--如果没有确认时间防止换行-->
+    <div class="p-form-item p-half">
+        <label class="item-label"><i class="i-must">*</i>风险等级：</label>
+        <div class="wrap-input p-col-8" ng-class="{'p-error':!ctrl.pageData.riskLevel && myForm.riskLevel.$touched}">
+            <div class="p-col-5">
+                <select class="p-form-control" name="riskLevel"
+                ng-required="true"
+                ng-disabled="ctrl.pageData.holeDsrcInfo != null"
+                ng-change="ctrl.setDefaultExpireTime($event)"
+                ng-model="ctrl.pageData.riskLevel">
+                    <option value="">请选择</option>
+                    <option ng-repeat="option in ctrl.pageConfig.riskLevel" value="{{$index}}"> {{option}}</option>
+                </select>
+            </div>
+            <span class="p-error-msg">请选择</span>
+        </div>
+    </div>
+    <div class="p-form-item p-half"  ng-if="ctrl.isEdit">
+        <label class="item-label"><span class="i-placeholder">x</span>关注人：</label>
+        <div class="wrap-input p-col-8">
+            <span ng-bind-html="ctrl.pageData.followersText | to_trusted"></span>
+        </div>
+    </div>
+</div>
+ <div>
+    <div class="p-form-item p-half">
+        <label class="item-label"><i class="i-must">*</i>漏洞来源：</label>
+        <div class="wrap-input p-col-8">
+            
+            <div class="wrap-input p-col-5" ng-class="{'p-error':!ctrl.pageData.holeSource1 && myForm.holeSource1.$touched}">
+                <select class="p-form-control" name="holeSource1"
+                ng-required="true"
+                ng-change="ctrl.holeSource1Change()"
+                ng-model="ctrl.pageData.holeSource1">
+                    <option value="">请选择</option>
+                    <option ng-repeat="option in ctrl.pageConfig.holeSource1" value="{{option.id}}"> {{option.dName}}</option>
+                </select>
+                <span class="p-error-msg">请选择</span>
+            </div>
+            <span>--</span>
+            <div class="wrap-input p-col-5" ng-class="{'p-error':!ctrl.pageData.holeSource2 && myForm.holeSource2.$touched}">
+                <select class="p-form-control" name="holeSource2"
+                ng-required="true"
+                ng-model="ctrl.pageData.holeSource2">
+                    <option value="">请选择</option>
+                    <option ng-repeat="option in ctrl.pageConfig.holeSource2" index="{{$index}}" value="{{option.id}}"> {{option.dName}}</option>
+                </select>
+                <span class="p-error-msg">请选择</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-form-item p-half"  ng-if="ctrl.isEdit">
+        <label class="item-label"><span class="i-placeholder">x</span>修复人：</label>
+        <div class="wrap-input p-col-8">
+            <span ng-bind-html="ctrl.pageData.repairPeopleText | to_trusted"></span>
+        </div>
+    </div>
+ </div>
+
+<div class="p-form-item form-flex"  ng-if="ctrl.isEdit">
+    <label class="item-label"><span class="i-placeholder">x</span>确认漏洞时间：</label>
+    <div class="wrap-input form-flex-item">
+        <span>{{ctrl.pageData.confirmTime | date:'yyyy-MM-dd'}}</span>
+    </div>
+</div>
+
+<div class="p-form-item form-flex">
+    <label class="item-label"><span class="i-must">*</span>期望修复时间</label>
+    <div class="wrap-input form-flex-item"  ng-class="{'p-error':!ctrl.pageData.expireTime && myForm.expireTime.$touched}">
+        <div class="input-group p-col-3">
+            <input class="form-control js-date-picker" 
+                type="text"
+                name="expireTime"
+
+                readonly="readonly"
+uib-datepicker-popup
+close-text="关闭"
+clear-text="清除"
+current-text="今天"
+datepicker-popup="yyyy-MM-dd"
+
+                datepicker-options="ctrl.expireTimeOptions"
+                ng-required="true"
+                is-open="ctrl.expireTimeIsOpen"
+                onclose="ctrl.expireTimeClose()"
+                ng-model="ctrl.pageData.expireTime"
+                ng-click="ctrl.expireTimeOpen()"
+                >
+            <span class="input-group-btn" ng-click="ctrl.expireTimeOpen()">
+                <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+        </div>
+        <div class="p-col-9">当前时间：{{ctrl.pageConfig.initPageData.currentTime | date:'yyyy-MM-dd HH:mm:ss'}} <a href="http://anquan.didichuxing.com/project/portals/pages/spec-detail.html?id=1056" target="_blank">点此查看定级及处理时间规范</a></div>
+        <span class="p-error-msg">请选择期望修复时间</span>
+    </div>
+</div>
+
+<div class="p-form-item form-flex">
+    <label class="item-label"><span class="i-placeholder">x</span>漏洞来源地址：</label>
+    <div class="wrap-input form-flex-item">
+        <input class="p-form-control" name="holeSourceAddress" ng-model="ctrl.pageData.holeSourceAddress" maxlength="200" type="text" placeholder="URL格式：以http://或https://开头  Web类和无线及PC客户端安全sql注入类必须填写URL地址">
+    </div>
+</div>
+<div class="p-form-item form-flex">
+    <label class="item-label"><span class="i-must">*</span>部门-产品线：</label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.pageData.holeDept || !ctrl.pageData.holeDept.length ) && ctrl.showErrors}">
+        <ui-my-auto-complete 
+        url="ctrl.getDepartmentUrl" 
+        placeholder="请输入受影响部门产品线（中文）" 
+        removeSelected="false"
+        isSample="true"
+        sampleShowName="productName"
+        name="holeDept"
+        ng-model="ctrl.pageData.holeDept">
+            <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+            <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+        </ui-my-auto-complete>
+        <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.pageData.holeDept||!ctrl.pageData.holeDept.length}">请输入并选择一个部门产品线</span>
+    </div>
+</div>
+<div class="p-form-item form-flex" ng-repeat="data in ctrl.pageData.holeEffectInfo track by $index">
+    <label class="item-label"><span ng-show="$index === 0"><i class="i-must">*</i>受影响<span class="info-align">URL\APP：</span></span></label>
+    <div class="wrap-input form-flex-item" ng-class="{'p-error':(!ctrl.pageData.holeEffectInfo[$index] || !ctrl.pageData.holeEffectInfo[$index].length) && ctrl.showErrors}">
+        <input class="p-form-control" 
+            type="text" 
+            value="{{data}}"
+            required 
+            ng-maxlength="200" 
+            ng-model="ctrl.pageData.holeEffectInfo[$index]" 
+            placeholder="{{ctrl.pageData.holeEffectInfoPlaceholder}}"
+            ng-focus="ctrl.holeEffectInfoFocus(data,$index)"
+            ng-model-options="{ updateOn: 'blur' }"
+        >
+        <span class="glyphicon glyphicon-plus p-icon" ng-show="$index === 0" ng-click="ctrl.addHoleInfo()"></span>
+        <span class="glyphicon glyphicon-minus p-icon" ng-show="$index > 0"  ng-click="ctrl.deleteHoleInfo()"></span>
+        <span class="p-error-msg">请输入受影响URL\APP</span>
+    </div>
+</div>

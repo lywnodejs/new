@@ -1,0 +1,110 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+<div class="bd" id="answer<%= sn %>">
+
+    <!--答案框-->
+    <div class="mb">
+        <%
+        var mainBusiness = '暂无数据';
+        mainBusiness = data.mainBus || data.mainBusiness || '暂无数据';
+        %>
+
+        <!-- 时间轴 有信息-->
+        <h6 class='date'>更新日期： <%= commonUtil.changeTime(data.updateAt) %></h6><h5><%= mainBusiness %></h5>
+        <div class="box_show box_show_btn">
+            <h5 id="contentId1<%= sn %>" class="show_row3"><b>经营范围：</b><%= data.businessScope.replace(/\n/g, '<br>') %>
+            </h5>
+            <a id="expandBtnId1<%= sn %>" class="a_more"
+               onclick="expandContent('<%= 'expandBtnId1' + sn %>','<%= 'contentId1' + sn %>','<%= 'foldBtnId1' + sn %>')">展开<i
+                        class="icon-arrowD"></i></a>
+            <a id="foldBtnId1<%= sn %>" style="display: none" class="a_more"
+               onclick="foldContent('<%= 'foldBtnId1' + sn %>','<%= 'contentId1' + sn %>','<%= 'expandBtnId1' + sn %>')">收起<i
+                        class="icon-arrowT"></i></a>
+        </div>
+        <div class="box_show box_show_btn">
+            <h5><b>主营业务：</b><%= data.mainBusiness.replace(/\n/g, '<br>') %></h5>
+        </div>
+        <div class="box_show box_show_btn">
+            <h5 id="contentId3<%= sn %>" class="show_row3"><b>历史沿革：</b><%= data.introduction.replace(/\n/g, '<br>') %>
+            </h5>
+            <a id="expandBtnId3<%= sn %>" class="a_more"
+               onclick="expandContent('<%= 'expandBtnId3' + sn %>','<%= 'contentId3' + sn %>','<%= 'foldBtnId3' + sn %>')">展开<i
+                        class="icon-arrowD"></i></a>
+            <a id="foldBtnId3<%= sn %>" style="display: none" class="a_more"
+               onclick="foldContent('<%= 'foldBtnId3' + sn %>','<%= 'contentId3' + sn %>','<%= 'expandBtnId3' + sn %>')">收起<i
+                        class="icon-arrowT"></i></a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var companyIntro = {
+    onViewReady: function () {
+      resizeUtils.init(frameId, sn);
+      checkTextOverflow([["contentId1" + sn, "expandBtnId1" + sn], ["contentId3" + sn, "expandBtnId3" + sn]]);
+    }
+  }
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min', '/static/js/utils/toolsUtil', '/static/js/utils/logUtil', '/static/js/utils/resizeUtils'];
+  loadJs(jsArr, companyIntro.onViewReady)
+
+
+  /**
+   * 展开隐藏内容
+   * @param expandBtnId
+   * @param contentId
+   * @param foldBtnId
+   */
+  function expandContent(expandBtnId, contentId, foldBtnId) {
+    $('#' + expandBtnId).hide();
+    $('#' + foldBtnId).show();
+    $('#' + contentId).removeClass('show_row3');
+  }
+
+  /**
+   * 收缩内容
+   * @param foldBtnId
+   * @param contentId
+   * @param expandBtnId
+   */
+  function foldContent(foldBtnId, contentId, expandBtnId) {
+    $('#' + foldBtnId).hide();
+    $('#' + contentId).addClass('show_row3');
+    $('#' + expandBtnId).show();
+  }
+
+
+  /**
+   * 判断文字内容较多时是否需要收缩内容及显示展开按钮
+   * @param ids [contentId, expandBtnId], contentId：内容容器Id， expandBtnId：展开按钮Id
+   */
+  function checkTextOverflow(ids) {
+    for (var i = 0; i < ids.length; i++) {
+      var contentId, expandBtnId;
+      contentId = ids[i][0];
+      expandBtnId = ids[i][1];
+      var content = $('#' + contentId);
+      // console.log(content[0].scrollHeight, content.height())
+      if (content[0].scrollHeight <= content.height())
+        $('#' + expandBtnId).hide();
+      else {
+        content.addClass('show_row3');
+        $('#' + expandBtnId).show();
+      }
+    }
+  }
+
+</script>
+

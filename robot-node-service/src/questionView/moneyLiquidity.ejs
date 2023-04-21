@@ -1,0 +1,166 @@
+<% include ./component/params %>
+<% include ./component/preAnswer %>
+<% include ./component/jsLoad %>
+
+<!-- 流动性 赵波 2019.10.21 -->
+<%
+    var result = info;
+    var htop10 = result.data.htop10 || [];
+    var ltop10 = result.data.ltop10 || [];
+    var tMarStkLiquidInfo = result.data.tMarStkLiquidInfo;
+
+    var pageSize = 10;
+    var hideClass = '';
+    var item;
+
+    var quotaContainerId = commonUtil.generateRandomClassName('stockQuota');
+    var tableContainerId = commonUtil.generateRandomClassName('tableContainerId');
+ %>
+
+<div class="bd">
+    <div class="mb">
+        <div class="box_marginBalance">
+            <ul id="<%= quotaContainerId %>" class="stock2">
+                <% include ./component/stockQuota %>
+            </ul>
+
+            <h6 class="note">数据更新时间：<%= commonUtil.generateDate(tMarStkLiquidInfo.tradeDt) %></h6>
+
+            <!-- 两融余额 -->
+            <ul class="box_grid9">
+                <li>
+                    <h6>月日均成交额</h6>
+                    <h3>
+                        <span class="num"><%= commonUtil.formatAmount(tMarStkLiquidInfo.m1Avgamount*1e4) %></span>
+                    </h3>
+                </li>
+                <li>
+                    <h6>月平均换手率</h6>
+                    <h3>
+                        <span class="num"><%= tMarStkLiquidInfo.m1Turnrate.toFixed(2) %>%</span>
+                    </h3>
+                </li>
+            </ul>
+            <ul class="box_grid9">
+                <li>
+                    <h6>行业内排名</h6>
+                    <h3>
+                        <span class="num"><%= tMarStkLiquidInfo.m1AvgamountRank||'--' %>/<%= tMarStkLiquidInfo.induSecNum||'--' %></span>
+                    </h3>
+                </li>
+                <li>
+                    <h6>全市场排名</h6>
+                    <h3>
+                        <span class="num"><%= tMarStkLiquidInfo.m1TotRank||'--' %>/<%= tMarStkLiquidInfo.totSecNum||'--' %></span>
+                    </h3>
+                </li>
+            </ul>
+
+            <div class="tab TAB2">
+                <ul>
+                    <li class="on" onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>流动性最高前10<b></b></span>
+                    </li>
+                    <li onclick="marginSubTabClick(event,'<%= tableContainerId %>')">
+                        <span>流动性最低前10<b></b></span>
+                    </li>
+                </ul>
+                <div class="bottom"></div>
+            </div>
+            <div id="<%= tableContainerId %>" class="content">
+                <div class="item show">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>月日均成交额</li>
+                        <li>月平均换手率<i class="icon-arrow_sequentB"></i></li>
+                    </ol>
+                    <%
+                    if (htop10.length > 10) {
+                    hideClass = commonUtil.generateRandomClassName('hide');
+                    }
+                    for(var i=0; i<htop10.length; i++) {
+                    item = htop10[i];
+                    %>
+                    <ul class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+                        <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                            <h4><%= item.secName %></h4>
+                            <h6><%= item.secCode %></h6>
+                        </li>
+                        <li><%= commonUtil.formatAmount(item.m1Avgamount*1e4) %></li>
+                        <li><%= item.m1Turnrate.toFixed(2) %>%</li>
+                    </ul>
+                    <% } %>
+                    <%
+                    if (htop10.length > 10) {
+                        moreId = commonUtil.generateRandomClassName('moreId');
+                    %>
+                    <div id="<%= moreId %>" class="box_load" style="padding: 5px 0 18px 0; margin-top: 0;" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+                        <a>查看更多</a>
+                    </div>
+                    <% } %>
+                    </div>
+                <div class="item">
+                    <ol>
+                        <li>个股名称/代码</li>
+                        <li>月日均成交额</li>
+                        <li>月平均换手率<i class="icon-arrow_sequentT"></i></li>
+                    </ol>
+                    <%
+                    if (ltop10.length > 10) {
+                        hideClass = commonUtil.generateRandomClassName('hide');
+                    }
+                    for(var i=0; i<ltop10.length; i++) {
+                        item = ltop10[i];
+                    %>
+                    <ul class="<%= i>=pageSize?hideClass:'' %>" style="display: <%= i >= pageSize?'none':'' %>;">
+                        <li onclick="stockFixQuestion('<%= item.secCode %>','<%= item.secName %>','<%= item.marType %>','个股综评')">
+                            <h4><%= item.secName %></h4>
+                            <h6><%= item.secCode %></h6>
+                        </li>
+                        <li><%= commonUtil.formatAmount(item.m1Avgamount*1e4) %></li>
+                        <li><%= item.m1Turnrate.toFixed(2) %>%</li>
+                    </ul>
+                    <% } %>
+                    <%
+                    if (ltop10.length > 10) {
+                        moreId = commonUtil.generateRandomClassName('moreId');
+                    %>
+                    <div id="<%= moreId %>" class="box_load" style="padding: 5px 0 18px 0; margin-top: 0;" onclick="showMoreArticle('<%= hideClass %>','<%= moreId %>','<%= pageSize %>')">
+                        <a>查看更多</a>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+  var moneyLiquidity = {
+    onViewReady: function () {
+
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/client/js/robots/showMoreItem',
+  ];
+  loadJs(jsArr, moneyLiquidity.onViewReady)
+
+  /**
+   * tab 切换
+   * @param event
+   * @param tableContainerId
+   */
+  function marginSubTabClick(event, tableContainerId) {
+    // console.log($(event.currentTarget).index())
+    var curTarget = $(event.currentTarget);
+    var index = curTarget.index();
+    curTarget.addClass('on').siblings().removeClass('on');
+    $('#'+tableContainerId).find('> div').eq(index).addClass('show').siblings().removeClass('show');
+    // $('#'+tableContainerId).children().eq(index).addClass('show').siblings().removeClass('show');
+  }
+
+</script>

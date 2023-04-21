@@ -1,0 +1,51 @@
+<!--components/protocol-view/index.wxml-->
+<view class="protocol-box">
+  <image class="checkbox-img" bindtap="changeSelect"
+    src="{{isSelected ? '/image/checkbox_selected2.png' : (normal ? '/image/checkbox_normal.png' : '/image/checkbox.png')}}" />
+  <view class="text-box">{{isSelected? '我已阅' :'请先阅读'}}<view class="protocol-name  inline-view">
+      <view wx:for="{{protocols}}" wx:key="index" data-index="{{item}}" class="inline-view">
+        <view bind:tap="onProtocolClick" data-url="{{item.content}}" data-index="{{index}}" class="inline-view">
+          《{{item.name}}》</view>
+        <view wx:if="{{index !== protocols.length - 1}}" class="inline-view">、</view>
+      </view>
+    </view>，{{isSelected? '同意条款无异议':'并确认'}}
+  </view>
+</view>
+
+
+<van-popup show="{{ showProtocolPopup }}" position="bottom" custom-style="height: 495px;" closeable
+  close-on-click-overlay="{{false}}" bind:close="onClose" bind:before-enter="onAfterEnter" bind:after-leave="onAfterLeave">
+  <view class="popup-box">
+    <view class="popup-title">
+      阅读协议{{forceReadProtocols.length > 1 ? '('+(curIndex+1)+'/'+(forceReadProtocols.length)+')' :''}}</view>
+    <view class="read-tip" wx:if="{{isForceMode}}">{{readTip}}</view>
+
+
+    <scroll-view scroll-y="true" scroll-top="{{scrollTop}}" style="height: 300rpx;" bindscrolltolower="onScrollEnd" class="protocol-content">
+      <rich-text class="rich-text" nodes="{{richText}}"></rich-text>
+    </scroll-view>
+
+    <view class="popup-footer">
+      <view class="force-protocol-box">
+        <view class="agree-tip">
+          点击确认代表您已阅读并同意
+        </view>
+        <view class="protocol-name inline-view">
+          <view wx:for="{{forceReadProtocols}}" wx:key="index" class="inline-view">
+            <view bind:tap="changeProtocol" data-content="{{item.content}}" data-index="{{index}}" class="inline-view">
+              《{{item.name}}》</view>
+            <view wx:if="{{index !== forceReadProtocols.length - 1}}" class="inline-view">、</view>
+          </view>
+        </view>
+      </view>
+
+      <view>
+        <button type="primary" class="apply-btn popup-btn {{btnEnable && btnEnableOk ? '' : 'popup-btn-dis'}}" bindtap="confirm">
+          {{btnText}}
+          <text wx:if="{{timeShow}}">（{{time}}s）</text>
+        </button>
+      </view>
+    </view>
+
+  </view>
+</van-popup>

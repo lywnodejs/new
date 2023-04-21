@@ -1,0 +1,336 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": 0,
+                    "name": "申请资料",
+                    "pathName": "pages/apply/index/index",
+                    "query": "type=my1",
+                    "scene": null
+                },
+                {
+                    "name": "还款",
+                    "pathName": "pages/repayment/index/index",
+                    "query": "orderId=JTNS202110220000000002&repaymentType=1",
+                    "scene": null
+                },
+                {
+                    "name": "还款结果",
+                    "pathName": "pages/repayment/result/index",
+                    "query": "type=0&amount=1900.00&orderNum=IBFP220201019171432125&desc=23232",
+                    "scene": null
+                },
+                {
+                    "name": "提现",
+                    "pathName": "packageB/pages/withdrawIndex/index",
+                    "query": "productId =100",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "提现结果页",
+                    "pathName": "pages/withdraw/result/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "开通电子账户",
+                    "pathName": "packageB/pages/form/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": 6,
+                    "name": "开户结果",
+                    "pathName": "pages/account/open/result/index",
+                    "query": "type=1&cardNo=21392394293942893423",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "银行列表",
+                    "pathName": "pages/withdraw/bank/index",
+                    "query": "type=1&cardNo=21392394293942893423",
+                    "scene": null
+                },
+                {
+                    "name": "订单",
+                    "pathName": "pages/order/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "pages/my/ticket/index",
+                    "pathName": "pages/my/ticket/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "换绑卡",
+                    "pathName": "pages/account/card/index",
+                    "query": "bindType=2",
+                    "scene": null
+                },
+                {
+                    "name": "账单详情",
+                    "pathName": "pages/repayment/bill/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": 12,
+                    "name": "首页",
+                    "pathName": "pages/index/index",
+                    "query": "type=-1&amount=20191008000000005",
+                    "scene": null
+                },
+                {
+                    "id": 13,
+                    "name": "pages/login/phone/index",
+                    "pathName": "pages/login/phone/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": 15,
+                    "name": "pages/my/index/index",
+                    "pathName": "pages/my/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "个人信息",
+                    "pathName": "pages/apply/info/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "packageB/pages/account/transfer/index",
+                    "pathName": "packageB/pages/account/transfer/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "我的联系人",
+                    "pathName": "pages/apply/contact/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "申请结果",
+                    "pathName": "pages/apply/result/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "pages/my/invite/index",
+                    "pathName": "pages/my/invite/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "packageB/pages/account/transfer/index",
+                    "pathName": "packageB/pages/account/transfer/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/index/index",
+                    "pathName": "pages/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "电子账户",
+                    "pathName": "packageB/pages/account/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "开户结果",
+                    "pathName": "pages/account/open/result/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "开户结果",
+                    "pathName": "pages/account/open/result/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/test/index",
+                    "pathName": "pages/test/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款详情",
+                    "pathName": "pages/loans/detail/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "贷款",
+                    "pathName": "pages/loans/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "我的",
+                    "pathName": "pages/my/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款购买",
+                    "pathName": "packageB/pages/apply/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "手写",
+                    "pathName": "pages/write/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "消息中心",
+                    "pathName": "pages/my/messageCenter/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "消息详情",
+                    "pathName": "pages/my/messageCenter/detail/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款",
+                    "pathName": "pages/deposit/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "交易明细",
+                    "pathName": "pages/account/list/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "我的存款",
+                    "pathName": "pages/my/depositList/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款订单详情",
+                    "pathName": "pages/my/depositList/detail/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "安全中心",
+                    "pathName": "pages/my/secureCenter/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "交易管理",
+                    "pathName": "packageB/pages/detail/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "账户注销",
+                    "pathName": "pages/my/secureCenter/idCancel/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "电子账户注销",
+                    "pathName": "pages/my/secureCenter/idCancel/detail/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "修改交易密码",
+                    "pathName": "packageB/pages/password/change/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "登录",
+                    "pathName": "pages/login/index/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "分享",
+                    "pathName": "pages/share/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款购买结果",
+                    "pathName": "pages/deposit/message/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "ocr",
+                    "pathName": "pages/withdraw/face/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "ocr2",
+                    "pathName": "pages/apply/idcertificate/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "赎回",
+                    "pathName": "packageB/pages/redemption/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "完善资料",
+                    "pathName": "pages/apply/index/index",
+                    "query": "productId=3",
+                    "scene": null
+                },
+                {
+                    "name": "重置交易密码",
+                    "pathName": "packageB/pages/password/forget/index",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "存款购买结果页面",
+                    "pathName": "pages/deposit/message/index",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,106 @@
+@function n($a) {
+    @return $a/67.5+rem;
+}
+
+@import './theme.scss';
+
+
+// html,body{
+//     width: 100%;
+//     height: 100%;
+//     background: $color_bg;
+// }
+.index_info{
+    width: 100%;
+    height: 100vh;
+    background: #20212a;
+}
+.top{
+    width: 100%;
+    height: n(241);
+    background: #20212a;
+    padding-bottom: n(30);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    dl{
+        width: 50%;
+        height: auto;
+        padding-top: n(59);
+        padding-left: n(48);
+        dt{
+            font-size: n(54);
+            color: #efefef;
+            font-weight:500;
+            span{
+                color: #efefef;
+                font-size: n(42);
+                margin-left: n(20);
+            }
+        }
+        dd{
+            font-size: n(60);
+            margin-top: n(26);
+            font-weight: bold;
+            span{
+                font-size: n(36);
+                margin-right: n(16);
+                &:nth-of-type(1){
+                    margin-left: n(19);
+                }
+            }
+        }
+    }
+    button{
+        width: n(223);
+        height: n(77);
+        font-size: n(42);
+        outline: none;
+        border-radius: n(10);
+        -webkit-border-radius: n(10);
+        -moz-border-radius: n(10);
+        -ms-border-radius: n(10);
+        -o-border-radius: n(10);
+        position: absolute;
+        border:none;
+        top: n(80);
+        right: n(53);
+        i{
+            font-size: n(42);
+        }
+    }
+}
+.dd_red{
+    color:#eb525e;
+}
+.dd_green{
+    color:#00b167;
+}
+.botton_click{
+    border: none;
+    border: 2px solid #9abefcb2 !important;
+    background: #ebf3ff;
+    color: #3e85ff;
+}
+.footer{
+    width: 100%;
+    height: auto;
+    font-size: n(48);
+    color: #a5abba;
+    margin-bottom: n(60);
+    background: #20212a;
+    p{
+        width: n(974);
+        margin: n(55) auto 0;
+        line-height: n(81);
+        font-family: '微软雅黑';
+    }
+    .info{
+        width: 97%;
+        height: auto;
+        font-size: n(36);
+        color: $info;
+        text-align: right;
+        box-sizing: border-box;
+        padding-right: n(38);
+        margin-top: n(30);
+    }
+}

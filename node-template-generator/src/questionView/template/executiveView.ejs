@@ -1,0 +1,106 @@
+<% include ../component/params %>
+<% include ../component/header %>
+<% include ../component/jsLoad %>
+<%
+params.userHeader = 1;
+var list = info.data || [];
+var col1 = ''; // 存储第一列的html tag
+var arrCol = ['', '', '', '', '', '']; // 存储其余列的html tag，空字符串的数量要跟除固定列外的列数一样
+var arrColName = ['publishDate', 'changeType', 'post', 'changeReason', 'managerStartDate', 'managerLeaveDate']; // 其余列字段
+for (var i = 0; i < list.length; i++) {
+    // 第一列，即固定列
+    col1 += '<li>' + commonUtil.truncateString(list[i].managerName, 6) + '</li>';
+
+    // 其余列
+    for (var j = 0; j < arrCol.length; j++) {
+        // 处理为null字段
+        var value = list[i][arrColName[j]] || '--';
+
+        // 格式化日期字段
+        if (['publishDate', 'managerStartDate', 'managerLeaveDate'].indexOf(arrColName[j]) !== -1)
+            value = value !== '--' ? commonUtil.generateDate(value) : value;
+
+        arrCol[j] += '<li>' + value + '</li>';
+    }
+}
+%>
+
+<div class="rxh_bd2" id="answer<%= sn %>">
+    <div class="rxh_tlBox_scrollCol">
+        <div class="rxh_scrollBox">
+            <ul>
+                <li>高管姓名</li>
+                <%- col1 %>
+            </ul>
+            <ul>
+                <li>变化</li>
+                <%- arrCol[1] %>
+            </ul>
+            <ul class="rxh_line2">
+                <li>职位</li>
+                <%- arrCol[2] %>
+            </ul>
+            <ul>
+                <li>发布日期</li>
+                <%- arrCol[0] %>
+            </ul>
+            <ul>
+                <li><i>原因</i></li>
+                <%- arrCol[3] %>
+            </ul>
+            <ul>
+                <li><i>上任日期</i></li>
+                <%- arrCol[4] %>
+            </ul>
+            <ul>
+                <li><i>离职时间</i></li>
+                <%- arrCol[5] %>
+            </ul>
+        </div>
+        <div class="rxh_rollTips">
+            <i class="icon-arrow4_R"></i>
+        </div>
+    </div>
+</div>
+<% include ../component/footer %>
+<script>
+
+
+    var jsNo = 0;
+    var executiveView = {
+        onViewReady: function () {
+            executiveView.callback()
+        },
+        callback: function () {
+            // rxh_scrollBox滚动时，引导箭头 隐藏
+            $(".rxh_tlBox_scrollCol .rxh_scrollBox").scroll(function () {
+                if ($(this).scrollLeft() > 20) {
+                    $(this).next(".rxh_rollTips").hide();
+                }
+            });
+        }
+    }
+
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, executiveView.onViewReady);
+    <% } %>
+
+
+    /**
+     * 列表横向滚动，隐藏箭头
+     * @param event
+     */
+    function tableScrollHandler(event) {
+        var target = $(event.currentTarget);
+        if (target.scrollLeft() > 20) {
+            target.siblings(".icon-arrow_shape_left").hide();
+        }
+        else {
+            target.siblings(".icon-arrow_shape_left").show();
+        }
+    }
+</script>
+
+
+

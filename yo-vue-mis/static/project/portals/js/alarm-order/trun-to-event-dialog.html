@@ -1,0 +1,175 @@
+<h2 class="p-dialog-title">{{dialog.title}}</h2>
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex">
+            <label class="item-label"><i class="i-must">*</i>事件名称：</label>
+            <div class="wrap-input form-flex-item">
+                <input class="p-form-control" type="text" name="event_name" id="event_name" ng-model="event_name" required>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>事件类型：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="type" id="type" ng-change="typeChange()" ng-required="!type">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.type" value="{{item.id}}">{{item.dName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>严重程度：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="level" id="level" ng-change="levelChange()" ng-required="!level">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.level" value="{{item.id}}">{{item.dName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>发现方式：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="source" id="source" ng-change="sourceChange()" ng-required="!source">
+     `               <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.source" value="{{item.id}}">{{item.dName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><i class="i-must">*</i>事件状态：</label>
+            <div class="wrap-input form-flex-item">
+                <select class="p-form-control" ng-model="status" id="status" ng-change="statusChange()" ng-required="!status">
+                    <option value="">请选择</option>
+                    <option ng-repeat="item in pageConfig.status" value="{{item.id}}">{{item.dName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label ">
+                <span class="i-placeholder">x</span>发现时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div class="input-group" style="margin-top: 36px;">
+                    <input id="occured_time" class="form-control js-date-picker" type="text" name="occured_time" readonly="readonly" uib-datepicker-popup
+                        close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd HH:mm:ss" datepicker-options="occuredTimeOptions"
+                        ng-required="true" is-open="occuredTimeIsOpen" onclose="occuredTimeClose()" ng-model="occured_time" ng-click="occuredTimeOpen()">
+                    <span class="input-group-btn" ng-click="occuredTimeOpen()">
+                        <button type="button" class="btn btn-default">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="p-col-4" uib-timepicker ng-model="occured_time_h" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label ">
+                <i class="i-must">*</i>确认时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div class="input-group" style="margin-top: 36px;">
+                    <input id="confirm_time" 
+                        class="form-control js-date-picker readonly" 
+                        type="text" 
+                        name="confirm_time" 
+                        uib-datepicker-popup
+                        close-text="关闭" 
+                        clear-text="清除" 
+                        current-text="今天" 
+                        datepicker-popup="yyyy-MM-dd HH:mm:ss" 
+                        datepicker-options="confirmTimeOptions"
+                        required="true" 
+                        is-open="confirmTimeIsOpen" 
+                        onclose="confirmTimeClose()" 
+                        ng-model="confirm_time" 
+                        ng-click="confirmTimeOpen()">
+                    <span class="input-group-btn" ng-click="confirmTimeOpen()">
+                        <button type="button" class="btn btn-default">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="p-col-4" uib-timepicker ng-model="confirm_time_h" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><span class="i-placeholder">x</span>发现系统：</label>
+            <div class="wrap-input form-flex-item">
+                <input class="p-form-control" type="text" name="system" id="system" ng-model="system">
+            </div>
+        </div>
+        <div class="p-col-5 form-flex">
+            <label class="item-label "><span class="i-placeholder">x</span>修复时间：</label>
+            <div class="wrap-input form-flex-item">
+                <div>
+                    <div class="input-group" style="margin-top: 36px;">
+                        <input id="repair_time" class="form-control js-date-picker" type="text" name="repair_time" readonly="readonly" uib-datepicker-popup
+                            close-text="关闭" clear-text="清除" current-text="今天" datepicker-popup="yyyy-MM-dd HH:mm:ss" datepicker-options="expireTimeOptions"
+                            ng-required="true" is-open="expireTimeIsOpen" onclose="expireTimeClose()" ng-model="repair_time" ng-click="expireTimeOpen()">
+                        <span class="input-group-btn" ng-click="expireTimeOpen()">
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="p-col-4" uib-timepicker ng-model="repair_time_h" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex">
+            <label class="item-label"><span class="i-placeholder">x</span>涉及人员：</label>
+            <div class="wrap-input form-flex-item">
+                <ui-my-auto-complete url="getUsersUrl" placeholder="请输入人员名称" name="accounts" ng-model="accounts">
+                    <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+                    <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                </ui-my-auto-complete>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex">
+            <label class="item-label"><span class="i-placeholder">x</span>涉及部门：</label>
+            <div class="wrap-input form-flex-item">
+                <ui-my-auto-complete url="getDepartmentUrl" placeholder="请输入部门名称" name="depts" ng-model="depts">
+                    <ui-select-match-item>{{$item.productName}} </ui-select-match-item>
+                    <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+                </ui-my-auto-complete>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex" style="align-items: flex-start">
+            <label class="item-label"><span class="i-placeholder">x</span>调查结果：</label>
+            <div class="wrap-input form-flex-item">
+                <textarea class="p-form-control p-reason" style="height: 120px" name="survey_result" placeholder="请输入调查结果（非必填）" ng-model="survey_result"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex" style="align-items: flex-start">
+            <label class="item-label"><span class="i-placeholder">x</span>处罚结果：</label>
+            <div class="wrap-input form-flex-item">
+                <textarea class="p-form-control p-reason" style="height: 120px" name="punish_result" placeholder="请输入处罚结果（非必填）" ng-model="punish_result"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="p-form-item flex-between">
+        <div class="p-col-12 form-flex" style="align-items: flex-start">
+            <label class="item-label"><span class="i-placeholder">x</span>备&#12288;&#12288;注：</label>
+            <div class="wrap-input form-flex-item">
+                <textarea class="p-form-control p-reason" style="height: 120px" name="remark" placeholder="请输入备注（非必填）" ng-model="remark"></textarea>
+            </div>
+        </div>
+    </div>
+
+<div class="p-form-item flex-around">
+    <button class="p-btn" type="submit" ng-click="handleSubmitClick($event)">提交</button>
+    <button class="p-btn" type="button" ng-click="handleCloseClick($event)">关闭</button>
+</div>

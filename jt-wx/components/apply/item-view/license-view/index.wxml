@@ -1,0 +1,5 @@
+<!--components/apply/item-view/live-view/index.wxml-->
+<view class="license-auth" bindtap="{{attribute.editFlag ? 'onTap' :''}}">
+  <image src="{{attribute.completed  ? '/image/license_dark.png' : '/image/license_white.png'}}" class="license-img" />
+  <text class="license-status">{{attribute.completed  ? '重新拍摄/上传' : '点击拍摄/上传'}}</text>
+</view>

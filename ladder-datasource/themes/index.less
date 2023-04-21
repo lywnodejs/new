@@ -1,0 +1,65 @@
+@import './vars.less';
+
+body {
+  min-width: 1200px;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+:global {
+  .ant-form.form {
+    padding: 20px 20px 20px 40px;
+    .right {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .ant-form-item-label > label {
+      color: #808080;
+    }
+  }
+}
+
+:global {
+  .handle_one_button {
+    padding-left: 0;
+  }
+  .ant-table-wrapper .ant-table-pagination.ant-pagination {
+    margin: 20px 30px 20px 0;
+  }
+  .ant-switch-checked {
+    background-color: #3dc76f !important;
+  }
+  .ant-table {
+    font-size: 14px;
+    color: #666666;
+    .ant-table-thead tr {
+      background-color: #dddddd;
+      th {
+        border: none;
+        font-size: 14px;
+        color: #666666;
+        &::before {
+          background-color: transparent !important;
+        }
+      }
+    }
+    .ant-table-tbody > tr > td {
+      border: none;
+    }
+    .ant-table-tbody > tr:nth-of-type(odd) {
+      background-color: #fafafa;
+    }
+    .ant-table-tbody > tr:nth-of-type(odd) .ant-table-cell-fix-right {
+      background-color: #fafafa;
+    }
+  }
+  .globalTableNoScroll {
+    .ant-table-tbody > tr:nth-of-type(odd) {
+      background-color: #ffffff;
+    }
+    .ant-table-tbody > tr:nth-of-type(even) {
+      background-color: #fafafa;
+    }
+  }
+}

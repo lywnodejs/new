@@ -1,0 +1,103 @@
+/* pages/share/index.wxss */
+page {
+  background-color: #f3f3f3;
+}
+
+.content {
+  margin: 30rpx auto 0;
+  width: 690rpx;
+  height: 978rpx;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.content .header {
+  padding-top: 30rpx;
+  padding-left: 30rpx;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.content .header image {
+  width: 120rpx;
+  height: 120rpx;
+  float: left;
+  padding-right: 30rpx;
+}
+
+.content .header .title {
+  width: 100%;
+  padding-left: 30rpx;
+  padding-top: 20rpx;
+  color: #333333;
+  font-weight: 500;
+  font-size: 32rpx;
+  line-height: 44rpx;
+  box-sizing: border-box;
+}
+
+.content .header .title>view {
+  color: #999999;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  font-weight: 400;
+}
+
+.content>image {
+  width: 630rpx;
+  height: 448rpx;
+  margin-top: 40rpx;
+}
+
+.content .shaer_footer {
+  margin-top: 60rpx;
+  width: 100%;
+  padding: 30rpx;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shaer_footer .info {
+  font-size: 28rpx;
+  color: #666666;
+  line-height: 40rpx;
+  font-weight: 400;
+}
+
+.shaer_footer .info>view {
+  color: #999999;
+  margin-top: 10rpx;
+}
+
+.shaer_footer image {
+  width: 160rpx;
+  height: 160rpx;
+}
+.footer{
+  display: flex;
+  padding: 0 10rpx;
+  margin-top: 60rpx;
+}
+.footer button {
+  width: 310rpx;
+  height: 88rpx;
+  border-radius: 50rpx;
+  border: 1px solid #EEA900;
+  background-color: none;
+  font-size: 32rpx;
+  line-height: 88rpx;
+  font-weight: 400;
+  color: #EEA900;
+}
+.footer button:nth-of-type(2){
+  background-color: #EEA900;
+  color: #FFFFFF;
+}
+.footer button::after{
+  display: none;
+}

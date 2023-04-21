@@ -1,0 +1,12 @@
+<div class="content-header-right">
+    <div class="p-search-input">
+        <input type="text" name=""
+        ng-model="searchText"
+        ng-trim="true"
+        ng-maxlength="200"
+        ng-required="required"
+        ng-keyup="keyUp($event)"
+        placeholder="搜索标题、关键字"/>
+        <i  ng-click="getData()"></i>
+    </div>
+</div>

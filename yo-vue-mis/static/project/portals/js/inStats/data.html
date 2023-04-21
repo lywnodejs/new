@@ -1,0 +1,99 @@
+<div class="flux-container portal-container">
+   <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{'active' : active == 0}"><a href="javascript:void(0);" ng-click="activeTab(0)">整体指标</a></li>
+      <li role="presentation" ng-class="{'active' : active == 1}"><a href="javascript:void(0);" ng-click="activeTab(1)">细节指标</a></li>
+   </ul>
+   <div class="row portal-panel" ng-show='active == 0'>
+        <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请工单各状态数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="typeChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>涉及数委会处理的工单按照状态数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="swhChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       
+       <div class="col-xs-12 portal">
+           <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>存在超时未处理工单数量最多的当前涉及责任人排行</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="expireChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+   </div>
+   <div class="row portal-panel" ng-show='active == 1'>
+       <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请工单按使用方数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="usedChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请工单按数据等级数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="levelChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请工单按提供方式数量分布</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="providerChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div class="col-xs-6 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请工单各阶段审核平均耗时</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="avgChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+       <div class="col-xs-12 portal">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>数据申请部门排行Top10</strong>
+                </div>
+                <div class="panel-body">
+                    <div id="deptChart" class="portal-chart" style="height:350px;"> 
+                    </div>
+                </div>
+            </div>
+       </div>
+   </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="pop_bg"></div>
+<div class="pop_box">
+    <div class="pop_bd">
+        <div class="hd">
+            <div class="col_l"><span>热点偏好筛选</span><em>(可多选)</em></div>
+            <div class="col_r" onclick="closePopupFilter('popFocusFilter')"><a class="a_close"><i class="icon-pop_close"></i></a></div>
+        </div>
+        <ul id="focusOptions" class="bd">
+            <!--
+            1. 未选，i标签样式名： icon-select_no
+            2. 已选，i标签样式名： icon-select
+            -->
+            <li onclick="filterItemClick(event,'popFocusFilter')">
+                <span>行情趋势好</span>
+                <i index="0" text="行情趋势好" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popFocusFilter')">
+                <span>近5日阶段涨幅高</span>
+                <i index="1" text="近5日阶段涨幅高" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popFocusFilter')">
+                <span>资金关注度高</span>
+                <i index="2" text="资金关注度高" class="icon-select_no"></i>
+            </li>
+            <li onclick="filterItemClick(event,'popFocusFilter')">
+                <span>估值偏低</span>
+                <i index="3" text="估值偏低" class="icon-select_no"></i>
+            </li>
+            <li class="all" onclick="filterItemClick(event,'popFocusFilter')">
+                <span>以上综合考虑</span>
+                <i index="4" text="all" class="icon-select_no"></i>
+            </li>
+        </ul>
+        <a class="btn" onclick="confirmFocusFilter()">确定</a>
+    </div>
+</div>

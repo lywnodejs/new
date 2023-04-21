@@ -1,0 +1,94 @@
+@standard-margin: 15px;
+
+div.page-content {
+    font-size: 14px;
+    min-height : 500px;
+
+    .form-control {
+        font-size: 14px;
+    }
+}
+
+footer.footer {
+    // font-size: 15px;
+    // background-color: #f0f0f0;
+    // text-align: center;
+    // color: #262626;
+
+    // >p  {
+    //     line-height: 70px;
+    // }
+    .footer-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 8%;
+      background: #f0f0f0;
+
+      .footer-item {
+        height: 150px;
+        padding-top: 15px;
+        padding-right: 15px;
+
+        &--title {
+          margin-bottom: 15px;
+          font-size: 20px;
+        }
+
+        &--desc {
+          margin: 0;
+          font-size: 12px;
+          color: #515151;
+          line-height: 24px;
+          margin-bottom: 0;
+        }
+      }
+    }
+}
+
+.container-fluid.page-content {
+    padding : 15px 35px;
+    overflow: auto;
+}
+
+.title-toggler {
+    margin-left: @standard-margin;
+}
+
+.collapse-form {
+    margin-top : @standard-margin;
+}
+
+.search-table {
+    // margin-top : @standard-margin;
+
+    .table td, .table th {
+        padding: 0.5rem;
+        vertical-align: middle;
+    }
+}
+
+.page-title {
+    margin-bottom : 15px;
+}
+
+.form-control[readonly] {
+    background-color: #FFF;
+}
+
+.btn.btn-hide {
+    display: none;
+}
+
+.el-table__header-wrapper .el-table__header th, .el-table__header-wrapper .el-table__header tr, .el-table__fixed-right .el-table__header th {
+  background-color: #f3f4f5;
+}
+
+.container-fluid, .page-content {
+  .el-form-item {
+    margin-bottom: 18px;
+  }
+  .el-form-item__error {
+    padding-top: 0;
+  }
+}

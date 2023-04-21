@@ -1,0 +1,21 @@
+<view class="xy-steps-item">
+    <view class="step-title {{!border ? 'no-border' : ''}}">
+        <view class="title">{{item.termName}}</view>
+        <view class="title-desc number">{{item.deductDate}}</view>
+        <text class="tag" style="{{active ? ('background-color: '+ activeColor) : ''}}"></text>
+    </view>
+
+    <view class="step-content">
+        <view class="content">￥{{item.totalAmount}}</view>
+        <view class="content-desc" wx:if="{{!contentDesc}}">
+<!--            wx:if="{{item.capitalAmount && item.capitalAmount >= 0}}"-->
+            <block >含本金<text class="number">{{item.capitalAmount}}</text></block>
+            <block wx:if="{{item.interestAmount && item.interestAmount > 0}}"> + 利息<text class="number">{{item.interestAmount}}</text></block>
+            <block wx:if="{{item.rongDanAmount && item.rongDanAmount > 0}}"> + 代收融担费用<text class="number">{{item.rongDanAmount}}</text></block>
+        </view>
+
+        <view class="content-desc content-desc-class" wx:else><slot name="content-desc"></slot></view>
+    </view>
+
+    <view class="item-right right-class" wx:if="{{rightText != ''}}">{{rightText}}</view>
+</view>

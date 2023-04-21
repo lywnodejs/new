@@ -1,0 +1,28 @@
+/* components/apply/guarantee-protocol/index.wxss */
+.protocol-box {
+  display: flex;
+  margin-bottom: 7px;
+  padding-left: 9px;
+}
+
+.checkbox {
+  flex: 0 0 19px;
+  margin-top: 3px;
+}
+
+.text-box {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b3b3b3;
+  font-family: PingFangSC-Regular, PingFang SC;
+}
+
+.text-box,
+.text-box .inline-view {
+  display: inline;
+}
+
+.protocol-name {
+  color: #ff2c43;
+}

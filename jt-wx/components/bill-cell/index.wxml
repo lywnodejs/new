@@ -1,0 +1,11 @@
+<!--components/bill-cell/index.wxml-->
+<view class="bill-cell {{!line && 'no-line'}}">
+  <view>
+    <text>{{data.type}}</text>
+    <text class="amount">{{data.amount}}</text>
+  </view>
+  <view>
+    <text>{{data.dateTime}}</text>
+    <text class="status">{{data.statusDesc}}</text>
+  </view>
+</view>

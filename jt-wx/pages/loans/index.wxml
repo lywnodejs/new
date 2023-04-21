@@ -1,0 +1,122 @@
+<scroll-view scroll-y style="width: 100%; height: 100vh;position:fixed;top:0;left:0;" refresher-enabled="{{true}}"
+  refresher-threshold="{{100}}" refresher-default-style="none" refresher-background="#70ac29"
+  refresher-triggered="{{triggered}}" bindrefresherrefresh="onRefresh" bindrefresherrestore="onRestore">
+  <view class="loading">
+    <van-loading size="60rpx" color="#ffffff" />
+  </view>
+  <view class="bg">
+    <image class="img_bg" src="../../image/loans_bg1.png"></image>
+    <view>
+      <image class="logo" src="../../image/loans_logo.png"></image>
+      <image class="logo2" src="../../image/loans_bg.png"></image>
+      <view>
+        <text>安心贷</text>
+        <text>放心贷</text>
+      </view>
+    </view>
+  </view>
+  <view class="home container">
+    <view class="header" wx:if="{{homeHead}}">
+      <image src="../../image/loansHome_bg.png"></image>
+      <view class="content">
+        <view class="title">{{homeHead.productName}}</view>
+        <view class="num">{{homeHead.availableLendAmount}}</view>
+        <view class="info">{{homeHead.title}}</view>
+        <view class="button {{homeHead.button.enable ? '' : 'noNum'}}" bindtap="onHomeApply">{{homeHead.button.text}}
+        </view>
+        <view class="header_footer_info" wx:if="{{homeHead.yearRate}}">{{homeHead.yearRate}}</view>
+      </view>
+      <view class="myed" wx:if="{{homeHead.totalAmount}}">
+        <image src="../../image/loans_fo.png"></image>
+        <view class="tags">
+          <view class="item">
+            <view class="tags_title">总额度</view>
+            <view class="tags_num">{{homeHead.totalAmount}}</view>
+          </view>
+          <view class="item">
+            <view class="tags_title">已用额度</view>
+            <view class="tags_num">{{homeHead.usedAmount}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="dk_content" wx:if="{{orderLists}}"
+      style="margin-top:{{homeHead.totalAmount ? '' : '120rpx'}}">
+      <!-- wx:if="{{orderLists && orderLists.orderInfos && orderLists.orderInfos.length > 0}}"  -->
+      <header bind:onClick="onSelect" data-url="order">
+        <text slot="title">我的借款</text>
+        <text slot="more">共<text>{{orderLists.summaryRepayInfo.totalWaitRepayCount}}</text>笔待还款</text>
+      </header>
+      <block wx:if="{{orderLists && orderLists.orderInfos && orderLists.orderInfos.length > 0}}">
+        <view class="repayment_box" wx:for="{{orderLists.orderInfos}}" wx:key="id">
+        <!-- 贷款信息 -->
+        <repayment-cell order="{{item}}" />
+      </view>
+      </block>
+    </view>
+
+    <view class="dk_content"  wx:if="{{moreLoanInfos.length!==0}}" style="margin-top:{{!orderLists && !homeHead.totalAmount ? '120rpx' : '20rpx'}}">
+      <!-- style="margin-top:{{!orderLists ? '120rpx' : '0px'}}" -->
+      <header bind:onClick="onSelect" data-url="order" isright="{{false}}">
+        <text slot="title">更多贷款</text>
+      </header>
+      <view class="repayment_box" wx:for="{{moreLoanInfos}}" wx:key="id">
+        <!-- 更多贷款 -->
+        <product-cell bind:jump="onJump" bind:apply="onApply" product="{{item}}" />
+      </view>
+    </view>
+
+
+
+    <view class="index_footer">
+      <image class="logo" src="../../image/footer_bg.png"></image>
+      <view class="info">
+        九台农商银行推出的一系列存款和贷款产品，产品丰富、利率优惠，为用户带来方便、快捷、安心的互联网银行理财和信贷服务。
+      </view>
+    </view>
+  </view>
+
+
+</scroll-view>
+
+<van-popup class="home-alter" show="{{isShow1}}">
+  <view class="content">
+    <text class="title">提示</text>
+    <text>{{desc}}</text>
+  </view>
+  <view class="footer">
+    <text bindtap="onClose">取消</text>
+    <text bindtap="onDefine">去认证</text>
+  </view>
+</van-popup>
+<van-popup class="home-alter" show="{{checkuseridcar2}}">
+  <view class="content">
+    <text class="title">提示</text>
+    <text>{{desc}}</text>
+  </view>
+  <view class="bottom">
+    <text bindtap="onDefine">去认证</text>
+  </view>
+</van-popup>
+
+<van-popup class="home-alter" show="{{isShow2}}">
+  <view class="content">
+    <text class="title">提示</text>
+    <text>{{desc}}</text>
+  </view>
+  <view class="bottom">
+    <text bindtap="onClose">知道了</text>
+  </view>
+</van-popup>
+
+<van-popup class="home-alter" show="{{isShowNotify}}">
+  <view class="content">
+    <text>{{notifyDesc}}</text>
+  </view>
+  <view class="bottom">
+    <text bindtap="onNotifyClose">我知道了</text>
+  </view>
+</van-popup>
+
+<xy-confirm leftText='取消' rightText='前去开启' contentText="当前资金交易服务已关闭，请前去开启服务，服务开启后方可继续交易。" bind:ok="toOpenServer" bind:cancel='onCloseServer'
+	show="{{showOpenServices}}" />

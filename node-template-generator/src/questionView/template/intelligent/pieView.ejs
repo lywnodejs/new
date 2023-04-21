@@ -1,0 +1,51 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<%
+if (conditionParams.useTitle) {
+%>
+<% include ../../component/templateTitleView %>
+<%
+}
+%>
+<% include ../../component/jsLoad %>
+<%
+if (conditionParams.useChart) {
+%>
+<!-- 图表 -->
+<div>
+    <div class="rxh_chart" id="chart<%= sn %>">
+    </div>
+</div>
+<%
+}
+if (conditionParams.useHuashu) {
+%>
+<div class="rxh_bd2">
+    <%= info.textValue %>
+</div>
+<%
+}
+%>
+
+<script>
+
+    var pieView<%- sn %>  = {
+        onViewReady: function () {
+            let info = JSON.parse('<%- JSON.stringify(info) %>');
+            let chart = new PieChart();
+            chart.containerId = 'chart<%= sn %>';
+            chart.series = info.chartData;
+            chart.indicatorConvertedUnit = info.indicatorConvertedUnit;
+            chart.pieValuesType = info.pieValuesType;
+            chart.initialize();
+        }
+    }
+
+
+    <% if(!params.noSource) { %>
+    var jsArr = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsArr, pieView<%- sn %>.onViewReady)
+    <% } %>
+
+
+</script>

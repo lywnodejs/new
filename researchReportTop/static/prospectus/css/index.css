@@ -1,0 +1,93 @@
+@charset "UTF-8";
+/* @Author: 刘亚伟 @Date: 2019-06-06 15:05:07 @LastEditTime: 2019-06-13 14:50:28 */
+* { padding: 0; margin: 0; }
+
+html, body { width: 100%; height: 100%; background: #ffffff; }
+
+header { width: 100%; height: 3.8963rem; font-size: 0.71111rem; text-align: center; line-height: 1.95556rem; border-bottom: 1px solid #e5e5e5; position: fixed; top: 0; left: 0; background: #fff; }
+
+header > i { position: absolute; top: 0.14815rem; left: 0.2963rem; font-size: 0.59259rem; }
+
+header .search { width: 14.57778rem; height: 1.42222rem; background: #eff2f6; margin: 0 auto; border-radius: 0.62222rem; -webkit-border-radius: 0.62222rem; -moz-border-radius: 0.62222rem; -ms-border-radius: 0.62222rem; -o-border-radius: 0.62222rem; }
+
+header .search i { float: left; margin-top: -0.26667rem; margin-left: 0.44444rem; margin-right: 0.2963rem; font-size: 0.62222rem; }
+
+header .search input { width: 11.85185rem; height: 1.33333rem; float: left; border: none; outline: none; background: #eff2f6; line-height: 1.33333rem; font-size: 0.59259rem; }
+
+main { width: 100%; margin-top: 3.8963rem; height: auto; background: #eff2f6; }
+
+main ul { width: 100%; height: auto; }
+
+main ul .bg { width: 100%; height: 0.11852rem; background: #eff2f6; }
+
+main ul li { width: 100%; height: auto; box-sizing: border-box; padding: 0.74074rem 0.74074rem; background: #fff; margin-top: 0.44444rem; }
+
+main ul li h3 { font-size: 0.71111rem; color: #333333; font-weight: 400; line-height: 1.06667rem; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; max-height: 2.13333rem; overflow: hidden; text-overflow: ellipsis; }
+
+main ul li h4 { font-size: 0.57778rem; color: #a1a2a8; font-weight: 400; margin-top: 0.72593rem; }
+
+.infinity { width: 100%; height: auto; background: #ffffff; font-size: 0.66667rem; text-align: center; padding-top: 0.2963rem; padding-bottom: 2.96296rem; }
+
+.nodata { width: 100%; font-size: 0.66667rem; color: #000; text-align: center; line-height: 1.18519rem; margin-top: 30%; }
+
+.nodata img { width: 50%; }
+
+.sk-circle { margin: 40px auto; width: 40px; height: 40px; position: relative; }
+
+.sk-circle .sk-child { width: 100%; height: 100%; position: absolute; left: 0; top: 0; }
+
+.sk-circle .sk-child:before { content: ''; display: block; margin: 0 auto; width: 15%; height: 15%; background-color: #000; border-radius: 100%; -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both; animation: sk-circleBounceDelay 1.2s infinite ease-in-out both; }
+
+.sk-circle .sk-circle2 { -webkit-transform: rotate(30deg); -ms-transform: rotate(30deg); transform: rotate(30deg); }
+
+.sk-circle .sk-circle3 { -webkit-transform: rotate(60deg); -ms-transform: rotate(60deg); transform: rotate(60deg); }
+
+.sk-circle .sk-circle4 { -webkit-transform: rotate(90deg); -ms-transform: rotate(90deg); transform: rotate(90deg); }
+
+.sk-circle .sk-circle5 { -webkit-transform: rotate(120deg); -ms-transform: rotate(120deg); transform: rotate(120deg); }
+
+.sk-circle .sk-circle6 { -webkit-transform: rotate(150deg); -ms-transform: rotate(150deg); transform: rotate(150deg); }
+
+.sk-circle .sk-circle7 { -webkit-transform: rotate(180deg); -ms-transform: rotate(180deg); transform: rotate(180deg); }
+
+.sk-circle .sk-circle8 { -webkit-transform: rotate(210deg); -ms-transform: rotate(210deg); transform: rotate(210deg); }
+
+.sk-circle .sk-circle9 { -webkit-transform: rotate(240deg); -ms-transform: rotate(240deg); transform: rotate(240deg); }
+
+.sk-circle .sk-circle10 { -webkit-transform: rotate(270deg); -ms-transform: rotate(270deg); transform: rotate(270deg); }
+
+.sk-circle .sk-circle11 { -webkit-transform: rotate(300deg); -ms-transform: rotate(300deg); transform: rotate(300deg); }
+
+.sk-circle .sk-circle12 { -webkit-transform: rotate(330deg); -ms-transform: rotate(330deg); transform: rotate(330deg); }
+
+.sk-circle .sk-circle2:before { -webkit-animation-delay: -1.1s; animation-delay: -1.1s; }
+
+.sk-circle .sk-circle3:before { -webkit-animation-delay: -1s; animation-delay: -1s; }
+
+.sk-circle .sk-circle4:before { -webkit-animation-delay: -0.9s; animation-delay: -0.9s; }
+
+.sk-circle .sk-circle5:before { -webkit-animation-delay: -0.8s; animation-delay: -0.8s; }
+
+.sk-circle .sk-circle6:before { -webkit-animation-delay: -0.7s; animation-delay: -0.7s; }
+
+.sk-circle .sk-circle7:before { -webkit-animation-delay: -0.6s; animation-delay: -0.6s; }
+
+.sk-circle .sk-circle8:before { -webkit-animation-delay: -0.5s; animation-delay: -0.5s; }
+
+.sk-circle .sk-circle9:before { -webkit-animation-delay: -0.4s; animation-delay: -0.4s; }
+
+.sk-circle .sk-circle10:before { -webkit-animation-delay: -0.3s; animation-delay: -0.3s; }
+
+.sk-circle .sk-circle11:before { -webkit-animation-delay: -0.2s; animation-delay: -0.2s; }
+
+.sk-circle .sk-circle12:before { -webkit-animation-delay: -0.1s; animation-delay: -0.1s; }
+
+@-webkit-keyframes sk-circleBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% { -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes sk-circleBounceDelay { 0%, 80%, 100% { -webkit-transform: scale(0);
+    transform: scale(0); }
+  40% { -webkit-transform: scale(1);
+    transform: scale(1); } }

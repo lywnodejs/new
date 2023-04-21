@@ -1,0 +1,422 @@
+<!DOCTYPE html >
+<html>
+
+<head>
+    <title>告警工单详情</title>
+        <meta name="keywords" content="滴滴，滴滴安全部，滴滴安全门户，安全门户，滴滴信息安全门户，滴滴信息安全部，安全部，滴滴安全产品，滴滴安全">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="full-screen" content="true">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="360-fullscreen" content="true">
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <link rel="dns-prefetch" href="//xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//static.galileo.xiaojukeji.com" />
+    <link rel="dns-prefetch" href="//home.didichuxing.com" />
+    <link  rel="icon"  href="/project/portals/i/logo.png?_v=953c28" />
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap.css?_v=eea507">
+    <link  rel="stylesheet" type="text/css"  href="/lib/bootstrap/css/bootstrap-font.css?_v=9753fe">
+    <link  rel="stylesheet" type="text/css"  href="/lib/angular-select2/select.css?_v=3b60b1">
+    <link  rel="stylesheet" type="text/css"  href="/project/portals/css/bug-detail.css?_v=3825de">
+</head>
+
+<body>
+    <!--[if lt IE 9]>   
+<style>
+    .browse-happy {
+        background: #ccc;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .browse-happy h3 {
+        position: absolute;
+        width: 100%;
+        top: 200px;
+        text-align: center;
+    }
+</style>
+<div class="browse-happy">
+    <h3>你的浏览器版本 <strong>太低了</strong> 请<a href="http://browsehappy.com/">点击这里</a>升级你的浏览器</h3>
+</div>
+<![endif]-->
+<header class="header" style="height:70px">
+    <header-html></header-html>
+</header>
+    <div class="main">
+        <div class="content" ng-controller="alarm-order-detail as ctrl">
+            <div class="content-header page-center">
+                <h1 class="content-header-title arrow"><a href="/project/portals/pages/alarm.html">告警列表</a></h1>
+                <h1 class="content-header-title">告警工单详情</h1>
+            </div>
+            <div class="page-center" ng-cloak>
+                <loading isloading="ctrl.isShowLoading"></loading>
+                <div class="content-top" ng-cloak>安全告警单 <small>（单号:{{:: ctrl.pageData.id}}）</small></div>
+                <progress url="/alarm/workOrder/getStates" ng-cloak></progress>
+
+                <div class="wrap-info pt-30  p-form" ng-cloak>
+                    <div class="info-con p-col-dis">
+                        <span class="info-title">基本信息</span>
+                        <div class="p-col-12">题目:<span>{{::ctrl.pageData.name}}</span></div>
+
+                        <div class="p-col-6">状态:<span>{{::ctrl.pageData.state}}</span></div>
+                        <div class="p-col-6">安全工程师：<span ng-bind-html="ctrl.pageData.safetyEngineersText | to_trusted"></span></div>
+
+                        <div class="p-col-6">告警类型：<span>{{::ctrl.pageData.alarmType}}</span></div>
+                        <div class="p-col-6" ng-if="ctrl.pageData.processersText">告警处理人：<span ng-bind-html="ctrl.pageData.proceessersText | to_trusted"></span> </div>
+
+                        <div class="p-col-6">风险等级：<span>{{ctrl.pageData.riskLevel | getRiskLevel}}</span></div>
+                        <div class="p-col-6" ng-if="ctrl.pageData.followersText">关注人： <span ng-bind-html="ctrl.pageData.followersText | to_trusted"></span></div>
+
+                        <div class="p-col-6">部门-产品线: <span>{{::ctrl.pageData.deptInfo[0].productName}}</span></div>
+                        <div class="p-col-6" ng-if="ctrl.pageData.confirmTime">确认漏洞时间: <span> {{ctrl.pageData.confirmTime | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
+
+                        <div class="p-col-6" ng-if="ctrl.pageData.expireTime">期望修复时间: <span> {{ctrl.pageData.expireTime | date:'yyyy-MM-dd HH:mm:ss'}}</span></div>
+                        <div class="p-col-6" ng-if="ctrl.pageData.aduitersText">当前审核人： <span ng-bind-html="ctrl.pageData.aduitersText | to_trusted"></span></div>
+                        <div class="p-col-6" ng-if="ctrl.pageData.notifiersText">被通报人： <span ng-bind-html="ctrl.pageData.notifiersText | to_trusted"></span></div>
+
+                        <div class="p-col-12">标签： <span ng-show="!ctrl.pageData.alarmTags.length">无</span> <span class="mark" ng-repeat="item in ctrl.pageData.alarmTags">{{item}} </span></div>
+                    </div>
+
+                    <div class="info-con">
+                        <span class="info-title">告警信息</span> <div class="wrap-table" ng-cloak>
+    <loading opacity=".75" isloading="isShowTableLoading" ng-if="isShowTableLoading"></loading>
+    <button ng-if="totalItems && totalItems>10" class="p-btn p-btn-sm i-fr" style="margin:0 5px 5px 0" ng-click="exportAlarmList()">导出告警</button>
+    <table class="p-table table-bordered table-header-bg table-hover">
+        <thead>
+            <tr>
+                <th ng-repeat="key in showTableHeaderFields track by $index" ng-switch on="key">
+                    <span ng-switch-when="checkbox">
+                        <input type="checkbox" id="js-checkbox" ng-click="changeCheck($event)"> 
+                    </span>
+                    <div ng-switch-default class="wrap-table-sort">
+                        <span> {{key}}</span>
+                        <span class="table-header-sort" ng-if="sortFields.indexOf(key)>=0" ng-class="{
+                                ascending: $index===tableSortIndex && tableSortIsAsc===true,
+                                descending: $index===tableSortIndex && tableSortIsAsc===false
+                            }">
+                            <span class="glyphicon glyphicon-triangle-top ascending" ng-click="sortFieldByName($index,true)"></span>
+                        <span class="glyphicon glyphicon-triangle-bottom descending" ng-click="sortFieldByName($index,false)"></span>
+                        </span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="!datas || !datas.length">
+                <td colspan="20">
+                    <h5>{{alarmControl===1 || alarmControl===0 ? "没有相关数据" : "没有权限"}}</h5>
+                </td>
+            </tr>
+            <!--可以做成指令  -->
+            <tr ng-repeat-start="data in datas">
+                <td ng-repeat="field in showTableFields track by $index" ng-switch on="field">
+                    <span ng-switch-when="checkbox">
+                        <input type="checkbox" ng-if="data.state==1 || data.state==4" ng-model="data.isChecked" ng-checked="data.isChecked">
+                    </span>
+                    <span ng-switch-when="expand" class="expand-span" ng-class="{ 'is-expand':data.isExpand }" ng-click="tableExpand(data)">
+                       <span class="glyphicon glyphicon-menu-right" ></span>
+                    </span>
+                    <div ng-switch-when="remark">
+                        <span title="{{data[field]||'无'}}">{{sliceRemark(data[field])}}<span ng-if="alarmControl===1" class="glyphicon glyphicon-pencil" title="编辑" ng-click="showDialogDesc(data)" ></span></span>
+                    </div>
+                    <span ng-switch-when="state"> {{[data[field]-1] | getStateText}} </span>
+                    <span ng-switch-when="processerJson"> <span ng-bind-html="data.processerJson | getName | to_trusted"></span></span>
+                    <span ng-switch-default> {{data[field] || "无"}} </span>
+                </td>
+            </tr>
+            <tr ng-repeat-end ng-if="isShowRows(data)">
+                <td colspan="{{showTableFields.length}}">
+                    <div class="table-expand-list" ng-style="{'max-width': maxWidth || '100%' }">
+                        <div class="list-item" ng-repeat="fe in tableFields" ng-switch on="fe">
+                            <label>{{tableHeaderFields[$index]}}</label>
+                            <span ng-switch-when="processerJson"> <span ng-bind-html="data.processerJson | getName | to_trusted"></span></span>
+                            <span ng-switch-when="state"> {{[data[fe]-1] | getStateText}} </span>
+                            <span ng-switch-default> {{data[fe] || "无"}} </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="wrap-pagination" ng-show="totalItems && totalPage" ng-cloak>
+     <ul uib-pagination
+     ng-show="totalItems && totalPage"
+     first-text="首页"
+     last-text="最后一页"
+     previous-text="上一页"
+     next-text="下一页"
+     boundary-link-numbers="true"
+     force-ellipses="true"
+     class="pagination-sm"
+     total-items="totalItems"
+     ng-model="currentPage"
+     max-size="maxSize"
+     items-per-page="pageSize"
+     ng-change="getData()"
+     ></ul>
+     <select ng-change="changePageSize()" ng-model="pageSize" ng-init="pageSize = pageSize + '' || pageSizeOptions[0] + '' ">
+         <!--  -->
+         <option ng-repeat="size in pageSizeOptions" value="{{size}}">{{size}} 条/页</option>
+     </select>
+     <div class="jump" ng-show="totalItems && totalPage > 5">
+          <input type="number" name="jumpPageNum" ng-model="jumpPageNum" ng-keyup="jumpPage($event)" placeholder="输入页码" />
+          <a href="javascript:" ng-click="jumpPage()">GO</a>
+     </div>
+     <div class="i-fr">{{totalItems}}条记录，共{{totalPage}}页</div>
+ </div>
+
+                    </div>
+
+                    <div class="info-con wrap-editor-content">
+                        <span class="info-title">告警说明</span>
+                        <div id="js-alarmDesc" ui-show-large-img ng-bind-html="ctrl.pageData.alarmDesc | to_trusted"> </div>
+                    </div>
+
+                    <div class="info-con p-form-item form-flex">
+                        <span class="info-title">处理建议</span>
+                        <div class="wrap-input form-flex-item">{{ :: ctrl.pageData.suggestion}}</div>
+                    </div>
+
+                    <div class="info-con p-form-item form-flex" ng-show="ctrl.pageData.harm">
+                        <span class="info-title">危害</span>
+                        <div class="wrap-input form-flex-item">{{ :: ctrl.pageData.harm}}</div>
+                    </div> 
+
+                    <div class="info-con" ng-if="ctrl.pageData.state == '已关闭'">
+                        <span class="info-title">关联事件</span> <div class="wrap-table" ng-cloak>
+    <table class="p-table table-bordered table-header-bg table-hover">
+        <thead>
+            <tr>
+                <th>
+                    事件编号
+                </th>
+                <th>
+                    事件名称
+                </th>
+                <th>
+                    严重程度
+                </th>
+                <th>
+                    事件状态
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in eventTableList">
+                <td>{{item.event_no}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.level_name}}</td>
+                <td>{{item.status_name}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+   
+                    </div>
+    
+                    <form name="myForm" id="js-confirmForm" ng-if="!ctrl.componentKeys.includes('noAuth')">
+                        <div class="info-con" ng-cloak>
+                            <span class="info-title">告警处理</span>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('actions')">
+                                <label class="item-label"><span class="i-must">*</span>处理状态：</label>
+                                <div class="wrap-input form-flex-item align-center" ng-class="{'p-error':!ctrl.editData.actions && myForm.actions.$touched}">
+                                    <select class="p-form-control" style="width:26%" name="actions" ng-required="true" ng-model="ctrl.editData.actions" ng-options="opt.actionValue as opt.actionName for opt in ctrl.components.actions"> </select>
+                                    <span class="red-color label">请在此处更新状态。若准备处理，更新状态为“修复中”，处理完成后回到当页更新为“已处理”。</span>
+                                    <span class="p-error-msg">请选择</span>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('dlpOrDelayAction')">
+                                <span class="red-color label">{{ctrl.components.dlpOrDelayAction.text}}</span>
+                                <div class="wrap-input form-flex-item" ng-if="ctrl.components.dlpOrDelayAction.state==1" ng-class="{'p-error':!ctrl.editData.dlpOrDelayAction && myForm.dlpOrDelayAction.$touched}">
+                                    <label class="item-label"><input type="radio" ng-model="ctrl.editData.dlpOrDelayAction" ng-required="true" value="1" name="dlpOrDelayAction" style="margin:0 5px">是</label>
+                                    <label class="item-label"><input type="radio" ng-model="ctrl.editData.dlpOrDelayAction" ng-required="true" ng-checked="true" value="0" name="dlpOrDelayAction" style="margin:0 5px">否</label>
+                                    <span class="red-color label" style="line-height:35px;padding:0">{{ctrl.components.dlpOrDelayAction.desc}}</span>
+                                    <span class="p-error-msg">请选择</span>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('dlpOrDelayAction') && ctrl.components.dlpOrDelayAction.state==1">
+                                <span class="red-color label">是否为误报</span>
+                                <div class="wrap-input form-flex-item" ng-class="{'p-error':!ctrl.editData.misReport && myForm.misReport.$touched}">
+                                    <label class="item-label">
+                                        <input type="radio" ng-model="ctrl.editData.misReport" ng-required="true" value="1" name="misReport"
+                                            style="margin:0 5px">误报</label>
+                                    <label class="item-label">
+                                        <input type="radio" ng-model="ctrl.editData.misReport" ng-required="true" ng-checked="true" value="0" name="misReport"
+                                            style="margin:0 5px">非误报</label>
+                                    <span class="p-error-msg">请选择</span>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('remark')">
+                                <label class="item-label p-muti"><span class="i-must">*</span>备注：</label>
+                                <div class="wrap-input form-flex-item" ng-class="{'p-error':!ctrl.editData.remark && myForm.remark.$touched}">
+                                    <textarea class="p-form-control" ng-required="true" name="remark" maxlength="2000" ng-model="ctrl.editData.remark"></textarea>
+                                    <span class="p-error-msg">请填写备注</span>
+                                </div>
+                            </div>
+                            <div class="wrap-center-btn" style="margin-bottom:20px" ng-cloak>
+                                <a href="javascript:;" class="p-btn" ng-click="ctrl.confirmInfo(myForm)">确认处理</a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="updateForm" id="js-updateForm" ng-if="!ctrl.componentKeys.includes('noAuth')">
+                        <div class="info-con" ng-cloak>
+                            <span class="info-title">告警信息更新</span>
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('engineers') && ctrl.components.engineers.state==0">
+                                <label class="item-label"><span class="i-placeholder">x</span>安全工程师：</label>
+                                <div class="wrap-input form-flex-item">
+                                    <span ng-bind-html="ctrl.editData.engineers | getArrEmailLink | to_trusted"></span>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex align-start" ng-if="ctrl.componentKeys.includes('expireTime')">
+                                <label class="item-label">期望处理时间：</label>
+                                <div class="wrap-input form-flex-item " ng-if="ctrl.components.expireTime.state==1" ng-class="{'p-error':!ctrl.editData.expireTime}">
+                                    <div class="input-group p-col-2" >
+                                        <input class="form-control" type="text" name="expireTime" ng-model="ctrl.editData.expireTime" uib-datepicker-popup close-text="关闭"
+                                            clear-text="清除" current-text="今天" readonly="readonly" datepicker-popup="yyyy-MM-dd"
+                                            show-button-bar="false" datepicker-options="ctrl.expireTimeOptions" is-open="ctrl.expireTimeIsOpen"
+                                            onclose="ctrl.expireTimeClose()" ng-click="ctrl.expireTimeOpen()" />
+                                        <span class="input-group-btn" ng-click="ctrl.expireTimeOpen()"> <button type="button" class="btn btn-default"><i class="glyphicon glyphicon-calendar"></i></button> </span>
+                                    </div>
+                                    <div id="expireTime_h" style="margin-top: -36px;" class="p-col-2" uib-timepicker ng-model="ctrl.editData.expireTime_h" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></div>
+
+                                    <div class="red-color" style="line-height:20px;">超期计时从“待处理”到“已处理”计算。若超期未处理会逐级向上通报，最高通报到CTO。<br>若更新处理时间需处理人上级和安全工程师在系统确认，两者全部确认后时间方可更新成功。</div>
+                                </div>
+                                <div class="wrap-input" ng-if="ctrl.components.expireTime.state==0">
+                                    {{ctrl.editData.expireTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('engineers') && ctrl.components.engineers.state==1">
+                                <label class="item-label"> <span class="i-placeholder">x</span>安全工程师:</label>
+                                <div class="wrap-input form-flex-item">
+                                    <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入安全工程师" name="engineers" ng-model="ctrl.editData.engineers">
+                                        <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+<ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                                    </ui-my-auto-complete>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('processers')">
+                                <label class="item-label"> <span class="i-placeholder">x</span>告警处理人:</label>
+                                <div class="wrap-input form-flex-item">
+                                    <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入告警处理人" name="processers" ng-model="ctrl.editData.processers">
+                                        <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+<ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                                    </ui-my-auto-complete>
+                                </div>
+                            </div>
+
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('followers')">
+                                <label class="item-label"> <span class="i-placeholder">x</span>关注人:</label>
+                                <div class="wrap-input form-flex-item">
+                                    <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入关注人" name="followers" ng-model="ctrl.editData.followers">
+                                        <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+<ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                                    </ui-my-auto-complete>
+                                </div>
+                            </div>
+                            <!-- 通报审核人 -->
+                            <div class="p-form-item form-flex" ng-if="ctrl.componentKeys.includes('general')">
+                                <label class="item-label"> <span class="i-must">*</span>{{ctrl.components.general.text}}:</label>
+                                <div class="wrap-input form-flex-item" ng-class="{'p-error':!ctrl.editData.general || !ctrl.editData.general.length}">
+                                    <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入并选择" name="general" ng-model="ctrl.editData.general">
+                                        <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+<ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                                    </ui-my-auto-complete>
+                                    <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.editData.general || !ctrl.editData.general.length}" >请输入并选择{{ctrl.components.general.text}}</span>
+                                </div>
+                            </div>
+
+                            <div class="wrap-center-btn" style="margin-bottom:20px" ng-cloak>
+                                <a href="javascript:;" class="p-btn border-btn" ng-click="ctrl.updateInfo(updateForm)">更新信息</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="comment-record">
+    <record-html url="/alarm/workOrder/getRecords"></record-html>
+    <comment-html></comment-html>
+</div>
+<script type="text/ng-template" id="commentPopoverTemplate.html">
+    <div class="p-popover">
+        <p>确定要删除该评论吗</p>
+        <a href="javascript:" class="p-btn p-btn-sm" ng-click="deleteComment($event)">确定</a>
+        <a href="javascript:" class="p-btn p-btn-sm border-btn" data-dismiss="popover">取消</a>
+    </div>
+</script>
+            </div>
+        </div>
+    </div>
+    <script src="http://sec-aegisfe.didistatic.com/static/aegisfe/water-mark2.0.js"></script>
+    <script   src="/lib/angular/angular1.5.8.js?_v=11cf7b"></script>
+<script   src="/lib/requirejs/require-lib.js?_v=5e2b8a"></script>
+<script   src="/project/portals/config/config.js?_v=000d11"></script>
+    <script   src="/lib/angular/angular-sanitize.js?_v=76d49b"></script>
+    <script>
+var _hmt = _hmt || [];
+//让业务页面首先加载，footer和统计稍后加载
+ setTimeout(function(){
+    require(['modules/footer/js/footer']);
+    var node = document.createElement("script");
+    node.type = 'text/javascript';
+    node.charset = 'utf-8';
+    node.async = true;
+    node.src = "https://hm.baidu.com/hm.js?c18c832524e2ba13e50440194cb8f7a1";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(node, s);
+ },0)
+</script>
+<footer class="footer" ng-cloak>
+    <!-- <p> 
+        <label style="margin-right: 15px;">滴滴出行安全产品与技术部开发并维护</label>
+        扫码加入钉钉反馈群：<img  width="90" height="90"  src="/project/portals/i/code.png?_v=80763a"/>
+    </p> -->
+    <div class="footer-container">
+        <div class="footer-item" style="width: 50%;">
+            <p class="footer-item--title">安全管理平台</p>
+            <p class="footer-item--desc">我们专注提供一站式安全服务，打造一流安全平台，建设顶级安全服务能力，为滴滴信息安全、业务安全和客户安全保驾护航。</p>
+            <p class="footer-item--desc">反馈邮箱： soc@didichuxing.com</p>
+        </div>
+        <div style="width: 40%;">
+            <p class="footer-item--desc">扫码加入钉钉反馈群</p>
+            <img  width="100" height="100"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </div>
+
+    <!-- <div popover-placement="left-bottom" uib-popover-template="'options-panel.html'" popover-trigger="'mouseenter'"  class="p-btn-scroll-code fadein" style="bottom: 165px;">
+        <img  width="30" height="30"  src="/project/portals/i/code.png?_v=80763a"/>
+    </div>
+    <script type="text/ng-template" id="options-panel.html">
+        <div class="form-group">
+          <div>扫码加入钉钉反馈群:</div>
+          <img  width="150" height="150"  src="/project/portals/i/code.png?_v=80763a"/>
+        </div>
+    </script> -->
+</footer>
+    <script>
+        require(['js/alarm-order-detail/index'])
+    </script>
+</body>
+
+</html>

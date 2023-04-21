@@ -1,0 +1,286 @@
+<div ng-controller="application as ctrl">
+    <form name="myForm" ng-submit="ctrl.submitData()" novalidate >
+        <div class="content page-center">
+            <div class="p-form fix-from">
+                <div class="p-form-item">
+                    <label class="p-col-1"><i class="i-must ">*</i>题目:</label>
+                    <div class="wrap-input p-col-9" ng-class="{'p-error':myForm.name.$error.required && myForm.name.$touched}">
+                        <input class="p-form-control" name="name" required ng-maxlength="200" ng-model="ctrl.pageData.name" type="text" placeholder="请输入题目">
+                        <span ng-show="myForm.name.$error.required" class="p-error-msg">请输入题目</span>
+                        <span ng-show="myForm.name.$error.maxlength" class="p-error-msg">最大程度为两百</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-2"><i class="i-must ">*</i>数据归属方部门-产品线:</label>
+                    <div class="wrap-input p-col-8" ng-class="{'p-error':!ctrl.pageData.provideProduct.length && ctrl.showErrors}">
+                        <ui-my-auto-complete url="ctrl.getDepartmentUrl" placeholder="请输入相关部门" name="provideProduct" ng-model="ctrl.pageData.provideProduct" ng-cloak>
+                            <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+                            <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+                        </ui-my-auto-complete>
+                        <span class="p-error-msg" ng-class="{'ng-invalid':!ctrl.pageData.provideProduct.length && ctrl.showErrors}" ng-show="!ctrl.pageData.provideProduct.length && ctrl.showErrors">请选择产品线</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item many-wrap-input small-checkbox-inline">
+                    <label class="p-col-1"><i class="i-must ">*</i>数据使用方:</label>
+                    <div class="wrap-input p-col-1" ng-class="{'p-error':!ctrl.pageData.dataConsumer && myForm.dataConsumer.$touched}">
+                        <select class="p-form-control" name="dataConsumer"
+                        ng-required="true"
+                        ng-model="ctrl.pageData.dataConsumer"
+                        >
+                            <option value="">请选择</option>
+                            <option value="0">公司以内</option>
+                            <option value="1">公司以外</option>
+                        </select>
+                        <span class="p-error-msg" ng-show="!ctrl.pageData.dataConsumer && myForm.dataConsumer.$touched">请选择</span>
+                    </div>
+                    <!-- 公司以内 S -->
+                    <!--选择公司的相关部门，这里是个下拉选择框，选择公司的各个部门-->
+                    <div class="wrap-input p-col-8"
+                        ng-show="ctrl.pageData.dataConsumer==='0'"
+                        ng-class="{'p-error':ctrl.pageData.dataConsumer=='0' && !ctrl.pageData.dataConsumerIn.length && ctrl.showErrors}" ng-cloak>
+                        <ui-my-auto-complete url="ctrl.getDepartmentUrl" placeholder="请输入相关部门" name="dataConsumerIn" ng-model="ctrl.pageData.dataConsumerIn" ng-cloak>
+                            <ui-select-match-item>{{$item.productName}}</ui-select-match-item>
+                            <ui-auto-complete-list>{{item.productName}}</ui-auto-complete-list>
+                        </ui-my-auto-complete>
+                        <span class="p-error-msg" ng-class="{'ng-invalid':ctrl.pageData.dataConsumer=='0' && !ctrl.pageData.dataConsumerIn.length && ctrl.showErrors}" ng-show="ctrl.pageData.dataConsumer=='0' && !ctrl.pageData.dataConsumerIn.length && ctrl.showErrors">请选择部门</span>
+                    </div>
+                    <!-- 公司以内 E -->
+
+                    <!-- 公司以外 S -->
+                    <div class="wrap-input p-col-1"
+                        ng-class="{'p-error':ctrl.pageData.dataConsumer==='1' && !ctrl.pageData.dataConsumerOut && myForm.dataConsumerOut.$touched}"
+                        ng-show="ctrl.pageData.dataConsumer==='1'" ng-cloak>
+                        <select class="p-form-control"
+                            name="dataConsumerOut"
+                            ng-model="ctrl.pageData.dataConsumerOut"
+                            ng-required="ctrl.pageData.dataConsumer=='1'"
+                            ng-change="ctrl.dataConsumerOutChange(ctrl.pageData.dataConsumerOut)">
+                            <option value="">请选择</option>
+                            <option value="0">非政府机构</option>
+                            <option value="1">政府机构</option>
+                        </select>
+                        <span class="p-error-msg" ng-show="ctrl.pageData.dataConsumer==='1' && !ctrl.pageData.dataConsumerOut && myForm.dataConsumerOut.$touched">请选择机构</span>
+                    </div>
+                    <!-- 非政府机构 S -->
+                    <div class="wrap-input p-col-3"
+                        ng-class="{'p-error':ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='0' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText0.$touched}"
+                        ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='0'"
+                        ng-cloak>
+                        <input type="text" class="p-form-control"  name="dataConsumerOutOtherText0"  placeholder="请说明非政府机构的具体名称"
+                            ng-required="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='0'"
+                            ng-disabled="ctrl.pageData.dataConsumer!=='1' || ctrl.pageData.dataConsumerOut!=='0'"
+                            ng-model="ctrl.pageData.dataConsumerOutOtherText"
+                            ng-maxlength="200"
+                            maxlength="200"
+                        />
+                        <span class="p-error-msg"
+                            ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='0' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText0.$touched && myForm.dataConsumerOutOtherText0.$error.required"
+                        >请填写说明非政府机构的具体名称</span>
+                        <span class="p-error-msg"
+                            ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText1.$touched && myForm.dataConsumerOutOtherText0.$error.maxlength"
+                        >最大长度为200个字符</span>
+                    </div>
+                    <!-- 非政府机构 E -->
+
+                    <!-- 政府机构 S -->
+                    <div class="wrap-input"
+                        ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1'"
+                        ng-class="{'p-error':ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.getObjectLength(ctrl.pageData.dataConsumerOutOther) && myForm.dataConsumerOutOther.$touched}"
+                        ng-cloak>
+                        <label class="checkbox-inline" ng-repeat="item in ['公安部','检察院','法院','交通委','其他']">
+                            <input type="checkbox" value="{{$index}}"
+                            ng-required="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.getObjectLength(ctrl.pageData.dataConsumerOutOther)"
+                            name="dataConsumerOutOther"
+                            ng-checked="ctrl.pageData.dataConsumerOutOther[$index]"
+                            ng-model="ctrl.pageData.dataConsumerOutOther[$index]">{{item}}
+                        </label>
+                        <span class="p-error-msg" ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.getObjectLength(ctrl.pageData.dataConsumerOutOther)">请选择政府机构</span>
+                    </div>
+                    <!-- 选择其他的时候显示这个 -->
+                    <div class="wrap-input p-col-3"
+                        ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && ctrl.pageData.dataConsumerOutOther[4]"
+                        ng-class="{'p-error':ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText1.$touched}"
+                        ng-cloak>
+                        <input type="text" class="p-form-control" placeholder="请说明政府机构的具体名称"
+                            name="dataConsumerOutOtherText1"
+                            ng-required="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && ctrl.pageData.dataConsumerOutOther[4]"
+                            ng-disabled="ctrl.pageData.dataConsumer!=='1' || ctrl.pageData.dataConsumerOut!=='1'"
+                            ng-maxlength="200"
+                            maxlength="200"
+                            ng-model="ctrl.pageData.dataConsumerOutOtherText" />
+                        <span class="p-error-msg"
+                            ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText1.$touched && myForm.dataConsumerOutOtherText1.$error.required"
+                        >请说明政府机构的具体名称</span>
+                        <span class="p-error-msg"
+                            ng-show="ctrl.pageData.dataConsumer==='1' && ctrl.pageData.dataConsumerOut==='1' && !ctrl.pageData.dataConsumerOutOtherText && myForm.dataConsumerOutOtherText1.$touched && myForm.dataConsumerOutOtherText1.$error.maxlength"
+                        >最大长度为200个字符</span>
+                    </div>
+                    <!-- 政府机构 E -->
+                    <!-- 公司以内 外 E-->
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><span class="i-placeholder">x</span>关注人:</label>
+                    <div class="wrap-input p-col-9">
+                        <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入关注人" name="followers" ng-model="ctrl.pageData.followers" ng-cloak>
+                            <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+                            <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                        </ui-my-auto-complete>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><span class="i-placeholder">x</span>数据方提供人:</label>
+                    <div class="wrap-input p-col-9">
+                        <ui-my-auto-complete url="ctrl.getUsersUrl" placeholder="请输入数据方提供人" name="providers" ng-model="ctrl.pageData.providers" ng-cloak>
+                            <ui-select-match-item>{{$item.department.split('>')[0]}}-{{$item.name}} </ui-select-match-item>
+                            <ui-auto-complete-list>{{item.department}}-{{item.name}}-{{item.email}}</ui-auto-complete-list>
+                        </ui-my-auto-complete>
+                    </div>
+                </div>
+
+                <div class="p-form-item" ng-show="ctrl.pageData.dataConsumer==='1'">
+                    <label class="p-col-1 p-muti"><i class="i-must ">*</i>数据收益: </label>
+                    <div class="wrap-input p-col-9" ng-class="{'p-error':ctrl.pageData.dataConsumer==='1' && !ctrl.pageData.dataProfit && myForm.dataProfit.$touched}">
+                        <textarea class="p-form-control" placeholder="数据在对外使用过程中有一定风险，那么公司承担此风险将得到什么收益？需具体说明" name="dataProfit"  ng-required="ctrl.pageData.dataConsumer==='1'" ng-model="ctrl.pageData.dataProfit"></textarea>
+                        <span class="p-error-msg">请填写数据收益</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                     <label class="p-col-1 p-muti"><i class="i-must ">*</i>需求描述: </label>
+                    <div class="wrap-input p-col-9"  ng-cloak>
+                        <textarea id="js-description" class="p-ueditor" ng-bind-html="ctrl.pageData.description"></textarea>
+                        <span class="p-error-msg">请填写需求描述</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1 p-muti"><i class="i-must ">*</i>数据字段: </label>
+                    <div class="wrap-input p-col-9" ng-class="{'p-error':!ctrl.pageData.field && myForm.field.$touched}">
+                        <textarea id="js-field" placeholder="请列出所申请的数据字段，比如：订单ID[md5]；手机号；身份证号[脱敏]；居住地址等。此处需注意：即便在需求描述中已经写到了一步涉及的数据字段，这一项仍需要将所有的数据字段一一列出" class="p-form-control" name="field"  ng-required="true" ng-model="ctrl.pageData.field"></textarea>
+                        <span class="p-error-msg">请填写数据字段</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><span class="i-placeholder">x</span>包括数据:</label>
+                    <div class="wrap-input" >
+                        <label class="checkbox-inline" ng-repeat="item in ['订单相关汇总类数据','补贴和定价策略相关数据','财务报表类数据','其它有争议数据','司机三证和背景调查信息']" ng-cloak>
+                            <input type="checkbox" value="{{$index}}" name="dataType"
+                                ng-model="ctrl.pageData.dataType[$index]"
+                                ng-checked="ctrl.pageData.dataType[$index]" />{{item}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="p-form-item many-wrap-input">
+                    <label class="p-col-1"><i class="i-must ">*</i>数据等级:</label>
+                    <div class="p-col-4 wrap-input" ng-class="{'p-error':!ctrl.pageData.dataLevel && myForm.dataLevel.$touched}">
+                        <select class="p-form-control" ng-model="ctrl.pageData.dataLevel" name="dataLevel" ng-required="true">
+                            <option value="">请选择</option>
+                            <option ng-repeat="val in ctrl.config.dataLevel" value="{{$index}}">{{val}}</option>
+                        </select>
+                        <span class="p-error-msg" ng-show="!ctrl.pageData.dataLevel && myForm.dataLevel.$touched">请选择数据等级</span>
+                    </div>
+                    <div class="wrap-input tip font-color">取最高等级，<a href="http://anquan.didichuxing.com/project/portals/pages/spec-detail.html?id=1046#/navigator-6" target="_blank" class="yellow-color">查看</a>数据字段和数据分级对应关系<a href="http://wiki.intra.xiaojukeji.com/pages/viewpage.action?pageId=142591688" target="_blank" class="yellow-color">示例</a></div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><i class="i-must ">*</i>数据量:</label>
+                    <div class="p-col-2 wrap-input" ng-class="{'p-error':!ctrl.pageData.dataVolume && myForm.dataVolume.$touched}">
+                        <label class="radio-inline">
+                            <input type="radio" value="0" ng-model="ctrl.pageData.dataVolume" ng-checked="ctrl.pageData.dataVolume=='0'" ng-required="!ctrl.pageData.dataVolume" name="dataVolume">&gt =50万条
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" value="1" ng-model="ctrl.pageData.dataVolume" ng-checked="ctrl.pageData.dataVolume=='1'" ng-required="!ctrl.pageData.dataVolume" name="dataVolume">&lt 50万条
+                        </label>
+                        <span class="p-error-msg" ng-show="!ctrl.pageData.dataVolume && myForm.dataVolume.$touched">请选择数据量</span>
+                    </div>
+                    <div class="p-col-4 wrap-input" ng-class="{'p-error':myForm.dataVolumeOtherText.$error.required && myForm.dataVolumeOtherText.$touched}">
+                        <input type="text"
+                            class="p-form-control"
+                            name="dataVolumeOtherText"
+                            placeholder="请填写截至数据使用时间到期时，将一共需要申请的数据量"
+                            ng-model="ctrl.pageData.dataVolumeOtherText"
+                            ng-required="true">
+                        <span class="p-error-msg" ng-show="myForm.dataVolumeOtherText.$error.required && myForm.dataVolumeOtherText.$touched">请给出具体请求数据数量</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><i class="i-must ">*</i>提供方式:</label>
+                    <div class="p-col-4 wrap-input" ng-class="{'p-error':!ctrl.pageData.dataProvideMethod && myForm.dataProvideMethod.$touched}">
+                        <select class="p-form-control"
+                            ng-model="ctrl.pageData.dataProvideMethod"
+                            name="dataProvideMethod"
+                            ng-required="true">
+                            <option value="">请选择</option>
+                            <option ng-repeat="val in ctrl.config.dataProvideMethod" value="{{$index}}">{{val}}</option>
+                        </select>
+                        <span class="p-error-msg" ng-show="!ctrl.pageData.dataProvideMethod && myForm.dataProvideMethod.$touched">请选择提供方式</span>
+                    </div>
+                    <!-- 选择API -->
+                    <div class="wrap-input p-col-5 tip" ng-show="ctrl.pageData.dataProvideMethod==='0'" ng-cloak>
+                        通过API交互数据时，须在服务器端脱敏，<span class="red-color">禁止在客户端脱敏</span>
+                    </div>
+                    <!-- 选择其他 -->
+                    <div class="wrap-input p-col-5" ng-show="ctrl.pageData.dataProvideMethod==='3'"
+                        ng-class="{'p-error':ctrl.pageData.dataProvideMethod==='3' && !ctrl.pageData.dataProvideMethodOtherText && myForm.dataProvideMethodOtherText.$touched }">
+                        <input type="text" class="p-form-control" name="dataProvideMethodOtherText" ng-required="ctrl.pageData.dataProvideMethod==='3'" placeholder="请说明具体的数据提供方式" ng-model="ctrl.pageData.dataProvideMethodOtherText">
+                        <span class="p-error-msg" ng-show="ctrl.pageData.dataProvideMethod==='3' && !ctrl.pageData.dataProvideMethodOtherText && myForm.dataProvideMethodOtherText.$touched">请说明具体的数据提供方式</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1"><i class="i-must ">*</i>请求频次:</label>
+                    <div class="p-col-4 wrap-input" ng-class="{'p-error':!ctrl.pageData.dataRequestFrequency && myForm.dataRequestFrequency.$touched}">
+                        <select class="p-form-control" ng-model="ctrl.pageData.dataRequestFrequency" name="dataRequestFrequency" ng-required="true">
+                            <option value="">请选择</option>
+                            <option ng-repeat="val in ctrl.config.dataRequestFrequency" value="{{val}}">{{val}}</option>
+                        </select>
+                        <span class="p-error-msg" ng-show="!ctrl.pageData.dataRequestFrequency && myForm.dataRequestFrequency.$touched">请选择请求频次</span>
+                    </div>
+                    <label class="p-col-1 i-tr" ng-cloak ng-show="!!ctrl.pageData.dataRequestFrequency  && ctrl.pageData.dataRequestFrequency!=='仅此一次'">截止日期:&nbsp;&nbsp;</label>
+                    <div class="p-col-3 wrap-input" ng-class="{'p-error':!!ctrl.pageData.dataRequestFrequency  && ctrl.pageData.dataRequestFrequency!=='仅此一次' && !ctrl.pageData.endTime && myForm.endTime.$touched}" ng-cloak ng-show="!!ctrl.pageData.dataRequestFrequency  && ctrl.pageData.dataRequestFrequency!=='仅此一次'">
+                        <div class="input-group">
+                            <input class="form-control js-date-picker" type="text"
+                                uib-datepicker-popup
+                                name="endTime"
+                                close-text="长期"
+                                clear-text="清除"
+                                current-text="今天"
+                                readonly="readonly"
+                                datepicker-popup="yyyy-MM-dd"
+                                datepicker-options="ctrl.endTimeOptions"
+                                ng-required="!!ctrl.pageData.dataRequestFrequency && ctrl.pageData.dataRequestFrequency!=='仅此一次'"
+                                ng-model="ctrl.pageData.endTime"
+                                onclose="ctrl.endTimeClose()"
+                                is-open="ctrl.pageData.endTimeIsOpen">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="ctrl.endTimeOpen()"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                        <span class="p-error-msg" ng-show="!!ctrl.pageData.dataRequestFrequency  && ctrl.pageData.dataRequestFrequency!=='仅此一次' && !ctrl.pageData.endTime && myForm.endTime.$touched">请选择截止日期</span>
+                    </div>
+                </div>
+
+                <div class="p-form-item">
+                    <label class="p-col-1 p-muti"><i class="i-must ">*</i>防护措施: </label>
+                    <div class="wrap-input p-col-9" ng-class="{'p-error':!ctrl.pageData.safetyMeasures && myForm.safetyMeasures.$touched}">
+                        <textarea id="js-safetyMeasures" placeholder="请注明提供采取的防护措施，例如：API接口是否https加密、邮件传送附带的压缩包是否加密、线下传输的U盘是否加密、是否签订了保密协议等" class="p-form-control" name="safetyMeasures" ng-required="true" ng-model="ctrl.pageData.safetyMeasures"></textarea>
+                        <span class="p-error-msg">请填写安全防护措施</span>
+                    </div>
+                    <div class="wrap-input tip font-color" style="vertical-align: top;"><a href="dingtalk://dingtalkclient/action/sendmsg?dingtalk_id=datasec"><img  ng- src="/project/portals/i/help.png?_v=565c81" title="数据安全小助手" alt="数据安全小助手"></a></div>
+                </div>
+            </div>
+        </div>
+        <div class="p-border"></div>
+        <div class="wrap-center-btn">
+            <button type="submit" class="p-btn">提交<dot ng-show="ctrl.isSubmitDataIng"></dot></button>
+            <a href="/project/portals/pages/application-list.html" class="p-btn p-btn-gray">取消</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,50 @@
+<%if(params.source === undefined){%>
+<!--<div class="md_left_v2" style="padding-bottom: 10px">-->
+<!--    <div class='hd'>-->
+<!--        <div class='mb_avatar'>-->
+<!--            <%if(params.appKey ==='appZxcx'){%>-->
+<!--            <img src="<%= config %>/static/images/niao.png">-->
+<!--            <%}else{%>-->
+<!--                <img onclick='setFeedbackMode()' src="<%= config %>/static/images/avatar-min.png">-->
+<!--            <%}%>-->
+<!--        </div>-->
+<!--        <h4><%=preAnswer%></h4>-->
+<!--    </div>-->
+<!--</div>-->
+<%}%>
+
+<script>
+    var source = '<%=params.source%>';
+    var isPopup = '<%=params.isPopup%>';
+    var appKey = '<%=params.appKey%>';
+    var type = '<%=params.type%>';
+
+    if(source === undefined){
+        //原生的底部输入框
+        if(appKey === 'appEzt'){
+            source = "来源：E智通访问";
+        }
+        else if(appKey === 'appZsfc'){
+            source = "来源：紫薯财富访问";
+        }
+        else if(appKey === 'appJftg'){
+            source = "来源：巨峰投顾访问";
+        }
+        else if(appKey === 'appTopC'){
+            source = "来源：Top股票助手访问";
+        }
+        else if(appKey === 'guoxin'){
+            source = "来源：国信证券访问";
+        }
+    }
+    source = source+'-->'+type;
+    if(isPopup){
+        baiduTrackPageview('/'+appKey+'/pop/弹框/'+ type + '/' + source);
+        baiduTrackEvent(type,'click',source);
+    }else{
+        baiduTrackPageview('/'+appKey+'/module/问答/'+ type + '/' + source);
+    }
+
+</script>
+
+

@@ -1,0 +1,116 @@
+{
+    "errno": 0,
+    "errmsg": "ok",
+    "total": 2,
+    "data": [{
+            "id": 1,
+            "business_name": "汽车金融",
+            "business_mgr": [{
+                    "user_email": "zhangdijasper@didichuxing.com",
+                    "user_name": "张三"
+                },
+                {
+                    "user_email": "zhaoweinan@didichuxing.com",
+                    "user_name": "李四"
+                }
+            ],
+            "security_user": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "product_user": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "product_mgr": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "qa": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "bi": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "ua": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }]
+        },
+        {
+            "id": 2,
+            "business_name": "出租车",
+            "business_mgr": [{
+                    "user_email": "zhangdijasper@didichuxing.com",
+                    "user_name": "张三"
+                },
+                {
+                    "user_email": "zhaoweinan@didichuxing.com",
+                    "user_name": "李四"
+                }
+            ],
+            "security_user": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "product_user": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "qa": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "bi": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "product_mgr": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }],
+            "ua": [{
+                "user_email": "zhangdijasper@didichuxing.com",
+                "user_name": "张三"
+            }, {
+                "user_email": "zhaoweinan@didichuxing.com",
+                "user_name": "李四"
+            }]
+        }
+    ]
+}

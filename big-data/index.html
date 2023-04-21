@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" id="mate" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>事件搜索 快人一步</title>
+    <link rel="stylesheet" href="http://weblibs.rxhui.com/library_rxh/style.css">
+    <link rel="stylesheet" href="/information/static/css/yy_OnekeyResearchReport.css">
+    <link rel="stylesheet" href="/freeQuestion/static/css/yy_icon.css?v=20170717">
+    <link rel="stylesheet" href="/freeQuestion/static/css/yy_style_v1.css?v=20170719">
+    <link rel="stylesheet" href="/freeQuestion/static/css/yy_style_v2.css?v=20170749">
+    <link rel="stylesheet" href="/freeQuestion/static/css/hpc_style.css?v=20170724">
+    <link rel="stylesheet" href="/freeQuestion/static/css/jser_style.css?v=20180622">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<script src="./static/common/js/jdate.min.js"></script>
+<script>
+  var jsNo = 0;
+  var jsArr = [];
+  function loadJs(arr,callback) {
+    jsNo = 0;
+    jsArr = arr;
+    beginLoad(jsNo,callback)
+  }
+  function beginLoad(sn,callback) {
+    // onViewReady
+    const js = document.createElement('script');
+    js.type = 'text/javascript';
+    js.src = '/information' + jsArr[sn] + ".js";
+    if (js.addEventListener) {
+      js.addEventListener('load', function () {
+        jsNo++;
+        checkLoaded(callback)
+      }, false);
+    } else if (js.attachEvent) {
+      js.attachEvent('onreadystatechange', function () {
+        var target = window.event.srcElement;
+        if (target.readyState == 'loaded') {
+          jsNo++;
+          checkLoaded(callback)
+        }
+      });
+    }
+
+    var es=document.getElementsByTagName(js?'script':'link');
+    var isLoaded = false;
+    for(var i=0;i<es.length;i++){
+      if(es[i][js?'src':'href'].indexOf(jsArr[sn])!=-1){
+        isLoaded = true;
+      }
+    }
+    if(!isLoaded){
+      document.body.appendChild(js);
+    }else{
+      jsNo++;
+      checkLoaded(callback)
+    }
+  }
+
+  function checkLoaded(callback) {
+    if(jsNo < jsArr.length){
+      beginLoad(jsNo,callback);
+    }else{
+      setTimeout(function () {
+        callback();
+      },100)
+    }
+  }
+</script>

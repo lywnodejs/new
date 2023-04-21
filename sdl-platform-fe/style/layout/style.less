@@ -1,0 +1,122 @@
+// 布局样式
+.app-container {
+  height: 100%;
+  // padding-top: @header-height;
+  position: relative;
+  overflow: hidden;
+  // 头部
+  &__header {
+    height: 60.5px;
+    display: flex;
+    border-bottom: #eeeeee solid;
+    // logo
+    &__logo {
+      height: 72px;
+      width: @side-width;
+    }
+    // 导航
+    &__nav {
+      height: 60px;
+      flex: 1;
+      width: 100%;
+      // border-bottom-width: 1px;
+      // border-bottom-style: solid;
+    }
+  }
+  // 侧边栏
+  &__side {
+    height: 100%;
+    width: 130pt;
+    float: left;
+    overflow: hidden;
+    // 菜单区
+    &__menu {
+      height: 100%;
+    }
+  }
+  // 主视图内容
+  &__main {
+    height: 100%;
+    // padding-top: 50px;
+    position: relative;
+    overflow: auto;
+    // 面包屑
+    &__crumbs {
+      height: 44px;
+      width: auto;
+      line-height: 44px;
+      // padding: 0 @base-padding;
+      // border-bottom-width: 1px;
+      // border-bottom-style: solid;
+      border-bottom: 0.5pt solid #EEEEEE;
+      border-radius: 4px 4px 0 0;
+      margin: 23px 23px 0 23px;
+      background-color: #fff;
+    }
+    // 内容区
+    &__content {
+      // height: 100%;
+      // padding: @base-padding;
+      // padding-right: 0px;
+      overflow: auto;
+      position: absolute;
+      top: 67px;
+      bottom: 0pt;
+      right: 0pt;
+      left: 0pt;
+      padding: 0pt 23px 23px 23px;
+      /* border: 3px red solid; */
+      &__wrap {
+        padding: 25px;
+        background-color: white;
+        border-radius: 0 0 4px 4px;
+      }
+    }
+  }
+}
+
+// 全屏模式
+.app-container.min {
+  .app-container__side {
+    width: @nav-min;
+  }
+  .app-container__header__logo {
+    width: @nav-min;
+  }
+}
+//  默认按钮样式
+.sdl-button {
+  font-size: 12px;
+  height: 32px;
+  width: 100px;
+  text-align: center;
+  padding: 0px;
+  color: white;
+  background: #fc9153;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+.sdl-btn {
+  font-size: 12px;
+  width: 100px;
+  height: 32px;
+  color: #fc9153;
+  border: 1px solid #fc9153;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0px;
+  cursor: pointer;
+}
+.sdl-btn:hover {
+  background: #fff7f2;
+}
+.sdl-btn + .sdl-button {
+  margin-left: 10px;
+}
+.sdl-button + .sdl-button {
+  margin-left: 10px;
+}
+.sdl-button + .sdl-btn {
+  margin-left: 10px;
+}

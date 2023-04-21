@@ -1,0 +1,178 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+
+<% if(!ispop) { %>
+<% include ./component/preAnswer %>
+
+<div class="preAnswer" style="display:none;"><%= preAnswer %></div>
+
+<div class="bd" id="answer<%= sn %>">
+    <div class="mb">
+<% } %>
+        <!-- 时间轴 有信息-->
+        <div class="box_show_tl" id="stockThemes">
+            <% for(var i = 0;i < mapList.length;i++){
+                var item = mapList[i];
+                var hideClass = 'hideClass' + sn;
+                var moreId = "moreId" + sn;
+                var list = [];
+                let label = "";
+                for (var key in item) {
+                    label = key;
+                    list = item[key].entries;
+                }
+            %>
+            <li class="li_hd"><%= label %></li>
+            <% for(var j = 0; j < list.length; j++){
+                var itemData = list[j];
+                var lineClass = commonUtil.generateRandomClassName('hideArticle');
+            %>
+            <li class="<%= lineClass %>" style='<%= (i >= 5)?'display:none' : '' %>'>
+                <a class='box_hd'>
+                    <span onclick="NodeIndustryClick('<%= itemData.term %>',<%= ispop || '' %>)">
+                        <%= (j + 1) %>、<%= itemData.term %>
+                    </span>
+                    <i class='icon-arrow_open'
+                       onclick="showMoreTheme('<%= lineClass %>','<%= property.code %>','<%= property.name %>','<%= property.marketType %>','<%= itemData.term %>','个股行业推荐理由')">
+                    </i>
+                </a>
+                <h5></h5>
+            </li>
+            <% } %>
+            <% } %>
+        </div>
+
+        <% include ./component/ratingLabel %>
+
+<% if(!ispop){ %>
+    </div>
+</div>
+<% } %>
+
+<script>
+
+  //传给安卓的语音信息
+  var speechAnwser = '<%- info.speechAnswerContent %>';
+  var info_app = '<%- info.answerResultType %>';
+  // console.log(info_app)
+  if (window.contestapp) {
+    try {
+      window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+    } catch (error) {
+      console.log(speechAnwser, 1, info_app);
+    }
+  } else {
+    console.log(speechAnwser, 1, info_app);
+  }
+
+  try {
+    thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+  } catch (error) {
+  }
+
+  var url = '<%= config %>';
+  var frameId = '<%= frameId %>';
+  var sn = '<%= sn %>'
+
+  var stockTheme = {
+    onViewReady: function () {
+      if (frameId) {
+        // resizeUtils.init(frameId, sn);
+      }
+    }
+  }
+
+  var jsArr = [
+    '/static/js/libs/jquery-1.11.2.min',
+    '/static/js/utils/toolsUtil',
+    '/static/js/utils/logUtil',
+    // '/static/js/utils/resizeUtils'
+  ];
+  loadJs(jsArr, stockTheme.onViewReady)
+
+  //展示更多的内容
+  function showMoreTheme(className, subjectCode, subjectName, subjectMarket, subjectRawValue, predicateType, source) {
+    if ($("." + className).hasClass("on") == false) {
+      //baiduTrackEvent('展示更多的内容','click',source);
+      $("." + className).siblings().removeClass("on");
+      $("." + className).addClass("on");
+      $("." + className).siblings().find("i").attr("class", "icon-arrow_open");
+      $("." + className).find("i").attr("class", "icon-arrow_closed2");
+    } else {
+      $("." + className).find("i").attr("class", "icon-arrow_open");
+      $("." + className).removeClass("on");
+    }
+    $("." + className).siblings().find("h5").slideUp();
+    $("." + className).find("h5").slideToggle();
+    var ifRequest = $("." + className).find("h5")[0].innerHTML != '' ? true : false;
+    if (!$('.' + className).hasClass('on') || ifRequest) {
+    } else {
+      industryFixedAnswer(subjectCode, subjectName, subjectMarket, subjectRawValue, predicateType, function (result) {
+        var content = '';
+        if (result.answerResultType == '行业推荐理由' || result.answerResultType == '个股行业推荐理由') {
+          if (result.data.hasOwnProperty('list')) {
+            // debugger
+            var item = result.data.list[0];
+            content = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</p>";
+
+            if (result.answerResultType == '个股行业推荐理由') {
+              content = "<p style='font-size:0.875rem;padding:3px 0;font-weight:bold;'>" + (item.title || '') + "</p>";
+            }
+
+            var redT = "<s class='t_red'>" + subjectRawValue + "</s>";
+            if (content.indexOf(subjectRawValue) != -1) {
+              var regT = "/" + subjectRawValue + "/g";
+              content = content.replace(eval(regT), redT);
+            }
+            var sharesR = "<s class='t_red'>" + subjectCode + "</s>";
+            if (content.indexOf(subjectCode) != -1) {
+              var regR = "/" + subjectCode + "/g";
+              content = content.replace(eval(regR), sharesR);
+            }
+            var sharesRC = "<s class='t_red'>" + subjectName + "</s>";
+            if (content.indexOf(subjectName) != -1) {
+              var regRC = "/" + subjectName + "/g";
+              content = content.replace(eval(regRC), sharesRC);
+            }
+            content += item.analyseText || item.text;
+            $("." + className).find("> h5").html(content);
+          }
+        } else {
+          content += handleErrorRequest(className, "暂无数据");
+          $("." + className).find("> h5").html(content);
+        }
+      })
+
+    }
+  }
+
+  function NodeIndustryClick(industryName, isPopup) {
+    try {
+      industryClick(industryName, isPopup);
+    } catch (e) {
+
+    }
+  }
+
+  /**
+   * 固定回答获取行业解析
+   */
+  function industryFixedAnswer(subjectCode, subjectName, subjectMarket, subjectRawValue, predicateType, success) {
+    url = '<%= host %>' + '/api/stock/fix';
+    $.ajax({
+      type: "get",
+      url: url,
+      data: {
+        subjectCode: subjectCode,
+        subjectName: subjectName,
+        subjectMarket: subjectMarket,
+        subjectRawValue: subjectRawValue,
+        predicateType: predicateType,
+      },
+      timeout: 10000,
+      success: success,
+      error: ajaxErrorHandler
+    })
+  }
+</script>
+

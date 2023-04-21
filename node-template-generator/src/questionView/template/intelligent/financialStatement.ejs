@@ -1,0 +1,46 @@
+<% include ../../component/params %>
+<% include ../../component/minddleGroundHeader %>
+<% include ../../component/jsLoad %>
+<div class="rxh_public_bd01 ">
+    <div class="rxh_t">
+        <% if(info && info.length > 0){%>
+       
+        <table>
+            <% for (var i = 0; i< info.length;i++){%>
+            <%var data = info[i]%>
+            <tr >
+                <%for (var j = 0;j< data.length;j++){%>
+                    <%var dataItem = data[j]%>
+                    <%if (i==0){%>
+                        <td style="background-color: #F6F7F9">
+                                 <span>
+                                <%= dataItem %>
+                                 </span>
+                        </td>
+                    <%} else {%>
+                        <td>
+                             <span>
+                            <%= dataItem %>
+                             </span>
+                        </td>
+                  <%}%>  
+                <%}%>
+            </tr>
+            <%}%>
+        </table>
+        <%}%>
+    </div>
+</div>
+<script>
+    var info = "";
+    var financialStatement<%- sn %> = {
+      onViewReady: function (){
+        
+      }
+    }
+    <% if(!params.noSource) { %>
+    var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+    loadJs(jsSource, financialStatement<%- sn %>.onViewReady);
+    <% } %>
+</script>
+

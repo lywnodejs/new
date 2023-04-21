@@ -1,0 +1,156 @@
+<% include ./component/params %>
+<% include ./component/jsLoad %>
+<!--答案框-->
+<% include ./component/preAnswer %>
+
+<div class="bd" id="<%= randomn %>">
+
+    <!--答案框-->
+    <div class="mb">
+
+        <ul class="ul_list">
+            <% for(var i = 0;i < info.data.length;i++){
+                var item = info.data[i];
+                var str = '';
+            %>
+            <li onclick="openPolicyDetail('<%= item.dataId %>','<%= boolean %>')">
+                <h5><%= item.name %></h5>
+                <% if(item.persons){ %>
+                <h5 class="note">相关人物：<%= item.persons.join(',') %></h5>
+                <% } %>
+
+                <h6>
+                    <%= item.beginAtStr %>
+                    <% if(!boolean){ %>
+                        会议
+                    <% } %>
+                    <% if(boolean){ %>
+                    <%= item.type %>
+                    <% } %>
+
+                    <% for(var l = 0;l < item.themes.length;l++){ %>
+                    <b>#<%= item.themes[l] %></b>
+                    <% } %>
+                    <!-- <b>…</b> -->
+                </h6>
+            </li>
+            <% } %>
+        </ul>
+
+
+        <!--加载更多-->
+        <% if(boolean){ %>
+            <!-- <div class="box_load"> -->
+            <!-- <a>查看更多</a> -->
+            <!-- </div> -->
+        <% } %>
+
+        <!--点评-->
+        <% if(req.query.appKey != 'guoxin'){ %>
+            <div class="box_appraisal">
+                <% if(req.query.appKey == 'appZxcxHide'){ %>
+                    <a class="a_search">
+                        <b><i class="icon-search1"></i><i class="icon-search2"></i></b>
+                        <span>精准查找政策</span>
+                        <i class="icon-arrow2_R_small"></i>
+                    </a>
+                <% } %>
+                <a><i id="up<%= randomn %>" class="icon-good"></i></a>
+                <a><i id="down<%= randomn %>" class="icon-bad"></i></a>
+            </div>
+        <% } %>
+
+    </div>
+</div>
+
+
+<style>
+    .outlineTxt {
+        left: -100%;
+        transition: all .2s ease;
+    }
+
+    .outlineTxtUl_show {
+        left: 0;
+    }
+</style>
+
+<script>
+  var policyInspect = {
+    onViewReady: function () {
+
+      var num = '<%= randomn %>',
+        urlParams = '<%- info.data.urlParams %>';
+      try {
+        thas.nodeFunction('questionAnalyse', '<%- JSON.stringify(info.questionAnalyse[0]) %>');
+      } catch (error) {
+
+      }
+
+      //传给安卓的语音信息
+      var speechAnwser = '<%- info.speechAnswerContent %>';
+      var info_app = '<%- info.answerResultType %>';
+      console.log(info_app)
+      if (window.contestapp) {
+        try {
+          window.contestapp.speakAnswer(speechAnwser, 1, info_app);
+        } catch (error) {
+          console.log(speechAnwser, 1, info_app);
+        }
+      } else {
+        console.log(speechAnwser, 1, info_app);
+      }
+
+      $('.box_appraisal .a_search').click(function () {
+        try {
+          thas.nodeFunction('back');
+        } catch (error) {
+          console.log('app外');
+        }
+      })
+
+      //点赞或踩
+      function feedback(num) {
+        var id = '<%- info.spanId %>';
+        var data_ = {
+          spanId: id,
+          commentFeedback: num
+        }
+        $.ajax({
+          url: '<%= host %>' + '/api/feedback?',
+          type: 'get',
+          dataType: 'json',
+          data: data_,
+          success: function (data) {
+            if (data.message.code == 0) {
+              try {
+                if (num == 1) {
+                  thas.nodeFunction('feedback', '谢谢您的评价，我们会继续改进。')
+                } else {
+                  thas.nodeFunction('feedback', '谢谢您的评价，您可以继续提问。')
+                }
+                ;
+              } catch (error) {
+                console.log(error);
+              }
+            }
+          }
+        })
+      }
+
+      var num = '<%= randomn %>';
+      $('#' + num).find('.box_appraisal .icon-good').click(function () {
+        feedback(2);
+      })
+      $('#' + num).find('.box_appraisal .icon-bad').click(function () {
+        feedback(1);
+      })
+    }
+  }
+
+  var jsArr = ['/static/js/libs/jquery-1.11.2.min'];
+  loadJs(jsArr, policyInspect.onViewReady)
+
+
+</script>
+<% include ./component/reportDetail %>

@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "captcha-popup": "/components/captcha-popup/index",
+    "i-action-sheet": "@vant/weapp/action-sheet/index",
+    "password-popup":"/packageB/components/password-popup/index"
+  },
+  "disableScroll": true
+}

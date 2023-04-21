@@ -1,0 +1,32 @@
+<!--components/account-card/index.wxml-->
+<view class="account-card">
+  <view class="top">
+    <view class="logo-title">
+      <image class="logo" src="/image/logo_1.png"/>
+      <view class="title">
+        <text class="name">{{data.eleCardName}}</text>
+        <text class="number">{{data.eleCardNo}}</text>
+      </view>
+    </view>
+    <view>
+      <navigator hover-class="none" url="{{url}}">
+        <text class="account">{{detail}}</text>
+        <image class="arrow" src="/image/small_arrow_card.png"></image>
+      </navigator>
+    </view>
+  </view>
+  <view class="bottom">
+    <view class="quota-view">
+      <text class="quota">{{data.balance}}</text>
+      <text>可用余额(元)</text>
+    </view>
+    <view>
+      <navigator hover-class="none" url="/packageB/pages/account/transfer/index?type=in">
+        <text class="button">{{data.inToButton.text}}</text>
+      </navigator>
+      <navigator hover-class="none" url="/packageB/pages/account/transfer/index?type=out">
+        <text class="button filled">{{data.outButton.text}}</text>
+      </navigator>
+    </view>
+  </view>
+</view>

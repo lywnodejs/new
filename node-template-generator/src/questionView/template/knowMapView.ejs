@@ -1,0 +1,207 @@
+<% include ../component/jsLoad %>
+<% if(!params.noSource){ %>
+    <link rel="stylesheet" href="<%= config %>/static/css/yy_bigData.css">
+<% } %>
+<!--<div class="rxhBD_indChain_tab">-->
+<!--    <a class="rxhBD_on">上游行业</a>-->
+<!--    <a>下游行业</a>-->
+<!--    <a>行业细分</a>-->
+<!--    <a>行业公司</a>-->
+<!--</div>-->
+
+<%
+var  upStreamList = info.data.upStreamList || [];
+var  downStreamList = info.data.downStreamList || [];
+var  industrySubsectionList = info.data.industrySubsectionList || [];
+var  knowledgeRelationList = info.data.knowledgeRelationList || [];
+var  stockOfIndustryList = info.data.stockOfIndustryList || [];
+%>
+<div class="rxhBD_indChain_tab">
+    <a class="rxhBD_on">上游行业</a>
+    <a>下游行业</a>
+    <a>行业细分</a>
+    <a>行业公司</a>
+</div>
+<!-- 内容区域 -->
+<div class="rxhBD_main rxhBD_main_indChain">
+
+    <!-- 上游行业 -->
+    <div class="rxhBD_item rxh_show">
+
+        <%for(var i=0;i<upStreamList.length;i++){%>
+        <!-- 模块 -->
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text" onclick="knowMapView.getInfo('上游行业','<%= upStreamList[i].name %>','upStream<%=sn%><%=i%>')">
+                <!--<b></b>-->
+                <span><%= upStreamList[i].name %></span>
+                <i class="icon-arrow_D"></i>
+            </div>
+            <div class="rxh_bd_text">
+                <h5 id="upStream<%=sn%><%=i%>">数据来源于其他专业数据网站。</h5>
+            </div>
+        </div>
+        <%}%>
+    </div>
+
+
+    <!-- 下游行业 -->
+    <div class="rxhBD_item">
+        <%for(var i=0;i<downStreamList.length;i++){%>
+        <!-- 模块 -->
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text" onclick="knowMapView.getInfo('下游行业','<%= downStreamList[i].name %>','downStream<%=sn%><%=i%>')">
+                <span><%= downStreamList[i].name %></span>
+                <i class="icon-arrow_D"></i>
+            </div>
+            <div class="rxh_bd_text">
+                <h5 id="downStream<%=sn%><%=i%>">数据来源于其他专业数据网站。</h5>
+            </div>
+        </div>
+        <%}%>
+    </div>
+
+
+    <!-- 行业细分 -->
+    <div class="rxhBD_item">
+        <%for(var i=0;i<industrySubsectionList.length;i++){%>
+        <!-- 模块 -->
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text" onclick="knowMapView.getInfo('行业细分','<%= industrySubsectionList[i].name %>','industry<%=sn%><%=i%>')">
+                <span><%= industrySubsectionList[i].name %></span>
+                <i class="icon-arrow_D" ></i>
+            </div>
+            <div class="rxh_bd_text">
+                <h5 id="industry<%=sn%><%=i%>">数据来源于其他专业数据网站。</h5>
+            </div>
+        </div>
+        <%}%>
+
+    </div>
+
+
+    <!-- 行业公司 -->
+    <div class="rxhBD_item">
+
+        <!-- 列表_2_1_1 -->
+        <div class="rxh_list">
+            <ol>
+                <li>股票（<%= stockOfIndustryList.length %>家）</li>
+                <li>代码</li>
+                <li>关联原因</li>
+            </ol>
+        </div>
+
+        <% for(var i=0;i<stockOfIndustryList.length;i++){%>
+        <!-- 模块 -->
+        <div class="rxhBD_text rxh_text01">
+            <div class="rxh_hd_text" onclick="knowMapView.getInfo('业内公司','<%= stockOfIndustryList[i].code %>','stock<%=sn%><%=i%>')">
+                <span style="width: 24%"><%= stockOfIndustryList[i].name %></span>
+                <span><%= stockOfIndustryList[i].code %></span>
+                <i class="icon-arrow_D" ></i>
+            </div>
+            <div class="rxh_bd_text">
+                <h5 id="stock<%=sn%><%=i%>">数据来源于其他专业数据网站。</h5>
+            </div>
+        </div>
+        <%}%>
+
+    </div>
+
+</div>
+<script>
+
+  var jsSource = JSON.parse('<%- JSON.stringify(params.jsArray) %>');
+  var jsNo = 0;
+  var knowMapView = {
+    upStreamList:[],
+    downStreamList:[],
+    industrySubsectionList:[],
+    knowledgeRelationList:[],
+    curupStreamList:[],
+    curdownStreamList:[],
+    curindustrySubsectionList:[],
+    curknowledgeRelationList:[],
+    onViewReady: function () {
+      callback();
+    },
+    getInfo:function(type,id,content){
+      console.log(content)
+        var data = {};
+        data.item = id;
+        data.type = type;
+        data.q = '<%= params.reqParams.q%>';
+        var url = '<%= config %>' + "/semantic-api-service" + "/kb/statistics/search/industry";
+        jQuery.ajax(
+          {
+            url: url,
+            type: 'get',
+            async: null,
+            data: data,
+            success: function (rs) {
+              if (rs.error) {
+                return;
+              }
+              if(rs.data.text){
+                $("#"+content).html(toolsUtil.strToRed(rs.data.text))
+              }else{
+                $("#"+content).html("数据来源于其他专业数据网站。")
+              }
+            },
+            error: function () {
+
+            }
+          });
+    },
+    getList(){
+      var curList = knowMapView.upStreamList.splice(knowMapView.curupStreamList.length,10);
+      knowMapView.curupStreamList = knowMapView.curupStreamList.concat(curList);
+      var str = "";
+      for(var i=0;i<curList.length;i++){
+        str += '<div class="rxhBD_text rxh_text01">'+
+          '<div class="rxh_hd_text">'+
+          '<b></b><span>'+curList[i].name+'</span>'+
+          '</div>'+
+          '<div class="rxh_bd_text">'+
+          '<h5>数据来源于其他专业数据网站。</h5>'+
+          '</div>'+
+          '</div>'
+      }
+
+    }
+  }
+
+  <% if(!params.noSource) { %>
+  loadJs(jsSource, knowMapView.onViewReady);
+  <% } %>
+
+  function callback() {
+
+    $(".rxhBD_indChain_tab a").click(function () {
+      $(this).addClass("rxhBD_on").siblings().removeClass();
+
+      var _rxh_N = $(this).index();
+      console.log(_rxh_N);
+      $(".rxhBD_main_indChain .rxhBD_item").eq(_rxh_N).addClass("rxh_show").siblings().removeClass("rxh_show");
+    });
+
+    // 展开收起
+    $(".rxhBD_text .rxh_hd_text").click(function () {
+      $(this).next(".rxh_bd_text").slideToggle(200);
+    });
+    // $(function () {
+    //   $(".rxhBD_indChain_tab a").click(function () {
+    //     $(this).addClass("rxhBD_on").siblings().removeClass();
+    //
+    //     var _rxh_N = $(this).index();
+    //     console.log(_rxh_N);
+    //     $(".rxhBD_main_indChain .rxhBD_item").eq(_rxh_N).addClass("rxh_show").siblings().removeClass("rxh_show");
+    //   });
+    // });
+  }
+
+</script>
+<style type="text/css">
+    /*.rxh_list ul li i{ color: #9599A1; font-size: 0.75rem; text-align: center; line-height: 1.75rem; float: right; padding: 0 0.875rem;}*/
+</style>
+
+

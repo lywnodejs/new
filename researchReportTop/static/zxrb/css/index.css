@@ -1,0 +1,79 @@
+@charset "UTF-8";
+/** @description  知行日报 @Author   刘亚伟 @DateTime 2018-11-23T11:05:59+0800 */
+* { padding: 0; margin: 0; list-style: none; text-decoration: none; }
+
+html, body { width: 100%; height: 100%; }
+
+.zxrb_index { width: 100%; height: 100%; background: #eef1f5; padding-bottom: 1.03704rem; }
+
+header { width: 100%; height: 9.22963rem; background: url(../images/heade_02.jpg) no-repeat; background-size: 100% 100%; }
+
+header p:nth-of-type(1) { width: 100%; color: #fff; padding-top: 1.15556rem; text-align: center; position: relative; font-size: 1.06667rem; }
+
+header p:nth-of-type(1) img { width: 0.66667rem; position: absolute; top: 1.48148rem; right: 4.14815rem; }
+
+header p:nth-of-type(2) { width: 100%; color: #888888; text-align: center; font-size: 0.53333rem; }
+
+.main { width: 100%; height: auto; word-break: break-all; }
+
+.main .list { width: 15.15556rem; height: auto; padding-bottom: 1.03704rem; padding-top: 0.78519rem; background: #fff; border-radius: 0.2963rem; -webkit-border-radius: 0.2963rem; -moz-border-radius: 0.2963rem; -ms-border-radius: 0.2963rem; -o-border-radius: 0.2963rem; margin: 0 auto; margin-top: 0.35556rem; }
+
+.main .list:nth-of-type(1) { margin: -4.74074rem auto 0; }
+
+.main .list .list_info:nth-of-type(1) h3:after { display: none; }
+
+.main .list .list_info h3 { margin: 0.74074rem auto 0.44444rem; position: relative; padding-top: 0.74074rem; }
+
+.main .list .list_info h3:after { background: #ededed; content: ""; -webkit-transform: scaleY(0.5); -ms-transform: scaleY(0.5); transform: scaleY(0.5); width: 100%; height: 1px; position: absolute; z-index: 2; }
+
+.main .list .list_info h3:after { left: 0; top: 0; }
+
+.main .list .list_info:nth-of-type(1) h3 { margin: -0.14815rem auto 0.2963rem; }
+
+.main .list h2 { width: 100%; height: 1.42222rem; display: inline; font-size: 0.88889rem; color: #bb8112; font-weight: 500; text-align: center; line-height: 1.42222rem; display: flex; justify-content: center; align-items: center; }
+
+.main .list h2 span { margin: 0 0.22222rem; }
+
+.main .list h2 img { width: 1.21481rem; height: 0.99259rem; }
+
+.main .list h3 { width: 13.73333rem; font-size: 0.71111rem; color: #333333; line-height: 0.96296rem; }
+
+.main .list .text { width: 13.73333rem; height: auto; margin: 0 auto; color: #999; font-size: 0.56296rem; line-height: 0.82963rem; letter-spacing: 2; }
+
+.main .list .xianguan { width: 13.73333rem; height: auto; margin: 0.44444rem auto 0.44444rem; font-size: 0.53333rem; color: #888888; }
+
+.main .list .xianguan span { margin-left: 1.02222rem; }
+
+.main .list .xianguan span:nth-of-type(1), .main .list .xianguan span:nth-of-type(2) { margin-left: 0; }
+
+.main .list .xianguan i { width: 0.5037rem; height: 0.5037rem; }
+
+.main .list .xianguan i img { width: 0.5037rem; height: 0.5037rem; position: relative; top: 0.07407rem; }
+
+.main .list .zuoze_box { width: 13.73333rem; background: #fbfbfb; margin: 0 auto; margin-top: 0.44444rem; }
+
+.main .list .zuoze { width: 13.73333rem; height: auto; background: #fcfcfc; margin: 0 auto; background: url(../images/line_10.jpg) no-repeat; background-size: 100% 0.08889rem; background-position: center top; padding-top: 0.62222rem; padding-bottom: 0.62222rem; }
+
+.main .list .zuoze .img_ { width: 1.25926rem; height: 1.25926rem; border-radius: 50%; -webkit-border-radius: 50%; -moz-border-radius: 50%; -ms-border-radius: 50%; -o-border-radius: 50%; overflow: hidden; float: left; margin: 0rem 0.44444rem 0rem 0.56296rem; }
+
+.main .list .zuoze .img_ img { width: 100%; }
+
+.main .list .zuoze .zuoze_name { width: 80%; font-size: 0.62222rem; font-weight: bold; color: #333333; float: left; margin-top: -0.14815rem; }
+
+.main .list .zuoze .zuoze_info { width: 80%; font-size: 0.53333rem; color: #888888; float: left; }
+
+.main .list .zuoze .zuoze_text { width: 12.59259rem; margin: 0.44444rem auto 0; font-size: 0.62222rem; color: #333333; line-height: 0.94815rem; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; text-overflow: ellipsis; overflow: hidden; position: relative; }
+
+.main .list .zuoze .zuoze_text span { width: 3.7037rem; height: auto; background: #fbfbfb; position: absolute; box-shadow: 0.74074rem 1.33333rem 1.33333rem 1.33333rem #fbfbfb; bottom: -0.14815rem; right: 0.07407rem; color: #8888886b; }
+
+.main .list .zuoze .zuoze_text span a { color: #5b7dff; }
+
+.main .list .zuoze .zuoze_text P { width: auto; height: auto; position: absolute; bottom: 0rem; right: 0.44444rem; color: #5b7dff; font-size: 0.62222rem; display: none; }
+
+#tiem_ { display: none; }
+
+.clear_float { clear: both; }
+
+.nodata { width: 15.15556rem; margin: 0 auto; margin-top: -4.44444rem; height: 80vh; text-align: center; background: #fff; border-radius: 0.2963rem; -webkit-border-radius: 0.2963rem; -moz-border-radius: 0.2963rem; -ms-border-radius: 0.2963rem; -o-border-radius: 0.2963rem; }
+
+.nodata img { width: 50%; margin-top: 50%; }

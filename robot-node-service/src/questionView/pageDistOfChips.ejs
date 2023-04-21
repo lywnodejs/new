@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>筹码分布</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <link rel="stylesheet" href="static/css/cmfb_style.css">
+    <script src="static/js/libs/rem.js"></script>
+    <style>
+        *{ margin: 0; padding: 0;}
+
+        /********************************************************************************/
+
+        .box_ChipDis{ font-size: 12px; line-height: 20px; width: 223px; height: 210px; position: relative;}
+        .box_ChipDis .cloPrice,
+        .box_ChipDis .higPrice,
+        .box_ChipDis .lowPrice,
+        .box_ChipDis ul{ position: absolute; z-index: 1;}
+        .box_ChipDis .cloPrice{ border-bottom: dashed 1px #a1a2a8; color: #333; width: 130px; height: 20px; text-align: right; padding-right: 10px; left: 44px; z-index: 2;}
+        .box_ChipDis .higPrice,
+        .box_ChipDis .lowPrice{ color: #a1a2a8; height: 20px; width: 40px; text-align: right; left: 0;}
+        .box_ChipDis .higPrice{ top: -10px;}
+        .box_ChipDis .lowPrice{ bottom: -10px;}
+        .box_ChipDis ul{ border-left: solid 1px #ccd6eb; clear:both; list-style-type:none; zoom:1; width: 150px; height: 100%; left: 43px; top: 0;}
+        .box_ChipDis li{ background: #639df5; height: calc(210px / 120); margin-top: calc(210px / 120);}
+        .box_ChipDis li.b_red{ background: #e55656;}
+        .box_ChipDis li{ position: relative;}
+        .box_ChipDis li .cloPrice{ top: -22px; left: 0;}
+        /********************************************************************************/
+
+    </style>
+</head>
+<body>
+<header id="header" class="clearfix">
+    <!--<div class="header_name fl">
+        <div id="stockName">中国国航(6011111)</div>
+        <div id="currTime">2017-12-31 10:34</div>
+    </div>
+    <div class="header_increase fl">
+        <div id="newPrice" class="cmfb_red">9.73</div>
+        <div id="raise" class="cmfb_red">-16.79% &nbsp;-2.58%</div>
+    </div>
+    <div class="header_msg fl">
+        &lt;!&ndash;涨跌幅 红色类名:cmfb_red 绿色类名:cmfb_green&ndash;&gt;
+        <ul>
+            <li><i>高</i> <em class="cmfb_red" id="high">13.24</em></li>
+            <li><i>开</i> <em class="cmfb_red" id="open">13.24</em></li>
+            <li><i>额</i> <em id="amount">5.43</em></li>
+        </ul>
+        <ul>
+            <li><i>底</i> <em class="cmfb_green" id="low">12.41</em></li>
+            <li><i>换</i> <em id="change">12.41</em></li>
+            <li><i>量</i> <em id="volume">43.63</em></li>
+        </ul>
+    </div>
+    <div class="header_close"></div>-->
+</header>
+<div class="main" style="background-color: #FFFFFF !important;">
+    <div>
+        <ul class="main_meanLine clearfix" id="MA">
+            <!--均线 橘色:cmfb_orange #ee6b00 酒红色:cmfb_claret #e1028c 蓝色:cmfb_blue #105afe-->
+            <li class="cmfb_orange">MA5:12.30</li>
+            <li class="cmfb_claret">MA10:12.26</li>
+            <li class="cmfb_blue">MA20:11.71</li>
+        </ul>
+        <div id="mainLine">
+            <div class="clearfix dayLine">
+                <div class="main_kLine clearfix" id="day">
+                    日K(蜡烛图)
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix" id="dayCYQ">
+                    <div class="box_ChipDis" id="box_ChipDis">
+                        <!--<div class="cloPrice" id="cloPrice" style="top: 20%;">收盘价：0.0</div>-->
+                        <div class="higPrice" id="higPrice">0.0</div>
+                        <div class="lowPrice" id="lowPrice">0.0</div>
+                        <ul id="ul_li"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix weekLine hidd">
+                <div class="main_kLine clearfix" id="week">
+                    周K(蜡烛图)
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix" id="weekCYQ">
+                    <div class="box_ChipDis" id="box_ChipDis_week">
+                        <!--<div class="cloPrice" id="cloPrice_week" style="top: 20%;">收盘价：0.0</div>-->
+                        <div class="higPrice" id="higPrice_week">0.0</div>
+                        <div class="lowPrice" id="lowPrice_week">0.0</div>
+                        <ul id="ul_li_week"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix monthLine hidd">
+                <div class="main_kLine clearfix" id="month">
+                    月K(蜡烛图)
+                </div>
+                <div class="space"></div>
+                <div class="main_detailed clearfix" id="monthCYQ">
+                    <div class="box_ChipDis" id="box_ChipDis_month">
+                        <!--<div class="cloPrice" id="cloPrice_month" style="top: 20%;">收盘价：0.0</div>-->
+                        <div class="higPrice" id="higPrice_month">0.0</div>
+                        <div class="lowPrice" id="lowPrice_month">0.0</div>
+                        <ul id="ul_li_month"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix minLine hidd">
+                <div class="main_kLine_min clearfix" id="min">
+                    分钟K(蜡烛图)
+                </div>
+                <!--<div class="space"></div>
+                <div class="main_detailed clearfix">
+                    分钟K(蜡烛图)
+                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <ul class="clearfix">
+        <li class="tab_red dayLine">日K<em class="tab_emred"></em></li>
+        <li class="weekLine">周K<em></em></li>
+        <li class="monthLine">月K<em></em></li>
+        <li class="minLine">分钟<em></em></li>
+    </ul>
+</div>
+</body>
+
+<script type="text/javascript" src="static/js/libs/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="static/js/libs/jquery.jsonp.js"></script>
+<script type="text/javascript" src="static/js/libs/7.0/highstock.js"></script>
+<script type="text/javascript" src="static/js/libs/7.0/highcharts-more.js"></script>
+
+<!-- build:replace '<script type="text/javascript" src="js/util.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/utils/logUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/UrlConfig.js"></script>
+<script type="text/javascript" src="static/client/js/utils/commonUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/requestUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/toolsUtil.js"></script>
+<script type="text/javascript" src="static/client/js/utils/timeUtil.js"></script><!--图表相关的日期格式化函数-->
+<!-- /build -->
+
+<!-- build:replace '<script type="text/javascript" src="js/dist-of-chips.min.js"></script>' -->
+<script type="text/javascript" src="static/client/js/robots/dist-of-chips.js"></script>
+<script type="text/javascript" src="static/js/charts/jKlineCYQInit.js"></script>
+<script type="text/javascript" src="static/js/charts/jKlineCYQ.js"></script>
+<script type="text/javascript" src="static/js/charts/jCreateKline.js"></script>
+<!-- /build -->
+</html>

@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.rootDiv {
+  margin: 0 15px;
+}
+
+
+
+
+.contentDiv {
+  padding: 60px 0px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+
+  .logoDiv {
+    margin: 0 0 10px 0;
+    img {
+     height: 78px;
+     width: 78px;
+    }
+  }
+
+  .nameDiv{
+    color: #333333;
+  }
+}
+
+.downDiv {
+  font-size: 17px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  .downBtn {
+    background: #F65348;
+    border-radius: 25px;
+    color: #FFFFFF;
+  }
+
+  .ghostDownBtn{
+    border-radius: 25px;
+    border: 1px solid #F65348 !important;
+    color: #F65348;
+    background: #ffffff;
+  }
+
+}
+
+
+.share {
+  display: block;
+  :global {
+    .am-modal-transparent {
+      width: auto;
+      right: 0;
+      top: 0;
+      margin: 10px 10px 0 0;
+      position: absolute;
+      &::after {
+        content: '';
+        display: block;
+        width: 1px;
+        height: 1px;
+        border: 10px solid #fff;
+        border-top-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        position: absolute;
+        top: -20px;
+        left: 72%;
+      }
+    }
+    .am-modal-transparent .am-modal-content {
+      padding-top: 10px;
+    }
+    .am-modal-transparent .am-modal-content .am-modal-body {
+      padding: 0 10px 10px;
+    }
+    p {
+      margin: 0;
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+    }
+  }
+}
