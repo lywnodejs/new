@@ -17,7 +17,7 @@
     "miniapp-color-thief": "^1.0.5",
     "vue-ydui": "^1.2.6",
     "vconsole": "^3.3.4",
-    "wechat-jssdk": "^5.0.4"
+    "wechat-jssdk": "^5.1.0"
   },
   "devDependencies": {
     "@types/html5plus": "^1.0.1",
