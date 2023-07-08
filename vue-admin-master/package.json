@@ -41,7 +41,7 @@
 		"http-proxy-middleware": "^0.19.1",
 		"https": "^1.0.0",
 		"iview": "^3.4.2",
-		"jquery": "^3.4.1",
+		"jquery": "^3.5.0",
 		"js-cookie": "^2.2.0",
 		"loadsh": "0.0.4",
 		"md5": "^2.2.1",
