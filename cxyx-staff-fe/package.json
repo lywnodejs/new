@@ -31,7 +31,7 @@
     "@didi/omega-tracker": "^2.4.8",
     "@didi/webpack-gift-oss-plugin": "^0.0.4",
     "@umijs/preset-react": "1.x",
-    "@umijs/test": "^3.3.0",
+    "@umijs/test": "^3.5.41",
     "antd-mobile": "^2.3.4",
     "js-cookie": "^2.2.1",
     "lint-staged": "^10.0.7",
